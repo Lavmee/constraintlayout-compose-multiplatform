@@ -39,7 +39,7 @@ jobs:
 
       - name: Deploy to Sonatype
         if: github.event_name == 'push' # only deploy for pushed commits (not PRs)
-        run: ./gradlew publish
+        run: ./gradlew publishAllPublicationsToMavenCentralRepository
         env:
           ORG_GRADLE_PROJECT_mavenCentralUsername: ${{ secrets.MAVEN_CENTRAL_USERNAME }}
           ORG_GRADLE_PROJECT_mavenCentralPassword: ${{ secrets.MAVEN_CENTRAL_PASSWORD }}
