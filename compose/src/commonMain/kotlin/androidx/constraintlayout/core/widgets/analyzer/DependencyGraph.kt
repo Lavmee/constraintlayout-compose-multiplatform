@@ -35,22 +35,17 @@ import androidx.constraintlayout.core.widgets.Guideline
 import androidx.constraintlayout.core.widgets.HelperWidget
 import kotlin.math.max
 
-class DependencyGraph {
+class DependencyGraph(container: ConstraintWidgetContainer) {
 
-    private val mWidgetcontainer: ConstraintWidgetContainer
+    private val mWidgetcontainer: ConstraintWidgetContainer = container
     private var mNeedBuildGraph = true
     private var mNeedRedoMeasures = true
-    private val mContainer: ConstraintWidgetContainer
+    private val mContainer: ConstraintWidgetContainer = container
     private val mRuns = ArrayList<WidgetRun>()
 
     // TODO: Unused, should we delete?
     @Suppress("unused")
     private val mRunGroups = ArrayList<RunGroup>()
-
-    constructor(container: ConstraintWidgetContainer) {
-        this.mWidgetcontainer = container
-        mContainer = container
-    }
 
     private var mMeasurer: BasicMeasure.Measurer? = null
     private val mMeasure = BasicMeasure.Measure()
@@ -226,6 +221,7 @@ class DependencyGraph {
     }
 
     // @TODO: add description
+    @Suppress("UNUSED_PARAMETER")
     fun directMeasureSetup(optimizeWrap: Boolean): Boolean {
         if (mNeedBuildGraph) {
             for (widget in mWidgetcontainer.mChildren) {

@@ -28,12 +28,12 @@ import androidx.constraintlayout.core.widgets.ConstraintWidget.DimensionBehaviou
 import androidx.constraintlayout.core.widgets.Helper
 import androidx.constraintlayout.core.widgets.analyzer.WidgetRun.RunType.CENTER
 
-class VerticalWidgetRun : WidgetRun {
+class VerticalWidgetRun(widget: ConstraintWidget) : WidgetRun(widget) {
 
     var baseline = DependencyNode(this)
     var mBaselineDimension: DimensionDependency? = null
 
-    constructor(widget: ConstraintWidget) : super(widget) {
+    init {
         start.mType = DependencyNode.Type.TOP
         end.mType = DependencyNode.Type.BOTTOM
         baseline.mType = DependencyNode.Type.BASELINE
@@ -72,24 +72,24 @@ class VerticalWidgetRun : WidgetRun {
         }
     }
 
-    override fun update(dependency: Dependency) {
+    override fun update(node: Dependency) {
         when (mRunType) {
             RunType.START -> {
-                updateRunStart(dependency)
+                updateRunStart(node)
             }
 
             RunType.END -> {
-                updateRunEnd(dependency)
+                updateRunEnd(node)
             }
 
             CENTER -> {
-                updateRunCenter(dependency, mWidget!!.mTop, mWidget!!.mBottom, VERTICAL)
+                updateRunCenter(node, mWidget!!.mTop, mWidget!!.mBottom, VERTICAL)
                 return
             }
 
             else -> {}
         }
-        if (FORCE_USE || dependency == mDimension) {
+        if (FORCE_USE || node == mDimension) {
             if (mDimension.readyToSolve && !mDimension.resolved) {
                 if (mDimensionBehavior == MATCH_CONSTRAINT) {
                     when (mWidget!!.mMatchConstraintDefaultHeight) {
@@ -102,21 +102,21 @@ class VerticalWidgetRun : WidgetRun {
                                         size = (
                                             0.5f + mWidget!!.mHorizontalRun!!.mDimension.value
                                                 * mWidget!!.getDimensionRatio()
-                                            ) as Int
+                                            ).toInt()
                                     }
 
                                     VERTICAL -> {
                                         size = (
                                             0.5f + mWidget!!.mHorizontalRun!!.mDimension.value /
                                                 mWidget!!.getDimensionRatio()
-                                            ) as Int
+                                            ).toInt()
                                     }
 
                                     ConstraintWidget.UNKNOWN -> {
                                         size = (
                                             0.5f + mWidget!!.mHorizontalRun!!.mDimension.value /
                                                 mWidget!!.getDimensionRatio()
-                                            ) as Int
+                                            ).toInt()
                                     }
 
                                     else -> {}

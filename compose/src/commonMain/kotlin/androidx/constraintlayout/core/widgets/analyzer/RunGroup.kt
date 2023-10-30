@@ -21,24 +21,23 @@ import androidx.constraintlayout.core.widgets.ConstraintWidgetContainer
 import kotlin.math.max
 import kotlin.math.min
 
-class RunGroup {
+class RunGroup(run: WidgetRun, dir: Int) {
 
     var position = 0
     var dual = false
 
     var mFirstRun: WidgetRun? = null
-    var mLastRun: WidgetRun? = null
+    var mLastRun: WidgetRun? = run
     var mRuns = ArrayList<WidgetRun>()
 
     var mGroupIndex = 0
-    var mDirection = 0
 
-    constructor(run: WidgetRun, dir: Int) {
+    @Suppress("unused")
+    var mDirection = dir
+
+    init {
         mGroupIndex = index
         index++
-        mFirstRun = run
-        mLastRun = run
-        mDirection = dir
     }
 
     fun add(run: WidgetRun) {

@@ -32,9 +32,9 @@ import androidx.constraintlayout.core.widgets.analyzer.WidgetRun.RunType.CENTER
 import kotlin.math.max
 import kotlin.math.min
 
-class HorizontalWidgetRun : WidgetRun {
+class HorizontalWidgetRun(widget: ConstraintWidget) : WidgetRun(widget) {
 
-    constructor(widget: ConstraintWidget) : super(widget) {
+    init {
         start.mType = DependencyNode.Type.LEFT
         end.mType = DependencyNode.Type.RIGHT
         this.orientation = HORIZONTAL
@@ -363,18 +363,18 @@ class HorizontalWidgetRun : WidgetRun {
         }
     }
 
-    override fun update(dependency: Dependency) {
+    override fun update(node: Dependency) {
         when (mRunType) {
             RunType.START -> {
-                updateRunStart(dependency)
+                updateRunStart(node)
             }
 
             RunType.END -> {
-                updateRunEnd(dependency)
+                updateRunEnd(node)
             }
 
             CENTER -> {
-                updateRunCenter(dependency, mWidget!!.mLeft, mWidget!!.mRight, HORIZONTAL)
+                updateRunCenter(node, mWidget!!.mLeft, mWidget!!.mRight, HORIZONTAL)
                 return
             }
 

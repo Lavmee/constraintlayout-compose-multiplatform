@@ -25,12 +25,12 @@ import androidx.constraintlayout.core.widgets.ConstraintWidgetContainer
 import kotlin.math.max
 import kotlin.math.min
 
-class ChainRun : WidgetRun {
+class ChainRun(widget: ConstraintWidget, orientation: Int) : WidgetRun(widget) {
 
     var mWidgets = ArrayList<WidgetRun>()
     private var mChainStyle = 0
 
-    constructor(widget: ConstraintWidget, orientation: Int) : super(widget) {
+    init {
         this.orientation = orientation
         build()
     }
@@ -115,7 +115,7 @@ class ChainRun : WidgetRun {
         end.resolved = false
     }
 
-    override fun update(dependency: Dependency) {
+    override fun update(node: Dependency) {
         if (!(start.resolved && end.resolved)) {
             return
         }
@@ -211,7 +211,7 @@ class ChainRun : WidgetRun {
                 position -= (0.5f + (size - distance) / 2f).toInt()
             }
         }
-        var matchConstraintsDimension = 0
+        val matchConstraintsDimension: Int
         if (numMatchConstraints > 0) {
             matchConstraintsDimension =
                 (0.5f + (distance - size) / numMatchConstraints.toFloat()).toInt()

@@ -18,9 +18,9 @@ package androidx.constraintlayout.core.widgets.analyzer
 import androidx.constraintlayout.core.widgets.ConstraintWidget
 import androidx.constraintlayout.core.widgets.Guideline
 
-class GuidelineReference : WidgetRun {
+class GuidelineReference(widget: ConstraintWidget) : WidgetRun(widget) {
 
-    constructor(widget: ConstraintWidget) : super(widget) {
+    init {
         widget.mHorizontalRun!!.clear()
         widget.mVerticalRun!!.clear()
         this.orientation = (widget as Guideline).orientation
@@ -46,7 +46,7 @@ class GuidelineReference : WidgetRun {
         node.mTargets.add(start)
     }
 
-    override fun update(dependency: Dependency) {
+    override fun update(node: Dependency) {
         if (!start.readyToSolve) {
             return
         }
@@ -65,7 +65,7 @@ class GuidelineReference : WidgetRun {
         val relativeBegin = guideline.getRelativeBegin()
         val relativeEnd = guideline.getRelativeEnd()
 
-        @Suppress("unused")
+        @Suppress("UNUSED_VARIABLE")
         val percent = guideline.getRelativePercent()
         if (guideline.orientation == ConstraintWidget.VERTICAL) {
             if (relativeBegin != -1) {

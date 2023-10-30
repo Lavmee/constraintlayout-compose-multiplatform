@@ -352,8 +352,8 @@ class Direct {
             if (left.getDependents() != null && left.hasFinalValue()) {
                 for (first: ConstraintAnchor in left.getDependents()!!) {
                     val widget = first.mOwner
-                    var x1 = 0
-                    var x2 = 0
+                    var x1: Int
+                    var x2: Int
                     val canMeasure: Boolean = canMeasure(level + 1, widget)
                     if (widget.isMeasureRequested && canMeasure) {
                         val measure = BasicMeasure.Measure()
@@ -464,8 +464,8 @@ class Direct {
                             BasicMeasure.Measure.SELF_DIMENSIONS,
                         )
                     }
-                    var x1 = 0
-                    var x2 = 0
+                    var x1: Int
+                    var x2: Int
                     val bothConnected = (
                         (
                             (first == widget.mLeft) && (
@@ -592,8 +592,8 @@ class Direct {
             if (top.getDependents() != null && top.hasFinalValue()) {
                 for (first: ConstraintAnchor in top.getDependents()!!) {
                     val widget = first.mOwner
-                    var y1 = 0
-                    var y2 = 0
+                    var y1: Int
+                    var y2: Int
                     val canMeasure: Boolean = canMeasure(level + 1, widget)
                     if (widget.isMeasureRequested && canMeasure) {
                         val measure = BasicMeasure.Measure()
@@ -701,8 +701,8 @@ class Direct {
                             BasicMeasure.Measure.SELF_DIMENSIONS,
                         )
                     }
-                    var y1 = 0
-                    var y2 = 0
+                    var y1: Int
+                    var y2: Int
                     val bothConnected = (
                         (
                             (first == widget.mTop) && (
@@ -921,9 +921,7 @@ class Direct {
                     if (widget.mMatchConstraintDefaultWidth
                         == ConstraintWidget.MATCH_CONSTRAINT_PERCENT
                     ) {
-                        var parentWidth = 0
-                        parentWidth =
-                            (layout as? ConstraintWidgetContainer)?.width
+                        val parentWidth: Int = (layout as? ConstraintWidgetContainer)?.width
                                 ?: layout.getParent()!!.width
                         width = (0.5f * widget.getHorizontalBiasPercent() * parentWidth).toInt()
                     } else if (widget.mMatchConstraintDefaultWidth
@@ -965,9 +963,7 @@ class Direct {
                     if (widget.mMatchConstraintDefaultHeight
                         == ConstraintWidget.MATCH_CONSTRAINT_PERCENT
                     ) {
-                        var parentHeight = 0
-                        parentHeight =
-                            (layout as? ConstraintWidgetContainer)?.height
+                        val parentHeight: Int = (layout as? ConstraintWidgetContainer)?.height
                                 ?: layout.getParent()!!.height
                         height = (0.5f * bias * parentHeight).toInt()
                     } else if (widget.mMatchConstraintDefaultHeight

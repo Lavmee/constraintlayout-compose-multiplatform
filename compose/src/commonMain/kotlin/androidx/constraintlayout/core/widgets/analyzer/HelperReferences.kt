@@ -18,9 +18,7 @@ package androidx.constraintlayout.core.widgets.analyzer
 import androidx.constraintlayout.core.widgets.Barrier
 import androidx.constraintlayout.core.widgets.ConstraintWidget
 
-class HelperReferences : WidgetRun {
-
-    constructor(widget: ConstraintWidget) : super(widget)
+class HelperReferences(widget: ConstraintWidget) : WidgetRun(widget) {
 
     override fun clear() {
         mRunGroup = null
@@ -130,13 +128,13 @@ class HelperReferences : WidgetRun {
         }
     }
 
-    override fun update(dependency: Dependency) {
+    override fun update(node: Dependency) {
         val barrier: Barrier = mWidget as Barrier
         val type: Int = barrier.getBarrierType()
         var min = -1
         var max = 0
-        for (node in start.mTargets) {
-            val value = node.value
+        for (target in start.mTargets) {
+            val value = target.value
             if (min == -1 || value < min) {
                 min = value
             }

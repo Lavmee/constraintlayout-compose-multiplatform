@@ -35,7 +35,7 @@ import androidx.constraintlayout.core.widgets.VirtualLayout
 import kotlin.math.max
 import kotlin.math.min
 
-class BasicMeasure {
+class BasicMeasure(constraintWidgetContainer: ConstraintWidgetContainer?) {
 
     private val mVariableDimensionsWidgets = ArrayList<ConstraintWidget>()
     private val mMeasure = Measure()
@@ -57,11 +57,7 @@ class BasicMeasure {
         layout.invalidateGraph()
     }
 
-    private var mConstraintWidgetContainer: ConstraintWidgetContainer? = null
-
-    constructor(constraintWidgetContainer: ConstraintWidgetContainer?) {
-        mConstraintWidgetContainer = constraintWidgetContainer
-    }
+    private var mConstraintWidgetContainer: ConstraintWidgetContainer? = constraintWidgetContainer
 
     private fun measureChildren(layout: ConstraintWidgetContainer) {
         val childCount = layout.mChildren.size
@@ -156,6 +152,7 @@ class BasicMeasure {
     /**
      * Called by ConstraintLayout onMeasure()
      */
+    @Suppress("UNUSED_PARAMETER")
     fun solverMeasure(
         layout: ConstraintWidgetContainer,
         optimizationLevel: Int,

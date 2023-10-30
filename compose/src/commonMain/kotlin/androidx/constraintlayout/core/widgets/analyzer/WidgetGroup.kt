@@ -25,20 +25,15 @@ import androidx.constraintlayout.core.widgets.ConstraintWidget.Companion.VERTICA
 import androidx.constraintlayout.core.widgets.ConstraintWidget.DimensionBehaviour
 import androidx.constraintlayout.core.widgets.ConstraintWidgetContainer
 
-class WidgetGroup {
+class WidgetGroup(orientation: Int) {
 
     var mWidgets = ArrayList<ConstraintWidget>()
 
     var mId = -1
     var mAuthoritative = false
-    var mOrientation: Int = HORIZONTAL
+    var mOrientation: Int = orientation
     var mResults: ArrayList<MeasureResult>? = null
     private var mMoveTo = -1
-
-    constructor(orientation: Int) {
-        mId = sCount++
-        this.mOrientation = orientation
-    }
 
     val orientation: Int get() = mOrientation
 
@@ -59,6 +54,7 @@ class WidgetGroup {
         mAuthoritative = isAuthoritative
     }
 
+    @Suppress("unused")
     fun isAuthoritative(): Boolean {
         return mAuthoritative
     }
@@ -151,7 +147,7 @@ class WidgetGroup {
     ): Int {
         val container = widgets[0].getParent() as ConstraintWidgetContainer?
         system.reset()
-        @Suppress("unused")
+        @Suppress("UNUSED_VARIABLE")
         val prevDebug = LinearSystem.FULL_DEBUG
         container!!.addToSolver(system, false)
         for (i in widgets.indices) {
@@ -225,6 +221,7 @@ class WidgetGroup {
     }
 
     // @TODO: add description
+    @Suppress("unused")
     fun intersectWith(group: WidgetGroup): Boolean {
         for (i in mWidgets.indices) {
             val widget = mWidgets[i]
@@ -261,23 +258,22 @@ class WidgetGroup {
         }
     }
 
-    class MeasureResult {
+    class MeasureResult(widget: ConstraintWidget, system: LinearSystem, orientation: Int) {
         var mWidgetRef: WeakReference<ConstraintWidget>? = null
         var mLeft = 0
         var mTop = 0
         var mRight = 0
         var mBottom = 0
         var mBaseline = 0
-        var mOrientation = 0
+        var mOrientation = orientation
 
-        constructor(widget: ConstraintWidget, system: LinearSystem, orientation: Int) {
+        init {
             mWidgetRef = WeakReference(widget)
             mLeft = system.getObjectVariableValue(widget.mLeft)
             mTop = system.getObjectVariableValue(widget.mTop)
             mRight = system.getObjectVariableValue(widget.mRight)
             mBottom = system.getObjectVariableValue(widget.mBottom)
             mBaseline = system.getObjectVariableValue(widget.mBaseline)
-            mOrientation = orientation
         }
 
         fun apply() {
@@ -290,5 +286,9 @@ class WidgetGroup {
         private const val DEBUG = false
 
         var sCount = 0
+    }
+
+    init {
+        mId = sCount++
     }
 }

@@ -26,9 +26,9 @@ import androidx.constraintlayout.core.widgets.ConstraintWidget.Companion.VERTICA
 import kotlin.math.max
 import kotlin.math.min
 
-abstract class WidgetRun : Dependency {
+abstract class WidgetRun(widget: ConstraintWidget?) : Dependency {
     var matchConstraintsType = 0
-    var mWidget: ConstraintWidget? = null
+    var mWidget: ConstraintWidget? = widget
     var mRunGroup: RunGroup? = null
     var mDimensionBehavior: ConstraintWidget.DimensionBehaviour? = null
     var mDimension = DimensionDependency(this)
@@ -40,10 +40,6 @@ abstract class WidgetRun : Dependency {
 
     internal var mRunType: RunType = RunType.NONE
 
-    constructor(widget: ConstraintWidget?) {
-        mWidget = widget
-    }
-
     abstract fun clear()
 
     abstract fun apply()
@@ -54,6 +50,7 @@ abstract class WidgetRun : Dependency {
 
     abstract fun supportsWrapComputation(): Boolean
 
+    @Suppress("unused")
     open fun isDimensionResolved(): Boolean {
         return mDimension.resolved
     }
@@ -79,6 +76,7 @@ abstract class WidgetRun : Dependency {
     }
 
     // @TODO: add description
+    @Suppress("unused")
     open fun wrapSize(direction: Int): Long {
         if (mDimension.resolved) {
             var size = mDimension.value.toLong()
@@ -235,7 +233,7 @@ abstract class WidgetRun : Dependency {
     protected open fun updateRunEnd(dependency: Dependency?) {}
 
     // @TODO: add description
-    override fun update(dependency: Dependency) {}
+    override fun update(node: Dependency) {}
 
     protected fun getLimitedDimension(dimension: Int, orientation: Int): Int {
         var dimension = dimension

@@ -409,11 +409,10 @@ class Grouping {
             group: WidgetGroup?,
         ): WidgetGroup? {
             var group = group
-            var groupId = -1
-            if (orientation == HORIZONTAL) {
-                groupId = constraintWidget.horizontalGroup
+            var groupId = if (orientation == HORIZONTAL) {
+                constraintWidget.horizontalGroup
             } else {
-                groupId = constraintWidget.verticalGroup
+                constraintWidget.verticalGroup
             }
             if (DEBUG_GROUPING) {
                 println(
