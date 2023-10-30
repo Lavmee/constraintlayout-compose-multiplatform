@@ -12,7 +12,7 @@ kotlin {
     androidTarget {
         compilations.all {
             kotlinOptions {
-                jvmTarget = "17"
+                jvmTarget = rootProject.extra.get("jvmTarget") as String
             }
         }
     }
@@ -106,8 +106,8 @@ android {
         resources.srcDirs("src/commonMain/resources")
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
+        sourceCompatibility = JavaVersion.toVersion(rootProject.extra.get("jvmTarget") as String)
+        targetCompatibility = JavaVersion.toVersion(rootProject.extra.get("jvmTarget") as String)
     }
 }
 

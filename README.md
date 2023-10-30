@@ -74,7 +74,6 @@ val commonMain by getting {
     }
 }
 ```
-Minimum JVM version 17
 
 ## Credits
 Thanks to Chris Banes for the initial structure of the project.

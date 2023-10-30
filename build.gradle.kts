@@ -26,3 +26,7 @@ allprojects {
         }
     }
 }
+
+extra.apply {
+    set("jvmTarget", "11")
+}
