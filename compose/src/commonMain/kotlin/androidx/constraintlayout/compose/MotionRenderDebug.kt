@@ -24,8 +24,8 @@ package androidx.constraintlayout.compose
 // import androidx.compose.ui.graphics.Color
 // import androidx.compose.ui.graphics.Paint
 // import androidx.compose.ui.graphics.Path
-// import androidx.constraintlayout.compose.core.motion.Motion
-// import androidx.constraintlayout.compose.core.motion.MotionPaths
+// import androidx.constraintlayout.core.motion.Motion
+// import androidx.constraintlayout.core.motion.MotionPaths
 // import kotlin.math.hypot
 // import kotlin.math.max
 //

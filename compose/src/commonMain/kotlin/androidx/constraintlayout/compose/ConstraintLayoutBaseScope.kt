@@ -21,12 +21,12 @@ import androidx.compose.runtime.Stable
 import androidx.compose.ui.layout.FirstBaseline
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import androidx.constraintlayout.compose.core.parser.CLArray
-import androidx.constraintlayout.compose.core.parser.CLElement
-import androidx.constraintlayout.compose.core.parser.CLNumber
-import androidx.constraintlayout.compose.core.parser.CLObject
-import androidx.constraintlayout.compose.core.parser.CLString
-import androidx.constraintlayout.compose.core.state.ConstraintSetParser
+import androidx.constraintlayout.core.parser.CLArray
+import androidx.constraintlayout.core.parser.CLElement
+import androidx.constraintlayout.core.parser.CLNumber
+import androidx.constraintlayout.core.parser.CLObject
+import androidx.constraintlayout.core.parser.CLString
+import androidx.constraintlayout.core.state.ConstraintSetParser
 import androidx.constraintlayout.compose.platform.javaKlass
 import kotlin.jvm.JvmInline
 

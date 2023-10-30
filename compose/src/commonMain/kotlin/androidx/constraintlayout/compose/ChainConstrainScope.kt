@@ -18,7 +18,7 @@ package androidx.constraintlayout.compose
 
 import androidx.compose.foundation.layout.LayoutScopeMarker
 import androidx.compose.runtime.Stable
-import androidx.constraintlayout.compose.core.parser.CLObject
+import androidx.constraintlayout.core.parser.CLObject
 
 @LayoutScopeMarker
 @Stable

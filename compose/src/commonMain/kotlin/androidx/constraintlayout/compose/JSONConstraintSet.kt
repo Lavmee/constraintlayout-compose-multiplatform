@@ -18,11 +18,11 @@ package androidx.constraintlayout.compose
 
 import androidx.compose.runtime.Immutable
 import androidx.compose.ui.layout.Measurable
-import androidx.constraintlayout.compose.core.parser.CLKey
-import androidx.constraintlayout.compose.core.parser.CLParser
-import androidx.constraintlayout.compose.core.parser.CLParsingException
-import androidx.constraintlayout.compose.core.state.ConstraintSetParser
-import androidx.constraintlayout.compose.core.state.Transition
+import androidx.constraintlayout.core.parser.CLKey
+import androidx.constraintlayout.core.parser.CLParser
+import androidx.constraintlayout.core.parser.CLParsingException
+import androidx.constraintlayout.core.state.ConstraintSetParser
+import androidx.constraintlayout.core.state.Transition
 import androidx.constraintlayout.compose.platform.System
 import androidx.constraintlayout.compose.platform.annotation.Language
 

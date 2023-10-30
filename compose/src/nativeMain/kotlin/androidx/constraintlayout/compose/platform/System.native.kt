@@ -1,6 +1,6 @@
 package androidx.constraintlayout.compose.platform
 
-import androidx.constraintlayout.compose.core.platform.System
+import androidx.constraintlayout.core.platform.System
 
 internal actual object System {
     actual fun nanoTime(): Long = System.nanoTime()

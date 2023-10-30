@@ -17,10 +17,10 @@
 package androidx.constraintlayout.compose
 
 import androidx.compose.runtime.Immutable
-import androidx.constraintlayout.compose.core.parser.CLObject
-import androidx.constraintlayout.compose.core.parser.CLParser
-import androidx.constraintlayout.compose.core.parser.CLParsingException
-import androidx.constraintlayout.compose.core.state.TransitionParser
+import androidx.constraintlayout.core.parser.CLObject
+import androidx.constraintlayout.core.parser.CLParser
+import androidx.constraintlayout.core.parser.CLParsingException
+import androidx.constraintlayout.core.state.TransitionParser
 import androidx.constraintlayout.compose.platform.Log
 import androidx.constraintlayout.compose.platform.annotation.Language
 import androidx.constraintlayout.compose.platform.annotation.SuppressLint
@@ -64,7 +64,7 @@ internal class TransitionImpl(
     /**
      * Applies all Transition properties to [transition].
      */
-    fun applyAllTo(transition: androidx.constraintlayout.compose.core.state.Transition) {
+    fun applyAllTo(transition: androidx.constraintlayout.core.state.Transition) {
         try {
             TransitionParser.parse(parsedTransition, transition)
         } catch (e: CLParsingException) {
@@ -76,7 +76,7 @@ internal class TransitionImpl(
      * Applies only the KeyFrame related properties (KeyCycles, KeyAttributes, KeyPositions) to
      * [transition], which effectively sets the respective parameters for each WidgetState.
      */
-    fun applyKeyFramesTo(transition: androidx.constraintlayout.compose.core.state.Transition) {
+    fun applyKeyFramesTo(transition: androidx.constraintlayout.core.state.Transition) {
         try {
             TransitionParser.parseKeyFrames(parsedTransition, transition)
         } catch (e: CLParsingException) {

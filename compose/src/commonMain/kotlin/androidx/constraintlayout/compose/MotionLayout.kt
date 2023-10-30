@@ -53,7 +53,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.constraintlayout.compose.core.widgets.Optimizer
+import androidx.constraintlayout.core.widgets.Optimizer
 import androidx.constraintlayout.compose.platform.annotation.SuppressWarnings
 import kotlinx.coroutines.channels.Channel
 import kotlin.jvm.JvmInline

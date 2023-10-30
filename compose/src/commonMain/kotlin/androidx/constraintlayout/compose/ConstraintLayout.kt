@@ -78,32 +78,32 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.util.fastForEach
 import androidx.compose.ui.util.fastForEachIndexed
-import androidx.constraintlayout.compose.core.parser.CLElement
-import androidx.constraintlayout.compose.core.parser.CLNumber
-import androidx.constraintlayout.compose.core.parser.CLObject
-import androidx.constraintlayout.compose.core.parser.CLParser
-import androidx.constraintlayout.compose.core.parser.CLParsingException
-import androidx.constraintlayout.compose.core.parser.CLString
-import androidx.constraintlayout.compose.core.state.ConstraintSetParser
-import androidx.constraintlayout.compose.core.state.Dimension.Companion.WRAP_DIMENSION
-import androidx.constraintlayout.compose.core.state.Registry
-import androidx.constraintlayout.compose.core.state.RegistryCallback
-import androidx.constraintlayout.compose.core.state.WidgetFrame
-import androidx.constraintlayout.compose.core.widgets.ConstraintWidget
-import androidx.constraintlayout.compose.core.widgets.ConstraintWidget.Companion.MATCH_CONSTRAINT_SPREAD
-import androidx.constraintlayout.compose.core.widgets.ConstraintWidget.Companion.MATCH_CONSTRAINT_WRAP
-import androidx.constraintlayout.compose.core.widgets.ConstraintWidget.DimensionBehaviour.FIXED
-import androidx.constraintlayout.compose.core.widgets.ConstraintWidget.DimensionBehaviour.MATCH_CONSTRAINT
-import androidx.constraintlayout.compose.core.widgets.ConstraintWidget.DimensionBehaviour.MATCH_PARENT
-import androidx.constraintlayout.compose.core.widgets.ConstraintWidget.DimensionBehaviour.WRAP_CONTENT
-import androidx.constraintlayout.compose.core.widgets.ConstraintWidgetContainer
-import androidx.constraintlayout.compose.core.widgets.Guideline
-import androidx.constraintlayout.compose.core.widgets.HelperWidget
-import androidx.constraintlayout.compose.core.widgets.Optimizer
-import androidx.constraintlayout.compose.core.widgets.VirtualLayout
-import androidx.constraintlayout.compose.core.widgets.analyzer.BasicMeasure
-import androidx.constraintlayout.compose.core.widgets.analyzer.BasicMeasure.Measure.Companion.TRY_GIVEN_DIMENSIONS
-import androidx.constraintlayout.compose.core.widgets.analyzer.BasicMeasure.Measure.Companion.USE_GIVEN_DIMENSIONS
+import androidx.constraintlayout.core.parser.CLElement
+import androidx.constraintlayout.core.parser.CLNumber
+import androidx.constraintlayout.core.parser.CLObject
+import androidx.constraintlayout.core.parser.CLParser
+import androidx.constraintlayout.core.parser.CLParsingException
+import androidx.constraintlayout.core.parser.CLString
+import androidx.constraintlayout.core.state.ConstraintSetParser
+import androidx.constraintlayout.core.state.Dimension.Companion.WRAP_DIMENSION
+import androidx.constraintlayout.core.state.Registry
+import androidx.constraintlayout.core.state.RegistryCallback
+import androidx.constraintlayout.core.state.WidgetFrame
+import androidx.constraintlayout.core.widgets.ConstraintWidget
+import androidx.constraintlayout.core.widgets.ConstraintWidget.Companion.MATCH_CONSTRAINT_SPREAD
+import androidx.constraintlayout.core.widgets.ConstraintWidget.Companion.MATCH_CONSTRAINT_WRAP
+import androidx.constraintlayout.core.widgets.ConstraintWidget.DimensionBehaviour.FIXED
+import androidx.constraintlayout.core.widgets.ConstraintWidget.DimensionBehaviour.MATCH_CONSTRAINT
+import androidx.constraintlayout.core.widgets.ConstraintWidget.DimensionBehaviour.MATCH_PARENT
+import androidx.constraintlayout.core.widgets.ConstraintWidget.DimensionBehaviour.WRAP_CONTENT
+import androidx.constraintlayout.core.widgets.ConstraintWidgetContainer
+import androidx.constraintlayout.core.widgets.Guideline
+import androidx.constraintlayout.core.widgets.HelperWidget
+import androidx.constraintlayout.core.widgets.Optimizer
+import androidx.constraintlayout.core.widgets.VirtualLayout
+import androidx.constraintlayout.core.widgets.analyzer.BasicMeasure
+import androidx.constraintlayout.core.widgets.analyzer.BasicMeasure.Measure.Companion.TRY_GIVEN_DIMENSIONS
+import androidx.constraintlayout.core.widgets.analyzer.BasicMeasure.Measure.Companion.USE_GIVEN_DIMENSIONS
 import androidx.constraintlayout.compose.extra.parseLong
 import androidx.constraintlayout.compose.platform.Log
 import androidx.constraintlayout.compose.platform.System
@@ -2300,8 +2300,8 @@ internal fun buildMapping(state: State, measurables: List<Measurable>) {
     }
 }
 
-internal typealias SolverDimension = androidx.constraintlayout.compose.core.state.Dimension
-internal typealias SolverState = androidx.constraintlayout.compose.core.state.State
+internal typealias SolverDimension = androidx.constraintlayout.core.state.Dimension
+internal typealias SolverState = androidx.constraintlayout.core.state.State
 
 private val DEBUG = false
 private fun ConstraintWidget.toDebugString() =
