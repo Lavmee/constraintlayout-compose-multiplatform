@@ -1,0 +1,39 @@
+name: CI Static Validations
+
+on:
+  push:
+    paths-ignore:
+      - '**.md'
+  pull_request:
+    paths-ignore:
+      - '**.md'
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up JDK
+        uses: actions/setup-java@v3
+        with:
+            distribution: 'zulu'
+            java-version: 17
+
+      - name: Spotless Check
+        run: ./gradlew spotlessCheck --stacktrace
+
+      - name: Lint
+        run: ./gradlew lint --stacktrace
+
+      - name: Upload ConstraintLayout Compose Lint Report
+        uses: actions/upload-artifact@v3
+        with:
+          name: constraintlayout-lint-report
+          path: compose/build/reports
+
+  call-build:
+    needs: validate
+    uses: ./.github/workflows/build.yml
+    secrets: inherit
