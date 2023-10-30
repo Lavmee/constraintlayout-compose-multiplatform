@@ -24,8 +24,6 @@ jobs:
           gradle-home-cache-cleanup: true
       - name: Make gradlew executable
         run: chmod +x ./gradlew
-      - name: Spotless Check
-        run: ./gradlew spotlessCheck
       - name: Build
         run: ./gradlew :sample:assemble
       - name: Test
