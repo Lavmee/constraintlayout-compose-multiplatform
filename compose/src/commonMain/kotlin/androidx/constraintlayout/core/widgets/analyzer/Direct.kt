@@ -922,7 +922,7 @@ class Direct {
                         == ConstraintWidget.MATCH_CONSTRAINT_PERCENT
                     ) {
                         val parentWidth: Int = (layout as? ConstraintWidgetContainer)?.width
-                                ?: layout.getParent()!!.width
+                            ?: layout.getParent()!!.width
                         width = (0.5f * widget.getHorizontalBiasPercent() * parentWidth).toInt()
                     } else if (widget.mMatchConstraintDefaultWidth
                         == ConstraintWidget.MATCH_CONSTRAINT_SPREAD
@@ -964,7 +964,7 @@ class Direct {
                         == ConstraintWidget.MATCH_CONSTRAINT_PERCENT
                     ) {
                         val parentHeight: Int = (layout as? ConstraintWidgetContainer)?.height
-                                ?: layout.getParent()!!.height
+                            ?: layout.getParent()!!.height
                         height = (0.5f * bias * parentHeight).toInt()
                     } else if (widget.mMatchConstraintDefaultHeight
                         == ConstraintWidget.MATCH_CONSTRAINT_SPREAD
