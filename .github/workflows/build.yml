@@ -1,4 +1,4 @@
-name: Build & test
+name: CI Assemble, Test, and Publish
 
 on:
   workflow_call:
