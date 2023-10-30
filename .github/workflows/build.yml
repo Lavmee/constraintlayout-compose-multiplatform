@@ -28,15 +28,12 @@ jobs:
           gradle-home-cache-cleanup: true
       - name: Make gradlew executable
         run: chmod +x ./gradlew
+      - name: Spotless Check
+        run: ./gradlew spotlessCheck
       - name: Build
-        run: |
-          ./gradlew \
-              spotlessCheck \
-              desktopTest \
-              linkIosX64 \
-              :sample:assemble \
-              -x linkDebugTestIosX64
-
+        run: ./gradlew :sample:assemble
+      - name: Test
+        run: ./gradlew desktopTest
       - name: Deploy to Sonatype
         if: github.event_name == 'push' # only deploy for pushed commits (not PRs)
         run: ./gradlew publishAllPublicationsToMavenCentralRepository
