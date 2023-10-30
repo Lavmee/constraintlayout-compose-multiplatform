@@ -8,10 +8,8 @@ collection = "1.4.0-alpha02"
 compose = "1.5.10-rc02"
 compose-uitooling = "1.5.4"
 kotlin = "1.9.10"
-kotlinx-datetime = "0.4.0"
 kotlinx-serialization-json = "1.6.0"
 maven-publish = "0.25.3"
-junit = "4.13.2"
 spotless = "6.21.0"
 
 [libraries]
@@ -22,10 +20,8 @@ androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "a
 androidx-activityCompose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activityCompose" }
 compose-uitooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "compose-uitooling" }
 kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib", version.ref = "kotlin" }
-kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinx-datetime" }
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization-json" }
 ui-util = { module = "org.jetbrains.compose.ui:ui-util", version.ref = "compose" }
-junit = { module = "junit:junit", version.ref = "junit" }
 
 [plugins]
 
