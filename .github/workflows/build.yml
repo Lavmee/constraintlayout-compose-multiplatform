@@ -1,15 +1,11 @@
 name: Build & test
 
 on:
-  push:
-    branches:
-      - main
-  pull_request:
+  workflow_call:
 
 jobs:
   build:
     runs-on: macos-latest
-    timeout-minutes: 45
 
     steps:
       - uses: actions/checkout@v4
@@ -35,8 +31,8 @@ jobs:
       - name: Test
         run: ./gradlew desktopTest
       - name: Deploy to Sonatype
-        if: github.event_name == 'push' # only deploy for pushed commits (not PRs)
-        run: ./gradlew publishAllPublicationsToMavenCentralRepository
+        if: startsWith(github.ref, 'refs/tags/')
+        run: ./gradlew compose:publishAllPublicationsToMavenCentralRepository
         env:
           ORG_GRADLE_PROJECT_mavenCentralUsername: ${{ secrets.MAVEN_CENTRAL_USERNAME }}
           ORG_GRADLE_PROJECT_mavenCentralPassword: ${{ secrets.MAVEN_CENTRAL_PASSWORD }}
