@@ -15,11 +15,7 @@
  */
 package androidx.constraintlayout.core.widgets
 
-import androidx.constraintlayout.core.widgets.ChainHead
-import androidx.constraintlayout.core.widgets.ConstraintAnchor
-import androidx.constraintlayout.core.widgets.ConstraintWidget
 import androidx.constraintlayout.core.widgets.ConstraintWidget.DimensionBehaviour
-import androidx.constraintlayout.core.widgets.ConstraintWidgetContainer
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse

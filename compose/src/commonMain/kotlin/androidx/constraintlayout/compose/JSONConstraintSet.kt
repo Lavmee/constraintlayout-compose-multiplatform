@@ -18,13 +18,13 @@ package androidx.constraintlayout.compose
 
 import androidx.compose.runtime.Immutable
 import androidx.compose.ui.layout.Measurable
+import androidx.constraintlayout.compose.platform.System
+import androidx.constraintlayout.compose.platform.annotation.Language
 import androidx.constraintlayout.core.parser.CLKey
 import androidx.constraintlayout.core.parser.CLParser
 import androidx.constraintlayout.core.parser.CLParsingException
 import androidx.constraintlayout.core.state.ConstraintSetParser
 import androidx.constraintlayout.core.state.Transition
-import androidx.constraintlayout.compose.platform.System
-import androidx.constraintlayout.compose.platform.annotation.Language
 
 @Immutable
 internal class JSONConstraintSet(

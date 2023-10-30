@@ -103,17 +103,17 @@ class LinearSystemTest {
         assertEquals(
             mLS!!.getValueFor("Xm").toInt(),
             50.0f,
-            0f
+            0f,
         ) // 50
         assertEquals(
             mLS!!.getValueFor("Xl").toInt(),
             40.0f,
-            0f
+            0f,
         ) // 30
         assertEquals(
             mLS!!.getValueFor("Xr").toInt(),
             60.0f,
-            0f
+            0f,
         ) // 70
     }
 
@@ -233,21 +233,21 @@ class LinearSystemTest {
                     assertEquals(
                         mLS!!.getValueFor("A").toInt(),
                         1000.0f,
-                        0f
+                        0f,
                     )
                 }
                 1 -> {
                     assertEquals(
                         mLS!!.getValueFor("A").toInt(),
                         100.0f,
-                        0f
+                        0f,
                     )
                 }
                 2 -> {
                     assertEquals(
                         mLS!!.getValueFor("A").toInt(),
                         10.0f,
-                        0f
+                        0f,
                     )
                 }
             }
@@ -265,7 +265,7 @@ class LinearSystemTest {
         assertEquals(
             mLS!!.getValueFor("W3.left").toInt(),
             0.0f,
-            0f
+            0f,
         )
     }
 
@@ -283,12 +283,12 @@ class LinearSystemTest {
         assertEquals(
             mLS!!.getValueFor("W3.left").toInt(),
             0.0f,
-            0f
+            0f,
         )
         assertEquals(
             mLS!!.getValueFor("W3.right").toInt(),
             600.0f,
-            0f
+            0f,
         )
     }
 
@@ -307,17 +307,17 @@ class LinearSystemTest {
         assertEquals(
             mLS!!.getValueFor("W3.left").toInt(),
             0.0f,
-            0f
+            0f,
         )
         assertEquals(
             mLS!!.getValueFor("W3.right").toInt(),
             600.0f,
-            0f
+            0f,
         )
         assertEquals(
             mLS!!.getValueFor("W4.left").toInt(),
             0.0f,
-            0f
+            0f,
         )
     }
 

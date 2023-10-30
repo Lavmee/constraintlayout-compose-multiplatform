@@ -19,13 +19,13 @@ package androidx.constraintlayout.compose
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.remember
+import androidx.constraintlayout.compose.platform.Log
+import androidx.constraintlayout.compose.platform.annotation.Language
+import androidx.constraintlayout.compose.platform.annotation.SuppressLint
 import androidx.constraintlayout.core.parser.CLParser
 import androidx.constraintlayout.core.parser.CLParsingException
 import androidx.constraintlayout.core.state.ConstraintSetParser
 import androidx.constraintlayout.core.state.CoreMotionScene
-import androidx.constraintlayout.compose.platform.Log
-import androidx.constraintlayout.compose.platform.annotation.Language
-import androidx.constraintlayout.compose.platform.annotation.SuppressLint
 
 /**
  * Information for MotionLayout to animate between multiple [ConstraintSet]s.

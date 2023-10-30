@@ -15,22 +15,7 @@
  */
 package androidx.constraintlayout.core.dsl
 
-import androidx.constraintlayout.core.dsl.Barrier
-import androidx.constraintlayout.core.dsl.Chain
-import androidx.constraintlayout.core.dsl.Constraint
-import androidx.constraintlayout.core.dsl.ConstraintSet
-import androidx.constraintlayout.core.dsl.HChain
-import androidx.constraintlayout.core.dsl.HGuideline
-import androidx.constraintlayout.core.dsl.Helper
 import androidx.constraintlayout.core.dsl.Helper.HelperType
-import androidx.constraintlayout.core.dsl.KeyPosition
-import androidx.constraintlayout.core.dsl.KeyPositions
-import androidx.constraintlayout.core.dsl.MotionScene
-import androidx.constraintlayout.core.dsl.OnSwipe
-import androidx.constraintlayout.core.dsl.Ref
-import androidx.constraintlayout.core.dsl.Transition
-import androidx.constraintlayout.core.dsl.VChain
-import androidx.constraintlayout.core.dsl.VGuideline
 import androidx.constraintlayout.core.parser.CLParser
 import androidx.constraintlayout.core.parser.CLParsingException
 import androidx.constraintlayout.core.state.CorePixelDp
@@ -99,8 +84,9 @@ class DslTest {
             
         """.trimIndent()
         assertEquals(exp, motionScene.toString())
-        TransitionParser.parse(CLParser.parse(transition.toString()),
-            androidx.constraintlayout.core.dsl.DslTest.Companion.sTransitionState
+        TransitionParser.parse(
+            CLParser.parse(transition.toString()),
+            androidx.constraintlayout.core.dsl.DslTest.Companion.sTransitionState,
         )
     }
 
@@ -129,8 +115,9 @@ class DslTest {
             
         """.trimIndent()
         assertEquals(exp, motionScene.toString())
-        TransitionParser.parse(CLParser.parse(transition.toString()),
-            androidx.constraintlayout.core.dsl.DslTest.Companion.sTransitionState
+        TransitionParser.parse(
+            CLParser.parse(transition.toString()),
+            androidx.constraintlayout.core.dsl.DslTest.Companion.sTransitionState,
         )
     }
 
@@ -189,8 +176,9 @@ class DslTest {
   }
 }"""
         assertEquals(formatExp, formattedJson)
-        TransitionParser.parse(CLParser.parse(transition.toString()),
-            androidx.constraintlayout.core.dsl.DslTest.Companion.sTransitionState
+        TransitionParser.parse(
+            CLParser.parse(transition.toString()),
+            androidx.constraintlayout.core.dsl.DslTest.Companion.sTransitionState,
         )
     }
 
@@ -239,8 +227,9 @@ class DslTest {
   }
 }"""
         assertEquals(formatExp, formattedJson)
-        TransitionParser.parse(CLParser.parse(transition.toString()),
-            androidx.constraintlayout.core.dsl.DslTest.Companion.sTransitionState
+        TransitionParser.parse(
+            CLParser.parse(transition.toString()),
+            androidx.constraintlayout.core.dsl.DslTest.Companion.sTransitionState,
         )
     }
 
@@ -277,8 +266,9 @@ class DslTest {
   }
 }"""
         assertEquals(formatExp, formattedJson)
-        TransitionParser.parse(CLParser.parse(motionScene.toString()),
-            androidx.constraintlayout.core.dsl.DslTest.Companion.sTransitionState
+        TransitionParser.parse(
+            CLParser.parse(motionScene.toString()),
+            androidx.constraintlayout.core.dsl.DslTest.Companion.sTransitionState,
         )
     }
 
@@ -315,8 +305,9 @@ class DslTest {
   }
 }"""
         assertEquals(formatExp, formattedJson)
-        TransitionParser.parse(CLParser.parse(motionScene.toString()),
-            androidx.constraintlayout.core.dsl.DslTest.Companion.sTransitionState
+        TransitionParser.parse(
+            CLParser.parse(motionScene.toString()),
+            androidx.constraintlayout.core.dsl.DslTest.Companion.sTransitionState,
         )
     }
 
@@ -363,8 +354,9 @@ class DslTest {
   }
 }"""
         assertEquals(formatExp, formattedJson)
-        TransitionParser.parse(CLParser.parse(motionScene.toString()),
-            androidx.constraintlayout.core.dsl.DslTest.Companion.sTransitionState
+        TransitionParser.parse(
+            CLParser.parse(motionScene.toString()),
+            androidx.constraintlayout.core.dsl.DslTest.Companion.sTransitionState,
         )
     }
 
@@ -404,8 +396,9 @@ class DslTest {
   }
 }"""
         assertEquals(formatExp, formattedJson)
-        TransitionParser.parse(CLParser.parse(motionScene.toString()),
-            androidx.constraintlayout.core.dsl.DslTest.Companion.sTransitionState
+        TransitionParser.parse(
+            CLParser.parse(motionScene.toString()),
+            androidx.constraintlayout.core.dsl.DslTest.Companion.sTransitionState,
         )
     }
 
@@ -462,8 +455,9 @@ class DslTest {
   }
 }"""
         assertEquals(formatExp, formattedJson)
-        TransitionParser.parse(CLParser.parse(motionScene.toString()),
-            androidx.constraintlayout.core.dsl.DslTest.Companion.sTransitionState
+        TransitionParser.parse(
+            CLParser.parse(motionScene.toString()),
+            androidx.constraintlayout.core.dsl.DslTest.Companion.sTransitionState,
         )
     }
 
@@ -530,8 +524,9 @@ class DslTest {
   }
 }"""
         assertEquals(formatExp, formattedJson)
-        TransitionParser.parse(CLParser.parse(motionScene.toString()),
-            androidx.constraintlayout.core.dsl.DslTest.Companion.sTransitionState
+        TransitionParser.parse(
+            CLParser.parse(motionScene.toString()),
+            androidx.constraintlayout.core.dsl.DslTest.Companion.sTransitionState,
         )
     }
 
@@ -581,8 +576,9 @@ class DslTest {
   }
 }"""
         assertEquals(formatExp, formattedJson)
-        TransitionParser.parse(CLParser.parse(motionScene.toString()),
-            androidx.constraintlayout.core.dsl.DslTest.Companion.sTransitionState
+        TransitionParser.parse(
+            CLParser.parse(motionScene.toString()),
+            androidx.constraintlayout.core.dsl.DslTest.Companion.sTransitionState,
         )
     }
 
@@ -678,8 +674,9 @@ class DslTest {
   }
 }"""
         assertEquals(formatExp, formattedJson)
-        TransitionParser.parse(CLParser.parse(motionScene.toString()),
-            androidx.constraintlayout.core.dsl.DslTest.Companion.sTransitionState
+        TransitionParser.parse(
+            CLParser.parse(motionScene.toString()),
+            androidx.constraintlayout.core.dsl.DslTest.Companion.sTransitionState,
         )
     }
 
@@ -720,8 +717,9 @@ class DslTest {
   }
 }"""
         assertEquals(formatExp, formattedJson)
-        TransitionParser.parse(CLParser.parse(motionScene.toString()),
-            androidx.constraintlayout.core.dsl.DslTest.Companion.sTransitionState
+        TransitionParser.parse(
+            CLParser.parse(motionScene.toString()),
+            androidx.constraintlayout.core.dsl.DslTest.Companion.sTransitionState,
         )
     }
 
@@ -782,8 +780,9 @@ class DslTest {
   }
 }"""
         assertEquals(formatExp, formattedJson)
-        TransitionParser.parse(CLParser.parse(motionScene.toString()),
-            androidx.constraintlayout.core.dsl.DslTest.Companion.sTransitionState
+        TransitionParser.parse(
+            CLParser.parse(motionScene.toString()),
+            androidx.constraintlayout.core.dsl.DslTest.Companion.sTransitionState,
         )
     }
 
@@ -832,8 +831,9 @@ class DslTest {
   }
 }"""
         assertEquals(formatExp, formattedJson)
-        TransitionParser.parse(CLParser.parse(motionScene.toString()),
-            androidx.constraintlayout.core.dsl.DslTest.Companion.sTransitionState
+        TransitionParser.parse(
+            CLParser.parse(motionScene.toString()),
+            androidx.constraintlayout.core.dsl.DslTest.Companion.sTransitionState,
         )
     }
 
@@ -886,8 +886,9 @@ class DslTest {
   }
 }"""
         assertEquals(formatExp, formattedJson)
-        TransitionParser.parse(CLParser.parse(motionScene.toString()),
-            androidx.constraintlayout.core.dsl.DslTest.Companion.sTransitionState
+        TransitionParser.parse(
+            CLParser.parse(motionScene.toString()),
+            androidx.constraintlayout.core.dsl.DslTest.Companion.sTransitionState,
         )
     }
 
@@ -936,8 +937,9 @@ class DslTest {
   }
 }"""
         assertEquals(formatExp, formattedJson)
-        TransitionParser.parse(CLParser.parse(motionScene.toString()),
-            androidx.constraintlayout.core.dsl.DslTest.Companion.sTransitionState
+        TransitionParser.parse(
+            CLParser.parse(motionScene.toString()),
+            androidx.constraintlayout.core.dsl.DslTest.Companion.sTransitionState,
         )
     }
 
@@ -990,8 +992,9 @@ class DslTest {
   }
 }"""
         assertEquals(formatExp, formattedJson)
-        TransitionParser.parse(CLParser.parse(motionScene.toString()),
-            androidx.constraintlayout.core.dsl.DslTest.Companion.sTransitionState
+        TransitionParser.parse(
+            CLParser.parse(motionScene.toString()),
+            androidx.constraintlayout.core.dsl.DslTest.Companion.sTransitionState,
         )
     }
 
@@ -1041,8 +1044,9 @@ class DslTest {
   }
 }"""
         assertEquals(formatExp, formattedJson)
-        TransitionParser.parse(CLParser.parse(motionScene.toString()),
-            androidx.constraintlayout.core.dsl.DslTest.Companion.sTransitionState
+        TransitionParser.parse(
+            CLParser.parse(motionScene.toString()),
+            androidx.constraintlayout.core.dsl.DslTest.Companion.sTransitionState,
         )
     }
 
@@ -1106,8 +1110,9 @@ class DslTest {
   }
 }"""
         assertEquals(formatExp, formattedJson)
-        TransitionParser.parse(CLParser.parse(motionScene.toString()),
-            androidx.constraintlayout.core.dsl.DslTest.Companion.sTransitionState
+        TransitionParser.parse(
+            CLParser.parse(motionScene.toString()),
+            androidx.constraintlayout.core.dsl.DslTest.Companion.sTransitionState,
         )
     }
 
@@ -1177,8 +1182,9 @@ class DslTest {
   }
 }"""
         assertEquals(formatExp, formattedJson)
-        TransitionParser.parse(CLParser.parse(motionScene.toString()),
-            androidx.constraintlayout.core.dsl.DslTest.Companion.sTransitionState
+        TransitionParser.parse(
+            CLParser.parse(motionScene.toString()),
+            androidx.constraintlayout.core.dsl.DslTest.Companion.sTransitionState,
         )
     }
 
@@ -1228,8 +1234,9 @@ class DslTest {
   }
 }"""
         assertEquals(formatExp, formattedJson)
-        TransitionParser.parse(CLParser.parse(motionScene.toString()),
-            androidx.constraintlayout.core.dsl.DslTest.Companion.sTransitionState
+        TransitionParser.parse(
+            CLParser.parse(motionScene.toString()),
+            androidx.constraintlayout.core.dsl.DslTest.Companion.sTransitionState,
         )
     }
 
@@ -1312,8 +1319,9 @@ class DslTest {
   }
 }"""
         assertEquals(formatExp, formattedJson)
-        TransitionParser.parse(CLParser.parse(motionScene.toString()),
-            androidx.constraintlayout.core.dsl.DslTest.Companion.sTransitionState
+        TransitionParser.parse(
+            CLParser.parse(motionScene.toString()),
+            androidx.constraintlayout.core.dsl.DslTest.Companion.sTransitionState,
         )
     }
 
@@ -1365,8 +1373,9 @@ class DslTest {
   }
 }"""
         assertEquals(formatExp, formattedJson)
-        TransitionParser.parse(CLParser.parse(motionScene.toString()),
-            androidx.constraintlayout.core.dsl.DslTest.Companion.sTransitionState
+        TransitionParser.parse(
+            CLParser.parse(motionScene.toString()),
+            androidx.constraintlayout.core.dsl.DslTest.Companion.sTransitionState,
         )
     }
 
@@ -1412,8 +1421,9 @@ class DslTest {
   }
 }"""
         assertEquals(formatExp, formattedJson)
-        TransitionParser.parse(CLParser.parse(motionScene.toString()),
-            androidx.constraintlayout.core.dsl.DslTest.Companion.sTransitionState
+        TransitionParser.parse(
+            CLParser.parse(motionScene.toString()),
+            androidx.constraintlayout.core.dsl.DslTest.Companion.sTransitionState,
         )
     }
 
@@ -1480,8 +1490,9 @@ class DslTest {
   }
 }"""
         assertEquals(formatExp, formattedJson)
-        TransitionParser.parse(CLParser.parse(motionScene.toString()),
-            androidx.constraintlayout.core.dsl.DslTest.Companion.sTransitionState
+        TransitionParser.parse(
+            CLParser.parse(motionScene.toString()),
+            androidx.constraintlayout.core.dsl.DslTest.Companion.sTransitionState,
         )
     }
 
@@ -1565,8 +1576,9 @@ class DslTest {
   }
 }"""
         assertEquals(formatExp, formattedJson)
-        TransitionParser.parse(CLParser.parse(motionScene.toString()),
-            androidx.constraintlayout.core.dsl.DslTest.Companion.sTransitionState
+        TransitionParser.parse(
+            CLParser.parse(motionScene.toString()),
+            androidx.constraintlayout.core.dsl.DslTest.Companion.sTransitionState,
         )
     }
 
@@ -1704,8 +1716,9 @@ class DslTest {
   }
 }"""
         assertEquals(formatExp, formattedJson)
-        TransitionParser.parse(CLParser.parse(motionScene.toString()),
-            androidx.constraintlayout.core.dsl.DslTest.Companion.sTransitionState
+        TransitionParser.parse(
+            CLParser.parse(motionScene.toString()),
+            androidx.constraintlayout.core.dsl.DslTest.Companion.sTransitionState,
         )
     }
 

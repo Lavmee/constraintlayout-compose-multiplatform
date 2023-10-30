@@ -20,12 +20,12 @@ import androidx.compose.ui.layout.Measurable
 import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.semantics.SemanticsPropertyKey
 import androidx.compose.ui.semantics.SemanticsPropertyReceiver
+import androidx.constraintlayout.compose.extra.JSONArray
+import androidx.constraintlayout.compose.extra.JSONObject
 import androidx.constraintlayout.core.state.State.Companion.PARENT
 import androidx.constraintlayout.core.widgets.ConstraintWidget
 import androidx.constraintlayout.core.widgets.ConstraintWidgetContainer
 import androidx.constraintlayout.core.widgets.HelperWidget
-import androidx.constraintlayout.compose.extra.JSONArray
-import androidx.constraintlayout.compose.extra.JSONObject
 
 /**
  * [SemanticsPropertyKey] to test [DesignInfoProvider]

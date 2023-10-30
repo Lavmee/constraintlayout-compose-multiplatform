@@ -15,8 +15,6 @@
  */
 package androidx.constraintlayout.core.motion
 
-import androidx.constraintlayout.core.motion.Motion
-import androidx.constraintlayout.core.motion.MotionWidget
 import androidx.constraintlayout.core.motion.key.MotionKeyAttributes
 import androidx.constraintlayout.core.motion.parse.KeyParser
 import androidx.constraintlayout.core.motion.utils.ArcCurveFit

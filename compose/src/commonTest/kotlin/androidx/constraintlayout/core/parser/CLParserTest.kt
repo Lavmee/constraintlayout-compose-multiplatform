@@ -15,9 +15,6 @@
  */
 package androidx.constraintlayout.core.parser
 
-import androidx.constraintlayout.core.parser.CLParser
-import androidx.constraintlayout.core.parser.CLParsingException
-import androidx.constraintlayout.core.parser.CLToken
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull

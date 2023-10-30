@@ -15,7 +15,6 @@
  */
 package androidx.constraintlayout.core.motion
 
-import androidx.constraintlayout.core.motion.CustomAttribute
 import androidx.constraintlayout.core.motion.utils.KeyFrameArray.CustomArray
 import kotlin.random.Random
 import kotlin.test.Test

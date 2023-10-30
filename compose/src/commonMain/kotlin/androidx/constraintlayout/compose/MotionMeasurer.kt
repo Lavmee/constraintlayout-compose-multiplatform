@@ -25,10 +25,10 @@ import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.fastForEach
+import androidx.constraintlayout.compose.platform.annotation.SuppressWarnings
 import androidx.constraintlayout.core.state.Dimension
 import androidx.constraintlayout.core.state.Transition
 import androidx.constraintlayout.core.widgets.Optimizer
-import androidx.constraintlayout.compose.platform.annotation.SuppressWarnings
 
 internal class MotionMeasurer(density: Density) : Measurer(density) {
     private val DEBUG = false

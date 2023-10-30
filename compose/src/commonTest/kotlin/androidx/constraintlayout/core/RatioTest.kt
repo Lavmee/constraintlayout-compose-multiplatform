@@ -773,12 +773,12 @@ class RatioTest {
         assertEquals(
             verticalGuideline.left,
             0.34f * root.width,
-            1f
+            1f,
         )
         assertEquals(
             horizontalGuideline.top,
             0.66f * root.height,
-            1f
+            1f,
         )
         assertTrue(a.left >= 0)
         assertTrue(b.left >= 0)
