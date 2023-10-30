@@ -26,7 +26,8 @@ jobs:
       - uses: gradle/gradle-build-action@v2
         with:
           gradle-home-cache-cleanup: true
-
+      - name: Make gradlew executable
+        run: chmod +x ./gradlew
       - name: Build
         run: |
           ./gradlew \
