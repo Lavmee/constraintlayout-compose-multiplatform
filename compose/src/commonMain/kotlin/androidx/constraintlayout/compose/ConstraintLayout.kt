@@ -1617,7 +1617,8 @@ interface LayoutInformationReceiver {
 
 @PublishedApi
 internal open class Measurer(
-    density: Density, // TODO: Change to a variable since density may change
+    // TODO: Change to a variable since density may change
+    density: Density,
 ) : BasicMeasure.Measurer, DesignInfoProvider {
     private var computedLayoutResult: String = ""
     protected var layoutInformationReceiver: LayoutInformationReceiver? = null

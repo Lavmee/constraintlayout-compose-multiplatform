@@ -360,7 +360,9 @@ private fun rememberStateOfItemsProvider(
 @OptIn(ExperimentalMotionApi::class)
 interface MotionItemsProvider {
     @SuppressWarnings("UnavailableSymbol")
-    fun getContent(index: Int):
+    fun getContent(
+        index: Int,
+    ):
         @Composable()
         () -> Unit
 

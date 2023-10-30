@@ -23,9 +23,10 @@ kotlin {
         binaries {
             executable {
                 entryPoint = "main"
-                freeCompilerArgs += listOf(
-                    "-linker-option", "-framework", "-linker-option", "Metal",
-                )
+                freeCompilerArgs +=
+                    listOf(
+                        "-linker-option", "-framework", "-linker-option", "Metal",
+                    )
             }
         }
     }
@@ -33,9 +34,10 @@ kotlin {
         binaries {
             executable {
                 entryPoint = "main"
-                freeCompilerArgs += listOf(
-                    "-linker-option", "-framework", "-linker-option", "Metal",
-                )
+                freeCompilerArgs +=
+                    listOf(
+                        "-linker-option", "-framework", "-linker-option", "Metal",
+                    )
             }
         }
     }

@@ -20,7 +20,8 @@ import androidx.constraintlayout.core.ArrayRow.ArrayRowVariables
 import androidx.constraintlayout.core.Cache
 import androidx.constraintlayout.core.SolverVariable
 
-class BasicSolverVariableValues internal constructor( // our owner
+class BasicSolverVariableValues internal constructor(
+    // our owner
     private val mRow: ArrayRow,
     cache: Cache?,
 ) : ArrayRowVariables {

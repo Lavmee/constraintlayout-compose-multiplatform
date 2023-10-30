@@ -529,7 +529,8 @@ abstract class ConstraintLayoutBaseScope internal constructor(extendFrom: CLObje
         flowVertically: Boolean = false,
         verticalGap: Dp = 0.dp,
         horizontalGap: Dp = 0.dp,
-        maxElement: Int = 0, // TODO: shouldn't this be -1? (aka: UNKNOWN)?
+        // TODO: shouldn't this be -1? (aka: UNKNOWN)?
+        maxElement: Int = 0,
         padding: Dp = 0.dp,
         wrapMode: Wrap = Wrap.None,
         verticalAlign: VerticalAlign = VerticalAlign.Center,

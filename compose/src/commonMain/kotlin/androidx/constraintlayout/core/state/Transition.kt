@@ -1216,7 +1216,7 @@ class Transition(dpToPixel: CorePixelDp) : TypedValues {
                     mMotionControl.setup(
                         parentWidth,
                         parentHeight,
-                        1f, /*System.nanoTime()*/
+                        1f,
                         System.nanoTime(),
                     )
                     mNeedSetup = false

@@ -274,7 +274,11 @@ class WidgetFrame {
         return true
     }
 
-    val id: String get() = if (widget == null) { "unknown" } else widget!!.stringId!!
+    val id: String get() = if (widget == null) {
+        "unknown"
+    } else {
+        widget!!.stringId!!
+    }
 
     @Throws(CLParsingException::class)
     fun parseCustom(custom: CLElement) {

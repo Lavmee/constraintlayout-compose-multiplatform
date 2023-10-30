@@ -361,8 +361,8 @@ internal open class CarouselSwipeableState<T>(
             val targetState = anchors[targetValue]
             if (targetState != null && confirmStateChange(targetState)) {
                 animateTo(targetState)
-            } // If the user vetoed the state change, rollback to the previous state.
-            else {
+            } else {
+                // If the user vetoed the state change, rollback to the previous state.
                 animateInternalToOffset(lastAnchor, animationSpec)
             }
         }

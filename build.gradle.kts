@@ -16,7 +16,14 @@ allprojects {
             target("**/*.kt")
             targetExclude("${layout.buildDirectory}/**/*.kt")
             targetExclude("bin/**/*.kt")
-            ktlint()
+            ktlint().editorConfigOverride(
+                mapOf(
+                    "standard:no-consecutive-comments" to "disabled",
+                    "ktlint_standard_property-naming" to "disabled",
+                    "ktlint_standard_function-naming" to "disabled",
+                    "ktlint_standard_no-empty-file" to "disabled",
+                ),
+            )
         }
 
         kotlinGradle {

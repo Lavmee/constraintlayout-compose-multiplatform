@@ -96,7 +96,15 @@ class ConstraintAnchor {
      * Define the type of anchor
      */
     enum class Type {
-        NONE, LEFT, TOP, RIGHT, BOTTOM, BASELINE, CENTER, CENTER_X, CENTER_Y
+        NONE,
+        LEFT,
+        TOP,
+        RIGHT,
+        BOTTOM,
+        BASELINE,
+        CENTER,
+        CENTER_X,
+        CENTER_Y,
     }
 
     var mOwner: ConstraintWidget

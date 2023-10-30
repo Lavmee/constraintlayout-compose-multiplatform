@@ -20,7 +20,13 @@ class CLParser(private val mContent: String) {
     private var mLineNumber = 0
 
     internal enum class TYPE {
-        UNKNOWN, OBJECT, ARRAY, NUMBER, STRING, KEY, TOKEN
+        UNKNOWN,
+        OBJECT,
+        ARRAY,
+        NUMBER,
+        STRING,
+        KEY,
+        TOKEN,
     }
 
     // @TODO: add description

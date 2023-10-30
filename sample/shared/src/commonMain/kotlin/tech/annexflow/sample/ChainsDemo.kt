@@ -87,7 +87,8 @@ internal fun ChainsAnimatedOrientationDemo() {
                     createVerticalChain(box0, box1, box2)
                 }
             },
-            animateChanges = true, // Set to true, to automatically animate on ConstraintSet changes
+            // Set to true, to automatically animate on ConstraintSet changes
+            animateChanges = true,
             animationSpec = tween(800),
             modifier = Modifier
                 .fillMaxWidth()

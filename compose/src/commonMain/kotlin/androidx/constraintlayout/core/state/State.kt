@@ -224,7 +224,9 @@ open class State {
 
     var isRtl: Boolean
         get() = !mIsLtr
-        set(value) { mIsLtr = !value }
+        set(value) {
+            mIsLtr = !value
+        }
 
     /**
      * Clear the state
