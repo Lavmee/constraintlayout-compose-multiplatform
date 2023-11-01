@@ -56,6 +56,11 @@ kotlin {
     }
 
     sourceSets {
+        all {
+            languageSettings {
+                optIn("kotlin.experimental.ExperimentalNativeApi")
+            }
+        }
         val commonMain by getting {
             dependencies {
                 implementation(compose.ui)
