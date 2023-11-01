@@ -17,7 +17,13 @@ kotlin {
         }
     }
 
-    jvm("desktop")
+    jvm("desktop") {
+        compilations.all {
+            kotlinOptions {
+                jvmTarget = rootProject.extra.get("jvmTarget") as String
+            }
+        }
+    }
 
     macosArm64 {
         binaries {
