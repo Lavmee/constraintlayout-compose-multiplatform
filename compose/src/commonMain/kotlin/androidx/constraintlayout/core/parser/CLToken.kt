@@ -15,9 +15,15 @@
  */
 package androidx.constraintlayout.core.parser
 
-class CLToken(content: CharArray) : CLElement(content) {
+class CLToken : CLElement {
     private var mIndex = 0
     var mType: Type = Type.UNKNOWN
+
+    constructor(content: CharArray) : super(content)
+    internal constructor(clToken: CLToken) : super(clToken) {
+        this.mType = clToken.mType
+        this.mIndex = clToken.mIndex
+    }
 
     @Throws(CLParsingException::class)
     fun getBoolean(): Boolean {
@@ -111,6 +117,10 @@ class CLToken(content: CharArray) : CLElement(content) {
         }
         mIndex++
         return isValid
+    }
+
+    override fun clone(): CLElement {
+        return CLToken(this)
     }
 
     companion object {

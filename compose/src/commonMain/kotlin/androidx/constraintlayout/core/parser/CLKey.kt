@@ -15,9 +15,12 @@
  */
 package androidx.constraintlayout.core.parser
 
-class CLKey(content: CharArray) : CLContainer(content) {
+class CLKey : CLContainer {
     val name: String
         get() = content()
+
+    constructor(content: CharArray) : super(content)
+    internal constructor(clKey: CLKey) : super(clKey)
 
     override fun toJSON(): String {
         return if (mElements.size > 0) {
@@ -63,14 +66,20 @@ class CLKey(content: CharArray) : CLContainer(content) {
     }
 
     override fun equals(other: Any?): Boolean {
-        if (this === other) return true
-        if (other == null || this::class != other::class) return false
-        if (!super.equals(other)) return false
+        if (this === other) {
+            return true
+        }
+        if (other is CLKey) {
+            if (this.name != other.name) {
+                return false
+            }
+        }
+        // Delegate the rest to parent
+        return super.equals(other)
+    }
 
-        other as CLKey
-
-        if (name != other.name) return false
-        return value == other.value
+    override fun hashCode(): Int {
+        return super.hashCode()
     }
 
     val value: CLElement
@@ -80,6 +89,10 @@ class CLKey(content: CharArray) : CLContainer(content) {
         } else {
             null!!
         }
+
+    override fun clone(): CLContainer {
+        return CLKey(this)
+    }
 
     companion object {
         private val sSections: ArrayList<String> = ArrayList()

@@ -15,8 +15,18 @@
  */
 package androidx.constraintlayout.core.parser
 
-open class CLContainer(content: CharArray) : CLElement(content) {
-    var mElements = ArrayList<CLElement>()
+open class CLContainer : CLElement {
+    var mElements: ArrayList<CLElement> = ArrayList()
+    constructor(content: CharArray) : super(content)
+    internal constructor(clContainer: CLContainer) : super(clContainer) {
+        val clonedArray = ArrayList<CLElement>(clContainer.mElements.size)
+        for (element in clContainer.mElements) {
+            val elementClone = element.clone()
+            elementClone.setContainer(this)
+            clonedArray.add(elementClone)
+        }
+        mElements = clonedArray
+    }
 
     fun add(element: CLElement) {
         mElements.add(element)
@@ -208,10 +218,6 @@ open class CLContainer(content: CharArray) : CLElement(content) {
     // ///////////////////////////////////////////////////////////////////////
     // Optional
     // ///////////////////////////////////////////////////////////////////////
-
-    // ///////////////////////////////////////////////////////////////////////
-    // Optional
-    // ///////////////////////////////////////////////////////////////////////
     fun getOrNull(name: String?): CLElement? {
         for (element: CLElement in mElements) {
             val key: CLKey = element as CLKey
@@ -355,29 +361,19 @@ open class CLContainer(content: CharArray) : CLElement(content) {
     }
 
     override fun clone(): CLContainer {
-        val superClone = super.clone()
-        val clone = CLContainer(superClone.mContent)
-
-        val clonedArray = ArrayList<CLElement>(mElements.size)
-        for (element in mElements) {
-            val elementClone = element.clone()
-            elementClone.setContainer(clone)
-            clonedArray.add(elementClone)
-        }
-        clone.mElements = clonedArray
-        return clone
+        return CLContainer(this)
     }
 
     override fun equals(other: Any?): Boolean {
-        if (this === other) return true
-        if (other == null || this::class != other::class) return false
-        if (!super.equals(other)) return false
+        if (this === other) {
+            return true
+        }
 
-        other as CLContainer
-
-        if (mElements != other.mElements) return false
-
-        return true
+        return if (other !is CLContainer) {
+            false
+        } else {
+            mElements == other.mElements
+        }
     }
 
     override fun hashCode(): Int {

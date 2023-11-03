@@ -15,7 +15,12 @@
  */
 package androidx.constraintlayout.core.parser
 
-class CLNumber(content: CharArray) : CLElement(content) {
+class CLNumber : CLElement {
+
+    constructor(content: CharArray) : super(content)
+    internal constructor(clNumber: CLNumber) : super(clNumber) {
+        this.mValue = clNumber.mValue
+    }
 
     var mValue = Float.NaN
 
@@ -75,13 +80,26 @@ class CLNumber(content: CharArray) : CLElement(content) {
     }
 
     override fun equals(other: Any?): Boolean {
-        if (this === other) return true
-        if (other == null || this::class != other::class) return false
-        if (!super.equals(other)) return false
+        if (this === other) {
+            return true
+        }
 
-        other as CLNumber
+        if (other is CLNumber) {
+            val thisFloat = float
+            val otherFloat = other.float
+            return if (thisFloat.isNaN() && otherFloat.isNaN()) {
+                // Consider equal if both elements have a NaN value
+                true
+            } else {
+                thisFloat == otherFloat
+            }
+        }
 
-        return mValue == other.mValue
+        return false
+    }
+
+    override fun clone(): CLElement {
+        return CLNumber(this)
     }
 
     override fun hashCode(): Int {

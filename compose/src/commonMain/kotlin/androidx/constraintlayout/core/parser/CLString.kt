@@ -15,7 +15,10 @@
  */
 package androidx.constraintlayout.core.parser
 
-class CLString(mContent: CharArray) : CLElement(mContent) {
+class CLString : CLElement {
+
+    constructor(mContent: CharArray) : super(mContent)
+    internal constructor(clString: CLString) : super(clString)
 
     override fun toJSON(): String {
         return "'" + content() + "'"
@@ -30,10 +33,23 @@ class CLString(mContent: CharArray) : CLElement(mContent) {
         return json.toString()
     }
 
+    override fun clone(): CLElement {
+        return CLString(this)
+    }
+
     override fun equals(other: Any?): Boolean {
-        if (this === other) return true
-        if (other == null || this::class != other::class) return false
-        return super.equals(other)
+        if (this === other) {
+            return true
+        }
+        return if (other is CLString && content() == other.content()) {
+            true
+        } else {
+            super.equals(other)
+        }
+    }
+
+    override fun hashCode(): Int {
+        return super.hashCode()
     }
 
     companion object {

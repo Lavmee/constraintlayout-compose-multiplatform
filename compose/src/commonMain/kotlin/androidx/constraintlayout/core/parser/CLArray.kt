@@ -15,7 +15,10 @@
  */
 package androidx.constraintlayout.core.parser
 
-class CLArray(content: CharArray) : CLContainer(content) {
+class CLArray : CLContainer {
+
+    constructor(content: CharArray) : super(content)
+    internal constructor(clArray: CLArray) : super(clArray)
 
     override fun toJSON(): String {
         val content = StringBuilder(getDebugName() + "[")
@@ -53,6 +56,10 @@ class CLArray(content: CharArray) : CLContainer(content) {
             json.append("]")
         }
         return json.toString()
+    }
+
+    override fun clone(): CLContainer {
+        return CLArray(this)
     }
 
     companion object {

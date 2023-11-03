@@ -24,17 +24,11 @@ open class CLElement internal constructor(content: CharArray) : Cloneable {
     protected var mContainer: CLContainer? = null
     private var mLine = 0
 
-    private constructor(
-        content: CharArray,
-        start: Long,
-        end: Long,
-        container: CLContainer?,
-        line: Int,
-    ) : this(content) {
-        mStart = start
-        mEnd = end
-        mContainer = container
-        mLine = line
+    internal constructor(clElement: CLElement) : this(clElement.mContent) {
+        mStart = clElement.start
+        mEnd = clElement.end
+        mContainer = clElement.mContainer
+        mLine = clElement.mLine
     }
 
     fun notStarted(): Boolean = mStart == -1L
@@ -156,13 +150,7 @@ open class CLElement internal constructor(content: CharArray) : Cloneable {
         }
 
     override fun clone(): CLElement {
-        return CLElement(
-            content = mContent,
-            start = mStart,
-            end = mEnd,
-            container = mContainer,
-            line = mLine,
-        )
+        return CLElement(this)
     }
 
     override fun equals(other: Any?): Boolean {

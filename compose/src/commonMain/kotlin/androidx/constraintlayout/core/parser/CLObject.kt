@@ -15,7 +15,11 @@
  */
 package androidx.constraintlayout.core.parser
 
-class CLObject(content: CharArray) : CLContainer(content), Iterable<CLKey?> {
+class CLObject : CLContainer, Iterable<CLKey?> {
+    constructor(content: CharArray) : super(content)
+
+    internal constructor(clObject: CLObject) : super(clObject)
+
     /**
      * Returns objet as a JSON5 String
      */
@@ -80,8 +84,7 @@ class CLObject(content: CharArray) : CLContainer(content), Iterable<CLKey?> {
     }
 
     override fun clone(): CLObject {
-        val superClone = super.clone()
-        return CLObject(superClone.mContent)
+        return CLObject(this)
     }
 
     companion object {
