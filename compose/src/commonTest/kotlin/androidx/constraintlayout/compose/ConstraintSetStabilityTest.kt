@@ -17,7 +17,6 @@
 package androidx.constraintlayout.compose
 
 import androidx.compose.ui.unit.dp
-import kotlin.test.Ignore
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNotEquals
@@ -118,7 +117,6 @@ class ConstraintSetStabilityTest {
         )
     }
 
-    @Ignore
     @Test
     fun testInheritedConstraintSetEquality() {
         val constraintSetA = ConstraintSet {

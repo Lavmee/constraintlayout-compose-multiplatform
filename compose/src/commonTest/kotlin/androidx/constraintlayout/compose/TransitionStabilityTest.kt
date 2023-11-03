@@ -16,7 +16,6 @@
 
 package androidx.constraintlayout.compose
 
-import kotlin.test.Ignore
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNotEquals
@@ -70,7 +69,6 @@ class TransitionStabilityTest {
         )
     }
 
-    @Ignore
     @Test
     fun testTransitionJsonEquality() {
         val transition = Transition(
