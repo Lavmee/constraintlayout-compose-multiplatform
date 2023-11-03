@@ -89,6 +89,10 @@ kotlin {
                 implementation(kotlin("test"))
             }
         }
+
+        val androidUnitTest by getting {
+            dependsOn(commonTest)
+        }
     }
 }
 
