@@ -157,7 +157,7 @@ abstract class KeyCycleOscillator {
     fun setPoint(
         framePosition: Int,
         shape: Int,
-        waveString: String,
+        waveString: String?,
         variesBy: Int,
         period: Float,
         offset: Float,
@@ -181,7 +181,7 @@ abstract class KeyCycleOscillator {
         mWavePoints.sortWith { lhs, rhs -> Integer.compare(lhs.mPosition, rhs.mPosition) }
         val time = DoubleArray(count)
         val values = Array(count) { DoubleArray(3) }
-        mCycleOscillator = CycleOscillator(mWaveShape, mWaveString!!, mVariesBy, count)
+        mCycleOscillator = CycleOscillator(mWaveShape, mWaveString, mVariesBy, count)
         var i = 0
         for (wp in mWavePoints) {
             time[i] = wp.mPeriod * 1E-2
@@ -223,7 +223,7 @@ abstract class KeyCycleOscillator {
         lateinit var mSplineSlopeCache: DoubleArray
         var mPathLength = 0f
 
-        constructor(waveShape: Int, customShape: String, variesBy: Int, steps: Int) {
+        constructor(waveShape: Int, customShape: String?, variesBy: Int, steps: Int) {
             mWaveShape = waveShape
             mVariesBy = variesBy
             mOscillator.setType(waveShape, customShape)

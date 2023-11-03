@@ -235,7 +235,7 @@ class MotionKeyCycle : MotionKey() {
             osc.setPoint(
                 mFramePosition,
                 mWaveShape,
-                mCustomWaveShape!!,
+                mCustomWaveShape,
                 -1,
                 mWavePeriod,
                 mWaveOffset,
