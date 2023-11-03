@@ -6,9 +6,8 @@ plugins {
     alias(libs.plugins.android.application)
 }
 
-@OptIn(org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi::class)
 kotlin {
-    targetHierarchy.default()
+    kotlin.applyDefaultHierarchyTemplate()
     androidTarget {
         compilations.all {
             kotlinOptions {

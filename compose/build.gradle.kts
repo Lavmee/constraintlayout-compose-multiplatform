@@ -11,9 +11,8 @@ plugins {
     alias(libs.plugins.maven.publish)
 }
 
-@OptIn(org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi::class)
 kotlin {
-    targetHierarchy.default()
+    kotlin.applyDefaultHierarchyTemplate()
 
     androidTarget {
         publishLibraryVariants("release")
