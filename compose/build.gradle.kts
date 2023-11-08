@@ -1,3 +1,4 @@
+import org.jetbrains.compose.ExperimentalComposeLibrary
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
 
 // Copyright 2023, Sergei Gagarin and the project contributors
@@ -67,6 +68,8 @@ kotlin {
                 implementation(libs.kotlinx.serialization.json)
                 implementation(compose.foundation)
                 implementation(compose.runtime)
+                @OptIn(ExperimentalComposeLibrary::class)
+                implementation(compose.components.resources)
                 implementation(libs.annotation)
                 implementation(libs.collection)
                 implementation(libs.kotlin.stdlib)
@@ -87,10 +90,6 @@ kotlin {
             dependencies {
                 implementation(kotlin("test"))
             }
-        }
-
-        val androidUnitTest by getting {
-            dependsOn(commonTest)
         }
     }
 }

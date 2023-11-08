@@ -83,7 +83,6 @@ import androidx.constraintlayout.compose.platform.Log
 import androidx.constraintlayout.compose.platform.System
 import androidx.constraintlayout.compose.platform.annotation.Language
 import androidx.constraintlayout.compose.platform.annotation.SuppressLint
-import androidx.constraintlayout.compose.platform.painterResource
 import androidx.constraintlayout.core.parser.CLElement
 import androidx.constraintlayout.core.parser.CLNumber
 import androidx.constraintlayout.core.parser.CLObject
@@ -114,6 +113,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.launch
+import org.jetbrains.compose.resources.ExperimentalResourceApi
+import org.jetbrains.compose.resources.painterResource
 
 /**
  * Layout that positions its children according to the constraints between them.
@@ -2126,6 +2127,7 @@ internal open class Measurer(
         return TextStyle(fontSize = fontSize, color = textColor)
     }
 
+    @OptIn(ExperimentalResourceApi::class)
     @Composable
     fun createDesignElements() {
         for (element in designElements) {
@@ -2184,15 +2186,9 @@ internal open class Measurer(
                     "image" -> {
                         Image(
                             modifier = Modifier.layoutId(id),
-                            painter = painterResource(),
+                            painter = painterResource("ic_menu_gallery.png"),
                             contentDescription = "Placeholder Image",
                         )
-
-//                        Image(
-//                            modifier = Modifier.layoutId(id),
-//                            painter = painterResource(id = android.R.drawable.ic_menu_gallery),
-//                            contentDescription = "Placeholder Image"
-//                        )
                     }
                 }
             }
