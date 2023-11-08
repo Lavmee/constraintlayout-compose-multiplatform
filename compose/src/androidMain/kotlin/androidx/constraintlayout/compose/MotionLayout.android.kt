@@ -21,4 +21,4 @@ private object Api30Impl {
 
 internal actual val isShowingLayoutBounds: Boolean
     @Composable get() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.R &&
-            Api30Impl.isShowingLayoutBounds(LocalView.current)
+        Api30Impl.isShowingLayoutBounds(LocalView.current)
