@@ -35,7 +35,7 @@ import androidx.constraintlayout.core.widgets.VirtualLayout
 import kotlin.math.max
 import kotlin.math.min
 
-class BasicMeasure(constraintWidgetContainer: ConstraintWidgetContainer?) {
+class BasicMeasure(constraintWidgetContainer: ConstraintWidgetContainer) {
 
     private val mVariableDimensionsWidgets = ArrayList<ConstraintWidget>()
     private val mMeasure = Measure()
@@ -46,10 +46,8 @@ class BasicMeasure(constraintWidgetContainer: ConstraintWidgetContainer?) {
         val childCount = layout.mChildren.size
         for (i in 0 until childCount) {
             val widget = layout.mChildren[i]
-            if (widget.horizontalDimensionBehaviour
-                == MATCH_CONSTRAINT ||
-                widget.verticalDimensionBehaviour
-                == MATCH_CONSTRAINT
+            if (widget.horizontalDimensionBehaviour == MATCH_CONSTRAINT ||
+                widget.verticalDimensionBehaviour == MATCH_CONSTRAINT
             ) {
                 mVariableDimensionsWidgets.add(widget)
             }
@@ -126,7 +124,6 @@ class BasicMeasure(constraintWidgetContainer: ConstraintWidgetContainer?) {
         var startLayout: Long = 0
         if (layout.mMetrics != null) {
             startLayout = System.nanoTime()
-            // startLayout = System.nanoTime()
         }
         val minWidth = layout.minWidth
         val minHeight = layout.minHeight
@@ -143,7 +140,6 @@ class BasicMeasure(constraintWidgetContainer: ConstraintWidgetContainer?) {
         mConstraintWidgetContainer!!.layout()
         if (layout.mMetrics != null) {
             val endLayout = System.nanoTime()
-//            val endLayout = System.nanoTime()
             layout.mMetrics!!.mSolverPasses++
             layout.mMetrics!!.measuresLayoutDuration += endLayout - startLayout
         }
