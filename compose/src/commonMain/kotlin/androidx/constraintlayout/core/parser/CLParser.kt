@@ -33,11 +33,11 @@ class CLParser(private val mContent: String) {
     @Throws(CLParsingException::class)
     fun parse(): CLObject {
         @Suppress("unused")
-        var root: CLObject? = null
+        val root: CLObject
         val content = mContent.toCharArray()
 
         @Suppress("unused")
-        var currentElement: CLElement? = null
+        var currentElement: CLElement?
         val length = content.size
 
         // First, let's find the root element start
@@ -178,12 +178,12 @@ class CLParser(private val mContent: String) {
             }
 
             '"', '\'' -> {
-                if (currentElement is CLObject) {
-                    currentElement = createElement(
+                currentElement = if (currentElement is CLObject) {
+                    createElement(
                         currentElement, position, TYPE.KEY, true, content,
                     )
                 } else {
-                    currentElement = createElement(
+                    createElement(
                         currentElement, position, TYPE.STRING, true, content,
                     )
                 }

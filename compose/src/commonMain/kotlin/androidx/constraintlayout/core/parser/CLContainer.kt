@@ -126,29 +126,13 @@ open class CLContainer : CLElement {
     @Throws(CLParsingException::class)
     fun getInt(name: String): Int {
         val element: CLElement = get(name)
-        if (element != null) {
-            return element.getInt()
-        }
-        throw CLParsingException(
-            "no int found for key <" + name + ">," +
-                " found [" + element.getStrClass() + "] : " + element,
-            this,
-        )
+        return element.getInt()
     }
 
     @Throws(CLParsingException::class)
     fun getFloat(name: String): Float {
         val element: CLElement = get(name)
-        if (element != null) {
-            return element.float
-        }
-        throw CLParsingException(
-            (
-                "no float found for key <" + name + ">," +
-                    " found [" + element.getStrClass() + "] : " + element
-                ),
-            this,
-        )
+        return element.float
     }
 
     @Throws(CLParsingException::class)
@@ -187,10 +171,7 @@ open class CLContainer : CLElement {
         if (element is CLString) {
             return element.content()
         }
-        var strClass: String? = null
-        if (element != null) {
-            strClass = element.getStrClass()
-        }
+        val strClass = element.getStrClass()
         throw CLParsingException(
             (
                 "no string found for key <" + name + ">," +
@@ -289,19 +270,13 @@ open class CLContainer : CLElement {
     @Throws(CLParsingException::class)
     fun getInt(index: Int): Int {
         val element: CLElement = get(index)
-        if (element != null) {
-            return element.getInt()
-        }
-        throw CLParsingException("no int at index $index", this)
+        return element.getInt()
     }
 
     @Throws(CLParsingException::class)
     fun getFloat(index: Int): Float {
         val element: CLElement = get(index)
-        if (element != null) {
-            return element.float
-        }
-        throw CLParsingException("no float at index $index", this)
+        return element.float
     }
 
     @Throws(CLParsingException::class)
