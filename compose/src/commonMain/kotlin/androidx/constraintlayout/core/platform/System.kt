@@ -1,5 +1,11 @@
 package androidx.constraintlayout.core.platform
 
-expect object System {
+internal expect object System {
     fun nanoTime(): Long
+
+    val err: PrintStream
+}
+
+internal interface PrintStream {
+    fun println(value: String)
 }
