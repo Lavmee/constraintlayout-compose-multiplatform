@@ -69,7 +69,7 @@ internal class JSONArray : JSONElement {
 
 private sealed interface JSONElement
 private class JSONPrimitive(val isString: Boolean, val content: String) : JSONElement {
-    constructor(isString: Boolean, content: Any): this(isString, content.toString())
+    constructor(isString: Boolean, content: Any) : this(isString, content.toString())
     override fun toString(): String =
         if (isString) {
             buildString { printQuoted(content) }
