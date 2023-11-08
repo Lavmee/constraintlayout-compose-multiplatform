@@ -564,6 +564,8 @@ internal fun MotionLayoutCore(
     )
 }
 
+internal expect val isShowingLayoutBounds: Boolean
+
 @PublishedApi
 @Composable
 internal fun MotionLayoutCore(
@@ -654,10 +656,9 @@ internal fun MotionLayoutCore(
         doShowPaths = doShowBounds
         doShowKeyPositions = doShowBounds
     }
-//    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R &&
-//        Api30Impl.isShowingLayoutBounds(LocalView.current)) {
-//        doShowBounds = true
-//    }
+    if (isShowingLayoutBounds) {
+        doShowBounds = true
+    }
 
     @Suppress("DEPRECATION")
     MultiMeasureLayout(
