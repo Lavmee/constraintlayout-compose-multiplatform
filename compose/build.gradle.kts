@@ -6,7 +6,6 @@ import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
 
 plugins {
     alias(libs.plugins.multiplatform)
-    alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.compose)
     alias(libs.plugins.android.library)
     alias(libs.plugins.maven.publish)
@@ -65,7 +64,6 @@ kotlin {
             dependencies {
                 implementation(compose.ui)
                 implementation(libs.ui.util)
-                implementation(libs.kotlinx.serialization.json)
                 implementation(compose.foundation)
                 implementation(compose.runtime)
                 @OptIn(ExperimentalComposeLibrary::class)
