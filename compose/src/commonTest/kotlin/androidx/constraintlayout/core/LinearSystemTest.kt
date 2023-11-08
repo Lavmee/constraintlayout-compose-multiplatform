@@ -15,6 +15,7 @@
  */
 package androidx.constraintlayout.core
 
+import androidx.constraintlayout.core.test.assertEquals
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -100,21 +101,9 @@ class LinearSystemTest {
         }
         println("Result: ")
         mLS!!.displayReadableRows()
-        assertEquals(
-            mLS!!.getValueFor("Xm").toInt(),
-            50.0f,
-            0f,
-        ) // 50
-        assertEquals(
-            mLS!!.getValueFor("Xl").toInt(),
-            40.0f,
-            0f,
-        ) // 30
-        assertEquals(
-            mLS!!.getValueFor("Xr").toInt(),
-            60.0f,
-            0f,
-        ) // 70
+        assertEquals(mLS!!.getValueFor("Xm").toInt(), 50.0f, 0f,) // 50
+        assertEquals(mLS!!.getValueFor("Xl").toInt(), 40.0f, 0f,) // 30
+        assertEquals(mLS!!.getValueFor("Xr").toInt(), 60.0f, 0f,) // 70
     }
 
     @Test
@@ -280,16 +269,8 @@ class LinearSystemTest {
         // s.rebuildGoalFromErrors();
         val result = mLS!!.getGoal().toString()
         assertTrue(result == "0 = 0.0" || result == " goal -> (0.0) : ")
-        assertEquals(
-            mLS!!.getValueFor("W3.left").toInt(),
-            0.0f,
-            0f,
-        )
-        assertEquals(
-            mLS!!.getValueFor("W3.right").toInt(),
-            600.0f,
-            0f,
-        )
+        assertEquals(mLS!!.getValueFor("W3.left").toInt(), 0.0f, 0f,)
+        assertEquals(mLS!!.getValueFor("W3.right").toInt(), 600.0f, 0f,)
     }
 
     @Test
@@ -304,21 +285,9 @@ class LinearSystemTest {
         mLS!!.addConstraint(LinearEquation.createRowFromEquation(mLS!!, e2))
         mLS!!.addConstraint(LinearEquation.createRowFromEquation(mLS!!, left_constraint)) // left
         // s.rebuildGoalFromErrors();
-        assertEquals(
-            mLS!!.getValueFor("W3.left").toInt(),
-            0.0f,
-            0f,
-        )
-        assertEquals(
-            mLS!!.getValueFor("W3.right").toInt(),
-            600.0f,
-            0f,
-        )
-        assertEquals(
-            mLS!!.getValueFor("W4.left").toInt(),
-            0.0f,
-            0f,
-        )
+        assertEquals(mLS!!.getValueFor("W3.left").toInt(), 0.0f, 0f,)
+        assertEquals(mLS!!.getValueFor("W3.right").toInt(), 600.0f, 0f,)
+        assertEquals(mLS!!.getValueFor("W4.left").toInt(), 0.0f, 0f,)
     }
 
     @Test

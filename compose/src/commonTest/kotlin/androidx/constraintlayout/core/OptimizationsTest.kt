@@ -16,6 +16,7 @@
 package androidx.constraintlayout.core
 
 import androidx.constraintlayout.core.platform.System
+import androidx.constraintlayout.core.test.assertEquals
 import androidx.constraintlayout.core.widgets.Barrier
 import androidx.constraintlayout.core.widgets.ConstraintAnchor
 import androidx.constraintlayout.core.widgets.ConstraintWidget

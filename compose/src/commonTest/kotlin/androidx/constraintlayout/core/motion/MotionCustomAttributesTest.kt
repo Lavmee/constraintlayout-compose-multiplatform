@@ -17,9 +17,11 @@ package androidx.constraintlayout.core.motion
 
 import androidx.constraintlayout.core.motion.utils.KeyCache
 import androidx.constraintlayout.core.motion.utils.TypedValues
+import kotlinx.coroutines.Runnable
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
+@OptIn(ExperimentalStdlibApi::class)
 class MotionCustomAttributesTest {
     @Test
     fun testBasic() {
@@ -56,11 +58,11 @@ class MotionCustomAttributesTest {
         s.mMW2.setCustomAttribute("bob", TypedValues.Custom.TYPE_FLOAT, 1f)
         s.setup()
         if (DEBUG) {
-            s.sample {
+            s.sample(Runnable {
                 println(
                     s.mRes.getCustomAttribute("bob")!!.getFloatValue(),
                 )
-            }
+            })
         }
         s.mMotion.interpolate(s.mRes, 0.5f, (1000000 + 1000).toLong(), s.mCache)
         assertEquals(0.5f, s.mRes.getCustomAttribute("bob")!!.getFloatValue(), 0.001f)
@@ -72,14 +74,13 @@ class MotionCustomAttributesTest {
         s.mMW1.setCustomAttribute("fish", TypedValues.Custom.TYPE_COLOR, -0xff0100)
         s.mMW2.setCustomAttribute("fish", TypedValues.Custom.TYPE_COLOR, -0xff01)
         s.setup()
-        s.sample {
+        s.sample(Runnable {
+            s.mRes.getCustomAttribute("fish")!!.getColorValue().toHexString()
             println(
                 s.mPos.toString() + " " +
-                    Integer.toHexString(
-                        s.mRes.getCustomAttribute("fish")!!.getColorValue(),
-                    ),
+                        s.mRes.getCustomAttribute("fish")!!.getColorValue().toHexString(),
             )
-        }
+        })
         s.mMotion.interpolate(s.mRes, 0.5f, (1000000 + 1000).toLong(), s.mCache)
         assertEquals(-0x454546, s.mRes.getCustomAttribute("fish")!!.getColorValue())
     }
@@ -91,14 +92,12 @@ class MotionCustomAttributesTest {
         s.mMW2.setCustomAttribute("fish", TypedValues.Custom.TYPE_COLOR, 0x00880088)
         s.setup()
         if (DEBUG) {
-            s.sample {
+            s.sample(Runnable {
                 println(
                     s.mPos.toString() + " " +
-                        Integer.toHexString(
-                            s.mRes.getCustomAttribute("fish")!!.getColorValue(),
-                        ),
+                            s.mRes.getCustomAttribute("fish")!!.getColorValue().toHexString(),
                 )
-            }
+            })
         }
         s.mMotion.interpolate(s.mRes, 0.5f, (1000000 + 1000).toLong(), s.mCache)
         assertEquals(0x7f630063, s.mRes.getCustomAttribute("fish")!!.getColorValue())

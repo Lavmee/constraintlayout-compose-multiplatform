@@ -19,6 +19,7 @@ import androidx.constraintlayout.core.motion.key.MotionKeyCycle
 import androidx.constraintlayout.core.motion.utils.ArcCurveFit
 import androidx.constraintlayout.core.motion.utils.KeyCache
 import androidx.constraintlayout.core.motion.utils.TypedValues
+import kotlinx.coroutines.Runnable
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -70,7 +71,7 @@ class MotionKeyCycleTest {
         cycleBuilder(s, type)
         s.setup()
         if (DEBUG) {
-            s.sample { println(s.mRes.getValueAttributes(type)) }
+            s.sample(Runnable { println(s.mRes.getValueAttributes(type)) })
         }
         s.mMotion.interpolate(s.mRes, 0.5f, (1000000 + 1000).toLong(), s.mCache)
         return s

@@ -15,6 +15,7 @@
  */
 package androidx.constraintlayout.core
 
+import androidx.constraintlayout.core.test.assertEquals
 import androidx.constraintlayout.core.widgets.ConstraintAnchor
 import androidx.constraintlayout.core.widgets.ConstraintWidget
 import androidx.constraintlayout.core.widgets.ConstraintWidgetContainer

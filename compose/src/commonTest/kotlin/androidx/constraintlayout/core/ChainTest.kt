@@ -15,6 +15,7 @@
  */
 package androidx.constraintlayout.core
 
+import androidx.constraintlayout.core.test.assertEquals
 import androidx.constraintlayout.core.widgets.ConstraintAnchor
 import androidx.constraintlayout.core.widgets.ConstraintWidget
 import androidx.constraintlayout.core.widgets.ConstraintWidgetContainer
@@ -538,7 +539,11 @@ class ChainTest() {
         root.layout()
         println("a) A: $a B: $b")
         assertEquals(a.width, b.width, 1)
-        assertEquals(a.left - root.left, root.right - b.right, 1)
+        assertEquals(
+            a.left - root.left,
+            root.right - b.right,
+            1
+        )
         assertEquals(a.left - root.left, b.left - a.right, 1)
         a.setHorizontalDimensionBehaviour(ConstraintWidget.DimensionBehaviour.MATCH_CONSTRAINT)
         root.layout()
@@ -574,7 +579,11 @@ class ChainTest() {
         root.layout()
         println("a) A: $a B: $b")
         assertEquals(a.height, b.height, 1)
-        assertEquals(a.top - root.top, root.bottom - b.bottom, 1)
+        assertEquals(
+            a.top - root.top,
+            root.bottom - b.bottom,
+            1
+        )
         assertEquals(a.top - root.top, b.top - a.bottom, 1)
         a.setVerticalDimensionBehaviour(ConstraintWidget.DimensionBehaviour.MATCH_CONSTRAINT)
         root.layout()
@@ -621,7 +630,11 @@ class ChainTest() {
         // all elements spread equally
         assertEquals(a.width, b.width, 1)
         assertEquals(b.width, c.width, 1)
-        assertEquals(a.left - root.left, root.right - c.right, 1)
+        assertEquals(
+            a.left - root.left,
+            root.right - c.right,
+            1
+        )
         assertEquals(a.left - root.left, b.left - a.right, 1)
         assertEquals(b.left - a.right, c.left - b.right, 1)
         // a) A: id: A (125, 0) - (100 x 20) B: id: B (350, 0) - (100 x 20)
@@ -793,7 +806,11 @@ class ChainTest() {
         // all elements spread equally
         assertEquals(a.height, b.height, 1)
         assertEquals(b.height, c.height, 1)
-        assertEquals(a.top - root.top, root.bottom - c.bottom, 1)
+        assertEquals(
+            a.top - root.top,
+            root.bottom - c.bottom,
+            1
+        )
         assertEquals(a.top - root.top, b.top - a.bottom, 1)
         assertEquals(b.top - a.bottom, c.top - b.bottom, 1)
         // A marked as 0dp, B == C, A takes the rest
@@ -1222,7 +1239,11 @@ class ChainTest() {
         println("a) root: $root A: $a B: $b")
         val Ay: Int = a.top
         val By: Int = b.top
-        assertEquals(a.top - root.top, root.bottom - b.bottom, 1)
+        assertEquals(
+            a.top - root.top,
+            root.bottom - b.bottom,
+            1
+        )
         assertEquals(b.top - a.bottom, a.top - root.top, 1)
         root.add(c)
         a.setBaselineDistance(7)
@@ -1590,7 +1611,11 @@ class ChainTest() {
         root.layout()
         println("a) root: $root A: $a B: $b")
         assertEquals(a.height, b.height, 1)
-        assertEquals(a.top - root.top, root.bottom - b.bottom, 1)
+        assertEquals(
+            a.top - root.top,
+            root.bottom - b.bottom,
+            1
+        )
         assertEquals(a.bottom, b.top)
         b.setVisibility(ConstraintWidget.GONE)
         root.layout()
@@ -1624,7 +1649,11 @@ class ChainTest() {
         root.setVerticalDimensionBehaviour(ConstraintWidget.DimensionBehaviour.WRAP_CONTENT)
         root.layout()
         println("a) root: $root A: $a B: $b C: $c")
-        assertEquals(a.top - root.top, root.bottom - c.bottom, 1)
+        assertEquals(
+            a.top - root.top,
+            root.bottom - c.bottom,
+            1
+        )
         assertEquals(a.bottom, b.top)
         a.setVisibility(ConstraintWidget.GONE)
         c.setVisibility(ConstraintWidget.GONE)

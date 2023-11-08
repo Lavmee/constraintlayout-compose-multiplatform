@@ -19,11 +19,16 @@ import androidx.constraintlayout.core.motion.key.MotionKeyAttributes
 import androidx.constraintlayout.core.motion.utils.ArcCurveFit
 import androidx.constraintlayout.core.motion.utils.KeyCache
 import androidx.constraintlayout.core.motion.utils.TypedValues
-import org.junit.Assert.assertEquals
+import kotlinx.coroutines.Runnable
+import kotlin.math.pow
+import kotlin.math.roundToInt
 import kotlin.test.Test
+import kotlin.test.assertEquals
 
 class MotionCustomKeyAttributesTest {
-    var mDF: java.text.DecimalFormat = java.text.DecimalFormat("0.0")
+    private fun Double.format(digits: Int = 1): String {
+        return ((this * (10.0).pow(digits)).roundToInt() / 100.0).toString()
+    }
 
     internal inner class Scene {
         var mMW1 = MotionWidget()
@@ -67,16 +72,20 @@ class MotionCustomKeyAttributesTest {
         s.setup()
         if (DEBUG) {
             s.mMotion.interpolate(s.mRes, 0.5f, (1000000 + 1000).toLong(), s.mCache)
-            s.sample {
+            s.sample(Runnable {
                 println(
-                    mDF.format(s.mPos.toDouble()) + " " + s.mRes.getCustomAttribute(
+                    s.mPos.toDouble().format() + " " + s.mRes.getCustomAttribute(
                         "bob",
                     ),
                 )
-            }
+            })
         }
         s.mMotion.interpolate(s.mRes, 0.5f, (1000000 + 1000).toLong(), s.mCache)
-        assertEquals(2.0f, s.mRes.getCustomAttribute("bob")!!.getFloatValue(), 0.001f)
+        assertEquals(
+            2.0f,
+            s.mRes.getCustomAttribute("bob")!!.getFloatValue(),
+            0.001f
+        )
     }
 
     @Test
@@ -90,13 +99,13 @@ class MotionCustomKeyAttributesTest {
         s.mMotion.addKey(mka)
         s.setup()
         if (DEBUG) {
-            s.sample {
+            s.sample(Runnable {
                 println(
-                    mDF.format(s.mPos.toDouble()) + "\t" + s.mRes.getCustomAttribute(
+                    s.mPos.toDouble().format() + "\t" + s.mRes.getCustomAttribute(
                         "fish",
                     ),
                 )
-            }
+            })
         }
         s.mMotion.interpolate(s.mRes, 0.5f, (1000000 + 1000).toLong(), s.mCache)
         assertEquals(-0x1000000, s.mRes.getCustomAttribute("fish")!!.getColorValue())
@@ -113,13 +122,13 @@ class MotionCustomKeyAttributesTest {
         s.mMotion.addKey(mka)
         s.setup()
         if (DEBUG) {
-            s.sample {
+            s.sample(Runnable {
                 println(
-                    mDF.format(s.mPos.toDouble()) + " " + s.mRes.getCustomAttribute(
+                    s.mPos.toDouble().format() + " " + s.mRes.getCustomAttribute(
                         "fish",
                     ),
                 )
-            }
+            })
         }
         s.mMotion.interpolate(s.mRes, 0.5f, (1000000 + 1000).toLong(), s.mCache)
         assertEquals(-0xff0100, s.mRes.getCustomAttribute("fish")!!.getColorValue())

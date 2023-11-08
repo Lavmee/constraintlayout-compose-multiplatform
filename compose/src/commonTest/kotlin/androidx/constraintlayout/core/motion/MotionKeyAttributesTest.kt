@@ -15,13 +15,14 @@
  */
 package androidx.constraintlayout.core.motion
 
-import androidx.constraintlayout.core.assertEquals
+import androidx.constraintlayout.core.test.assertEquals
 import androidx.constraintlayout.core.motion.key.MotionKeyAttributes
 import androidx.constraintlayout.core.motion.utils.ArcCurveFit
 import androidx.constraintlayout.core.motion.utils.KeyCache
 import androidx.constraintlayout.core.motion.utils.TypedValues
-import org.junit.Assert.assertEquals
+import kotlinx.coroutines.Runnable
 import kotlin.test.Test
+import kotlin.test.assertEquals
 
 class MotionKeyAttributesTest {
     @Test
@@ -89,7 +90,11 @@ class MotionKeyAttributesTest {
         s.mMW2.setValue(type, end)
         s.setup()
         if (DEBUG) {
-            s.sample { println(s.mRes.getRotationZ()) }
+            s.sample(
+                Runnable {
+                    println(s.mRes.getRotationZ())
+                }
+            )
         }
         s.mMotion.interpolate(s.mRes, 0.5f, (1000000 + 1000).toLong(), s.mCache)
         return s
@@ -150,7 +155,7 @@ class MotionKeyAttributesTest {
         s.mMW2.setRotationX(10f)
         s.setup()
         if (DEBUG) {
-            s.sample { println(s.mRes.getRotationX()) }
+            s.sample(Runnable { println(s.mRes.getRotationX()) })
         }
         s.mMotion.interpolate(s.mRes, 0.5f, (1000000 + 1000).toLong(), s.mCache)
         assertEquals(0, s.mRes.getRotationX(), 0.001f)
@@ -163,7 +168,7 @@ class MotionKeyAttributesTest {
         s.mMW2.setRotationY(10f)
         s.setup()
         if (DEBUG) {
-            s.sample { println(s.mRes.getRotationY()) }
+            s.sample(Runnable { println(s.mRes.getRotationY()) })
         }
         s.mMotion.interpolate(s.mRes, 0.5f, (1000000 + 1000).toLong(), s.mCache)
         assertEquals(0, s.mRes.getRotationY(), 0.001f)
@@ -176,7 +181,7 @@ class MotionKeyAttributesTest {
         s.mMW2.setRotationZ(10f)
         s.setup()
         if (DEBUG) {
-            s.sample { println(s.mRes.getRotationZ()) }
+            s.sample(Runnable { println(s.mRes.getRotationZ()) })
         }
         s.mMotion.interpolate(s.mRes, 0.5f, (1000000 + 1000).toLong(), s.mCache)
         assertEquals(0, s.mRes.getRotationZ(), 0.001f)
@@ -189,7 +194,7 @@ class MotionKeyAttributesTest {
         s.mMW2.setTranslationX(40f)
         s.setup()
         if (DEBUG) {
-            s.sample { println(s.mRes.getTranslationX()) }
+            s.sample(Runnable { println(s.mRes.getTranslationX()) })
         }
         s.mMotion.interpolate(s.mRes, 0.5f, (1000000 + 1000).toLong(), s.mCache)
         assertEquals(15, s.mRes.getTranslationX(), 0.001f)
@@ -202,7 +207,7 @@ class MotionKeyAttributesTest {
         s.mMW2.setTranslationY(40f)
         s.setup()
         if (DEBUG) {
-            s.sample { println(s.mRes.getTranslationY()) }
+            s.sample (Runnable { println(s.mRes.getTranslationY()) })
         }
         s.mMotion.interpolate(s.mRes, 0.5f, (1000000 + 1000).toLong(), s.mCache)
         assertEquals(15, s.mRes.getTranslationY(), 0.001f)
@@ -215,7 +220,7 @@ class MotionKeyAttributesTest {
         s.mMW2.setTranslationZ(40f)
         s.setup()
         if (DEBUG) {
-            s.sample { println(s.mRes.getTranslationZ()) }
+            s.sample (Runnable { println(s.mRes.getTranslationZ()) })
         }
         s.mMotion.interpolate(s.mRes, 0.5f, (1000000 + 1000).toLong(), s.mCache)
         assertEquals(15, s.mRes.getTranslationZ(), 0.001f)
@@ -228,7 +233,7 @@ class MotionKeyAttributesTest {
         s.mMW2.setScaleX(40f)
         s.setup()
         if (DEBUG) {
-            s.sample { println(s.mRes.getScaleX()) }
+            s.sample (Runnable { println(s.mRes.getScaleX()) })
         }
         s.mMotion.interpolate(s.mRes, 0.5f, (1000000 + 1000).toLong(), s.mCache)
         assertEquals(15, s.mRes.getScaleX(), 0.001f)
@@ -241,7 +246,7 @@ class MotionKeyAttributesTest {
         s.mMW2.setScaleY(40f)
         s.setup()
         if (DEBUG) {
-            s.sample { println(s.mRes.getScaleY()) }
+            s.sample (Runnable { println(s.mRes.getScaleY()) })
         }
         s.mMotion.interpolate(s.mRes, 0.5f, (1000000 + 1000).toLong(), s.mCache)
         assertEquals(15, s.mRes.getScaleY(), 0.001f)
@@ -254,7 +259,7 @@ class MotionKeyAttributesTest {
         s.mMW2.setPivotX(40f)
         s.setup()
         if (DEBUG) {
-            s.sample { println(s.mRes.getPivotX()) }
+            s.sample (Runnable { println(s.mRes.getPivotX()) })
         }
         s.mMotion.interpolate(s.mRes, 0.5f, (1000000 + 1000).toLong(), s.mCache)
         assertEquals(15, s.mRes.getPivotX(), 0.001f)
@@ -267,7 +272,7 @@ class MotionKeyAttributesTest {
         s.mMW2.setPivotY(40f)
         s.setup()
         if (DEBUG) {
-            s.sample { println(s.mRes.getPivotY()) }
+            s.sample (Runnable { println(s.mRes.getPivotY()) })
         }
         s.mMotion.interpolate(s.mRes, 0.5f, (1000000 + 1000).toLong(), s.mCache)
         assertEquals(15, s.mRes.getPivotY(), 0.001f)
@@ -284,7 +289,7 @@ class MotionKeyAttributesTest {
         s.mMotion.addKey(attribute)
         s.setup()
         if (DEBUG) {
-            s.sample { println(s.mRes.getRotationX()) }
+            s.sample (Runnable { println(s.mRes.getRotationX()) })
         }
         s.mMotion.interpolate(s.mRes, 0.5f, (1000000 + 1000).toLong(), s.mCache)
         assertEquals(23, s.mRes.getRotationX(), 0.001f)
@@ -301,7 +306,7 @@ class MotionKeyAttributesTest {
         s.mMotion.addKey(attribute)
         s.setup()
         if (DEBUG) {
-            s.sample { println(s.mRes.getRotationY()) }
+            s.sample (Runnable { println(s.mRes.getRotationY()) })
         }
         s.mMotion.interpolate(s.mRes, 0.5f, (1000000 + 1000).toLong(), s.mCache)
         assertEquals(23, s.mRes.getRotationY(), 0.001f)
@@ -318,7 +323,7 @@ class MotionKeyAttributesTest {
         s.mMotion.addKey(attribute)
         s.setup()
         if (DEBUG) {
-            s.sample { println(s.mRes.getRotationZ()) }
+            s.sample (Runnable { println(s.mRes.getRotationZ()) })
         }
         s.mMotion.interpolate(s.mRes, 0.5f, (1000000 + 1000).toLong(), s.mCache)
         assertEquals(23, s.mRes.getRotationZ(), 0.001f)
@@ -335,7 +340,7 @@ class MotionKeyAttributesTest {
         s.mMotion.addKey(attribute)
         s.setup()
         if (DEBUG) {
-            s.sample { println(s.mRes.getTranslationX()) }
+            s.sample (Runnable { println(s.mRes.getTranslationX()) })
         }
         s.mMotion.interpolate(s.mRes, 0.5f, (1000000 + 1000).toLong(), s.mCache)
         assertEquals(23, s.mRes.getTranslationX(), 0.001f)
@@ -352,7 +357,7 @@ class MotionKeyAttributesTest {
         s.mMotion.addKey(attribute)
         s.setup()
         if (DEBUG) {
-            s.sample { println(s.mRes.getTranslationY()) }
+            s.sample (Runnable { println(s.mRes.getTranslationY()) })
         }
         s.mMotion.interpolate(s.mRes, 0.5f, (1000000 + 1000).toLong(), s.mCache)
         assertEquals(23, s.mRes.getTranslationY(), 0.001f)
@@ -369,7 +374,7 @@ class MotionKeyAttributesTest {
         s.mMotion.addKey(attribute)
         s.setup()
         if (DEBUG) {
-            s.sample { println(s.mRes.getTranslationZ()) }
+            s.sample (Runnable { println(s.mRes.getTranslationZ()) })
         }
         s.mMotion.interpolate(s.mRes, 0.5f, (1000000 + 1000).toLong(), s.mCache)
         assertEquals(23, s.mRes.getTranslationZ(), 0.001f)
@@ -386,7 +391,7 @@ class MotionKeyAttributesTest {
         s.mMotion.addKey(attribute)
         s.setup()
         if (DEBUG) {
-            s.sample { println(s.mRes.getScaleX()) }
+            s.sample (Runnable { println(s.mRes.getScaleX()) })
         }
         s.mMotion.interpolate(s.mRes, 0.5f, (1000000 + 1000).toLong(), s.mCache)
         assertEquals(23, s.mRes.getScaleX(), 0.001f)
@@ -403,7 +408,7 @@ class MotionKeyAttributesTest {
         s.mMotion.addKey(attribute)
         s.setup()
         if (DEBUG) {
-            s.sample { println(s.mRes.getScaleY()) }
+            s.sample (Runnable { println(s.mRes.getScaleY()) })
         }
         s.mMotion.interpolate(s.mRes, 0.5f, (1000000 + 1000).toLong(), s.mCache)
         assertEquals(23, s.mRes.getScaleY(), 0.001f)
@@ -418,7 +423,7 @@ class MotionKeyAttributesTest {
         s.mMotion.addKey(attribute)
         s.setup()
         if (DEBUG) {
-            s.sample { println(s.mRes.getRotationX()) }
+            s.sample (Runnable { println(s.mRes.getRotationX()) })
         }
         s.mMotion.interpolate(s.mRes, 0.5f, (1000000 + 1000).toLong(), s.mCache)
         assertEquals(23, s.mRes.getRotationX(), 0.001f)
@@ -433,7 +438,7 @@ class MotionKeyAttributesTest {
         s.mMotion.addKey(attribute)
         s.setup()
         if (DEBUG) {
-            s.sample { println(s.mRes.getRotationY()) }
+            s.sample (Runnable { println(s.mRes.getRotationY()) })
         }
         s.mMotion.interpolate(s.mRes, 0.5f, (1000000 + 1000).toLong(), s.mCache)
         assertEquals(23, s.mRes.getRotationY(), 0.001f)
@@ -448,7 +453,7 @@ class MotionKeyAttributesTest {
         s.mMotion.addKey(attribute)
         s.setup()
         if (DEBUG) {
-            s.sample { println(s.mRes.getRotationZ()) }
+            s.sample (Runnable { println(s.mRes.getRotationZ()) })
         }
         s.mMotion.interpolate(s.mRes, 0.5f, (1000000 + 1000).toLong(), s.mCache)
         assertEquals(23, s.mRes.getRotationZ(), 0.001f)
@@ -463,7 +468,7 @@ class MotionKeyAttributesTest {
         s.mMotion.addKey(attribute)
         s.setup()
         if (DEBUG) {
-            s.sample { println(s.mRes.getTranslationX()) }
+            s.sample (Runnable { println(s.mRes.getTranslationX()) })
         }
         s.mMotion.interpolate(s.mRes, 0.5f, (1000000 + 1000).toLong(), s.mCache)
         assertEquals(23, s.mRes.getTranslationX(), 0.001f)
@@ -478,7 +483,7 @@ class MotionKeyAttributesTest {
         s.mMotion.addKey(attribute)
         s.setup()
         if (DEBUG) {
-            s.sample { println(s.mRes.getTranslationY()) }
+            s.sample (Runnable { println(s.mRes.getTranslationY()) })
         }
         s.mMotion.interpolate(s.mRes, 0.5f, (1000000 + 1000).toLong(), s.mCache)
         assertEquals(23, s.mRes.getTranslationY(), 0.001f)
@@ -493,7 +498,7 @@ class MotionKeyAttributesTest {
         s.mMotion.addKey(attribute)
         s.setup()
         if (DEBUG) {
-            s.sample { println(s.mRes.getTranslationZ()) }
+            s.sample (Runnable { println(s.mRes.getTranslationZ()) })
         }
         s.mMotion.interpolate(s.mRes, 0.5f, (1000000 + 1000).toLong(), s.mCache)
         assertEquals(23, s.mRes.getTranslationZ(), 0.001f)
@@ -508,7 +513,7 @@ class MotionKeyAttributesTest {
         s.mMotion.addKey(attribute)
         s.setup()
         if (DEBUG) {
-            s.sample { println(s.mRes.getScaleX()) }
+            s.sample (Runnable { println(s.mRes.getScaleX()) })
         }
         s.mMotion.interpolate(s.mRes, 0.5f, (1000000 + 1000).toLong(), s.mCache)
         assertEquals(23, s.mRes.getScaleX(), 0.001f)
@@ -523,7 +528,7 @@ class MotionKeyAttributesTest {
         s.mMotion.addKey(attribute)
         s.setup()
         if (DEBUG) {
-            s.sample { println(s.mRes.getScaleY()) }
+            s.sample (Runnable { println(s.mRes.getScaleY()) })
         }
         s.mMotion.interpolate(s.mRes, 0.5f, (1000000 + 1000).toLong(), s.mCache)
         assertEquals(23, s.mRes.getScaleY(), 0.001f)

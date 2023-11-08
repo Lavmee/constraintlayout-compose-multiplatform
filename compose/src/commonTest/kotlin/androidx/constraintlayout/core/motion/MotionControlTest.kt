@@ -15,7 +15,7 @@
  */
 package androidx.constraintlayout.core.motion
 
-import androidx.constraintlayout.core.assertEquals
+import androidx.constraintlayout.core.test.assertEquals
 import androidx.constraintlayout.core.motion.key.MotionKeyPosition
 import androidx.constraintlayout.core.motion.utils.ArcCurveFit
 import androidx.constraintlayout.core.motion.utils.KeyCache

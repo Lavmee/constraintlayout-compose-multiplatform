@@ -15,12 +15,13 @@
  */
 package androidx.constraintlayout.core.motion
 
-import androidx.constraintlayout.core.assertEquals
+import androidx.constraintlayout.core.test.assertEquals
 import androidx.constraintlayout.core.motion.key.MotionKeyPosition
 import androidx.constraintlayout.core.motion.utils.ArcCurveFit
 import androidx.constraintlayout.core.motion.utils.KeyCache
 import androidx.constraintlayout.core.motion.utils.TypedValues
 import androidx.constraintlayout.core.motion.utils.Utils
+import kotlinx.coroutines.Runnable
 import kotlin.math.sqrt
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -228,7 +229,7 @@ class MotionKeyPositionTest {
         s.mMotion.interpolate(s.mRes, 0.5f, (1000000 + (0.5 * 100).toInt()).toLong(), cache)
         println("0.5 " + s.mRes)
         if (DEBUG) {
-            s.sample { println(s.mProgress.toString() + " ,     " + s.mRes) }
+            s.sample(Runnable { println(s.mProgress.toString() + " ,     " + s.mRes) })
         }
         s.mMotion.interpolate(s.mRes, 0.5f, (1000000 + (0.5 * 100).toInt()).toLong(), cache)
         println("0.5 " + s.mRes)
