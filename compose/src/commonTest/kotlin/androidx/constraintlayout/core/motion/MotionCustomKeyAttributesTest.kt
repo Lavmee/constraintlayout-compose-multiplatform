@@ -72,19 +72,21 @@ class MotionCustomKeyAttributesTest {
         s.setup()
         if (DEBUG) {
             s.mMotion.interpolate(s.mRes, 0.5f, (1000000 + 1000).toLong(), s.mCache)
-            s.sample(Runnable {
-                println(
-                    s.mPos.toDouble().format() + " " + s.mRes.getCustomAttribute(
-                        "bob",
-                    ),
-                )
-            })
+            s.sample(
+                Runnable {
+                    println(
+                        s.mPos.toDouble().format() + " " + s.mRes.getCustomAttribute(
+                            "bob",
+                        ),
+                    )
+                },
+            )
         }
         s.mMotion.interpolate(s.mRes, 0.5f, (1000000 + 1000).toLong(), s.mCache)
         assertEquals(
             2.0f,
             s.mRes.getCustomAttribute("bob")!!.getFloatValue(),
-            0.001f
+            0.001f,
         )
     }
 
@@ -99,13 +101,15 @@ class MotionCustomKeyAttributesTest {
         s.mMotion.addKey(mka)
         s.setup()
         if (DEBUG) {
-            s.sample(Runnable {
-                println(
-                    s.mPos.toDouble().format() + "\t" + s.mRes.getCustomAttribute(
-                        "fish",
-                    ),
-                )
-            })
+            s.sample(
+                Runnable {
+                    println(
+                        s.mPos.toDouble().format() + "\t" + s.mRes.getCustomAttribute(
+                            "fish",
+                        ),
+                    )
+                },
+            )
         }
         s.mMotion.interpolate(s.mRes, 0.5f, (1000000 + 1000).toLong(), s.mCache)
         assertEquals(-0x1000000, s.mRes.getCustomAttribute("fish")!!.getColorValue())
@@ -122,13 +126,15 @@ class MotionCustomKeyAttributesTest {
         s.mMotion.addKey(mka)
         s.setup()
         if (DEBUG) {
-            s.sample(Runnable {
-                println(
-                    s.mPos.toDouble().format() + " " + s.mRes.getCustomAttribute(
-                        "fish",
-                    ),
-                )
-            })
+            s.sample(
+                Runnable {
+                    println(
+                        s.mPos.toDouble().format() + " " + s.mRes.getCustomAttribute(
+                            "fish",
+                        ),
+                    )
+                },
+            )
         }
         s.mMotion.interpolate(s.mRes, 0.5f, (1000000 + 1000).toLong(), s.mCache)
         assertEquals(-0xff0100, s.mRes.getCustomAttribute("fish")!!.getColorValue())

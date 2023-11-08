@@ -542,7 +542,7 @@ class ChainTest() {
         assertEquals(
             a.left - root.left,
             root.right - b.right,
-            1
+            1,
         )
         assertEquals(a.left - root.left, b.left - a.right, 1)
         a.setHorizontalDimensionBehaviour(ConstraintWidget.DimensionBehaviour.MATCH_CONSTRAINT)
@@ -582,7 +582,7 @@ class ChainTest() {
         assertEquals(
             a.top - root.top,
             root.bottom - b.bottom,
-            1
+            1,
         )
         assertEquals(a.top - root.top, b.top - a.bottom, 1)
         a.setVerticalDimensionBehaviour(ConstraintWidget.DimensionBehaviour.MATCH_CONSTRAINT)
@@ -633,7 +633,7 @@ class ChainTest() {
         assertEquals(
             a.left - root.left,
             root.right - c.right,
-            1
+            1,
         )
         assertEquals(a.left - root.left, b.left - a.right, 1)
         assertEquals(b.left - a.right, c.left - b.right, 1)
@@ -809,7 +809,7 @@ class ChainTest() {
         assertEquals(
             a.top - root.top,
             root.bottom - c.bottom,
-            1
+            1,
         )
         assertEquals(a.top - root.top, b.top - a.bottom, 1)
         assertEquals(b.top - a.bottom, c.top - b.bottom, 1)
@@ -1242,7 +1242,7 @@ class ChainTest() {
         assertEquals(
             a.top - root.top,
             root.bottom - b.bottom,
-            1
+            1,
         )
         assertEquals(b.top - a.bottom, a.top - root.top, 1)
         root.add(c)
@@ -1614,7 +1614,7 @@ class ChainTest() {
         assertEquals(
             a.top - root.top,
             root.bottom - b.bottom,
-            1
+            1,
         )
         assertEquals(a.bottom, b.top)
         b.setVisibility(ConstraintWidget.GONE)
@@ -1652,7 +1652,7 @@ class ChainTest() {
         assertEquals(
             a.top - root.top,
             root.bottom - c.bottom,
-            1
+            1,
         )
         assertEquals(a.bottom, b.top)
         a.setVisibility(ConstraintWidget.GONE)
