@@ -311,7 +311,7 @@ class MotionConstrainedPoint : Comparable<MotionConstrainedPoint> {
     }
 
     fun setState(view: MotionWidget) {
-        setBounds(view.getX().toFloat(), view.getY().toFloat(), view.getWidth().toFloat(), view.getHeight().toFloat())
+        setBounds(view.getX().toFloat(), view.getY().toFloat(), view.width.toFloat(), view.height.toFloat())
         applyParameters(view)
     }
 

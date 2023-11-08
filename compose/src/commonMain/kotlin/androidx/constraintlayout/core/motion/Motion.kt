@@ -988,8 +988,8 @@ class Motion : TypedValues {
         motionPaths.setBounds(
             mView!!.getX().toFloat(),
             mView!!.getY().toFloat(),
-            mView!!.getWidth().toFloat(),
-            mView!!.getHeight().toFloat(),
+            mView!!.width.toFloat(),
+            mView!!.height.toFloat(),
         )
     }
 
@@ -1006,8 +1006,8 @@ class Motion : TypedValues {
         mStartMotionPath.setBounds(
             mw.getX().toFloat(),
             mw.getY().toFloat(),
-            mw.getWidth().toFloat(),
-            mw.getHeight().toFloat(),
+            mw.width.toFloat(),
+            mw.height.toFloat(),
         )
         mStartMotionPath.applyParameters(mw)
         mStartPoint.setState(mw)
@@ -1023,8 +1023,8 @@ class Motion : TypedValues {
         mEndMotionPath.setBounds(
             mw.getLeft().toFloat(),
             mw.getTop().toFloat(),
-            mw.getWidth().toFloat(),
-            mw.getHeight().toFloat(),
+            mw.width.toFloat(),
+            mw.height.toFloat(),
         )
         mEndMotionPath.applyParameters(mw)
         mEndPoint.setState(mw)
@@ -1115,14 +1115,14 @@ class Motion : TypedValues {
         mStartMotionPath.setBounds(
             v.getX().toFloat(),
             v.getY().toFloat(),
-            v.getWidth().toFloat(),
-            v.getHeight().toFloat(),
+            v.width.toFloat(),
+            v.height.toFloat(),
         )
         mEndMotionPath.setBounds(
             v.getX().toFloat(),
             v.getY().toFloat(),
-            v.getWidth().toFloat(),
-            v.getHeight().toFloat(),
+            v.width.toFloat(),
+            v.height.toFloat(),
         )
         mStartPoint.setState(v)
         mEndPoint.setState(v)

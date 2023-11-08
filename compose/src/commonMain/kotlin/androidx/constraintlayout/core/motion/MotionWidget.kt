@@ -346,13 +346,9 @@ class MotionWidget : TypedValues {
         return mWidgetFrame.top
     }
 
-    fun getWidth(): Int {
-        return mWidgetFrame.right - mWidgetFrame.left
-    }
+    val width: Int get() = mWidgetFrame.right - mWidgetFrame.left
 
-    fun getHeight(): Int {
-        return mWidgetFrame.bottom - mWidgetFrame.top
-    }
+    val height: Int get() = mWidgetFrame.bottom - mWidgetFrame.top
 
     fun getWidgetFrame(): WidgetFrame {
         return mWidgetFrame

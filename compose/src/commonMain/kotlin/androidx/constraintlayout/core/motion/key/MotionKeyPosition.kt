@@ -182,8 +182,8 @@ open class MotionKeyPosition : MotionKey() {
         @Suppress("unused")
         val pathVectorY = endCenterY - startCenterY
         val viewGroup = view.getParent()
-        val width = viewGroup!!.getWidth()
-        val height = viewGroup.getHeight()
+        val width = viewGroup!!.width
+        val height = viewGroup.height
         if (attribute[0] != null) { // they are saying what to use
             if (PositionType.S_PERCENT_X == attribute[0]) {
                 value[0] = x / width
