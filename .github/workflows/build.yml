@@ -30,7 +30,7 @@ jobs:
         run: ./gradlew desktopTest
       - name: Deploy to Sonatype
         if: startsWith(github.ref, 'refs/tags/')
-        run: ./gradlew publishAllPublicationsToMavenCentralRepository
+        run: ./gradlew publish
         env:
           ORG_GRADLE_PROJECT_mavenCentralUsername: ${{ secrets.MAVEN_CENTRAL_USERNAME }}
           ORG_GRADLE_PROJECT_mavenCentralPassword: ${{ secrets.MAVEN_CENTRAL_PASSWORD }}
