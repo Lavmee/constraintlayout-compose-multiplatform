@@ -22,7 +22,7 @@ kotlin {
             }
         }
     }
-    jvm("desktop") {
+    jvm {
         compilations.all {
             kotlinOptions {
                 jvmTarget = rootProject.extra.get("jvmTarget") as String
@@ -54,6 +54,14 @@ kotlin {
         }
     }
 
+    targets.configureEach {
+        compilations.configureEach {
+            compilerOptions.configure {
+                freeCompilerArgs.add("-Xexpect-actual-classes")
+            }
+        }
+    }
+
     sourceSets {
         all {
             languageSettings {
@@ -74,15 +82,16 @@ kotlin {
                 implementation(kotlin("reflect"))
             }
         }
-        val androidMain by getting
-        val desktopMain by getting
 
-        val jvmMain by creating {
+        val jvmCommonMain by creating {
             dependsOn(commonMain)
         }
 
-        androidMain.dependsOn(jvmMain)
-        desktopMain.dependsOn(jvmMain)
+        val jvmMain by getting
+        val androidMain by getting
+
+        jvmMain.dependsOn(jvmCommonMain)
+        androidMain.dependsOn(jvmCommonMain)
 
         val commonTest by getting {
             dependencies {
