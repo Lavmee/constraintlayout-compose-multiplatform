@@ -36,7 +36,6 @@ import kotlin.math.max
 import kotlin.math.min
 
 class BasicMeasure(constraintWidgetContainer: ConstraintWidgetContainer) {
-
     private val mVariableDimensionsWidgets = ArrayList<ConstraintWidget>()
     private val mMeasure = Measure()
 
@@ -55,7 +54,7 @@ class BasicMeasure(constraintWidgetContainer: ConstraintWidgetContainer) {
         layout.invalidateGraph()
     }
 
-    private var mConstraintWidgetContainer: ConstraintWidgetContainer? = constraintWidgetContainer
+    private var mConstraintWidgetContainer: ConstraintWidgetContainer = constraintWidgetContainer
 
     private fun measureChildren(layout: ConstraintWidgetContainer) {
         val childCount = layout.mChildren.size
@@ -72,32 +71,37 @@ class BasicMeasure(constraintWidgetContainer: ConstraintWidgetContainer) {
             if (child.isInVirtualLayout()) {
                 continue
             }
+
             if (optimize && child.mHorizontalRun != null && child.mVerticalRun != null && child.mHorizontalRun!!.mDimension.resolved &&
                 child.mVerticalRun!!.mDimension.resolved
             ) {
                 continue
             }
+
             val widthBehavior = child.getDimensionBehaviour(HORIZONTAL)
             val heightBehavior = child.getDimensionBehaviour(VERTICAL)
-            var skip =
-                widthBehavior == MATCH_CONSTRAINT && child.mMatchConstraintDefaultWidth != MATCH_CONSTRAINT_WRAP && heightBehavior == MATCH_CONSTRAINT && child.mMatchConstraintDefaultHeight != MATCH_CONSTRAINT_WRAP
-            if (!skip && layout.optimizeFor(Optimizer.OPTIMIZATION_DIRECT) &&
-                child !is VirtualLayout
-            ) {
-                if (widthBehavior == MATCH_CONSTRAINT && child.mMatchConstraintDefaultWidth == MATCH_CONSTRAINT_SPREAD && heightBehavior != MATCH_CONSTRAINT && !child.isInHorizontalChain()) {
+
+            var skip = widthBehavior == MATCH_CONSTRAINT &&
+                    child.mMatchConstraintDefaultWidth != MATCH_CONSTRAINT_WRAP &&
+                    heightBehavior == MATCH_CONSTRAINT &&
+                    child.mMatchConstraintDefaultHeight != MATCH_CONSTRAINT_WRAP
+
+            if (!skip && layout.optimizeFor(Optimizer.OPTIMIZATION_DIRECT) && child !is VirtualLayout) {
+                if (widthBehavior == MATCH_CONSTRAINT &&
+                    child.mMatchConstraintDefaultWidth == MATCH_CONSTRAINT_SPREAD &&
+                    heightBehavior != MATCH_CONSTRAINT && !child.isInHorizontalChain()
+                ) {
                     skip = true
                 }
-                if (heightBehavior == MATCH_CONSTRAINT && child.mMatchConstraintDefaultHeight == MATCH_CONSTRAINT_SPREAD && widthBehavior != MATCH_CONSTRAINT && !child.isInHorizontalChain()) {
+                if (heightBehavior == MATCH_CONSTRAINT &&
+                    child.mMatchConstraintDefaultHeight == MATCH_CONSTRAINT_SPREAD &&
+                    widthBehavior != MATCH_CONSTRAINT && !child.isInHorizontalChain()
+                ) {
                     skip = true
                 }
 
                 // Don't measure yet -- let the direct solver have a shot at it.
-                if ((
-                        widthBehavior == MATCH_CONSTRAINT ||
-                            heightBehavior == MATCH_CONSTRAINT
-                        ) &&
-                    child.mDimensionRatio > 0
-                ) {
+                if ((widthBehavior == MATCH_CONSTRAINT || heightBehavior == MATCH_CONSTRAINT) && child.mDimensionRatio > 0) {
                     skip = true
                 }
             }
@@ -106,6 +110,7 @@ class BasicMeasure(constraintWidgetContainer: ConstraintWidgetContainer) {
                 // will be completely computed by the solver.
                 continue
             }
+
             measure(measurer!!, child, Measure.SELF_DIMENSIONS)
             if (layout.mMetrics != null) {
                 layout.mMetrics!!.measuredWidgets++
@@ -136,12 +141,12 @@ class BasicMeasure(constraintWidgetContainer: ConstraintWidgetContainer) {
         if (DEBUG) {
             println("### Solve <$reason> ###")
         }
-        mConstraintWidgetContainer!!.setPass(pass)
-        mConstraintWidgetContainer!!.layout()
+        mConstraintWidgetContainer.setPass(pass)
+        mConstraintWidgetContainer.layout()
         if (layout.mMetrics != null) {
             val endLayout = System.nanoTime()
             layout.mMetrics!!.mSolverPasses++
-            layout.mMetrics!!.measuresLayoutDuration += endLayout - startLayout
+            layout.mMetrics!!.measuresLayoutDuration += (endLayout - startLayout)
         }
     }
 
@@ -163,27 +168,22 @@ class BasicMeasure(constraintWidgetContainer: ConstraintWidgetContainer) {
     ): Long {
         var widthSize = widthSize
         var heightSize = heightSize
+
         val measurer: Measurer? = layout.measurer
         var layoutTime: Long = 0
+
         val childCount = layout.mChildren.size
         val startingWidth = layout.width
         val startingHeight = layout.height
+
         val optimizeWrap = Optimizer.enabled(optimizationLevel, Optimizer.OPTIMIZATION_GRAPH_WRAP)
-        var optimize = (
-            optimizeWrap ||
-                Optimizer.enabled(optimizationLevel, Optimizer.OPTIMIZATION_GRAPH)
-            )
+        var optimize = optimizeWrap || Optimizer.enabled(optimizationLevel, Optimizer.OPTIMIZATION_GRAPH)
+
         if (optimize) {
             for (i in 0 until childCount) {
                 val child = layout.mChildren[i]
-                val matchWidth = (
-                    child.horizontalDimensionBehaviour
-                        == MATCH_CONSTRAINT
-                    )
-                val matchHeight = (
-                    child.verticalDimensionBehaviour
-                        == MATCH_CONSTRAINT
-                    )
+                val matchWidth = child.horizontalDimensionBehaviour == MATCH_CONSTRAINT
+                val matchHeight = child.verticalDimensionBehaviour == MATCH_CONSTRAINT
                 val ratio = matchWidth && matchHeight && child.getDimensionRatio() > 0
                 if (child.isInHorizontalChain() && ratio) {
                     optimize = false
@@ -197,21 +197,23 @@ class BasicMeasure(constraintWidgetContainer: ConstraintWidgetContainer) {
                     optimize = false
                     break
                 }
-                if (child.isInHorizontalChain() ||
-                    child.isInVerticalChain()
-                ) {
+                if (child.isInHorizontalChain() || child.isInVerticalChain()) {
                     optimize = false
                     break
                 }
             }
         }
+
         if (optimize && LinearSystem.sMetrics != null) {
             LinearSystem.sMetrics!!.measures++
         }
+
         var allSolved = false
-        optimize =
-            optimize and (widthMode == EXACTLY && heightMode == EXACTLY || optimizeWrap)
+
+        optimize = optimize and (widthMode == EXACTLY && heightMode == EXACTLY || optimizeWrap)
+
         var computations = 0
+
         if (optimize) {
             // For non-optimizer this doesn't seem to be a problem.
             // For both cases, having the width address max size early seems to work
@@ -219,6 +221,7 @@ class BasicMeasure(constraintWidgetContainer: ConstraintWidgetContainer) {
             // Putting it specific to optimizer to reduce unnecessary risk.
             widthSize = min(layout.maxWidth, widthSize)
             heightSize = min(layout.maxHeight, heightSize)
+
             if (widthMode == EXACTLY && layout.width != widthSize) {
                 layout.width = widthSize
                 layout.invalidateGraph()
@@ -233,21 +236,16 @@ class BasicMeasure(constraintWidgetContainer: ConstraintWidgetContainer) {
             } else {
                 allSolved = layout.directMeasureSetup(optimizeWrap)
                 if (widthMode == EXACTLY) {
-                    allSolved =
-                        allSolved and layout.directMeasureWithOrientation(optimizeWrap, HORIZONTAL)
+                    allSolved = allSolved and layout.directMeasureWithOrientation(optimizeWrap, HORIZONTAL)
                     computations++
                 }
                 if (heightMode == EXACTLY) {
-                    allSolved =
-                        allSolved and layout.directMeasureWithOrientation(optimizeWrap, VERTICAL)
+                    allSolved = allSolved and layout.directMeasureWithOrientation(optimizeWrap, VERTICAL)
                     computations++
                 }
             }
             if (allSolved) {
-                layout.updateFromRuns(
-                    widthMode == EXACTLY,
-                    heightMode == EXACTLY,
-                )
+                layout.updateFromRuns(widthMode == EXACTLY, heightMode == EXACTLY)
             }
         } else {
             if (false) {
@@ -259,6 +257,7 @@ class BasicMeasure(constraintWidgetContainer: ConstraintWidgetContainer) {
                 }
             }
         }
+
         if (!allSolved || computations != 2) {
             val optimizations = layout.optimizationLevel
             if (childCount > 0) {
@@ -266,7 +265,6 @@ class BasicMeasure(constraintWidgetContainer: ConstraintWidgetContainer) {
             }
             if (layout.mMetrics != null) {
                 layoutTime = System.nanoTime()
-//                layoutTime = System.nanoTime()
             }
             updateHierarchy(layout)
 
@@ -282,22 +280,10 @@ class BasicMeasure(constraintWidgetContainer: ConstraintWidgetContainer) {
             }
             if (sizeDependentWidgetsCount > 0) {
                 var needSolverPass = false
-                val containerWrapWidth = (
-                    layout.horizontalDimensionBehaviour
-                        == DimensionBehaviour.WRAP_CONTENT
-                    )
-                val containerWrapHeight = (
-                    layout.verticalDimensionBehaviour
-                        == DimensionBehaviour.WRAP_CONTENT
-                    )
-                var minWidth = max(
-                    layout.width,
-                    mConstraintWidgetContainer!!.minWidth,
-                )
-                var minHeight = max(
-                    layout.height,
-                    mConstraintWidgetContainer!!.minHeight,
-                )
+                val containerWrapWidth = layout.horizontalDimensionBehaviour == DimensionBehaviour.WRAP_CONTENT
+                val containerWrapHeight = layout.verticalDimensionBehaviour == DimensionBehaviour.WRAP_CONTENT
+                var minWidth = max(layout.width, mConstraintWidgetContainer.minWidth)
+                var minHeight = max(layout.height, mConstraintWidgetContainer.minHeight)
 
                 // //////////////////////////////////////////////////////////////////////////////////
                 // Let's first apply sizes for VirtualLayouts if any
@@ -309,8 +295,7 @@ class BasicMeasure(constraintWidgetContainer: ConstraintWidgetContainer) {
                     }
                     val preWidth = widget.width
                     val preHeight = widget.height
-                    needSolverPass =
-                        needSolverPass or measure(measurer!!, widget, Measure.TRY_GIVEN_DIMENSIONS)
+                    needSolverPass = needSolverPass or measure(measurer!!, widget, Measure.TRY_GIVEN_DIMENSIONS)
                     if (layout.mMetrics != null) {
                         layout.mMetrics!!.measuredMatchWidgets++
                     }
@@ -319,10 +304,7 @@ class BasicMeasure(constraintWidgetContainer: ConstraintWidgetContainer) {
                     if (measuredWidth != preWidth) {
                         widget.width = measuredWidth
                         if (containerWrapWidth && widget.right > minWidth) {
-                            val w = (
-                                widget.right +
-                                    widget.getAnchor(ConstraintAnchor.Type.RIGHT)!!.margin
-                                )
+                            val w = widget.right + widget.getAnchor(ConstraintAnchor.Type.RIGHT)!!.margin
                             minWidth = max(minWidth, w)
                         }
                         needSolverPass = true
@@ -330,10 +312,7 @@ class BasicMeasure(constraintWidgetContainer: ConstraintWidgetContainer) {
                     if (measuredHeight != preHeight) {
                         widget.height = measuredHeight
                         if (containerWrapHeight && widget.bottom > minHeight) {
-                            val h = (
-                                widget.bottom +
-                                    widget.getAnchor(ConstraintAnchor.Type.BOTTOM)!!.margin
-                                )
+                            val h = widget.bottom + widget.getAnchor(ConstraintAnchor.Type.BOTTOM)!!.margin
                             minHeight = max(minHeight, h)
                         }
                         needSolverPass = true
@@ -376,7 +355,7 @@ class BasicMeasure(constraintWidgetContainer: ConstraintWidgetContainer) {
                         if (DEBUG && hasMeasure) {
                             println(
                                 "{#} Needs Solver pass as measure true for " +
-                                    widget.debugName,
+                                        widget.debugName,
                             )
                         }
                         if (layout.mMetrics != null) {
@@ -387,20 +366,16 @@ class BasicMeasure(constraintWidgetContainer: ConstraintWidgetContainer) {
                         if (measuredWidth != preWidth) {
                             widget.width = measuredWidth
                             if (containerWrapWidth && widget.right > minWidth) {
-                                val w = (
-                                    widget.right +
-                                        widget.getAnchor(ConstraintAnchor.Type.RIGHT)!!
-                                            .margin
-                                    )
+                                val w = widget.right + widget.getAnchor(ConstraintAnchor.Type.RIGHT)!!.margin
                                 minWidth = max(minWidth, w)
                             }
                             if (DEBUG) {
                                 println(
                                     (
-                                        "{#} Needs Solver pass as Width for " +
-                                            widget.debugName + " changed: " +
-                                            measuredWidth + " != " + preWidth
-                                        ),
+                                            "{#} Needs Solver pass as Width for " +
+                                                    widget.debugName + " changed: " +
+                                                    measuredWidth + " != " + preWidth
+                                            ),
                                 )
                             }
                             needSolverPass = true
@@ -408,36 +383,25 @@ class BasicMeasure(constraintWidgetContainer: ConstraintWidgetContainer) {
                         if (measuredHeight != preHeight) {
                             widget.height = measuredHeight
                             if (containerWrapHeight && widget.bottom > minHeight) {
-                                val h = (
-                                    widget.bottom +
-                                        widget.getAnchor(ConstraintAnchor.Type.BOTTOM)!!.margin
-                                    )
+                                val h = widget.bottom + widget.getAnchor(ConstraintAnchor.Type.BOTTOM)!!.margin
                                 minHeight = max(minHeight, h)
                             }
                             if (DEBUG) {
                                 println(
-                                    (
-                                        "{#} Needs Solver pass as Height for " +
+                                    "{#} Needs Solver pass as Height for " +
                                             widget.debugName + " changed: " +
                                             measuredHeight + " != " + preHeight
-                                        ),
                                 )
                             }
                             needSolverPass = true
                         }
-                        if ((
-                            widget.hasBaseline() &&
-                                preBaselineDistance != widget.getBaselineDistance()
-                            )
-                        ) {
+                        if (widget.hasBaseline() && preBaselineDistance != widget.getBaselineDistance()) {
                             if (DEBUG) {
                                 println(
-                                    (
-                                        "{#} Needs Solver pass as Baseline for " +
+                                    "{#} Needs Solver pass as Baseline for " +
                                             widget.debugName + " changed: " +
                                             widget.getBaselineDistance() + " != " +
                                             preBaselineDistance
-                                        ),
                                 )
                             }
                             needSolverPass = true
@@ -460,8 +424,7 @@ class BasicMeasure(constraintWidgetContainer: ConstraintWidgetContainer) {
             layout.optimizationLevel = optimizations
         }
         if (layout.mMetrics != null) {
-            // layoutTime = (System.nanoTime() - layoutTime)
-            layoutTime = (System.nanoTime() - layoutTime)
+            layoutTime = System.nanoTime() - layoutTime
         }
         return layoutTime
     }
@@ -485,30 +448,23 @@ class BasicMeasure(constraintWidgetContainer: ConstraintWidgetContainer) {
         mMeasure.verticalDimension = widget.height
         mMeasure.measuredNeedsSolverPass = false
         mMeasure.measureStrategy = measureStrategy
-        val horizontalMatchConstraints = (
-            mMeasure.horizontalBehavior
-                == MATCH_CONSTRAINT
-            )
-        val verticalMatchConstraints = (
-            mMeasure.verticalBehavior
-                == MATCH_CONSTRAINT
-            )
+
+        val horizontalMatchConstraints = mMeasure.horizontalBehavior == MATCH_CONSTRAINT
+        val verticalMatchConstraints = mMeasure.verticalBehavior == MATCH_CONSTRAINT
         val horizontalUseRatio = horizontalMatchConstraints && widget.mDimensionRatio > 0
         val verticalUseRatio = verticalMatchConstraints && widget.mDimensionRatio > 0
+
         if (horizontalUseRatio) {
-            if (widget.mResolvedMatchConstraintDefault[HORIZONTAL]
-                == ConstraintWidget.MATCH_CONSTRAINT_RATIO_RESOLVED
-            ) {
+            if (widget.mResolvedMatchConstraintDefault[HORIZONTAL] == ConstraintWidget.MATCH_CONSTRAINT_RATIO_RESOLVED) {
                 mMeasure.horizontalBehavior = DimensionBehaviour.FIXED
             }
         }
         if (verticalUseRatio) {
-            if (widget.mResolvedMatchConstraintDefault[VERTICAL]
-                == ConstraintWidget.MATCH_CONSTRAINT_RATIO_RESOLVED
-            ) {
+            if (widget.mResolvedMatchConstraintDefault[VERTICAL] == ConstraintWidget.MATCH_CONSTRAINT_RATIO_RESOLVED) {
                 mMeasure.verticalBehavior = DimensionBehaviour.FIXED
             }
         }
+
         measurer.measure(widget, mMeasure)
         widget.width = mMeasure.measuredWidth
         widget.height = mMeasure.measuredHeight
