@@ -170,14 +170,14 @@ class WrapTest {
         root.add(a)
         root.add(b)
         root.add(c)
-        a.setBaselineDistance(100)
-        b.setBaselineDistance(10)
-        c.setBaselineDistance(10)
+        a.baselineDistance = 100
+        b.baselineDistance = 10
+        c.baselineDistance = 10
         a.connect(ConstraintAnchor.Type.LEFT, root, ConstraintAnchor.Type.LEFT)
         a.connect(ConstraintAnchor.Type.TOP, root, ConstraintAnchor.Type.TOP)
         a.connect(ConstraintAnchor.Type.BOTTOM, root, ConstraintAnchor.Type.BOTTOM)
         a.connect(ConstraintAnchor.Type.RIGHT, b, ConstraintAnchor.Type.LEFT)
-        a.setVerticalBiasPercent(0f)
+        a.verticalBiasPercent = 0f
         b.connect(ConstraintAnchor.Type.LEFT, a, ConstraintAnchor.Type.RIGHT)
         b.connect(ConstraintAnchor.Type.BASELINE, a, ConstraintAnchor.Type.BASELINE)
         b.connect(ConstraintAnchor.Type.RIGHT, c, ConstraintAnchor.Type.LEFT)
@@ -202,7 +202,7 @@ class WrapTest {
         assertEquals(c.height, 20)
         root.setHorizontalDimensionBehaviour(ConstraintWidget.DimensionBehaviour.WRAP_CONTENT)
         root.setVerticalDimensionBehaviour(ConstraintWidget.DimensionBehaviour.WRAP_CONTENT)
-        a.setBaselineDistance(10)
+        a.baselineDistance = 10
         root.layout()
         println("root: $root A: $a B: $b C: $c")
         assertEquals(root.width, 220)
@@ -425,14 +425,14 @@ class WrapTest {
         c.connect(ConstraintAnchor.Type.RIGHT, b, ConstraintAnchor.Type.LEFT)
         c.connect(ConstraintAnchor.Type.TOP, a, ConstraintAnchor.Type.BOTTOM)
         c.connect(ConstraintAnchor.Type.BOTTOM, c, ConstraintAnchor.Type.TOP)
-        d.setHorizontalBiasPercent(0.557f)
-        d.setVerticalBiasPercent(0.8f)
+        d.horizontalBiasPercent = 0.557f
+        d.verticalBiasPercent = 0.8f
         d.connect(ConstraintAnchor.Type.LEFT, a, ConstraintAnchor.Type.RIGHT)
         d.connect(ConstraintAnchor.Type.RIGHT, b, ConstraintAnchor.Type.LEFT)
         d.connect(ConstraintAnchor.Type.TOP, a, ConstraintAnchor.Type.BOTTOM)
         d.connect(ConstraintAnchor.Type.BOTTOM, c, ConstraintAnchor.Type.TOP)
-        d.setHorizontalBiasPercent(0.557f)
-        d.setVerticalBiasPercent(0.28f)
+        d.horizontalBiasPercent = 0.557f
+        d.verticalBiasPercent = 0.28f
         root.setHorizontalDimensionBehaviour(ConstraintWidget.DimensionBehaviour.WRAP_CONTENT)
         root.setVerticalDimensionBehaviour(ConstraintWidget.DimensionBehaviour.WRAP_CONTENT)
         root.layout()
@@ -531,22 +531,22 @@ class WrapTest {
         root.add(button65)
         button56.connect(ConstraintAnchor.Type.LEFT, root, ConstraintAnchor.Type.LEFT, 42)
         button56.connect(ConstraintAnchor.Type.TOP, root, ConstraintAnchor.Type.TOP, 42)
-        // button56.setBaselineDistance(77);
+        // button56.baselineDistance = 77;
         button60.connect(ConstraintAnchor.Type.RIGHT, root, ConstraintAnchor.Type.RIGHT, 42)
         button60.connect(ConstraintAnchor.Type.BOTTOM, root, ConstraintAnchor.Type.BOTTOM, 79)
-        // button60.setBaselineDistance(77);
+        // button60.baselineDistance = 77;
         button63.connect(ConstraintAnchor.Type.LEFT, button56, ConstraintAnchor.Type.RIGHT, 21)
         button63.connect(ConstraintAnchor.Type.RIGHT, button60, ConstraintAnchor.Type.LEFT, 21)
         button63.connect(ConstraintAnchor.Type.TOP, button56, ConstraintAnchor.Type.BOTTOM, 21)
         button63.connect(ConstraintAnchor.Type.BOTTOM, button60, ConstraintAnchor.Type.TOP, 21)
-        // button63.setBaselineDistance(155);
-        button63.setVerticalBiasPercent(0.8f)
+        // button63.baselineDistance = 155;
+        button63.verticalBiasPercent = 0.8f
         button65.connect(ConstraintAnchor.Type.LEFT, button56, ConstraintAnchor.Type.RIGHT, 21)
         button65.connect(ConstraintAnchor.Type.RIGHT, button60, ConstraintAnchor.Type.LEFT, 21)
         button65.connect(ConstraintAnchor.Type.TOP, button56, ConstraintAnchor.Type.BOTTOM, 21)
         button65.connect(ConstraintAnchor.Type.BOTTOM, button60, ConstraintAnchor.Type.TOP, 21)
-        // button65.setBaselineDistance(77);
-        button65.setVerticalBiasPercent(0.28f)
+        // button65.baselineDistance = 77;
+        button65.verticalBiasPercent = 0.28f
         root.setVerticalDimensionBehaviour(ConstraintWidget.DimensionBehaviour.WRAP_CONTENT)
         root.layout()
         println("root: $root")
@@ -626,7 +626,7 @@ class WrapTest {
         button.connect(ConstraintAnchor.Type.BOTTOM, text, ConstraintAnchor.Type.TOP)
         text.connect(ConstraintAnchor.Type.TOP, barrier, ConstraintAnchor.Type.BOTTOM)
         text.connect(ConstraintAnchor.Type.BOTTOM, root, ConstraintAnchor.Type.BOTTOM)
-        button.setVerticalBiasPercent(1f)
+        button.verticalBiasPercent = 1f
         root.setVerticalDimensionBehaviour(ConstraintWidget.DimensionBehaviour.WRAP_CONTENT)
         root.layout()
         println("root: $root")

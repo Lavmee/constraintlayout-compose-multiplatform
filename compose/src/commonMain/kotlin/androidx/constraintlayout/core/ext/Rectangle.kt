@@ -15,10 +15,13 @@ class Rectangle(
     fun union(rectangle: Rectangle): Rectangle {
         var tx2 = width.toLong()
         var ty2 = height.toLong()
-        if (tx2 or ty2 < 0) { return Rectangle(rectangle) }
+        if (tx2 or ty2 < 0) {
+            return Rectangle(rectangle)
+        }
         var rx2: Long = rectangle.width.toLong()
         var ry2: Long = rectangle.height.toLong()
-        if (rx2 or ry2 < 0) { return Rectangle(rectangle = this)
+        if (rx2 or ry2 < 0) {
+            return Rectangle(rectangle = this)
         }
         var tx1 = x
         var ty1 = y
@@ -56,8 +59,8 @@ class Rectangle(
         tw += tx
         th += ty
         return (rw < rx || rw > tx) &&
-                (rh < ry || rh > ty) &&
-                (tw < tx || tw > rx) &&
-                (th < ty || th > ry)
+            (rh < ry || rh > ty) &&
+            (tw < tx || tw > rx) &&
+            (th < ty || th > ry)
     }
 }

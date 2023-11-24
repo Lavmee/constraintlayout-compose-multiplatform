@@ -15,6 +15,7 @@
  */
 package androidx.constraintlayout.core.dsl
 
+@Suppress("UNUSED")
 class Transition {
     private var mOnSwipe: OnSwipe? = null
     val UNSET = -1
@@ -24,14 +25,15 @@ class Transition {
     private var mConstraintSetEnd: String
     private var mConstraintSetStart: String
 
-    @Suppress("unused")
+    @Suppress("UNUSED")
     private val mDefaultInterpolator = 0
 
-    @Suppress("unused")
+    @Suppress("UNUSED")
     private val mDefaultInterpolatorString: String? = null
 
-    @Suppress("unused")
+    @Suppress("UNUSED")
     private val mDefaultInterpolatorID = -1
+
     private var mDuration = DEFAULT_DURATION
     private var mStagger = DEFAULT_STAGGER
 

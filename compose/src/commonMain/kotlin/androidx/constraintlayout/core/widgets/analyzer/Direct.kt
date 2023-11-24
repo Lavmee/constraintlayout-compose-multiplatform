@@ -422,7 +422,7 @@ class Direct {
                             widget.mMatchConstraintMinWidth >= 0
                             ) && (
                             (
-                                widget.getVisibility() == GONE ||
+                                widget.visibility == GONE ||
                                     (
                                         (
                                             widget.mMatchConstraintDefaultWidth
@@ -432,7 +432,7 @@ class Direct {
                                         )
                                 )
                             ) &&
-                            !widget.isInHorizontalChain() && !widget.isInVirtualLayout()
+                            !widget.isInHorizontalChain() && !widget.isInVirtualLayout
                         )
                     ) {
                         if (bothConnected && !widget.isInHorizontalChain()) {
@@ -518,7 +518,7 @@ class Direct {
                             widget.mMatchConstraintMinWidth >= 0
                             ) && (
                             (
-                                widget.getVisibility() == GONE ||
+                                widget.visibility == GONE ||
                                     (
                                         (
                                             widget.mMatchConstraintDefaultWidth
@@ -528,7 +528,7 @@ class Direct {
                                         )
                                 )
                             ) &&
-                            !widget.isInHorizontalChain() && !widget.isInVirtualLayout()
+                            !widget.isInHorizontalChain() && !widget.isInVirtualLayout
                         )
                     ) {
                         if (bothConnected && !widget.isInHorizontalChain()) {
@@ -665,7 +665,7 @@ class Direct {
                             widget.mMatchConstraintMinHeight >= 0
                             ) && (
                             (
-                                widget.getVisibility() == GONE ||
+                                widget.visibility == GONE ||
                                     (
                                         (
                                             widget.mMatchConstraintDefaultHeight
@@ -675,7 +675,7 @@ class Direct {
                                         )
                                 )
                             ) &&
-                            !widget.isInVerticalChain() && !widget.isInVirtualLayout()
+                            !widget.isInVerticalChain() && !widget.isInVirtualLayout
                         )
                     ) {
                         if (bothConnected && !widget.isInVerticalChain()) {
@@ -755,7 +755,7 @@ class Direct {
                             widget.mMatchConstraintMinHeight >= 0
                             ) && (
                             (
-                                widget.getVisibility() == GONE ||
+                                widget.visibility == GONE ||
                                     (
                                         (
                                             widget.mMatchConstraintDefaultHeight
@@ -765,7 +765,7 @@ class Direct {
                                         )
                                 )
                             ) &&
-                            !widget.isInVerticalChain() && !widget.isInVirtualLayout()
+                            !widget.isInVerticalChain() && !widget.isInVirtualLayout
                         )
                     ) {
                         if (bothConnected && !widget.isInVerticalChain()) {
@@ -827,7 +827,7 @@ class Direct {
             // TODO: Handle match constraints here or before calling this
             var x1: Int
             var x2: Int
-            var bias = widget.getHorizontalBiasPercent()
+            var bias = widget.horizontalBiasPercent
             val start = widget.mLeft.mTarget!!.getFinalValue()
             val end = widget.mRight.mTarget!!.getFinalValue()
             var s1 = start + widget.mLeft.margin
@@ -869,7 +869,7 @@ class Direct {
             // TODO: Handle match constraints here or before calling this
             var y1: Int
             var y2: Int
-            var bias = widget.getVerticalBiasPercent()
+            var bias = widget.verticalBiasPercent
             val start = widget.mTop.mTarget!!.getFinalValue()
             val end = widget.mBottom.mTarget!!.getFinalValue()
             var s1 = start + widget.mTop.margin
@@ -912,18 +912,18 @@ class Direct {
         ) {
             val x1: Int
             val x2: Int
-            val bias = widget.getHorizontalBiasPercent()
+            val bias = widget.horizontalBiasPercent
             val s1 = widget.mLeft.mTarget!!.getFinalValue() + widget.mLeft.margin
             val s2 = widget.mRight.mTarget!!.getFinalValue() - widget.mRight.margin
             if (s2 >= s1) {
                 var width = widget.width
-                if (widget.getVisibility() != GONE) {
+                if (widget.visibility != GONE) {
                     if (widget.mMatchConstraintDefaultWidth
                         == ConstraintWidget.MATCH_CONSTRAINT_PERCENT
                     ) {
                         val parentWidth: Int = (layout as? ConstraintWidgetContainer)?.width
-                            ?: layout.getParent()!!.width
-                        width = (0.5f * widget.getHorizontalBiasPercent() * parentWidth).toInt()
+                            ?: layout.parent!!.width
+                        width = (0.5f * widget.horizontalBiasPercent * parentWidth).toInt()
                     } else if (widget.mMatchConstraintDefaultWidth
                         == ConstraintWidget.MATCH_CONSTRAINT_SPREAD
                     ) {
@@ -954,17 +954,17 @@ class Direct {
         ) {
             val y1: Int
             val y2: Int
-            val bias = widget.getVerticalBiasPercent()
+            val bias = widget.verticalBiasPercent
             val s1 = widget.mTop.mTarget!!.getFinalValue() + widget.mTop.margin
             val s2 = widget.mBottom.mTarget!!.getFinalValue() - widget.mBottom.margin
             if (s2 >= s1) {
                 var height = widget.height
-                if (widget.getVisibility() != GONE) {
+                if (widget.visibility != GONE) {
                     if (widget.mMatchConstraintDefaultHeight
                         == ConstraintWidget.MATCH_CONSTRAINT_PERCENT
                     ) {
                         val parentHeight: Int = (layout as? ConstraintWidgetContainer)?.height
-                            ?: layout.getParent()!!.height
+                            ?: layout.parent!!.height
                         height = (0.5f * bias * parentHeight).toInt()
                     } else if (widget.mMatchConstraintDefaultHeight
                         == ConstraintWidget.MATCH_CONSTRAINT_SPREAD
@@ -995,7 +995,7 @@ class Direct {
             val horizontalBehaviour = layout.horizontalDimensionBehaviour
             val verticalBehaviour = layout.verticalDimensionBehaviour
             val parent =
-                if (layout.getParent() != null) layout.getParent() as ConstraintWidgetContainer? else null
+                if (layout.parent != null) layout.parent as ConstraintWidgetContainer? else null
             val isParentHorizontalFixed = parent != null && parent.horizontalDimensionBehaviour == DimensionBehaviour.FIXED
             val isParentVerticalFixed = parent != null && parent.verticalDimensionBehaviour == DimensionBehaviour.FIXED
             val isHorizontalFixed =
@@ -1132,7 +1132,7 @@ class Direct {
                 }
                 totalSize += widget.mListAnchors[offset + 1].margin
                 numWidgets++
-                if (widget.getVisibility() != GONE) {
+                if (widget.visibility != GONE) {
                     numVisibleWidgets++
                 }
 
@@ -1173,9 +1173,9 @@ class Direct {
             }
             if (numVisibleWidgets == 1) {
                 val bias: Float = if (orientation == HORIZONTAL) {
-                    head!!.getHorizontalBiasPercent()
+                    head!!.horizontalBiasPercent
                 } else {
-                    head!!.getVerticalBiasPercent()
+                    head!!.verticalBiasPercent
                 }
                 val p1 = (0.5f + startPoint + gap * bias).toInt()
                 if (orientation == HORIZONTAL) {
@@ -1196,7 +1196,7 @@ class Direct {
                 var current = startPoint + gap
                 widget = first
                 while (!done) {
-                    if (widget!!.getVisibility() == GONE) {
+                    if (widget!!.visibility == GONE) {
                         if (orientation == HORIZONTAL) {
                             widget.setFinalHorizontal(current, current)
                             horizontalSolvingPass(

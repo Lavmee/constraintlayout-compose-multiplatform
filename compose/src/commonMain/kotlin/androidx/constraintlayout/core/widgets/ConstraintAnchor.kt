@@ -191,10 +191,10 @@ class ConstraintAnchor {
      */
 
     val margin: Int get() {
-        if (mOwner.getVisibility() == ConstraintWidget.GONE) {
+        if (mOwner.visibility == ConstraintWidget.GONE) {
             return 0
         }
-        return if (mGoneMargin != UNSET_GONE_MARGIN && mTarget != null && mTarget!!.mOwner.getVisibility() == ConstraintWidget.GONE) {
+        return if (mGoneMargin != UNSET_GONE_MARGIN && mTarget != null && mTarget!!.mOwner.visibility == ConstraintWidget.GONE) {
             mGoneMargin
         } else {
             mMargin
@@ -286,12 +286,7 @@ class ConstraintAnchor {
         }
         val target = anchor.type
         if (target == mType) {
-            return !(
-                mType == Type.BASELINE && (
-                    !anchor.owner
-                        .hasBaseline() || !owner.hasBaseline()
-                    )
-                )
+            return !(mType == Type.BASELINE && (!anchor.owner.hasBaseline || !owner.hasBaseline))
         }
         when (mType) {
             Type.CENTER -> {
@@ -444,11 +439,11 @@ class ConstraintAnchor {
         if (isConnectionToMe(target, checked)) {
             return false
         }
-        val parent = owner.getParent()
+        val parent = owner.parent
         if (parent == target) { // allow connections to parent
             return true
         }
-        return target.getParent() == parent // allow if we share the same parent
+        return target.parent == parent // allow if we share the same parent
     }
 
     /**

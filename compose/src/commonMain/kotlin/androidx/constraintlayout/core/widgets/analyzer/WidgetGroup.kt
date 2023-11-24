@@ -145,7 +145,7 @@ class WidgetGroup(orientation: Int) {
         widgets: ArrayList<ConstraintWidget>,
         orientation: Int,
     ): Int {
-        val container = widgets[0].getParent() as ConstraintWidgetContainer?
+        val container = widgets[0].parent as ConstraintWidgetContainer?
         system.reset()
         @Suppress("UNUSED_VARIABLE")
         val prevDebug = LinearSystem.FULL_DEBUG

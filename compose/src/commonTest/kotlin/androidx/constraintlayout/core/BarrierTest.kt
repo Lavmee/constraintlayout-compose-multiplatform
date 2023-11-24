@@ -61,8 +61,8 @@ class BarrierTest {
         a.connect(ConstraintAnchor.Type.RIGHT, guidelineEnd, ConstraintAnchor.Type.RIGHT)
         b.connect(ConstraintAnchor.Type.LEFT, guidelineStart, ConstraintAnchor.Type.LEFT)
         b.connect(ConstraintAnchor.Type.RIGHT, guidelineEnd, ConstraintAnchor.Type.RIGHT)
-        a.setHorizontalBiasPercent(1f)
-        b.setHorizontalBiasPercent(1f)
+        a.horizontalBiasPercent = 1f
+        b.horizontalBiasPercent = 1f
         root.setHorizontalDimensionBehaviour(ConstraintWidget.DimensionBehaviour.WRAP_CONTENT)
         root.layout()
         println("root: $root")
@@ -107,7 +107,7 @@ class BarrierTest {
         b.connect(ConstraintAnchor.Type.TOP, a, ConstraintAnchor.Type.BOTTOM)
         b.connect(ConstraintAnchor.Type.BOTTOM, root, ConstraintAnchor.Type.BOTTOM)
         a.setVerticalChainStyle(ConstraintWidget.CHAIN_SPREAD_INSIDE)
-        c.setHorizontalBiasPercent(1f)
+        c.horizontalBiasPercent = 1f
         c.connect(ConstraintAnchor.Type.TOP, root, ConstraintAnchor.Type.TOP)
         c.connect(ConstraintAnchor.Type.BOTTOM, root, ConstraintAnchor.Type.BOTTOM)
         c.connect(ConstraintAnchor.Type.LEFT, barrier, ConstraintAnchor.Type.RIGHT)
@@ -186,7 +186,7 @@ class BarrierTest {
         b.connect(ConstraintAnchor.Type.TOP, root, ConstraintAnchor.Type.TOP)
         b.connect(ConstraintAnchor.Type.LEFT, barrier, ConstraintAnchor.Type.LEFT)
         b.connect(ConstraintAnchor.Type.RIGHT, root, ConstraintAnchor.Type.RIGHT)
-        b.setHorizontalBiasPercent(0f)
+        b.horizontalBiasPercent = 0f
         b.setHorizontalDimensionBehaviour(ConstraintWidget.DimensionBehaviour.MATCH_CONSTRAINT)
         b.setHorizontalMatchStyle(ConstraintWidget.MATCH_CONSTRAINT_SPREAD, 0, 150, 1f)
         root.optimizationLevel = Optimizer.OPTIMIZATION_NONE
@@ -266,10 +266,10 @@ class BarrierTest {
         b.width = 200
         a.setHorizontalDimensionBehaviour(ConstraintWidget.DimensionBehaviour.MATCH_CONSTRAINT)
         a.setHorizontalMatchStyle(ConstraintWidget.MATCH_CONSTRAINT_WRAP, 0, 0, 0f)
-        a.setHorizontalBiasPercent(1f)
+        a.horizontalBiasPercent = 1f
         b.setHorizontalDimensionBehaviour(ConstraintWidget.DimensionBehaviour.MATCH_CONSTRAINT)
         b.setHorizontalMatchStyle(ConstraintWidget.MATCH_CONSTRAINT_WRAP, 0, 0, 0f)
-        b.setHorizontalBiasPercent(1f)
+        b.horizontalBiasPercent = 1f
         root.layout()
         println("A: $a B: $b barrier: $barrier")
         assertEquals(a.width, 100)
@@ -299,8 +299,8 @@ class BarrierTest {
         b.connect(ConstraintAnchor.Type.RIGHT, root, ConstraintAnchor.Type.RIGHT)
         b.connect(ConstraintAnchor.Type.LEFT, barrier, ConstraintAnchor.Type.LEFT)
         b.connect(ConstraintAnchor.Type.TOP, a, ConstraintAnchor.Type.BOTTOM)
-        a.setHorizontalBiasPercent(0f)
-        b.setHorizontalBiasPercent(0f)
+        a.horizontalBiasPercent = 0f
+        b.horizontalBiasPercent = 0f
         root.layout()
         println("A: $a B: $b barrier: $barrier")
         assertEquals(a.right, root.width)
@@ -338,9 +338,9 @@ class BarrierTest {
         c.connect(ConstraintAnchor.Type.RIGHT, barrier, ConstraintAnchor.Type.RIGHT)
         c.connect(ConstraintAnchor.Type.LEFT, root, ConstraintAnchor.Type.LEFT)
         c.connect(ConstraintAnchor.Type.TOP, b, ConstraintAnchor.Type.BOTTOM)
-        a.setHorizontalBiasPercent(0f)
-        b.setHorizontalBiasPercent(0f)
-        c.setHorizontalBiasPercent(0f)
+        a.horizontalBiasPercent = 0f
+        b.horizontalBiasPercent = 0f
+        c.horizontalBiasPercent = 0f
         a.setHorizontalDimensionBehaviour(ConstraintWidget.DimensionBehaviour.MATCH_CONSTRAINT)
         b.setHorizontalDimensionBehaviour(ConstraintWidget.DimensionBehaviour.MATCH_CONSTRAINT)
         c.setHorizontalDimensionBehaviour(ConstraintWidget.DimensionBehaviour.MATCH_CONSTRAINT)
@@ -477,7 +477,7 @@ class BarrierTest {
         a.connect(ConstraintAnchor.Type.TOP, root, ConstraintAnchor.Type.TOP)
         b.connect(ConstraintAnchor.Type.LEFT, root, ConstraintAnchor.Type.LEFT)
         b.connect(ConstraintAnchor.Type.TOP, a, ConstraintAnchor.Type.BOTTOM)
-        b.setVisibility(ConstraintWidget.GONE)
+        b.visibility = ConstraintWidget.GONE
         c.connect(ConstraintAnchor.Type.LEFT, root, ConstraintAnchor.Type.LEFT)
         c.connect(ConstraintAnchor.Type.TOP, barrier, ConstraintAnchor.Type.TOP)
         barrier.add(a)

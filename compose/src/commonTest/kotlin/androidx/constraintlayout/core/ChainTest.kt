@@ -88,9 +88,9 @@ class ChainTest() {
         a.setHorizontalDimensionBehaviour(ConstraintWidget.DimensionBehaviour.MATCH_CONSTRAINT)
         b.setHorizontalDimensionBehaviour(ConstraintWidget.DimensionBehaviour.MATCH_CONSTRAINT)
         c.setHorizontalDimensionBehaviour(ConstraintWidget.DimensionBehaviour.MATCH_CONSTRAINT)
-        a.setBaselineDistance(8)
-        b.setBaselineDistance(8)
-        c.setBaselineDistance(8)
+        a.baselineDistance = 8
+        b.baselineDistance = 8
+        c.baselineDistance = 8
         root.optimizationLevel = Optimizer.OPTIMIZATION_STANDARD or Optimizer.OPTIMIZATION_CHAIN
         root.layout()
         println("A: $a B: $b C: $c")
@@ -122,7 +122,7 @@ class ChainTest() {
         c.connect(ConstraintAnchor.Type.LEFT, b, ConstraintAnchor.Type.RIGHT)
         c.connect(ConstraintAnchor.Type.RIGHT, root, ConstraintAnchor.Type.RIGHT)
         a.setHorizontalChainStyle(ConstraintWidget.CHAIN_SPREAD)
-        a.setVisibility(ConstraintWidget.GONE)
+        a.visibility = ConstraintWidget.GONE
         root.layout()
         println("A: $a B: $b C: $c")
         assertEquals(a.left, 0)
@@ -154,7 +154,7 @@ class ChainTest() {
         c.connect(ConstraintAnchor.Type.RIGHT, root, ConstraintAnchor.Type.RIGHT, 20)
         a.setHorizontalChainStyle(ConstraintWidget.CHAIN_PACKED)
         b.setGoneMargin(ConstraintAnchor.Type.RIGHT, 100)
-        c.setVisibility(ConstraintWidget.GONE)
+        c.visibility = ConstraintWidget.GONE
         root.layout()
         println("A: $a B: $b C: $c")
         assertEquals(a.left, 200)
@@ -246,21 +246,21 @@ class ChainTest() {
         assertEquals(b.width, 100)
         assertEquals(a.left, root.width - b.right)
         assertEquals(b.left, a.left + a.width)
-        a.setVisibility(ConstraintWidget.GONE)
+        a.visibility = ConstraintWidget.GONE
         root.layout()
         println("b) A: $a B: $b")
         assertEquals(a.width, 0)
         assertEquals(b.width, 100)
         assertEquals(a.left, root.width - b.right)
         assertEquals(b.left, a.left + a.width)
-        b.setVisibility(ConstraintWidget.GONE)
+        b.visibility = ConstraintWidget.GONE
         root.layout()
         println("c) A: $a B: $b")
         assertEquals(a.width, 0)
         assertEquals(b.width, 0)
         assertEquals(a.left, 0)
         assertEquals(b.left, a.left + a.width)
-        a.setVisibility(ConstraintWidget.VISIBLE)
+        a.visibility = ConstraintWidget.VISIBLE
         a.width = 100
         root.layout()
         println("d) A: $a B: $b")
@@ -268,10 +268,10 @@ class ChainTest() {
         assertEquals(b.width, 0)
         assertEquals(a.left, root.width - b.right)
         assertEquals(b.left, a.left + a.width)
-        a.setVisibility(ConstraintWidget.VISIBLE)
+        a.visibility = ConstraintWidget.VISIBLE
         a.width = 100
         a.height = 20
-        b.setVisibility(ConstraintWidget.VISIBLE)
+        b.visibility = ConstraintWidget.VISIBLE
         b.width = 100
         b.height = 20
         b.setHorizontalDimensionBehaviour(ConstraintWidget.DimensionBehaviour.MATCH_CONSTRAINT)
@@ -316,10 +316,10 @@ class ChainTest() {
         b.setHorizontalDimensionBehaviour(ConstraintWidget.DimensionBehaviour.MATCH_CONSTRAINT)
         b.setHorizontalMatchStyle(ConstraintWidget.MATCH_CONSTRAINT_SPREAD, 0, 0, 1f)
         b.setDimensionRatio(0f, 0)
-        a.setVisibility(ConstraintWidget.VISIBLE)
+        a.visibility = ConstraintWidget.VISIBLE
         a.width = 100
         a.height = 20
-        b.setVisibility(ConstraintWidget.VISIBLE)
+        b.visibility = ConstraintWidget.VISIBLE
         b.width = 100
         b.height = 20
         root.layout()
@@ -362,21 +362,21 @@ class ChainTest() {
         assertEquals(b.width, 100)
         assertEquals(a.left, root.width - b.right)
         assertEquals(b.left, a.left + a.width)
-        a.setVisibility(ConstraintWidget.GONE)
+        a.visibility = ConstraintWidget.GONE
         root.layout()
         println("b) A: $a B: $b")
         assertEquals(a.width, 0)
         assertEquals(b.width, 100)
         assertEquals(a.left, root.width - b.right)
         assertEquals(b.left, a.left + a.width)
-        b.setVisibility(ConstraintWidget.GONE)
+        b.visibility = ConstraintWidget.GONE
         root.layout()
         println("c) A: $a B: $b")
         assertEquals(a.width, 0)
         assertEquals(b.width, 0)
         assertEquals(a.left, 0)
         assertEquals(b.left, a.left + a.width)
-        a.setVisibility(ConstraintWidget.VISIBLE)
+        a.visibility = ConstraintWidget.VISIBLE
         a.width = 100
         root.layout()
         println("d) A: $a B: $b")
@@ -384,10 +384,10 @@ class ChainTest() {
         assertEquals(b.width, 0)
         assertEquals(a.left, root.width - b.right)
         assertEquals(b.left, a.left + a.width)
-        a.setVisibility(ConstraintWidget.VISIBLE)
+        a.visibility = ConstraintWidget.VISIBLE
         a.width = 100
         a.height = 20
-        b.setVisibility(ConstraintWidget.VISIBLE)
+        b.visibility = ConstraintWidget.VISIBLE
         b.width = 100
         b.height = 20
         b.setHorizontalDimensionBehaviour(ConstraintWidget.DimensionBehaviour.MATCH_CONSTRAINT)
@@ -432,10 +432,10 @@ class ChainTest() {
         b.setHorizontalDimensionBehaviour(ConstraintWidget.DimensionBehaviour.MATCH_CONSTRAINT)
         b.setHorizontalMatchStyle(ConstraintWidget.MATCH_CONSTRAINT_SPREAD, 0, 0, 1f)
         b.setDimensionRatio(0f, 0)
-        a.setVisibility(ConstraintWidget.VISIBLE)
+        a.visibility = ConstraintWidget.VISIBLE
         a.width = 100
         a.height = 20
-        b.setVisibility(ConstraintWidget.VISIBLE)
+        b.visibility = ConstraintWidget.VISIBLE
         b.width = 100
         b.height = 20
         root.layout()
@@ -471,7 +471,7 @@ class ChainTest() {
         assertEquals(b.width, 100)
         assertEquals(a.left, b.left - a.right, 1)
         assertEquals(b.left - a.right, root.width - b.right, 1)
-        b.setVisibility(ConstraintWidget.GONE)
+        b.visibility = ConstraintWidget.GONE
         root.layout()
         println("b) A: $a B: $b")
     }
@@ -758,7 +758,7 @@ class ChainTest() {
         b.width = 100
         c.setHorizontalDimensionBehaviour(ConstraintWidget.DimensionBehaviour.FIXED)
         c.width = 100
-        c.setVisibility(ConstraintWidget.GONE)
+        c.visibility = ConstraintWidget.GONE
         root.layout()
         println("h) A: $a B: $b C: $c")
         assertEquals(a.width, 632)
@@ -888,7 +888,7 @@ class ChainTest() {
         b.height = 20
         c.setVerticalDimensionBehaviour(ConstraintWidget.DimensionBehaviour.FIXED)
         c.height = 20
-        c.setVisibility(ConstraintWidget.GONE)
+        c.visibility = ConstraintWidget.GONE
         root.layout()
         println("h) A: $a B: $b C: $c")
         assertEquals(a.height, 512)
@@ -1246,8 +1246,8 @@ class ChainTest() {
         )
         assertEquals(b.top - a.bottom, a.top - root.top, 1)
         root.add(c)
-        a.setBaselineDistance(7)
-        c.setBaselineDistance(7)
+        a.baselineDistance = 7
+        c.baselineDistance = 7
         c.connect(ConstraintAnchor.Type.BASELINE, a, ConstraintAnchor.Type.BASELINE, 0)
         root.layout()
         println("b) root: $root A: $a B: $b C: $c")
@@ -1347,10 +1347,10 @@ class ChainTest() {
         b.setDebugSolverName(root.getSystem(), "B")
         c.setDebugSolverName(root.getSystem(), "C")
         d.setDebugSolverName(root.getSystem(), "D")
-        a.setBaselineDistance(29)
-        b.setBaselineDistance(29)
-        c.setBaselineDistance(29)
-        d.setBaselineDistance(29)
+        a.baselineDistance = 29
+        b.baselineDistance = 29
+        c.baselineDistance = 29
+        d.baselineDistance = 29
         a.connect(ConstraintAnchor.Type.TOP, root, ConstraintAnchor.Type.TOP, 100)
         a.connect(ConstraintAnchor.Type.LEFT, root, ConstraintAnchor.Type.LEFT)
         a.connect(ConstraintAnchor.Type.RIGHT, b, ConstraintAnchor.Type.LEFT)
@@ -1404,14 +1404,14 @@ class ChainTest() {
         d.connect(ConstraintAnchor.Type.LEFT, c, ConstraintAnchor.Type.RIGHT)
         d.connect(ConstraintAnchor.Type.RIGHT, root, ConstraintAnchor.Type.RIGHT)
         a.setHorizontalChainStyle(ConstraintWidget.CHAIN_SPREAD_INSIDE)
-        b.setVisibility(ConstraintWidget.GONE)
+        b.visibility = ConstraintWidget.GONE
         root.layout()
         println("a) A: $a B: $b C: $c D: $d")
         assertEquals(a.left, 0)
         assertEquals(c.left, 250)
         assertEquals(d.left, 500)
-        b.setVisibility(ConstraintWidget.VISIBLE)
-        d.setVisibility(ConstraintWidget.GONE)
+        b.visibility = ConstraintWidget.VISIBLE
+        d.visibility = ConstraintWidget.GONE
         root.layout()
         println("b) A: $a B: $b C: $c D: $d")
     }
@@ -1441,8 +1441,8 @@ class ChainTest() {
         d.connect(ConstraintAnchor.Type.LEFT, guideline, ConstraintAnchor.Type.RIGHT)
         d.connect(ConstraintAnchor.Type.RIGHT, root, ConstraintAnchor.Type.RIGHT)
         a.setHorizontalChainStyle(ConstraintWidget.CHAIN_PACKED)
-        a.setVisibility(ConstraintWidget.GONE)
-        b.setVisibility(ConstraintWidget.GONE)
+        a.visibility = ConstraintWidget.GONE
+        b.visibility = ConstraintWidget.GONE
         root.layout()
         println("a) A: $a B: $b guideline: $guideline D: $d")
         assertEquals(a.width, 0)
@@ -1490,8 +1490,8 @@ class ChainTest() {
         d.connect(ConstraintAnchor.Type.TOP, guideline, ConstraintAnchor.Type.BOTTOM)
         d.connect(ConstraintAnchor.Type.BOTTOM, root, ConstraintAnchor.Type.BOTTOM)
         a.setVerticalChainStyle(ConstraintWidget.CHAIN_PACKED)
-        a.setVisibility(ConstraintWidget.GONE)
-        b.setVisibility(ConstraintWidget.GONE)
+        a.visibility = ConstraintWidget.GONE
+        b.visibility = ConstraintWidget.GONE
         root.layout()
         println("a) A: $a B: $b guideline: $guideline D: $d")
         assertEquals(a.height, 0)
@@ -1576,7 +1576,7 @@ class ChainTest() {
         assertEquals(a.width, 187)
         assertEquals(b.width, 186)
         assertEquals(c.width, 187)
-        c.setVisibility(ConstraintWidget.GONE)
+        c.visibility = ConstraintWidget.GONE
         root.layout()
         println("b) A: $a B: $b C: $c")
         assertEquals(a.left, 20)
@@ -1617,7 +1617,7 @@ class ChainTest() {
             1,
         )
         assertEquals(a.bottom, b.top)
-        b.setVisibility(ConstraintWidget.GONE)
+        b.visibility = ConstraintWidget.GONE
         root.layout()
         println("b) root: $root A: $a B: $b")
         assertEquals(a.top - root.top, root.bottom - a.bottom)
@@ -1655,8 +1655,8 @@ class ChainTest() {
             1,
         )
         assertEquals(a.bottom, b.top)
-        a.setVisibility(ConstraintWidget.GONE)
-        c.setVisibility(ConstraintWidget.GONE)
+        a.visibility = ConstraintWidget.GONE
+        c.visibility = ConstraintWidget.GONE
         root.layout()
         println("b) root: $root A: $a B: $b C: $c")
         assertEquals(b.top - root.top, root.bottom - b.bottom)
@@ -1795,7 +1795,7 @@ class ChainTest() {
         assertEquals(270, a.top)
         assertEquals(290, b.top)
         assertEquals(310, c.top)
-        a.setVisibility(ConstraintWidget.GONE)
+        a.visibility = ConstraintWidget.GONE
         root.layout()
         println("a) root: $root A: $a B: $b C: $c")
         assertEquals(600, root.height)

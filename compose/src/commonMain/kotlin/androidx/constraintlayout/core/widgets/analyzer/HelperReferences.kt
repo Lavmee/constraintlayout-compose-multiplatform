@@ -51,7 +51,7 @@ class HelperReferences(widget: ConstraintWidget) : WidgetRun(widget) {
                     while (i < barrier.mWidgetsCount) {
                         val refWidget: ConstraintWidget = barrier.mWidgets[i]!!
                         if (!allowsGoneWidget &&
-                            refWidget.getVisibility() == ConstraintWidget.GONE
+                            refWidget.visibility == ConstraintWidget.GONE
                         ) {
                             i++
                             continue
@@ -71,7 +71,7 @@ class HelperReferences(widget: ConstraintWidget) : WidgetRun(widget) {
                     while (i < barrier.mWidgetsCount) {
                         val refWidget: ConstraintWidget = barrier.mWidgets[i]!!
                         if (!allowsGoneWidget &&
-                            refWidget.getVisibility() == ConstraintWidget.GONE
+                            refWidget.visibility == ConstraintWidget.GONE
                         ) {
                             i++
                             continue
@@ -91,7 +91,7 @@ class HelperReferences(widget: ConstraintWidget) : WidgetRun(widget) {
                     while (i < barrier.mWidgetsCount) {
                         val refwidget: ConstraintWidget = barrier.mWidgets[i]!!
                         if (!allowsGoneWidget &&
-                            refwidget.getVisibility() == ConstraintWidget.GONE
+                            refwidget.visibility == ConstraintWidget.GONE
                         ) {
                             i++
                             continue
@@ -111,7 +111,7 @@ class HelperReferences(widget: ConstraintWidget) : WidgetRun(widget) {
                     while (i < barrier.mWidgetsCount) {
                         val refwidget: ConstraintWidget = barrier.mWidgets[i]!!
                         if (!allowsGoneWidget &&
-                            refwidget.getVisibility() == ConstraintWidget.GONE
+                            refwidget.visibility == ConstraintWidget.GONE
                         ) {
                             i++
                             continue

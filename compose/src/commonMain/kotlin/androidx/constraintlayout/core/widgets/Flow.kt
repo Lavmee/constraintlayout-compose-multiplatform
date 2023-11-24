@@ -280,7 +280,7 @@ class Flow : VirtualLayout() {
         var gone = 0
         for (i in 0 until mWidgetsCount) {
             val widget = mWidgets[i]!!
-            if (widget.getVisibility() == GONE) {
+            if (widget.visibility == GONE) {
                 gone++
             }
         }
@@ -290,7 +290,7 @@ class Flow : VirtualLayout() {
             var j = 0
             for (i in 0 until mWidgetsCount) {
                 val widget = mWidgets[i]!!
-                if (widget.getVisibility() != GONE) {
+                if (widget.visibility != GONE) {
                     widgets[j] = widget
                     j++
                 }
@@ -456,7 +456,7 @@ class Flow : VirtualLayout() {
                     width = 0
                 }
                 var gap: Int = mHorizontalGap
-                if (widget.getVisibility() == GONE) {
+                if (widget.visibility == GONE) {
                     gap = 0
                 }
                 mWidth += width + gap
@@ -474,7 +474,7 @@ class Flow : VirtualLayout() {
                     height = 0
                 }
                 var gap: Int = mVerticalGap
-                if (widget.getVisibility() == GONE) {
+                if (widget.visibility == GONE) {
                     gap = 0
                 }
                 mHeight += height + gap
@@ -513,7 +513,7 @@ class Flow : VirtualLayout() {
                     break
                 }
                 val widget: ConstraintWidget? = mDisplayedWidgets?.get(mStartIndex + index)
-                if (widget != null && widget.getVisibility() == VISIBLE) {
+                if (widget != null && widget.visibility == VISIBLE) {
                     if (firstVisible == -1) {
                         firstVisible = i
                     }
@@ -537,7 +537,7 @@ class Flow : VirtualLayout() {
                     bottom.connect(verticalWidget.mTop, 0)
                 }
                 var baselineVerticalWidget = verticalWidget
-                if (mVerticalAlign == VERTICAL_ALIGN_BASELINE && !verticalWidget.hasBaseline()) {
+                if (mVerticalAlign == VERTICAL_ALIGN_BASELINE && !verticalWidget.hasBaseline) {
                     for (i in 0 until count) {
                         var index = i
                         if (isInRtl) {
@@ -547,7 +547,7 @@ class Flow : VirtualLayout() {
                             break
                         }
                         val widget: ConstraintWidget = mDisplayedWidgets!![mStartIndex + index]!!
-                        if (widget.hasBaseline()) {
+                        if (widget.hasBaseline) {
                             baselineVerticalWidget = widget
                             break
                         }
@@ -580,7 +580,7 @@ class Flow : VirtualLayout() {
                             bias = if (isInRtl) 1 - mLastHorizontalBias else mLastHorizontalBias
                         }
                         widget.setHorizontalChainStyle(style)
-                        widget.setHorizontalBiasPercent(bias)
+                        widget.horizontalBiasPercent = bias
                     }
                     if (i == count - 1) {
                         widget.connect(widget.mRight, mRight!!, mPaddingRight)
@@ -596,7 +596,7 @@ class Flow : VirtualLayout() {
                         }
                     }
                     if (widget != verticalWidget) {
-                        if (mVerticalAlign == VERTICAL_ALIGN_BASELINE && baselineVerticalWidget.hasBaseline() && widget != baselineVerticalWidget && widget.hasBaseline()) {
+                        if (mVerticalAlign == VERTICAL_ALIGN_BASELINE && baselineVerticalWidget.hasBaseline && widget != baselineVerticalWidget && widget.hasBaseline) {
                             widget.mBaseline.connect(baselineVerticalWidget.mBaseline, 0)
                         } else {
                             when (mVerticalAlign) {
@@ -676,7 +676,7 @@ class Flow : VirtualLayout() {
                             bias = mLastVerticalBias
                         }
                         widget.setVerticalChainStyle(style)
-                        widget.setVerticalBiasPercent(bias)
+                        widget.verticalBiasPercent = bias
                     }
                     if (i == count - 1) {
                         widget.connect(widget.mBottom, mBottom!!, mPaddingBottom)
@@ -794,7 +794,7 @@ class Flow : VirtualLayout() {
                 if (mOrientation == HORIZONTAL) {
                     val width = widget.width
                     var gap: Int = mHorizontalGap
-                    if (widget.getVisibility() == GONE) {
+                    if (widget.visibility == GONE) {
                         gap = 0
                     }
                     mWidth += width + gap
@@ -808,7 +808,7 @@ class Flow : VirtualLayout() {
                     val width: Int = getWidgetWidth(widget, mMax)
                     val height: Int = getWidgetHeight(widget, mMax)
                     var gap: Int = mVerticalGap
-                    if (widget.getVisibility() == GONE) {
+                    if (widget.visibility == GONE) {
                         gap = 0
                     }
                     mHeight += height + gap
@@ -1380,13 +1380,13 @@ class Flow : VirtualLayout() {
                 horizontalBias = 1 - mHorizontalBias
             }
             val widget = mAlignedBiggestElementsInCols!![index]
-            if (widget == null || widget.getVisibility() == GONE) {
+            if (widget == null || widget.visibility == GONE) {
                 continue
             }
             if (i == 0) {
                 widget.connect(widget.mLeft, mLeft, getPaddingLeft())
                 widget.setHorizontalChainStyle(mHorizontalStyle)
-                widget.setHorizontalBiasPercent(horizontalBias)
+                widget.horizontalBiasPercent = horizontalBias
             }
             if (i == cols - 1) {
                 widget.connect(widget.mRight, mRight, getPaddingRight())
@@ -1399,13 +1399,13 @@ class Flow : VirtualLayout() {
         }
         for (j in 0 until rows) {
             val widget = mAlignedBiggestElementsInRows!![j]
-            if (widget == null || widget.getVisibility() == GONE) {
+            if (widget == null || widget.visibility == GONE) {
                 continue
             }
             if (j == 0) {
                 widget.connect(widget.mTop, mTop, getPaddingTop())
                 widget.setVerticalChainStyle(mVerticalStyle)
-                widget.setVerticalBiasPercent(mVerticalBias)
+                widget.verticalBiasPercent = mVerticalBias
             }
             if (j == rows - 1) {
                 widget.connect(widget.mBottom, mBottom, getPaddingBottom())
@@ -1426,7 +1426,7 @@ class Flow : VirtualLayout() {
                     continue
                 }
                 val widget = mDisplayedWidgets?.get(index)
-                if (widget == null || widget.getVisibility() == GONE) {
+                if (widget == null || widget.visibility == GONE) {
                     continue
                 }
                 val biggestInCol = mAlignedBiggestElementsInCols!![i]
@@ -1458,7 +1458,7 @@ class Flow : VirtualLayout() {
      */
     override fun addToSolver(system: LinearSystem, optimize: Boolean) {
         super.addToSolver(system, optimize)
-        val isInRtl = getParent() != null && (getParent() as ConstraintWidgetContainer?)!!.isRtl()
+        val isInRtl = parent != null && (parent as ConstraintWidgetContainer?)!!.isRtl()
         when (mWrapMode) {
             WRAP_CHAIN -> {
                 val count = mChainList.size

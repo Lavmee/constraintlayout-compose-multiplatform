@@ -53,7 +53,7 @@ class LinearSystem {
 
     // if true, will use graph optimizations
     var graphOptimizer = false
-    var newgraphOptimizer = false
+    var newGraphOptimizer = false
 
     // Used in optimize()
     private var mAlreadyTestedCandidates = BooleanArray(mTableSize)
@@ -80,10 +80,10 @@ class LinearSystem {
         releaseRows()
         mCache = Cache()
         mGoal = PriorityGoalRow(mCache)
-        if (OPTIMIZED_ENGINE) {
-            mTempGoal = ValuesRow(mCache)
+        mTempGoal = if (OPTIMIZED_ENGINE) {
+            ValuesRow(mCache)
         } else {
-            mTempGoal = ArrayRow(mCache)
+            ArrayRow(mCache)
         }
     }
 
@@ -171,10 +171,7 @@ class LinearSystem {
             println("##################")
         }
         for (i in 0 until mCache.mIndexedVariables.size) {
-            val variable: SolverVariable? = mCache.mIndexedVariables[i]
-            if (variable != null) {
-                variable.reset()
-            }
+            mCache.mIndexedVariables[i]?.reset()
         }
         mCache.mSolverVariablePool.releaseAll(mPoolVariables, mPoolVariablesCount)
         mPoolVariablesCount = 0
@@ -190,10 +187,10 @@ class LinearSystem {
         }
         releaseRows()
         mNumRows = 0
-        if (OPTIMIZED_ENGINE) {
-            mTempGoal = ValuesRow(mCache)
+        mTempGoal = if (OPTIMIZED_ENGINE) {
+            ValuesRow(mCache)
         } else {
-            mTempGoal = ArrayRow(mCache)
+            ArrayRow(mCache)
         }
     }
 
@@ -259,7 +256,7 @@ class LinearSystem {
     }
 
     // @TODO: add description
-    fun createSlackVariable(): SolverVariable {
+    public fun createSlackVariable(): SolverVariable {
         if (sMetrics != null) {
             sMetrics!!.slackvariables++
         }
@@ -275,7 +272,7 @@ class LinearSystem {
     }
 
     // @TODO: add description
-    fun createExtraVariable(): SolverVariable {
+    public fun createExtraVariable(): SolverVariable {
         if (sMetrics != null) {
             sMetrics!!.extravariables++
         }
@@ -449,7 +446,7 @@ class LinearSystem {
         if (DEBUG) {
             println("\n*** MINIMIZE ***\n")
         }
-        if (graphOptimizer || newgraphOptimizer) {
+        if (graphOptimizer || newGraphOptimizer) {
             if (sMetrics != null) {
                 sMetrics!!.graphOptimizer++
             }
@@ -512,6 +509,7 @@ class LinearSystem {
         computeValues()
     }
 
+    @Suppress("unused")
     fun cleanupRows() {
         var i = 0
         while (i < mNumRows) {
@@ -676,6 +674,7 @@ class LinearSystem {
     }
 
     // @TODO: add description
+    @Suppress("unused")
     fun removeRow(row: ArrayRow) {
         if (row.mIsSimpleDefinition && row.mVariable != null) {
             if (row.mVariable!!.mDefinitionId != -1) {
@@ -1239,6 +1238,7 @@ class LinearSystem {
         a: SolverVariable,
         b: SolverVariable,
         margin: Int,
+        @Suppress("UNUSED_PARAMETER")
         hasMatchConstraintWidgets: Boolean,
     ) {
         if (DEBUG_CONSTRAINTS) {
@@ -1282,6 +1282,7 @@ class LinearSystem {
         a: SolverVariable,
         b: SolverVariable,
         margin: Int,
+        @Suppress("UNUSED_PARAMETER")
         hasMatchConstraintWidgets: Boolean,
     ) {
         if (DEBUG_CONSTRAINTS) {
@@ -1358,6 +1359,7 @@ class LinearSystem {
     }
 
     // @TODO: add description
+    @Suppress("UNUSED")
     fun addSynonym(a: SolverVariable, b: SolverVariable, margin: Int) {
         var a = a
         var b = b

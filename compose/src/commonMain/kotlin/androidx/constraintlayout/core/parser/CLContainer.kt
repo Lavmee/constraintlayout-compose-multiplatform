@@ -280,6 +280,7 @@ open class CLContainer : CLElement {
     }
 
     @Throws(CLParsingException::class)
+    @Suppress("UNUSED")
     fun getArray(index: Int): CLArray {
         val element = get(index)
         if (element is CLArray) {
@@ -356,6 +357,7 @@ open class CLContainer : CLElement {
     }
 
     companion object {
+        @Suppress("UNUSED")
         fun allocate(content: CharArray): CLElement = CLContainer(content)
     }
 }

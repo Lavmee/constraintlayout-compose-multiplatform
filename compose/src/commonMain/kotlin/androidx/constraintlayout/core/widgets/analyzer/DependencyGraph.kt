@@ -370,10 +370,10 @@ class DependencyGraph(container: ConstraintWidgetContainer) {
         mMeasure.horizontalDimension = horizontalDimension
         mMeasure.verticalDimension = verticalDimension
         mMeasurer!!.measure(widget, mMeasure)
-        widget.width = (mMeasure.measuredWidth)
-        widget.height = (mMeasure.measuredHeight)
-        widget.setHasBaseline(mMeasure.measuredHasBaseline)
-        widget.setBaselineDistance(mMeasure.measuredBaseline)
+        widget.width = mMeasure.measuredWidth
+        widget.height = mMeasure.measuredHeight
+        widget.hasBaseline = mMeasure.measuredHasBaseline
+        widget.baselineDistance = mMeasure.measuredBaseline
     }
 
     private fun basicMeasureWidgets(constraintWidgetContainer: ConstraintWidgetContainer): Boolean {
@@ -381,7 +381,7 @@ class DependencyGraph(container: ConstraintWidgetContainer) {
             var horizontal = widget.mListDimensionBehaviors[HORIZONTAL]
             var vertical = widget.mListDimensionBehaviors[VERTICAL]
 
-            if (widget.getVisibility() == GONE) {
+            if (widget.visibility == GONE) {
                 widget.measured = true
                 continue
             }
@@ -490,7 +490,7 @@ class DependencyGraph(container: ConstraintWidgetContainer) {
                     }
                     val width = widget.width
                     var ratio = widget.mDimensionRatio
-                    if (widget.getDimensionRatioSide() == UNKNOWN) {
+                    if (widget.dimensionRatioSide == UNKNOWN) {
                         ratio = 1f / ratio
                     }
                     val height = (width * ratio + 0.5f).toInt()
@@ -622,7 +622,7 @@ class DependencyGraph(container: ConstraintWidgetContainer) {
                 }
             }
             if (widget.measured && widget.mVerticalRun!!.mBaselineDimension != null) {
-                widget.mVerticalRun!!.mBaselineDimension!!.resolve(widget.getBaselineDistance())
+                widget.mVerticalRun!!.mBaselineDimension!!.resolve(widget.baselineDistance)
             }
         }
     }

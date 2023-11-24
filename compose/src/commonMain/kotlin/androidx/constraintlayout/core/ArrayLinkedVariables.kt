@@ -14,15 +14,20 @@
  * limitations under the License.
  */
 package androidx.constraintlayout.core
-
-class ArrayLinkedVariables : ArrayRow.ArrayRowVariables {
+/**
+ * Constructor
+ *
+ * @param arrayRow the row owning us
+ * @param cache    instances cache
+ */
+open class ArrayLinkedVariables(arrayRow: ArrayRow, cache: Cache) : ArrayRow.ArrayRowVariables {
 
     var mCurrentSize = 0 // current size, accessed by ArrayRow and LinearSystem
 
-    private var mRow: ArrayRow? = null // our owner
+    private var mRow: ArrayRow? = arrayRow // our owner
 
     // pointer to the system-wide cache, allowing access to SolverVariables
-    protected var mCache: Cache? = null
+    protected var mCache: Cache? = cache
 
     private var mRowSize = 8 // default array size
 
@@ -76,19 +81,10 @@ class ArrayLinkedVariables : ArrayRow.ArrayRowVariables {
     //  current = mArrayNextIndices[current]; counter++;
     // }
 
-    /**
-     * Constructor
-     *
-     * @param arrayRow the row owning us
-     * @param cache    instances cache
-     */
-    constructor(arrayRow: ArrayRow, cache: Cache) {
-        mRow = arrayRow
-        mCache = cache
+    init {
         if (DEBUG) {
             for (i in mArrayIndices.indices) {
-                mArrayIndices[i] =
-                    NONE
+                mArrayIndices[i] = NONE
             }
         }
     }
@@ -456,6 +452,7 @@ class ArrayLinkedVariables : ArrayRow.ArrayRowVariables {
      *
      * @return true if at least one of the variable is positive
      */
+    @Suppress("UNUSED")
     fun hasAtLeastOnePositiveVariable(): Boolean {
         var current = mHead
         var counter = 0
@@ -498,6 +495,7 @@ class ArrayLinkedVariables : ArrayRow.ArrayRowVariables {
         }
     }
 
+    @Suppress("UNUSED")
     fun getHead(): Int {
         return mHead
     }
@@ -522,6 +520,7 @@ class ArrayLinkedVariables : ArrayRow.ArrayRowVariables {
     /**
      * Get the next index in mArrayIndices given the current one
      */
+    @Suppress("UNUSED")
     fun getNextIndice(index: Int): Int {
         return mArrayNextIndices[index]
     }
@@ -532,6 +531,7 @@ class ArrayLinkedVariables : ArrayRow.ArrayRowVariables {
      *
      * @return return a variable we can pivot on
      */
+    @Suppress("UNUSED")
     fun getPivotCandidate(): SolverVariable? {
         if (mCandidate == null) {
             // if no candidate is known, let's figure it out

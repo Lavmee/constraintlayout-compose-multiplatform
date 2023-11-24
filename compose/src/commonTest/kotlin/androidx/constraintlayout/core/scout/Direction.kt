@@ -24,13 +24,14 @@ enum class Direction(
      *
      * @return direction as an integer
      */
-    val direction: Int
+    val direction: Int,
 ) {
     NORTH(0),
     SOUTH(1),
     WEST(2),
     EAST(3),
-    BASE(4);
+    BASE(4),
+    ;
 
     override fun toString(): String {
         return when (this) {
@@ -120,7 +121,9 @@ enum class Direction(
         fun getDirections(orientation: Int): Array<Direction> {
             return if (orientation == ORIENTATION_VERTICAL) {
                 sVertical
-            } else sHorizontal
+            } else {
+                sHorizontal
+            }
         }
     }
 }

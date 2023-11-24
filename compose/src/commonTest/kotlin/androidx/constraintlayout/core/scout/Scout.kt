@@ -38,8 +38,8 @@ object Scout {
         if (base == null) {
             return
         }
-        if (base is ConstraintWidgetContainer
-            && base.handlesInternalConstraints()
+        if (base is ConstraintWidgetContainer &&
+            base.handlesInternalConstraints()
         ) {
             return
         }

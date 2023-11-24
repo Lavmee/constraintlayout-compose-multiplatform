@@ -96,7 +96,7 @@ class VerticalWidgetRun(widget: ConstraintWidget) : WidgetRun(widget) {
                         MATCH_CONSTRAINT_RATIO -> {
                             if (mWidget!!.mHorizontalRun!!.mDimension.resolved) {
                                 var size = 0
-                                val ratioSide = mWidget!!.getDimensionRatioSide()
+                                val ratioSide = mWidget!!.dimensionRatioSide
                                 when (ratioSide) {
                                     ConstraintWidget.HORIZONTAL -> {
                                         size = (
@@ -126,7 +126,7 @@ class VerticalWidgetRun(widget: ConstraintWidget) : WidgetRun(widget) {
                         }
 
                         MATCH_CONSTRAINT_PERCENT -> {
-                            val parent = mWidget!!.getParent()
+                            val parent = mWidget!!.parent
                             if (parent != null) {
                                 if (parent.mVerticalRun!!.mDimension.resolved) {
                                     val percent = mWidget!!.mMatchConstraintPercentHeight
@@ -183,7 +183,7 @@ class VerticalWidgetRun(widget: ConstraintWidget) : WidgetRun(widget) {
             val endTarget = end.mTargets[0]
             var startPos = startTarget.value + start.mMargin
             var endPos = endTarget.value + end.mMargin
-            var bias = mWidget!!.getVerticalBiasPercent()
+            var bias = mWidget!!.verticalBiasPercent
             if (startTarget == endTarget) {
                 startPos = startTarget.value
                 endPos = endTarget.value
@@ -203,12 +203,12 @@ class VerticalWidgetRun(widget: ConstraintWidget) : WidgetRun(widget) {
         }
         if (!mDimension.resolved) {
             super.mDimensionBehavior = mWidget!!.verticalDimensionBehaviour
-            if (mWidget!!.hasBaseline()) {
+            if (mWidget!!.hasBaseline) {
                 mBaselineDimension = BaselineDimensionDependency(this)
             }
             if (super.mDimensionBehavior != MATCH_CONSTRAINT) {
                 if (mDimensionBehavior == MATCH_PARENT) {
-                    val parent = mWidget!!.getParent()
+                    val parent = mWidget!!.parent
                     if (parent != null && parent.verticalDimensionBehaviour == FIXED) {
                         val resolvedDimension = (
                             parent.height -
@@ -226,7 +226,7 @@ class VerticalWidgetRun(widget: ConstraintWidget) : WidgetRun(widget) {
             }
         } else {
             if (mDimensionBehavior == MATCH_PARENT) {
-                val parent = mWidget!!.getParent()
+                val parent = mWidget!!.parent
                 if (parent != null && parent.verticalDimensionBehaviour == FIXED) {
                     addTarget(start, parent.mVerticalRun!!.start, mWidget!!.mTop.margin)
                     addTarget(end, parent.mVerticalRun!!.end, -mWidget!!.mBottom.margin)
@@ -275,8 +275,8 @@ class VerticalWidgetRun(widget: ConstraintWidget) : WidgetRun(widget) {
                     start.delegateToWidgetRun = true
                     end.delegateToWidgetRun = true
                 }
-                if (mWidget!!.hasBaseline()) {
-                    addTarget(baseline, start, mWidget!!.getBaselineDistance())
+                if (mWidget!!.hasBaseline) {
+                    addTarget(baseline, start, mWidget!!.baselineDistance)
                 }
             } else if (mWidget!!.mListAnchors[ConstraintWidget.ANCHOR_TOP].mTarget != null) { // <-s-e
                 val target = getTarget(
@@ -289,8 +289,8 @@ class VerticalWidgetRun(widget: ConstraintWidget) : WidgetRun(widget) {
                         mWidget!!.mListAnchors[ConstraintWidget.ANCHOR_TOP].margin,
                     )
                     addTarget(end, start, mDimension.value)
-                    if (mWidget!!.hasBaseline()) {
-                        addTarget(baseline, start, mWidget!!.getBaselineDistance())
+                    if (mWidget!!.hasBaseline) {
+                        addTarget(baseline, start, mWidget!!.baselineDistance)
                     }
                 }
             } else if (mWidget!!.mListAnchors[ConstraintWidget.ANCHOR_BOTTOM].mTarget
@@ -307,8 +307,8 @@ class VerticalWidgetRun(widget: ConstraintWidget) : WidgetRun(widget) {
                     )
                     addTarget(start, end, -mDimension.value)
                 }
-                if (mWidget!!.hasBaseline()) {
-                    addTarget(baseline, start, mWidget!!.getBaselineDistance())
+                if (mWidget!!.hasBaseline) {
+                    addTarget(baseline, start, mWidget!!.baselineDistance)
                 }
             } else if (mWidget!!.mListAnchors[ConstraintWidget.ANCHOR_BASELINE].mTarget
                 != null
@@ -318,20 +318,20 @@ class VerticalWidgetRun(widget: ConstraintWidget) : WidgetRun(widget) {
                 )
                 if (target != null) {
                     addTarget(baseline, target, 0)
-                    addTarget(start, baseline, -mWidget!!.getBaselineDistance())
+                    addTarget(start, baseline, -mWidget!!.baselineDistance)
                     addTarget(end, start, mDimension.value)
                 }
             } else {
                 // no connections, nothing to do.
-                if (mWidget !is Helper && mWidget!!.getParent() != null && mWidget!!.getAnchor(
+                if (mWidget !is Helper && mWidget!!.parent != null && mWidget!!.getAnchor(
                         ConstraintAnchor.Type.CENTER,
                     )!!.mTarget == null
                 ) {
-                    val top: DependencyNode = mWidget!!.getParent()!!.mVerticalRun!!.start
+                    val top: DependencyNode = mWidget!!.parent!!.mVerticalRun!!.start
                     addTarget(start, top, mWidget!!.y)
                     addTarget(end, start, mDimension.value)
-                    if (mWidget!!.hasBaseline()) {
-                        addTarget(baseline, start, mWidget!!.getBaselineDistance())
+                    if (mWidget!!.hasBaseline) {
+                        addTarget(baseline, start, mWidget!!.baselineDistance)
                     }
                 }
             }
@@ -359,7 +359,7 @@ class VerticalWidgetRun(widget: ConstraintWidget) : WidgetRun(widget) {
 
                     MATCH_CONSTRAINT_PERCENT -> run {
                         // we need to look up the parent dimension
-                        val parent = mWidget!!.getParent() ?: return@run
+                        val parent = mWidget!!.parent ?: return@run
                         val targetDimension: DependencyNode = parent.mVerticalRun!!.mDimension
                         mDimension.mTargets.add(targetDimension)
                         targetDimension.mDependencies.add(mDimension)
@@ -411,7 +411,7 @@ class VerticalWidgetRun(widget: ConstraintWidget) : WidgetRun(widget) {
                     }
                     mRunType = CENTER
                 }
-                if (mWidget!!.hasBaseline()) {
+                if (mWidget!!.hasBaseline) {
                     addTarget(baseline, start, 1, mBaselineDimension!!)
                 }
             } else if (mWidget!!.mListAnchors[ConstraintWidget.ANCHOR_TOP].mTarget
@@ -427,7 +427,7 @@ class VerticalWidgetRun(widget: ConstraintWidget) : WidgetRun(widget) {
                         mWidget!!.mListAnchors[ConstraintWidget.ANCHOR_TOP].margin,
                     )
                     addTarget(end, start, 1, mDimension)
-                    if (mWidget!!.hasBaseline()) {
+                    if (mWidget!!.hasBaseline) {
                         addTarget(baseline, start, 1, mBaselineDimension!!)
                     }
                     if (mDimensionBehavior == MATCH_CONSTRAINT) {
@@ -453,7 +453,7 @@ class VerticalWidgetRun(widget: ConstraintWidget) : WidgetRun(widget) {
                         -mWidget!!.mListAnchors[ConstraintWidget.ANCHOR_BOTTOM].margin,
                     )
                     addTarget(start, end, -1, mDimension)
-                    if (mWidget!!.hasBaseline()) {
+                    if (mWidget!!.hasBaseline) {
                         addTarget(baseline, start, 1, mBaselineDimension!!)
                     }
                 }
@@ -468,11 +468,11 @@ class VerticalWidgetRun(widget: ConstraintWidget) : WidgetRun(widget) {
                 }
             } else {
                 // no connections, nothing to do.
-                if (mWidget !is Helper && mWidget!!.getParent() != null) {
-                    val top: DependencyNode = mWidget!!.getParent()!!.mVerticalRun!!.start
+                if (mWidget !is Helper && mWidget!!.parent != null) {
+                    val top: DependencyNode = mWidget!!.parent!!.mVerticalRun!!.start
                     addTarget(start, top, mWidget!!.y)
                     addTarget(end, start, 1, mDimension)
-                    if (mWidget!!.hasBaseline()) {
+                    if (mWidget!!.hasBaseline) {
                         addTarget(baseline, start, 1, mBaselineDimension!!)
                     }
                     if (mDimensionBehavior == MATCH_CONSTRAINT) {

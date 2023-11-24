@@ -237,7 +237,12 @@ open class ArrayRow : LinearSystem.Row {
     }
 
     // @TODO: add description
-    fun createRowGreaterThan(a: SolverVariable?, b: Int, slack: SolverVariable?): ArrayRow {
+    @Suppress("UNUSED")
+    fun createRowGreaterThan(
+        a: SolverVariable?,
+        b: Int,
+        @Suppress("UNUSED_PARAMETER") slack: SolverVariable?,
+    ): ArrayRow {
         mConstantValue = b.toFloat()
         variables!!.put(a, -1f)
         return this
@@ -313,6 +318,7 @@ open class ArrayRow : LinearSystem.Row {
     }
 
     // @TODO: add description
+    @Suppress("UNUSED")
     fun createRowEqualDimension(
         currentWeight: Float,
         totalWeights: Float,

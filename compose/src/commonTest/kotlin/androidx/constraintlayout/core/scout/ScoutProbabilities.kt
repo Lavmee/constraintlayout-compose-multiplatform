@@ -77,8 +77,12 @@ class ScoutProbabilities {
                     val opposite = candidate % connectTypes
                     val connectTo = if (opposite == 0) direction else direction.opposite
                     estimateProbability(
-                        list[i], direction, list[widgetNumber],
-                        connectTo, list, result
+                        list[i],
+                        direction,
+                        list[widgetNumber],
+                        connectTo,
+                        list,
+                        result,
                     )
                     mProbability[i]!![dir]!![candidate] = result[RESULT_PROBABILITY]
                     mMargin[i]?.get(dir)!![candidate] = result[RESULT_MARGIN]
@@ -95,7 +99,6 @@ class ScoutProbabilities {
                 val sides = directions[horizontal]
                 for (candidate1 in 0 until mLen * 2) {
                     for (candidate2 in 0 until mLen * 2) {
-
                         // candidates are 2 per widget (left/right or above/below)
                         val widget1Number = candidate1 / 2
                         val widget2Number = candidate2 / 2
@@ -104,10 +107,14 @@ class ScoutProbabilities {
                         val widget1Side = sides[candidate1 and 0x1]
                         val widget2Side = sides[candidate2 and 0x1]
                         estimateBinaryProbability(
-                            list[i], horizontal,
-                            list[widget1Number], widget1Side,
-                            list[widget2Number], widget2Side,
-                            list, result
+                            list[i],
+                            horizontal,
+                            list[widget1Number],
+                            widget1Side,
+                            list[widget2Number],
+                            widget2Side,
+                            list,
+                            result,
                         )
                         mBinaryProbability[i][horizontal]!![candidate1][candidate2] = result[RESULT_PROBABILITY]
                         mBinaryBias[i][horizontal][candidate1][candidate2] = result[RESULT_MARGIN]
@@ -124,7 +131,6 @@ class ScoutProbabilities {
      * This applies a constraint set suggested by the Inference tables
      */
     fun applyConstraints(list: Array<ScoutWidget>) {
-
         // this provides the sequence of connections
         pickColumnWidgets(list)
         pickCenterOverlap(list)
@@ -133,7 +139,7 @@ class ScoutProbabilities {
         pickMarginConnections(list, 10) // regular margin connections that are close
         pickCenteredConnections(list, false) // general centered connections
         pickMarginConnections(list, 100) // all remaining margins
-        //pickWeakConstraints(list); // weak constraints for ensuring wrap content
+        // pickWeakConstraints(list); // weak constraints for ensuring wrap content
         if (DEBUG) {
             printBaseTable(list)
         }
@@ -154,10 +160,7 @@ class ScoutProbabilities {
                 if (scoutWidget.isGuideline) {
                     continue
                 }
-                if (!widget.isGuideline
-                    && ScoutWidget.distance(scoutWidget, widget)
-                    > MAX_DIST_FOR_CENTER_OVERLAP
-                ) {
+                if (!widget.isGuideline && ScoutWidget.distance(scoutWidget, widget) > MAX_DIST_FOR_CENTER_OVERLAP) {
                     continue
                 }
                 if (!widget.isGuideline || widget.isVerticalGuideline) {
@@ -192,8 +195,7 @@ class ScoutProbabilities {
             var n: Int = Integer.compare(w1!!.mConstraintWidget!!.x, w2!!.mConstraintWidget!!.x)
             if (n == 0) {
                 n = Integer.compare(
-                    w1.mConstraintWidget!!.width,
-                    w2.mConstraintWidget!!.width
+                    w1.mConstraintWidget!!.width, w2.mConstraintWidget!!.width,
                 )
             }
             n
@@ -237,8 +239,7 @@ class ScoutProbabilities {
             }
             val widgets: Array<ScoutWidget> = group.toTypedArray()
             widgets.sortWith(ScoutWidget.sSortY)
-            val reverse: Boolean = (widgets[0].rootDistanceY()
-                    > widgets[widgets.size - 1].rootDistanceY())
+            val reverse: Boolean = (widgets[0].rootDistanceY() > widgets[widgets.size - 1].rootDistanceY())
             val max = FloatArray(widgets.size)
             val map = IntArray(widgets.size)
             for (i in widgets.indices) {
@@ -277,7 +278,9 @@ class ScoutProbabilities {
                     gap -= widgets[i - 1].mConstraintWidget!!.height
                     widgets[i - 1].setConstraint(
                         Direction.SOUTH.direction,
-                        widgets[i], Direction.NORTH.direction, gap.toFloat()
+                        widgets[i],
+                        Direction.NORTH.direction,
+                        gap.toFloat(),
                     )
                 }
             } else {
@@ -287,7 +290,9 @@ class ScoutProbabilities {
                     gap -= widgets[i - 1].mConstraintWidget!!.height
                     widgets[i].setConstraint(
                         Direction.NORTH.direction,
-                        widgets[i - 1], Direction.SOUTH.direction, gap.toFloat()
+                        widgets[i - 1],
+                        Direction.SOUTH.direction,
+                        gap.toFloat(),
                     )
                 }
             }
@@ -300,33 +305,45 @@ class ScoutProbabilities {
                 widgets[bestToConnect].setCentered(0, w1, w2, dir1, dir2, 0f)
                 for (i in bestToConnect + 1 until widgets.size) {
                     widgets[i].setCentered(
-                        1, widgets[i - 1], widgets[i - 1],
+                        1,
+                        widgets[i - 1],
+                        widgets[i - 1],
                         Direction.WEST,
-                        Direction.EAST, 0f
+                        Direction.EAST,
+                        0f,
                     )
                 }
                 for (i in 1..bestToConnect) {
                     widgets[i - 1].setCentered(
-                        1, widgets[i], widgets[i],
+                        1,
+                        widgets[i],
+                        widgets[i],
                         Direction.WEST,
-                        Direction.EAST, 0f
+                        Direction.EAST,
+                        0f,
                     )
                 }
             } else {
                 if (reverse) {
                     for (i in 1 until widgets.size) {
                         widgets[i - 1].setCentered(
-                            0, widgets[i], widgets[i],
+                            0,
+                            widgets[i],
+                            widgets[i],
                             Direction.WEST,
-                            Direction.EAST, 0f
+                            Direction.EAST,
+                            0f,
                         )
                     }
                 } else {
                     for (i in 1 until widgets.size) {
                         widgets[i].setCentered(
-                            0, widgets[i - 1], widgets[i - 1],
+                            0,
+                            widgets[i - 1],
+                            widgets[i - 1],
                             Direction.WEST,
-                            Direction.EAST, 0f
+                            Direction.EAST,
+                            0f,
                         )
                     }
                 }
@@ -361,8 +378,12 @@ class ScoutProbabilities {
             var s = ""
             if (DEBUG) {
                 println(" b check " + list[i] + " " + widgetProbability[4]!![maxIndex])
-                s = (list[i].toString() + "(" + Direction.toString(baseline) + ") -> " + list[maxIndex] + " "
-                        + Direction.toString(baseline))
+                s =
+                    (
+                        list[i].toString() + "(" + Direction.toString(baseline) + ") -> " + list[maxIndex] + " " + Direction.toString(
+                            baseline,
+                        )
+                        )
                 println("try $s")
             }
             if (list[i].setConstraint(baseline, list[maxIndex], baseline, 0f)) {
@@ -413,10 +434,7 @@ class ScoutProbabilities {
                             continue
                         }
                         worked = list[i].setCentered(
-                            horizontal * 2, list[wNo1], list[wNo2],
-                            widget1Side,
-                            widget2Side,
-                            bias[max1][max2]
+                            horizontal * 2, list[wNo1], list[wNo2], widget1Side, widget2Side, bias[max1][max2],
                         )
                         if (worked) {
                             mProbability[i]!![horizontal * 2] = null
@@ -495,17 +513,21 @@ class ScoutProbabilities {
                     if (mMargin[i]?.get(maxDirection)!![maxIndex] > maxMargin[horizontal]) {
                         continue
                     }
-                    val s: String = (list[i].toString() + "(" + Direction.toString(maxDirection) + ") -> " + list[m]
-                            + " "
-                            + Direction.toString(cDir))
+                    val s: String =
+                        (
+                            list[i].toString() + "(" + Direction.toString(maxDirection) + ") -> " + list[m] + " " + Direction.toString(
+                                cDir,
+                            )
+                            )
                     if (DEBUG) {
                         println("try $s")
                     }
-                    if (!list[i]
-                            .setConstraint(
-                                maxDirection, list[m], cDir,
-                                mMargin[i]?.get(maxDirection)!![maxIndex]
-                            )
+                    if (!list[i].setConstraint(
+                            maxDirection,
+                            list[m],
+                            cDir,
+                            mMargin[i]?.get(maxDirection)!![maxIndex],
+                        )
                     ) {
                         if (widgetProbability[maxDirection]!![maxIndex] >= 0) {
                             widgetProbability[maxDirection]!![maxIndex] = CONSTRAINT_FAILED_FLAG.toFloat()
@@ -542,9 +564,7 @@ class ScoutProbabilities {
                 }
             }
             if (widget.isCentered(Direction.ORIENTATION_HORIZONTAL)) {
-                if (centeredHorizontal == null
-                    || centeredHorizontal.width > widget.width
-                ) {
+                if (centeredHorizontal == null || centeredHorizontal.width > widget.width) {
                     centeredHorizontal = widget
                 }
             }
@@ -617,12 +637,11 @@ class ScoutProbabilities {
                 if (candidates[j]!!.isNotEmpty() && candidates[j + 1]!!.isNotEmpty()) {
                     val side = directions[j].opposite
                     val otherSide = directions[j]
-                    if (maxCandidate[j]!!.getLocation(side)
-                        < maxCandidate[j + 1]!!.getLocation(otherSide)
-                    ) {
+                    if (maxCandidate[j]!!.getLocation(side) < maxCandidate[j + 1]!!.getLocation(otherSide)) {
                         maxCandidate[j]!!.setWeakConstraint(
-                            side.direction, maxCandidate[j + 1]!!,
-                            otherSide.direction
+                            side.direction,
+                            maxCandidate[j + 1]!!,
+                            otherSide.direction,
                         )
                         candidates[j] = arrayOfNulls(0) // prevent next step from using
                         maxCandidate[j] = null
@@ -643,13 +662,15 @@ class ScoutProbabilities {
                 if (clearToRoot1 && clearToRoot2) {
                     if (maxDist[j] > maxDist[j + 1]) {
                         maxCandidate[j]!!.setWeakConstraint(
-                            side.direction, list[0],
-                            side.direction
+                            side.direction,
+                            list[0],
+                            side.direction,
                         )
                     } else {
                         maxCandidate[j + 1]!!.setWeakConstraint(
-                            otherSide.direction, list[0],
-                            otherSide.direction
+                            otherSide.direction,
+                            list[0],
+                            otherSide.direction,
                         )
                     }
                 }
@@ -657,8 +678,7 @@ class ScoutProbabilities {
             j += 2
         }
     }
-    /*-----------------------------------------------------------------------*/ // Printing fuctions (for use in debugging)
-    /*-----------------------------------------------------------------------*/
+
     /**
      * Print the Tables
      */
@@ -730,8 +750,7 @@ class ScoutProbabilities {
             }
             for (dir in mProbability[i]!!.indices) { // above, below, left, right
                 println(
-                    leftTrim(padd + i + " " + Direction.toString(dir), size) + " "
-                            + toS(mProbability[i]!![dir])
+                    leftTrim(padd + i + " " + Direction.toString(dir), size) + " " + toS(mProbability[i]!![dir]),
                 )
                 println(padd + " " + toS(mMargin[i]?.get(dir)))
             }
@@ -754,11 +773,9 @@ class ScoutProbabilities {
         private const val MAX_ROOT_OVERHANG = 10
         private const val SKIP_SPARSE_COLUMNS = true
         private fun sameCol(a: ScoutWidget?, b: ScoutWidget?): Boolean {
-            return (a!!.mConstraintWidget!!.x == b!!.mConstraintWidget!!.x
-                    && a.mConstraintWidget!!.width == b.mConstraintWidget!!.width)
+            return (a!!.mConstraintWidget!!.x == b!!.mConstraintWidget!!.x && a.mConstraintWidget!!.width == b.mConstraintWidget!!.width)
         }
-        /*-----------------------------------------------------------------------*/ // core probability estimators
-        /*-----------------------------------------------------------------------*/
+
         /**
          * This defines the "probability" of a constraint between two widgets.
          *
@@ -769,10 +786,12 @@ class ScoutProbabilities {
          * @param result  populates results with probability and offset
          */
         private fun estimateProbability(
-            from: ScoutWidget, fromDir: Direction,
-            to: ScoutWidget, toDir: Direction,
+            from: ScoutWidget,
+            fromDir: Direction,
+            to: ScoutWidget,
+            toDir: Direction,
             list: Array<ScoutWidget>,
-            result: FloatArray
+            result: FloatArray,
         ) {
             result[RESULT_PROBABILITY] = 0f
             result[RESULT_MARGIN] = 0f
@@ -783,14 +802,10 @@ class ScoutProbabilities {
                 return
             }
             if (to.isGuideline) {
-                if ((toDir == Direction.NORTH || toDir == Direction.SOUTH)
-                    && to.isVerticalGuideline
-                ) {
+                if ((toDir == Direction.NORTH || toDir == Direction.SOUTH) && to.isVerticalGuideline) {
                     return
                 }
-                if ((toDir == Direction.EAST || toDir == Direction.WEST)
-                    && to.isHorizontalGuideline
-                ) {
+                if ((toDir == Direction.EAST || toDir == Direction.WEST) && to.isHorizontalGuideline) {
                     return
                 }
             }
@@ -811,8 +826,7 @@ class ScoutProbabilities {
             val positionDiff = if (fromDir.reverse()) fromLocation - toLocation else toLocation - fromLocation
             var distance: Float = 2 * ScoutWidget.distance(from, to)
             if (to.isRoot) {
-                distance = abs((distance - ROOT_MARGIN_DISCOUNT).toDouble())
-                    .toFloat()
+                distance = abs((distance - ROOT_MARGIN_DISCOUNT).toDouble()).toFloat()
             }
             // probability decreases with distance and margin distance
             var probability = 1 / (1 + distance * distance + positionDiff * positionDiff)
@@ -842,11 +856,15 @@ class ScoutProbabilities {
          * @param result      populates results with probability and offset
          */
         private fun estimateBinaryProbability(
-            from: ScoutWidget, orientation: Int,  // 0 = north/south 1 = east/west
-            to1: ScoutWidget, toDir1: Direction,
-            to2: ScoutWidget, toDir2: Direction,
+            from: ScoutWidget,
+            // 0 = north/south 1 = east/west
+            orientation: Int,
+            to1: ScoutWidget,
+            toDir1: Direction,
+            to2: ScoutWidget,
+            toDir2: Direction,
             list: Array<ScoutWidget>,
-            result: FloatArray
+            result: FloatArray,
         ) {
             result[RESULT_PROBABILITY] = 0f
             result[RESULT_MARGIN] = 0f
@@ -863,9 +881,8 @@ class ScoutProbabilities {
                 }
             }
             // distance normalizing scale factor
-            val scale: Float = (0.5f * if (orientation == Direction.ORIENTATION_VERTICAL)
-                from.parent!!.height else
-                from.parent!!.width)
+            val scale: Float =
+                (0.5f * if (orientation == Direction.ORIENTATION_VERTICAL) from.parent!!.height else from.parent!!.width)
             val fromLeft = Direction.getDirections(orientation)[0]
             val fromRight = Direction.getDirections(orientation)[1]
             val location1: Float = from.getLocation(fromLeft)
@@ -897,8 +914,7 @@ class ScoutProbabilities {
             probability += 1 / (1 + abs((positionDiff1 - positionDiff2).toDouble())).toFloat()
             probability *= if (to1.isRoot && to2.isRoot) 2f else if (SUPPORT_CENTER_TO_NON_ROOT) 1f else 0f
             result[RESULT_PROBABILITY] = probability
-            result[RESULT_MARGIN] = min(positionDiff1.toDouble(), positionDiff2.toDouble())
-                .toFloat()
+            result[RESULT_MARGIN] = min(positionDiff1.toDouble(), positionDiff2.toDouble()).toFloat()
         }
     }
 }

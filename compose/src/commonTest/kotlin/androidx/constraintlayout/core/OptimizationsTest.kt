@@ -41,8 +41,8 @@ class OptimizationsTest {
         a.connect(ConstraintAnchor.Type.LEFT, root, ConstraintAnchor.Type.LEFT, 8)
         a.connect(ConstraintAnchor.Type.RIGHT, root, ConstraintAnchor.Type.RIGHT, 8)
         a.connect(ConstraintAnchor.Type.BOTTOM, root, ConstraintAnchor.Type.BOTTOM, 8)
-        a.setVerticalBiasPercent(0.2f)
-        a.setHorizontalBiasPercent(0.2f)
+        a.verticalBiasPercent = 0.2f
+        a.horizontalBiasPercent = 0.2f
         a.setHorizontalDimensionBehaviour(DimensionBehaviour.MATCH_CONSTRAINT)
         b.connect(ConstraintAnchor.Type.TOP, a, ConstraintAnchor.Type.BOTTOM)
         val metrics = Metrics()
@@ -54,7 +54,7 @@ class OptimizationsTest {
         assertEquals(a.top, 163)
         assertEquals(a.right, 592)
         assertEquals(a.bottom, 173)
-        a.setVisibility(ConstraintWidget.GONE)
+        a.visibility = ConstraintWidget.GONE
         root.layout()
         println("2) A: $a")
         assertEquals(a.left, 120)
@@ -123,7 +123,7 @@ class OptimizationsTest {
         assertEquals(b.width, 170, 1)
         assertEquals(c.width, 170, 1)
         a.setHorizontalChainStyle(ConstraintWidget.CHAIN_SPREAD_INSIDE)
-        a.setVisibility(ConstraintWidget.GONE)
+        a.visibility = ConstraintWidget.GONE
         root.layout()
         println("4) root: $root A: $a B: $b C: $c")
         println(metrics)
@@ -178,14 +178,14 @@ class OptimizationsTest {
         println(metrics)
         assertEquals(a.left, 170)
         assertEquals(b.left, 370)
-        a.setHorizontalBiasPercent(0f)
+        a.horizontalBiasPercent = 0f
         root.layout()
         println("4) root: $root A: $a B: $b")
         println(metrics)
         assertEquals(a.left, 40)
         assertEquals(b.left, 240)
-        a.setHorizontalBiasPercent(0.5f)
-        a.setVisibility(ConstraintWidget.GONE)
+        a.horizontalBiasPercent = 0.5f
+        a.visibility = ConstraintWidget.GONE
         //        root.setOptimizationLevel(Optimizer.OPTIMIZATION_NONE);
         root.layout()
         println("5) root: $root A: $a B: $b")
@@ -218,8 +218,8 @@ class OptimizationsTest {
         a.connect(ConstraintAnchor.Type.LEFT, root, ConstraintAnchor.Type.LEFT, 40)
         a.connect(ConstraintAnchor.Type.RIGHT, b, ConstraintAnchor.Type.LEFT, 100)
         a.setHorizontalChainStyle(ConstraintWidget.CHAIN_PACKED)
-        a.setHorizontalBiasPercent(0.5f)
-        a.setVisibility(ConstraintWidget.GONE)
+        a.horizontalBiasPercent = 0.5f
+        a.visibility = ConstraintWidget.GONE
         //        root.setOptimizationLevel(Optimizer.OPTIMIZATION_NONE);
         root.layout()
         println("5) root: $root A: $a B: $b")
@@ -262,8 +262,8 @@ class OptimizationsTest {
         root.debugName = "root"
         a.debugName = "A"
         b.debugName = "B"
-        a.setBaselineDistance(8)
-        b.setBaselineDistance(8)
+        a.baselineDistance = 8
+        b.baselineDistance = 8
         root.add(a)
         root.add(b)
         a.connect(ConstraintAnchor.Type.TOP, root, ConstraintAnchor.Type.TOP)
@@ -339,8 +339,8 @@ class OptimizationsTest {
         println(metrics)
         assertEquals(a.left, (root.width - a.width) / 2)
         assertEquals(a.top, (root.height - a.height) / 2)
-        a.setHorizontalBiasPercent(0.3f)
-        a.setVerticalBiasPercent(0.3f)
+        a.horizontalBiasPercent = 0.3f
+        a.verticalBiasPercent = 0.3f
         root.layout()
         println("2) root: $root A: $a")
         println(metrics)
@@ -384,7 +384,7 @@ class OptimizationsTest {
 //        assertEquals(A.getTop(), 31);
 //        assertEquals(B.getLeft(), 27);
 //        assertEquals(B.getTop(), 155);
-        a.setVisibility(ConstraintWidget.GONE)
+        a.visibility = ConstraintWidget.GONE
         val metrics = Metrics()
         root.fillMetrics(metrics)
         root.layout()
@@ -693,9 +693,9 @@ class OptimizationsTest {
         root.add(a)
         root.add(b)
         root.add(c)
-        a.setBaselineDistance(8)
-        b.setBaselineDistance(8)
-        c.setBaselineDistance(8)
+        a.baselineDistance = 8
+        b.baselineDistance = 8
+        c.baselineDistance = 8
         a.connect(ConstraintAnchor.Type.LEFT, root, ConstraintAnchor.Type.LEFT, 10)
         a.connect(ConstraintAnchor.Type.BASELINE, b, ConstraintAnchor.Type.BASELINE)
         b.connect(ConstraintAnchor.Type.LEFT, a, ConstraintAnchor.Type.RIGHT, 16)
@@ -733,9 +733,9 @@ class OptimizationsTest {
         root.add(a)
         root.add(b)
         root.add(c)
-        a.setBaselineDistance(8)
-        b.setBaselineDistance(8)
-        c.setBaselineDistance(8)
+        a.baselineDistance = 8
+        b.baselineDistance = 8
+        c.baselineDistance = 8
         a.connect(ConstraintAnchor.Type.BOTTOM, root, ConstraintAnchor.Type.BOTTOM)
         a.connect(ConstraintAnchor.Type.LEFT, b, ConstraintAnchor.Type.LEFT)
         b.connect(ConstraintAnchor.Type.BOTTOM, a, ConstraintAnchor.Type.TOP)
@@ -774,9 +774,9 @@ class OptimizationsTest {
         root.add(a)
         root.add(b)
         root.add(c)
-        a.setBaselineDistance(8)
-        b.setBaselineDistance(8)
-        c.setBaselineDistance(8)
+        a.baselineDistance = 8
+        b.baselineDistance = 8
+        c.baselineDistance = 8
         a.connect(ConstraintAnchor.Type.LEFT, root, ConstraintAnchor.Type.LEFT, 10)
         a.connect(ConstraintAnchor.Type.TOP, root, ConstraintAnchor.Type.TOP, 20)
         b.connect(ConstraintAnchor.Type.LEFT, root, ConstraintAnchor.Type.LEFT, 30)
@@ -813,8 +813,8 @@ class OptimizationsTest {
         b.debugName = "B"
         root.add(a)
         root.add(b)
-        a.setBaselineDistance(8)
-        b.setBaselineDistance(8)
+        a.baselineDistance = 8
+        b.baselineDistance = 8
         a.connect(ConstraintAnchor.Type.LEFT, root, ConstraintAnchor.Type.LEFT, 10)
         a.connect(ConstraintAnchor.Type.TOP, root, ConstraintAnchor.Type.TOP, 20)
         a.connect(ConstraintAnchor.Type.RIGHT, root, ConstraintAnchor.Type.RIGHT, 10)
@@ -854,10 +854,10 @@ class OptimizationsTest {
         root.add(b)
         root.add(c)
         root.add(d)
-        a.setBaselineDistance(8)
-        b.setBaselineDistance(8)
-        c.setBaselineDistance(8)
-        d.setBaselineDistance(8)
+        a.baselineDistance = 8
+        b.baselineDistance = 8
+        c.baselineDistance = 8
+        d.baselineDistance = 8
         a.connect(ConstraintAnchor.Type.LEFT, root, ConstraintAnchor.Type.LEFT, 10)
         a.connect(ConstraintAnchor.Type.RIGHT, root, ConstraintAnchor.Type.RIGHT, 10)
         a.connect(ConstraintAnchor.Type.TOP, root, ConstraintAnchor.Type.TOP, 20)
@@ -904,9 +904,9 @@ class OptimizationsTest {
         root.add(a)
         root.add(b)
         root.add(c)
-        a.setBaselineDistance(8)
-        b.setBaselineDistance(8)
-        c.setBaselineDistance(8)
+        a.baselineDistance = 8
+        b.baselineDistance = 8
+        c.baselineDistance = 8
         a.setFrame(142, 96, 242, 130)
         b.connect(ConstraintAnchor.Type.LEFT, a, ConstraintAnchor.Type.RIGHT, 10)
         b.connect(ConstraintAnchor.Type.TOP, a, ConstraintAnchor.Type.TOP, 100)
@@ -966,13 +966,13 @@ class OptimizationsTest {
         root.add(c)
         root.add(d)
         root.add(f)
-        a.setBaselineDistance(8)
-        b.setBaselineDistance(8)
-        c.setBaselineDistance(8)
-        d.setBaselineDistance(8)
-        e.setBaselineDistance(8)
-        f.setBaselineDistance(8)
-        g.setBaselineDistance(8)
+        a.baselineDistance = 8
+        b.baselineDistance = 8
+        c.baselineDistance = 8
+        d.baselineDistance = 8
+        e.baselineDistance = 8
+        f.baselineDistance = 8
+        g.baselineDistance = 8
         a.connect(ConstraintAnchor.Type.TOP, root, ConstraintAnchor.Type.TOP, 20)
         a.connect(ConstraintAnchor.Type.LEFT, root, ConstraintAnchor.Type.LEFT)
         a.connect(ConstraintAnchor.Type.RIGHT, root, ConstraintAnchor.Type.RIGHT)
@@ -1038,13 +1038,13 @@ class OptimizationsTest {
         root.add(d)
         root.add(f)
         root.add(h)
-        b.setBaselineDistance(8)
-        c.setBaselineDistance(8)
-        d.setBaselineDistance(8)
-        e.setBaselineDistance(8)
-        f.setBaselineDistance(8)
-        g.setBaselineDistance(8)
-        h.setBaselineDistance(8)
+        b.baselineDistance = 8
+        c.baselineDistance = 8
+        d.baselineDistance = 8
+        e.baselineDistance = 8
+        f.baselineDistance = 8
+        g.baselineDistance = 8
+        h.baselineDistance = 8
         a.connect(ConstraintAnchor.Type.TOP, root, ConstraintAnchor.Type.TOP, 16)
         a.connect(ConstraintAnchor.Type.LEFT, root, ConstraintAnchor.Type.LEFT, 16)
         a.connect(ConstraintAnchor.Type.BOTTOM, root, ConstraintAnchor.Type.BOTTOM, 16)
@@ -1117,13 +1117,13 @@ class OptimizationsTest {
         root.add(d)
         root.add(f)
         root.add(h)
-        b.setBaselineDistance(8)
-        c.setBaselineDistance(8)
-        d.setBaselineDistance(8)
-        e.setBaselineDistance(8)
-        f.setBaselineDistance(8)
-        g.setBaselineDistance(8)
-        h.setBaselineDistance(8)
+        b.baselineDistance = 8
+        c.baselineDistance = 8
+        d.baselineDistance = 8
+        e.baselineDistance = 8
+        f.baselineDistance = 8
+        g.baselineDistance = 8
+        h.baselineDistance = 8
         a.connect(ConstraintAnchor.Type.TOP, root, ConstraintAnchor.Type.TOP, 16)
         a.connect(ConstraintAnchor.Type.LEFT, root, ConstraintAnchor.Type.LEFT, 16)
         a.connect(ConstraintAnchor.Type.BOTTOM, root, ConstraintAnchor.Type.BOTTOM, 16)
@@ -1182,9 +1182,9 @@ class OptimizationsTest {
         root.add(a)
         root.add(b)
         root.add(c)
-        a.setBaselineDistance(28)
-        b.setBaselineDistance(8)
-        c.setBaselineDistance(8)
+        a.baselineDistance = 28
+        b.baselineDistance = 8
+        c.baselineDistance = 8
         a.connect(ConstraintAnchor.Type.TOP, root, ConstraintAnchor.Type.TOP, 16)
         a.connect(ConstraintAnchor.Type.LEFT, root, ConstraintAnchor.Type.LEFT, 16)
         a.connect(ConstraintAnchor.Type.RIGHT, b, ConstraintAnchor.Type.LEFT)
@@ -1226,10 +1226,10 @@ class OptimizationsTest {
         root.add(b)
         root.add(c)
         root.add(d)
-        a.setBaselineDistance(28)
-        b.setBaselineDistance(8)
-        c.setBaselineDistance(8)
-        d.setBaselineDistance(8)
+        a.baselineDistance = 28
+        b.baselineDistance = 8
+        c.baselineDistance = 8
+        d.baselineDistance = 8
         a.connect(ConstraintAnchor.Type.TOP, root, ConstraintAnchor.Type.TOP, 16)
         a.connect(ConstraintAnchor.Type.LEFT, root, ConstraintAnchor.Type.LEFT, 16)
         a.connect(ConstraintAnchor.Type.RIGHT, b, ConstraintAnchor.Type.LEFT)
@@ -1271,7 +1271,7 @@ class OptimizationsTest {
         guideline.debugName = "guideline"
         root.add(a)
         root.add(guideline)
-        a.setBaselineDistance(28)
+        a.baselineDistance = 28
         a.connect(ConstraintAnchor.Type.LEFT, guideline, ConstraintAnchor.Type.LEFT, 16)
         a.connect(ConstraintAnchor.Type.BOTTOM, root, ConstraintAnchor.Type.BOTTOM, 16)
         root.measurer = sMeasurer
@@ -1323,7 +1323,7 @@ class OptimizationsTest {
         root.add(d2)
         root.add(guidelineStart)
         root.add(guidelineEnd)
-        c.setVisibility(ConstraintWidget.GONE)
+        c.visibility = ConstraintWidget.GONE
         chainConnect(
             ConstraintAnchor.Type.LEFT,
             guidelineStart,
@@ -1427,7 +1427,7 @@ class OptimizationsTest {
         root.add(d2)
         root.add(guidelineStart)
         root.add(guidelineEnd)
-        c.setVisibility(ConstraintWidget.GONE)
+        c.visibility = ConstraintWidget.GONE
         chainConnect(
             ConstraintAnchor.Type.TOP,
             guidelineStart,
@@ -1550,7 +1550,7 @@ class OptimizationsTest {
         root.add(barrier)
         a.connect(ConstraintAnchor.Type.TOP, root, ConstraintAnchor.Type.TOP)
         b.connect(ConstraintAnchor.Type.TOP, a, ConstraintAnchor.Type.BOTTOM)
-        b.setVisibility(ConstraintWidget.GONE)
+        b.visibility = ConstraintWidget.GONE
         c.connect(ConstraintAnchor.Type.TOP, barrier, ConstraintAnchor.Type.TOP)
         barrier.add(a)
         barrier.add(b)

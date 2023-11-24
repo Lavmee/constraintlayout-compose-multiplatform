@@ -95,9 +95,8 @@ class Guideline : ConstraintWidget {
     /**
      * Specify the xml type for the container
      */
-    override fun getType(): String {
-        return "Guideline"
-    }
+
+    override var type: String? = "Guideline"
 
     /**
      * get the orientation VERTICAL or HORIZONTAL
@@ -207,16 +206,16 @@ class Guideline : ConstraintWidget {
             println("-- adding $debugName to the solver")
             println("----------------------------------------------\n")
         }
-        val parent = getParent() as ConstraintWidgetContainer? ?: return
+        val parent = this.parent as ConstraintWidgetContainer? ?: return
         var begin = parent.getAnchor(ConstraintAnchor.Type.LEFT)
         var end = parent.getAnchor(ConstraintAnchor.Type.RIGHT)
         var parentWrapContent =
-            if (mParent != null) mParent!!.mListDimensionBehaviors[DIMENSION_HORIZONTAL] == WRAP_CONTENT else false
+            if (this.parent != null) this.parent!!.mListDimensionBehaviors[DIMENSION_HORIZONTAL] == WRAP_CONTENT else false
         if (mOrientation == ConstraintWidget.HORIZONTAL) {
             begin = parent.getAnchor(ConstraintAnchor.Type.TOP)
             end = parent.getAnchor(ConstraintAnchor.Type.BOTTOM)
             parentWrapContent =
-                if (mParent != null) mParent!!.mListDimensionBehaviors[DIMENSION_VERTICAL] == WRAP_CONTENT else false
+                if (this.parent != null) this.parent!!.mListDimensionBehaviors[DIMENSION_VERTICAL] == WRAP_CONTENT else false
         }
         if (mResolved && mAnchor.hasFinalValue()) {
             val guide = system.createObjectVariable(mAnchor)
@@ -312,27 +311,27 @@ class Guideline : ConstraintWidget {
     }
 
     override fun updateFromSolver(system: LinearSystem, optimize: Boolean) {
-        if (getParent() == null) {
+        if (parent == null) {
             return
         }
         val value = system.getObjectVariableValue(mAnchor)
         if (mOrientation == ConstraintWidget.VERTICAL) {
             setX(value)
             setY(0)
-            height = getParent()!!.height
+            height = parent!!.height
             width = 0
         } else {
             setX(0)
             setY(value)
-            width = getParent()!!.width
+            width = parent!!.width
             height = 0
         }
     }
 
     fun inferRelativePercentPosition() {
-        var percent = x / getParent()!!.width.toFloat()
+        var percent = x / parent!!.width.toFloat()
         if (mOrientation == ConstraintWidget.HORIZONTAL) {
-            percent = y / getParent()!!.height.toFloat()
+            percent = y / parent!!.height.toFloat()
         }
         setGuidePercent(percent)
     }
@@ -346,9 +345,9 @@ class Guideline : ConstraintWidget {
     }
 
     fun inferRelativeEndPosition() {
-        var position = getParent()!!.width - x
+        var position = parent!!.width - x
         if (mOrientation == ConstraintWidget.HORIZONTAL) {
-            position = getParent()!!.height - y
+            position = parent!!.height - y
         }
         setGuideEnd(position)
     }

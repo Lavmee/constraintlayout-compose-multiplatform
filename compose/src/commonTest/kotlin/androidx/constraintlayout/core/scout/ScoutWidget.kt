@@ -85,7 +85,9 @@ class ScoutWidget(constraintWidget: ConstraintWidget, parent: ScoutWidget?) : Co
         }
         return if (x != other.x) {
             compare(x, other.x)
-        } else 0
+        } else {
+            0
+        }
     }
 
     override fun toString(): String {
@@ -146,8 +148,12 @@ class ScoutWidget(constraintWidget: ConstraintWidget, parent: ScoutWidget?) : Co
      * @return true if it was able to connect
      */
     fun setCentered(
-        dir: Int, to1: ScoutWidget, to2: ScoutWidget, cDir1: Direction, cDir2: Direction,
-        gap: Float
+        dir: Int,
+        to1: ScoutWidget,
+        to2: ScoutWidget,
+        cDir1: Direction,
+        cDir2: Direction,
+        gap: Float,
     ): Boolean {
         var gap = gap
         val ori = if (dir == 0) Direction.NORTH else Direction.WEST
@@ -164,8 +170,8 @@ class ScoutWidget(constraintWidget: ConstraintWidget, parent: ScoutWidget?) : Co
                 return false
             }
         }
-        return if (anchor1!!.isConnectionAllowed(to1.mConstraintWidget!!)
-            && anchor2!!.isConnectionAllowed(to2.mConstraintWidget!!)
+        return if (anchor1!!.isConnectionAllowed(to1.mConstraintWidget!!) &&
+            anchor2!!.isConnectionAllowed(to2.mConstraintWidget!!)
         ) {
             // Resize
             if (!isResizable(dir)) {
@@ -174,7 +180,7 @@ class ScoutWidget(constraintWidget: ConstraintWidget, parent: ScoutWidget?) : Co
                     val stretchRatio = gap * 2 / height.toFloat()
                     if (isCandidateResizable(dir) && stretchRatio < MAXIMUM_STRETCH_GAP) {
                         mConstraintWidget!!.setVerticalDimensionBehaviour(
-                            ConstraintWidget.DimensionBehaviour.MATCH_CONSTRAINT
+                            ConstraintWidget.DimensionBehaviour.MATCH_CONSTRAINT,
                         )
                     } else {
                         gap = 0f
@@ -184,7 +190,7 @@ class ScoutWidget(constraintWidget: ConstraintWidget, parent: ScoutWidget?) : Co
                     val stretchRatio = gap * 2 / width.toFloat()
                     if (isCandidateResizable(dir) && stretchRatio < MAXIMUM_STRETCH_GAP) {
                         mConstraintWidget!!.setHorizontalDimensionBehaviour(
-                            ConstraintWidget.DimensionBehaviour.MATCH_CONSTRAINT
+                            ConstraintWidget.DimensionBehaviour.MATCH_CONSTRAINT,
                         )
                     } else {
                         gap = 0f
@@ -197,14 +203,14 @@ class ScoutWidget(constraintWidget: ConstraintWidget, parent: ScoutWidget?) : Co
                     lookupType(cDir1),
                     to1.mConstraintWidget,
                     lookupType(cDir1),
-                    gap.toInt()
+                    gap.toInt(),
                 )
                 connect(
                     mConstraintWidget,
                     lookupType(cDir2),
                     to2.mConstraintWidget,
                     lookupType(cDir2),
-                    gap.toInt()
+                    gap.toInt(),
                 )
             } else {
                 val pos1 = to1.getLocation(cDir1)
@@ -215,13 +221,13 @@ class ScoutWidget(constraintWidget: ConstraintWidget, parent: ScoutWidget?) : Co
                     mConstraintWidget,
                     c1,
                     to1.mConstraintWidget,
-                    cDir1
+                    cDir1,
                 )
                 val gap2 = gap(
                     mConstraintWidget,
                     c2,
                     to2.mConstraintWidget,
-                    cDir2
+                    cDir2,
                 )
                 connect(
                     mConstraintWidget,
@@ -229,7 +235,7 @@ class ScoutWidget(constraintWidget: ConstraintWidget, parent: ScoutWidget?) : Co
                     to1.mConstraintWidget,
                     lookupType(cDir1),
                     max(0.0, gap1.toDouble())
-                        .toInt()
+                        .toInt(),
                 )
                 connect(
                     mConstraintWidget,
@@ -237,7 +243,7 @@ class ScoutWidget(constraintWidget: ConstraintWidget, parent: ScoutWidget?) : Co
                     to2.mConstraintWidget,
                     lookupType(cDir2),
                     max(0.0, gap2.toDouble())
-                        .toInt()
+                        .toInt(),
                 )
             }
             true
@@ -268,13 +274,18 @@ class ScoutWidget(constraintWidget: ConstraintWidget, parent: ScoutWidget?) : Co
         }
         if (anchor1!!.isConnectionAllowed(to1.mConstraintWidget!!)) {
             connect(
-                mConstraintWidget, lookupType(ori), to1.mConstraintWidget, lookupType(cDir1),
-                0
+                mConstraintWidget,
+                lookupType(ori),
+                to1.mConstraintWidget,
+                lookupType(cDir1),
+                0,
             )
             connect(
-                mConstraintWidget, lookupType(ori.opposite), to1.mConstraintWidget,
+                mConstraintWidget,
+                lookupType(ori.opposite),
+                to1.mConstraintWidget,
                 lookupType(cDir1),
-                0
+                0,
             )
         }
         return true
@@ -299,7 +310,9 @@ class ScoutWidget(constraintWidget: ConstraintWidget, parent: ScoutWidget?) : Co
             if (anchor!!.isConnected) {
                 return if (anchor.target!!.owner !== to.mConstraintWidget) {
                     false
-                } else true
+                } else {
+                    true
+                }
             }
             if (dir == Direction.BASE.direction) {
                 if (mConstraintWidget!!.getAnchor(ConstraintAnchor.Type.BOTTOM)!!.isConnected) {
@@ -338,7 +351,7 @@ class ScoutWidget(constraintWidget: ConstraintWidget, parent: ScoutWidget?) : Co
                 lookupType(dir),
                 to.mConstraintWidget,
                 lookupType(cDir),
-                gap.toInt()
+                gap.toInt(),
             )
             true
         } else {
@@ -360,12 +373,14 @@ class ScoutWidget(constraintWidget: ConstraintWidget, parent: ScoutWidget?) : Co
         if (mKeepExistingConnections && anchor!!.isConnected) {
             return if (anchor.target!!.owner !== to.mConstraintWidget) {
                 false
-            } else true
+            } else {
+                true
+            }
         }
         return if (anchor!!.isConnectionAllowed(to.mConstraintWidget!!)) {
             if (DEBUG) {
                 println(
-                    "WEAK CONSTRAINT " + mConstraintWidget + " to " + to.mConstraintWidget
+                    "WEAK CONSTRAINT " + mConstraintWidget + " to " + to.mConstraintWidget,
                 )
             }
             connectWeak(
@@ -373,7 +388,7 @@ class ScoutWidget(constraintWidget: ConstraintWidget, parent: ScoutWidget?) : Co
                 lookupType(dir),
                 to.mConstraintWidget,
                 lookupType(cDir),
-                gap.toInt()
+                gap.toInt(),
             )
             true
         } else {
@@ -390,32 +405,50 @@ class ScoutWidget(constraintWidget: ConstraintWidget, parent: ScoutWidget?) : Co
      */
     fun isCandidateResizable(dimension: Int): Boolean {
         return if (dimension == 0) {
-            (mConstraintWidget!!.verticalDimensionBehaviour
-                    == ConstraintWidget.DimensionBehaviour.MATCH_CONSTRAINT
-                    || ((mConstraintWidget!!.verticalDimensionBehaviour
-                    == ConstraintWidget.DimensionBehaviour.FIXED)
-                    && mConstraintWidget!!.height > mConstraintWidget!!.minHeight))
+            (
+                mConstraintWidget!!.verticalDimensionBehaviour
+                    == ConstraintWidget.DimensionBehaviour.MATCH_CONSTRAINT ||
+                    (
+                        (
+                            mConstraintWidget!!.verticalDimensionBehaviour
+                                == ConstraintWidget.DimensionBehaviour.FIXED
+                            ) &&
+                            mConstraintWidget!!.height > mConstraintWidget!!.minHeight
+                        )
+                )
         } else {
-            ((mConstraintWidget!!.horizontalDimensionBehaviour
-                    == ConstraintWidget.DimensionBehaviour.MATCH_CONSTRAINT)
-                    || ((mConstraintWidget!!.horizontalDimensionBehaviour
-                    == ConstraintWidget.DimensionBehaviour.FIXED)
-                    && mConstraintWidget!!.width > mConstraintWidget!!.minWidth))
+            (
+                (
+                    mConstraintWidget!!.horizontalDimensionBehaviour
+                        == ConstraintWidget.DimensionBehaviour.MATCH_CONSTRAINT
+                    ) ||
+                    (
+                        (
+                            mConstraintWidget!!.horizontalDimensionBehaviour
+                                == ConstraintWidget.DimensionBehaviour.FIXED
+                            ) &&
+                            mConstraintWidget!!.width > mConstraintWidget!!.minWidth
+                        )
+                )
         }
     }
 
     fun isResizable(horizontal: Int): Boolean {
         return if (horizontal == 0) {
-            (mConstraintWidget!!.verticalDimensionBehaviour
-                    == ConstraintWidget.DimensionBehaviour.MATCH_CONSTRAINT)
+            (
+                mConstraintWidget!!.verticalDimensionBehaviour
+                    == ConstraintWidget.DimensionBehaviour.MATCH_CONSTRAINT
+                )
         } else {
-            (mConstraintWidget!!.horizontalDimensionBehaviour
-                    == ConstraintWidget.DimensionBehaviour.MATCH_CONSTRAINT)
+            (
+                mConstraintWidget!!.horizontalDimensionBehaviour
+                    == ConstraintWidget.DimensionBehaviour.MATCH_CONSTRAINT
+                )
         }
     }
 
     fun hasBaseline(): Boolean {
-        return mConstraintWidget!!.hasBaseline()
+        return mConstraintWidget!!.hasBaseline
     }
 
     /**
@@ -441,7 +474,7 @@ class ScoutWidget(constraintWidget: ConstraintWidget, parent: ScoutWidget?) : Co
                     val by2 = iw.getLocation(Direction.SOUTH)
                     if (max(ay1.toDouble(), by1.toDouble()) <= min(
                             ay2.toDouble(),
-                            by2.toDouble()
+                            by2.toDouble(),
                         )
                     ) { // overlap
                         val bx = iw.getLocation(Direction.EAST)
@@ -470,7 +503,7 @@ class ScoutWidget(constraintWidget: ConstraintWidget, parent: ScoutWidget?) : Co
                     val by2 = iw.getLocation(Direction.SOUTH)
                     if (max(ay1.toDouble(), by1.toDouble()) <= min(
                             ay2.toDouble(),
-                            by2.toDouble()
+                            by2.toDouble(),
                         )
                     ) { // overlap
                         val bx = iw.getLocation(Direction.WEST)
@@ -499,7 +532,7 @@ class ScoutWidget(constraintWidget: ConstraintWidget, parent: ScoutWidget?) : Co
                     val bx2 = iw.getLocation(Direction.EAST)
                     if (max(ax1.toDouble(), bx1.toDouble()) <= min(
                             ax2.toDouble(),
-                            bx2.toDouble()
+                            bx2.toDouble(),
                         )
                     ) { // overlap
                         val by = iw.getLocation(Direction.NORTH)
@@ -528,7 +561,7 @@ class ScoutWidget(constraintWidget: ConstraintWidget, parent: ScoutWidget?) : Co
                     val bx2 = iw.getLocation(Direction.EAST)
                     if (max(ax1.toDouble(), bx1.toDouble()) <= min(
                             ax2.toDouble(),
-                            bx2.toDouble()
+                            bx2.toDouble(),
                         )
                     ) { // overlap
                         val by = iw.getLocation(Direction.SOUTH)
@@ -564,9 +597,11 @@ class ScoutWidget(constraintWidget: ConstraintWidget, parent: ScoutWidget?) : Co
     private fun isDistanceToRootCache(direction: Direction): Boolean {
         val directionOrdinal = direction.direction
         val f = mDistToRootCache[directionOrdinal]
-        return if (f < 0) {  // depends on any comparison involving Float.NaN returns false
+        return if (f < 0) { // depends on any comparison involving Float.NaN returns false
             false
-        } else true
+        } else {
+            true
+        }
     }
 
     /**
@@ -660,10 +695,16 @@ class ScoutWidget(constraintWidget: ConstraintWidget, parent: ScoutWidget?) : Co
     fun isCentered(orientationVertical: Int): Boolean {
         if (isGuideline) return false
         return if (orientationVertical == Direction.ORIENTATION_VERTICAL) {
-            (mConstraintWidget!!.getAnchor(ConstraintAnchor.Type.TOP)!!.isConnected
-                    && mConstraintWidget!!.getAnchor(ConstraintAnchor.Type.BOTTOM)!!.isConnected)
-        } else (mConstraintWidget!!.getAnchor(ConstraintAnchor.Type.LEFT)!!.isConnected
-                && mConstraintWidget!!.getAnchor(ConstraintAnchor.Type.RIGHT)!!.isConnected)
+            (
+                mConstraintWidget!!.getAnchor(ConstraintAnchor.Type.TOP)!!.isConnected &&
+                    mConstraintWidget!!.getAnchor(ConstraintAnchor.Type.BOTTOM)!!.isConnected
+                )
+        } else {
+            (
+                mConstraintWidget!!.getAnchor(ConstraintAnchor.Type.LEFT)!!.isConnected &&
+                    mConstraintWidget!!.getAnchor(ConstraintAnchor.Type.RIGHT)!!.isConnected
+                )
+        }
     }
 
     fun hasConnection(dir: Direction): Boolean {
@@ -777,17 +818,17 @@ class ScoutWidget(constraintWidget: ConstraintWidget, parent: ScoutWidget?) : Co
         y = constraintWidget.y.toFloat()
         width = constraintWidget.width.toFloat()
         height = constraintWidget.height.toFloat()
-        mBaseLine = (mConstraintWidget!!.getBaselineDistance() + constraintWidget.y).toFloat()
+        mBaseLine = (mConstraintWidget!!.baselineDistance + constraintWidget.y).toFloat()
         if (parent != null) {
             mRootDistance = distance(parent, this)
         }
     }
 
     fun rootDistanceY(): Int {
-        if (mConstraintWidget == null || mConstraintWidget!!.getParent() == null) {
+        if (mConstraintWidget == null || mConstraintWidget!!.parent == null) {
             return 0
         }
-        val rootHeight = mConstraintWidget!!.getParent()!!.height
+        val rootHeight = mConstraintWidget!!.parent!!.height
         val aY = mConstraintWidget!!.y
         val aHeight = mConstraintWidget!!.height
         return min(aY.toDouble(), (rootHeight - (aY + aHeight)).toDouble()).toInt()
@@ -818,8 +859,8 @@ class ScoutWidget(constraintWidget: ConstraintWidget, parent: ScoutWidget?) : Co
             if (DEBUG) {
                 for (i in ret.indices) {
                     println(
-                        "[" + i + "] -> " + ret[i].mConstraintWidget + "    "
-                                + ret[i].mRootDistance
+                        "[" + i + "] -> " + ret[i].mConstraintWidget + "    " +
+                            ret[i].mRootDistance,
                     )
                 }
             }
@@ -863,8 +904,10 @@ class ScoutWidget(constraintWidget: ConstraintWidget, parent: ScoutWidget?) : Co
          * @return distance in dp
          */
         private fun gap(
-            widget1: ConstraintWidget?, direction1: Direction,
-            widget2: ConstraintWidget?, direction2: Direction
+            widget1: ConstraintWidget?,
+            direction1: Direction,
+            widget2: ConstraintWidget?,
+            direction2: Direction,
         ): Int {
             return when (direction1) {
                 Direction.NORTH, Direction.WEST -> getPos(widget1, direction1) - getPos(widget2, direction2)
@@ -887,8 +930,11 @@ class ScoutWidget(constraintWidget: ConstraintWidget, parent: ScoutWidget?) : Co
         }
 
         private fun connect(
-            fromWidget: ConstraintWidget?, fromType: ConstraintAnchor.Type,
-            toWidget: ConstraintWidget?, toType: ConstraintAnchor.Type, gap: Int
+            fromWidget: ConstraintWidget?,
+            fromType: ConstraintAnchor.Type,
+            toWidget: ConstraintWidget?,
+            toType: ConstraintAnchor.Type,
+            gap: Int,
         ) {
             fromWidget!!.connect(fromType, toWidget!!, toType, gap)
             //        fromWidget.getAnchor(fromType).setConnectionCreator(ConstraintAnchor.SCOUT_CREATOR);
@@ -896,8 +942,10 @@ class ScoutWidget(constraintWidget: ConstraintWidget, parent: ScoutWidget?) : Co
 
         private fun connectWeak(
             fromWidget: ConstraintWidget?,
-            fromType: ConstraintAnchor.Type, toWidget: ConstraintWidget?,
-            toType: ConstraintAnchor.Type, gap: Int
+            fromType: ConstraintAnchor.Type,
+            toWidget: ConstraintWidget?,
+            toType: ConstraintAnchor.Type,
+            gap: Int,
         ) {
             fromWidget!!.connect(fromType, toWidget!!, toType, gap)
             //        fromWidget.connect(fromType, toWidget, toType, gap, ConstraintAnchor.Strength.WEAK);
@@ -936,11 +984,11 @@ class ScoutWidget(constraintWidget: ConstraintWidget, parent: ScoutWidget?) : Co
             val ydiff22 = abs((ay2 - by2).toDouble()).toFloat()
             val xmin = min(
                 min(xdiff11.toDouble(), xdiff12.toDouble()),
-                min(xdiff21.toDouble(), xdiff22.toDouble())
+                min(xdiff21.toDouble(), xdiff22.toDouble()),
             ).toFloat()
             val ymin = min(
                 min(ydiff11.toDouble(), ydiff12.toDouble()),
-                min(ydiff21.toDouble(), ydiff22.toDouble())
+                min(ydiff21.toDouble(), ydiff22.toDouble()),
             ).toFloat()
             val yOverlap = ay1 <= by2 && by1 <= ay2
             val xOverlap = ax1 <= bx2 && bx1 <= ax2

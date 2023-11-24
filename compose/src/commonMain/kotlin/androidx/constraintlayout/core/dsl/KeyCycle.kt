@@ -15,6 +15,7 @@
  */
 package androidx.constraintlayout.core.dsl
 
+@Suppress("UNUSED")
 class KeyCycle(frame: Int, target: String) : KeyAttribute(frame, target) {
     private var mWaveShape: Wave? = null
     private var mWavePeriod = Float.NaN

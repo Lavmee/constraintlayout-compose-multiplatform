@@ -51,7 +51,7 @@ class ChainHeadTest {
         assertEquals(chainHead.getFirstVisibleWidget(), a)
         assertEquals(chainHead.getLast(), c)
         assertEquals(chainHead.getLastVisibleWidget(), c)
-        a.setVisibility(ConstraintWidget.GONE)
+        a.visibility = ConstraintWidget.GONE
         chainHead = ChainHead(a, ConstraintWidget.HORIZONTAL, false)
         chainHead.define()
         assertEquals(chainHead.getHead(), a)
@@ -93,7 +93,7 @@ class ChainHeadTest {
         assertEquals(chainHead.getFirstVisibleWidget(), a)
         assertEquals(chainHead.getLast(), c)
         assertEquals(chainHead.getLastVisibleWidget(), c)
-        a.setVisibility(ConstraintWidget.GONE)
+        a.visibility = ConstraintWidget.GONE
         chainHead = ChainHead(a, ConstraintWidget.VERTICAL, false)
         chainHead.define()
         assertEquals(chainHead.getHead(), a)
@@ -139,7 +139,7 @@ class ChainHeadTest {
         assertEquals(chainHead.getFirstMatchConstraintWidget(), a)
         assertEquals(chainHead.getLastMatchConstraintWidget(), c)
         assertEquals(chainHead.getTotalWeight(), 6f, 0f)
-        c.setVisibility(ConstraintWidget.GONE)
+        c.visibility = ConstraintWidget.GONE
         chainHead = ChainHead(a, ConstraintWidget.HORIZONTAL, false)
         chainHead.define()
         assertEquals(chainHead.getFirstMatchConstraintWidget(), a)
@@ -174,7 +174,7 @@ class ChainHeadTest {
         assertEquals(chainHead.mTotalMargins, 32)
         assertEquals(chainHead.mWidgetsMatchCount, 0)
         assertTrue(chainHead.mOptimizable)
-        b.setVisibility(ConstraintWidget.GONE)
+        b.visibility = ConstraintWidget.GONE
         chainHead = ChainHead(a, ConstraintWidget.HORIZONTAL, false)
         chainHead.define()
         assertEquals(chainHead.mVisibleWidgets, 2)
@@ -182,9 +182,9 @@ class ChainHeadTest {
         assertEquals(chainHead.mTotalMargins, 30)
         assertEquals(chainHead.mWidgetsMatchCount, 0)
         assertTrue(chainHead.mOptimizable)
-        a.setVisibility(ConstraintWidget.GONE)
-        b.setVisibility(ConstraintWidget.VISIBLE)
-        c.setVisibility(ConstraintWidget.GONE)
+        a.visibility = ConstraintWidget.GONE
+        b.visibility = ConstraintWidget.VISIBLE
+        c.visibility = ConstraintWidget.GONE
         chainHead = ChainHead(a, ConstraintWidget.HORIZONTAL, false)
         chainHead.define()
         assertEquals(chainHead.mVisibleWidgets, 1)
@@ -192,9 +192,9 @@ class ChainHeadTest {
         assertEquals(chainHead.mTotalMargins, 2)
         assertEquals(chainHead.mWidgetsMatchCount, 0)
         assertTrue(chainHead.mOptimizable)
-        a.setVisibility(ConstraintWidget.VISIBLE)
-        b.setVisibility(ConstraintWidget.VISIBLE)
-        c.setVisibility(ConstraintWidget.VISIBLE)
+        a.visibility = ConstraintWidget.VISIBLE
+        b.visibility = ConstraintWidget.VISIBLE
+        c.visibility = ConstraintWidget.VISIBLE
         a.setHorizontalDimensionBehaviour(DimensionBehaviour.MATCH_CONSTRAINT)
         a.mMatchConstraintDefaultWidth = ConstraintWidget.MATCH_CONSTRAINT_PERCENT
         chainHead = ChainHead(a, ConstraintWidget.HORIZONTAL, false)

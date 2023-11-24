@@ -37,6 +37,7 @@ class CLToken : CLElement {
     }
 
     @Throws(CLParsingException::class)
+    @Suppress("UNUSED")
     fun isNull(): Boolean {
         if (mType == Type.NULL) {
             return true

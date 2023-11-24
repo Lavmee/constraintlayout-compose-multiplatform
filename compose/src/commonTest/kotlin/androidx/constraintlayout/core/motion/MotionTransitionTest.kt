@@ -407,7 +407,7 @@ class MotionTransitionTest {
                    },      """
         println(onSwipeString)
         val transition = setUpOnSwipe(onSwipeString)
-        val w: ConstraintWidget? = transition.getStart("button1").widget!!.mParent
+        val w: ConstraintWidget? = transition.getStart("button1").widget!!.parent
         println("=============== drag")
         var result: String?
         // ============================================================

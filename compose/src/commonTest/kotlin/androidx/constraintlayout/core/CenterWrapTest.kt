@@ -284,7 +284,7 @@ class CenterWrapTest {
         TextBoxGone.connect(ConstraintAnchor.Type.TOP, TextBox, ConstraintAnchor.Type.BOTTOM, 10)
         TextBoxGone.connect(ConstraintAnchor.Type.LEFT, root, ConstraintAnchor.Type.LEFT, 10)
         TextBoxGone.connect(ConstraintAnchor.Type.RIGHT, TextBox, ConstraintAnchor.Type.RIGHT)
-        TextBoxGone.setVisibility(ConstraintWidget.GONE)
+        TextBoxGone.visibility = ConstraintWidget.GONE
         root.add(TextBox)
         root.add(ValueBox)
         root.add(TextBoxGone)

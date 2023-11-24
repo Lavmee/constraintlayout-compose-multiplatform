@@ -69,17 +69,17 @@ class GuidelineReference(widget: ConstraintWidget) : WidgetRun(widget) {
         val percent = guideline.getRelativePercent()
         if (guideline.orientation == ConstraintWidget.VERTICAL) {
             if (relativeBegin != -1) {
-                start.mTargets.add((mWidget as Guideline).mParent!!.mHorizontalRun!!.start)
-                (mWidget as Guideline).mParent!!.mHorizontalRun!!.start.mDependencies.add(start)
+                start.mTargets.add((mWidget as Guideline).parent!!.mHorizontalRun!!.start)
+                (mWidget as Guideline).parent!!.mHorizontalRun!!.start.mDependencies.add(start)
                 start.mMargin = relativeBegin
             } else if (relativeEnd != -1) {
-                start.mTargets.add((mWidget as Guideline).mParent!!.mHorizontalRun!!.end)
-                (mWidget as Guideline).mParent!!.mHorizontalRun!!.end.mDependencies.add(start)
+                start.mTargets.add((mWidget as Guideline).parent!!.mHorizontalRun!!.end)
+                (mWidget as Guideline).parent!!.mHorizontalRun!!.end.mDependencies.add(start)
                 start.mMargin = -relativeEnd
             } else {
                 start.delegateToWidgetRun = true
-                start.mTargets.add((mWidget as Guideline).mParent!!.mHorizontalRun!!.end)
-                (mWidget as Guideline).mParent!!.mHorizontalRun!!.end.mDependencies.add(start)
+                start.mTargets.add((mWidget as Guideline).parent!!.mHorizontalRun!!.end)
+                (mWidget as Guideline).parent!!.mHorizontalRun!!.end.mDependencies.add(start)
             }
             // FIXME -- if we move the DependencyNode directly
             //              in the ConstraintAnchor we'll be good.
@@ -87,17 +87,17 @@ class GuidelineReference(widget: ConstraintWidget) : WidgetRun(widget) {
             addDependency((mWidget as Guideline).mHorizontalRun!!.end)
         } else {
             if (relativeBegin != -1) {
-                start.mTargets.add((mWidget as Guideline).mParent!!.mVerticalRun!!.start)
-                (mWidget as Guideline).mParent!!.mVerticalRun!!.start.mDependencies.add(start)
+                start.mTargets.add((mWidget as Guideline).parent!!.mVerticalRun!!.start)
+                (mWidget as Guideline).parent!!.mVerticalRun!!.start.mDependencies.add(start)
                 start.mMargin = relativeBegin
             } else if (relativeEnd != -1) {
-                start.mTargets.add((mWidget as Guideline).mParent!!.mVerticalRun!!.end)
-                (mWidget as Guideline).mParent!!.mVerticalRun!!.end.mDependencies.add(start)
+                start.mTargets.add((mWidget as Guideline).parent!!.mVerticalRun!!.end)
+                (mWidget as Guideline).parent!!.mVerticalRun!!.end.mDependencies.add(start)
                 start.mMargin = -relativeEnd
             } else {
                 start.delegateToWidgetRun = true
-                start.mTargets.add((mWidget as Guideline).mParent!!.mVerticalRun!!.end)
-                (mWidget as Guideline).mParent!!.mVerticalRun!!.end.mDependencies.add(start)
+                start.mTargets.add((mWidget as Guideline).parent!!.mVerticalRun!!.end)
+                (mWidget as Guideline).parent!!.mVerticalRun!!.end.mDependencies.add(start)
             }
             // FIXME -- if we move the DependencyNode directly
             //              in the ConstraintAnchor we'll be good.

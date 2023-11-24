@@ -24,11 +24,12 @@ import kotlin.collections.HashSet
 import kotlin.math.max
 import kotlin.math.sqrt
 
+@Suppress("UNUSED")
 class GridCore() : VirtualLayout() {
     /**
      * Container for all the ConstraintWidgets
      */
-    var mContainer: ConstraintWidgetContainer? = null
+    private var mContainer: ConstraintWidgetContainer? = null
 
     /**
      * boxWidgets were created as anchor points for arranging the associated widgets
@@ -110,7 +111,7 @@ class GridCore() : VirtualLayout() {
     /**
      * Store the widget ids of handled spans
      */
-    var mSpanIds: MutableSet<String> = HashSet()
+    private var mSpanIds: MutableSet<String> = HashSet()
 
     /**
      * A int matrix that contains the positions where a widget would constraint to at each direction
@@ -468,13 +469,13 @@ class GridCore() : VirtualLayout() {
             mSpanIds.clear()
         }
         mNextAvailableIndex = 0
-        if (mSkips != null && !mSkips!!.trim { it <= ' ' }.isEmpty()) {
+        if (mSkips != null && mSkips!!.trim { it <= ' ' }.isNotEmpty()) {
             val mSkips: Array<IntArray>? = parseSpans(mSkips!!, false)
             if (mSkips != null) {
                 handleSkips(mSkips)
             }
         }
-        if (mSpans != null && !mSpans!!.trim { it <= ' ' }.isEmpty()) {
+        if (mSpans != null && mSpans!!.trim { it <= ' ' }.isNotEmpty()) {
             mSpanMatrix = parseSpans(mSpans!!, true)
         }
 
@@ -938,11 +939,11 @@ class GridCore() : VirtualLayout() {
             }
         }
         mNextAvailableIndex = 0
-        if (mSkips != null && !mSkips!!.trim { it <= ' ' }.isEmpty()) {
+        if (mSkips != null && mSkips!!.trim { it <= ' ' }.isNotEmpty()) {
             val mSkips = parseSpans(mSkips!!, false)
             mSkips?.let { handleSkips(it) }
         }
-        if (mSpans != null && !mSpans!!.trim { it <= ' ' }.isEmpty()) {
+        if (mSpans != null && mSpans!!.trim { it <= ' ' }.isNotEmpty()) {
             val mSpans = parseSpans(mSpans!!, true)
             mSpans?.let { handleSpans(it) }
         }
@@ -981,7 +982,7 @@ class GridCore() : VirtualLayout() {
 
     override fun measure(widthMode: Int, widthSize: Int, heightMode: Int, heightSize: Int) {
         super.measure(widthMode, widthSize, heightMode, heightSize)
-        mContainer = getParent() as ConstraintWidgetContainer?
+        mContainer = parent as ConstraintWidgetContainer?
         setupGrid(false)
         mContainer!!.add(*mBoxWidgets!!.filterNotNull().toTypedArray())
     }

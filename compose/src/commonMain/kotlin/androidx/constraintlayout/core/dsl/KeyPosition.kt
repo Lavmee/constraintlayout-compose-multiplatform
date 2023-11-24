@@ -15,13 +15,14 @@
  */
 package androidx.constraintlayout.core.dsl
 
+@Suppress("UNUSED")
 class KeyPosition(
     firstTarget: String,
     frame: Int,
 ) : Keys() {
     private var mTarget: String = firstTarget
     private var mTransitionEasing: String? = null
-    internal var mFrame = frame
+    private var mFrame = frame
     private var mPercentWidth = Float.NaN
     private var mPercentHeight = Float.NaN
     private var mPercentX = Float.NaN

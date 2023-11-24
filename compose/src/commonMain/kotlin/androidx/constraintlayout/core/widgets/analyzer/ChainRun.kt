@@ -94,7 +94,7 @@ class ChainRun(widget: ConstraintWidget, orientation: Int) : WidgetRun(widget) {
         }
         val isInRtl = (
             orientation == HORIZONTAL &&
-                (mWidget!!.getParent() as ConstraintWidgetContainer?)!!.isRtl()
+                (mWidget!!.parent as ConstraintWidgetContainer?)!!.isRtl()
             )
         if (isInRtl && mWidgets.size > 1) {
             mWidget = mWidgets[mWidgets.size - 1].mWidget
@@ -119,7 +119,7 @@ class ChainRun(widget: ConstraintWidget, orientation: Int) : WidgetRun(widget) {
         if (!(start.resolved && end.resolved)) {
             return
         }
-        val parent = mWidget!!.getParent()
+        val parent = mWidget!!.parent
         var isInRtl = false
         if (parent is ConstraintWidgetContainer) {
             isInRtl = parent.isRtl()
@@ -134,7 +134,7 @@ class ChainRun(widget: ConstraintWidget, orientation: Int) : WidgetRun(widget) {
         var firstVisibleWidget = -1
         for (i in 0 until count) {
             val run = mWidgets[i]
-            if (run.mWidget!!.getVisibility() == GONE) {
+            if (run.mWidget!!.visibility == GONE) {
                 continue
             }
             firstVisibleWidget = i
@@ -144,7 +144,7 @@ class ChainRun(widget: ConstraintWidget, orientation: Int) : WidgetRun(widget) {
         var lastVisibleWidget = -1
         for (i in count - 1 downTo 0) {
             val run = mWidgets[i]
-            if (run.mWidget!!.getVisibility() == GONE) {
+            if (run.mWidget!!.visibility == GONE) {
                 continue
             }
             lastVisibleWidget = i
@@ -153,7 +153,7 @@ class ChainRun(widget: ConstraintWidget, orientation: Int) : WidgetRun(widget) {
         for (j in 0..1) {
             for (i in 0 until count) {
                 val run = mWidgets[i]
-                if (run.mWidget!!.getVisibility() == GONE) {
+                if (run.mWidget!!.visibility == GONE) {
                     continue
                 }
                 numVisibleWidgets++
@@ -218,7 +218,7 @@ class ChainRun(widget: ConstraintWidget, orientation: Int) : WidgetRun(widget) {
             var appliedLimits = 0
             for (i in 0 until count) {
                 val run = mWidgets[i]
-                if (run.mWidget!!.getVisibility() == GONE) {
+                if (run.mWidget!!.visibility == GONE) {
                     continue
                 }
                 if (run.mDimensionBehavior == MATCH_CONSTRAINT && !run.mDimension.resolved) {
@@ -257,7 +257,7 @@ class ChainRun(widget: ConstraintWidget, orientation: Int) : WidgetRun(widget) {
                 size = 0
                 for (i in 0 until count) {
                     val run = mWidgets[i]
-                    if (run.mWidget!!.getVisibility() == GONE) {
+                    if (run.mWidget!!.visibility == GONE) {
                         continue
                     }
                     if (i > 0 && i >= firstVisibleWidget) {
@@ -296,7 +296,7 @@ class ChainRun(widget: ConstraintWidget, orientation: Int) : WidgetRun(widget) {
                     index = count - (i + 1)
                 }
                 val run = mWidgets[index]
-                if (run.mWidget!!.getVisibility() == GONE) {
+                if (run.mWidget!!.visibility == GONE) {
                     run.start.resolve(position)
                     run.end.resolve(position)
                     continue
@@ -356,7 +356,7 @@ class ChainRun(widget: ConstraintWidget, orientation: Int) : WidgetRun(widget) {
                     index = count - (i + 1)
                 }
                 val run = mWidgets[index]
-                if (run.mWidget!!.getVisibility() == GONE) {
+                if (run.mWidget!!.visibility == GONE) {
                     run.start.resolve(position)
                     run.end.resolve(position)
                     continue
@@ -404,7 +404,7 @@ class ChainRun(widget: ConstraintWidget, orientation: Int) : WidgetRun(widget) {
             }
         } else if (mChainStyle == ConstraintWidget.CHAIN_PACKED) {
             var bias =
-                if (orientation == HORIZONTAL) mWidget!!.getHorizontalBiasPercent() else mWidget!!.getVerticalBiasPercent()
+                if (orientation == HORIZONTAL) mWidget!!.horizontalBiasPercent else mWidget!!.verticalBiasPercent
             if (isInRtl) {
                 bias = 1 - bias
             }
@@ -423,7 +423,7 @@ class ChainRun(widget: ConstraintWidget, orientation: Int) : WidgetRun(widget) {
                     index = count - (i + 1)
                 }
                 val run = mWidgets[index]
-                if (run.mWidget!!.getVisibility() == GONE) {
+                if (run.mWidget!!.visibility == GONE) {
                     run.start.resolve(position)
                     run.end.resolve(position)
                     continue
@@ -478,7 +478,7 @@ class ChainRun(widget: ConstraintWidget, orientation: Int) : WidgetRun(widget) {
     private fun getFirstVisibleWidget(): ConstraintWidget? {
         for (i in mWidgets.indices) {
             val run = mWidgets[i]
-            if (run.mWidget!!.getVisibility() != GONE) {
+            if (run.mWidget!!.visibility != GONE) {
                 return run.mWidget
             }
         }
@@ -488,7 +488,7 @@ class ChainRun(widget: ConstraintWidget, orientation: Int) : WidgetRun(widget) {
     private fun getLastVisibleWidget(): ConstraintWidget? {
         for (i in mWidgets.indices.reversed()) {
             val run = mWidgets[i]
-            if (run.mWidget!!.getVisibility() != GONE) {
+            if (run.mWidget!!.visibility != GONE) {
                 return run.mWidget
             }
         }

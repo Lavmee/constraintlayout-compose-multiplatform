@@ -18,7 +18,6 @@ package androidx.constraintlayout.core
 import androidx.constraintlayout.core.widgets.ConstraintAnchor
 import androidx.constraintlayout.core.widgets.ConstraintWidget
 import androidx.constraintlayout.core.widgets.ConstraintWidgetContainer
-import kotlin.test.Ignore
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -26,7 +25,7 @@ import kotlin.test.assertEquals
  * Test nested layout
  */
 class NestedLayout {
-    @Ignore
+//    @Ignore
     @Test
     fun testNestedLayout() {
         val root = ConstraintWidgetContainer(20, 20, 1000, 1000)

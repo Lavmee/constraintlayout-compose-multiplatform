@@ -15,6 +15,7 @@
  */
 package androidx.constraintlayout.core
 
+@Suppress("UNUSED")
 class GoalRow(cache: Cache) : ArrayRow(cache) {
 
     override fun addError(error: SolverVariable?) {

@@ -15,8 +15,7 @@
  */
 package androidx.constraintlayout.core.dsl
 
-class Constraint(id: String) {
-
+open class Constraint(id: String) {
     private val mId: String = id
 
     open inner class Anchor(side: Side) {
@@ -29,6 +28,7 @@ class Constraint(id: String) {
             return mId
         }
 
+        @Suppress("UNUSED")
         fun getParent(): Constraint {
             return this@Constraint
         }
@@ -64,6 +64,8 @@ class Constraint(id: String) {
     }
     inner class VAnchor internal constructor(side: VSide) : Anchor(Side.valueOf(side.name))
     inner class HAnchor internal constructor(side: HSide) : Anchor(Side.valueOf(side.name))
+
+    @Suppress("UNUSED")
     enum class Behaviour {
         SPREAD,
         WRAP,
@@ -97,7 +99,10 @@ class Constraint(id: String) {
         BASELINE,
     }
 
+    @Suppress("UNUSED")
     var helperType: String? = null
+
+    @Suppress("UNUSED")
     var helperJason: String? = null
 
     private val mLeft = HAnchor(HSide.LEFT)
@@ -201,6 +206,7 @@ class Constraint(id: String) {
      *
      * @return horizontalBias
      */
+    @Suppress("UNUSED")
     fun getHorizontalBias(): Float {
         return mHorizontalBias
     }
@@ -219,6 +225,7 @@ class Constraint(id: String) {
      *
      * @return verticalBias
      */
+    @Suppress("UNUSED")
     fun getVerticalBias(): Float {
         return mVerticalBias
     }
@@ -237,6 +244,7 @@ class Constraint(id: String) {
      *
      * @return dimensionRatio
      */
+    @Suppress("UNUSED")
     fun getDimensionRatio(): String? {
         return mDimensionRatio
     }
@@ -255,6 +263,7 @@ class Constraint(id: String) {
      *
      * @return circleConstraint
      */
+    @Suppress("UNUSED")
     fun getCircleConstraint(): String? {
         return mCircleConstraint
     }
@@ -273,6 +282,7 @@ class Constraint(id: String) {
      *
      * @return circleRadius
      */
+    @Suppress("UNUSED")
     fun getCircleRadius(): Int {
         return mCircleRadius
     }
@@ -291,6 +301,7 @@ class Constraint(id: String) {
      *
      * @return circleAngle
      */
+    @Suppress("UNUSED")
     fun getCircleAngle(): Float {
         return mCircleAngle
     }
@@ -308,6 +319,7 @@ class Constraint(id: String) {
      * get editorAbsoluteX
      * @return editorAbsoluteX
      */
+    @Suppress("UNUSED")
     fun getEditorAbsoluteX(): Int {
         return mEditorAbsoluteX
     }
@@ -316,6 +328,7 @@ class Constraint(id: String) {
      * set editorAbsoluteX
      * @param editorAbsoluteX
      */
+    @Suppress("UNUSED")
     fun setEditorAbsoluteX(editorAbsoluteX: Int) {
         mEditorAbsoluteX = editorAbsoluteX
     }
@@ -324,6 +337,7 @@ class Constraint(id: String) {
      * get editorAbsoluteY
      * @return editorAbsoluteY
      */
+    @Suppress("UNUSED")
     fun getEditorAbsoluteY(): Int {
         return mEditorAbsoluteY
     }
@@ -332,6 +346,7 @@ class Constraint(id: String) {
      * set editorAbsoluteY
      * @param editorAbsoluteY
      */
+    @Suppress("UNUSED")
     fun setEditorAbsoluteY(editorAbsoluteY: Int) {
         mEditorAbsoluteY = editorAbsoluteY
     }
@@ -341,6 +356,7 @@ class Constraint(id: String) {
      *
      * @return verticalWeight
      */
+    @Suppress("UNUSED")
     fun getVerticalWeight(): Float {
         return mVerticalWeight
     }
@@ -359,6 +375,7 @@ class Constraint(id: String) {
      *
      * @return horizontalWeight
      */
+    @Suppress("UNUSED")
     fun getHorizontalWeight(): Float {
         return mHorizontalWeight
     }
@@ -377,6 +394,7 @@ class Constraint(id: String) {
      *
      * @return horizontalChainStyle
      */
+    @Suppress("UNUSED")
     fun getHorizontalChainStyle(): ChainMode? {
         return mHorizontalChainStyle
     }
@@ -397,6 +415,7 @@ class Constraint(id: String) {
      *
      * @return verticalChainStyle
      */
+    @Suppress("UNUSED")
     fun getVerticalChainStyle(): ChainMode? {
         return mVerticalChainStyle
     }
@@ -417,6 +436,7 @@ class Constraint(id: String) {
      *
      * @return widthDefault
      */
+    @Suppress("UNUSED")
     fun getWidthDefault(): Behaviour? {
         return mWidthDefault
     }
@@ -435,6 +455,7 @@ class Constraint(id: String) {
      *
      * @return heightDefault
      */
+    @Suppress("UNUSED")
     fun getHeightDefault(): Behaviour? {
         return mHeightDefault
     }
@@ -453,6 +474,7 @@ class Constraint(id: String) {
      *
      * @return widthMax
      */
+    @Suppress("UNUSED")
     fun getWidthMax(): Int {
         return mWidthMax
     }
@@ -471,6 +493,7 @@ class Constraint(id: String) {
      *
      * @return heightMax
      */
+    @Suppress("UNUSED")
     fun getHeightMax(): Int {
         return mHeightMax
     }
@@ -489,6 +512,7 @@ class Constraint(id: String) {
      *
      * @return widthMin
      */
+    @Suppress("UNUSED")
     fun getWidthMin(): Int {
         return mWidthMin
     }
@@ -498,6 +522,7 @@ class Constraint(id: String) {
      *
      * @param widthMin
      */
+    @Suppress("UNUSED")
     fun setWidthMin(widthMin: Int) {
         mWidthMin = widthMin
     }
@@ -507,6 +532,7 @@ class Constraint(id: String) {
      *
      * @return heightMin
      */
+    @Suppress("UNUSED")
     fun getHeightMin(): Int {
         return mHeightMin
     }
@@ -516,6 +542,7 @@ class Constraint(id: String) {
      *
      * @param heightMin
      */
+    @Suppress("UNUSED")
     fun setHeightMin(heightMin: Int) {
         mHeightMin = heightMin
     }
@@ -525,6 +552,7 @@ class Constraint(id: String) {
      *
      * @return
      */
+    @Suppress("UNUSED")
     fun getWidthPercent(): Float {
         return mWidthPercent
     }
@@ -543,6 +571,7 @@ class Constraint(id: String) {
      *
      * @return heightPercent
      */
+    @Suppress("UNUSED")
     fun getHeightPercent(): Float {
         return mHeightPercent
     }
@@ -561,6 +590,7 @@ class Constraint(id: String) {
      *
      * @return referenceIds
      */
+    @Suppress("UNUSED")
     fun getReferenceIds(): Array<String>? {
         return mReferenceIds
     }
@@ -579,6 +609,7 @@ class Constraint(id: String) {
      *
      * @return true if width constrained
      */
+    @Suppress("UNUSED")
     fun isConstrainedWidth(): Boolean {
         return mConstrainedWidth
     }
@@ -597,6 +628,7 @@ class Constraint(id: String) {
      *
      * @return true if height constrained
      */
+    @Suppress("UNUSED")
     fun isConstrainedHeight(): Boolean {
         return mConstrainedHeight
     }
@@ -614,6 +646,7 @@ class Constraint(id: String) {
      * get width
      * @return width
      */
+    @Suppress("UNUSED")
     fun getWidth(): Int {
         return mWidth
     }
@@ -631,6 +664,7 @@ class Constraint(id: String) {
      * get height
      * @return height
      */
+    @Suppress("UNUSED")
     fun getHeight(): Int {
         return mHeight
     }
@@ -649,6 +683,7 @@ class Constraint(id: String) {
      *
      * @param anchor anchor to be connected
      */
+    @Suppress("UNUSED")
     fun linkToTop(anchor: VAnchor?) {
         linkToTop(anchor, 0)
     }
@@ -667,6 +702,7 @@ class Constraint(id: String) {
      *
      * @param anchor anchor to be connected
      */
+    @Suppress("UNUSED")
     fun linkToRight(anchor: HAnchor?) {
         linkToRight(anchor, 0)
     }
@@ -676,6 +712,7 @@ class Constraint(id: String) {
      *
      * @param anchor anchor to be connected
      */
+    @Suppress("UNUSED")
     fun linkToStart(anchor: HAnchor?) {
         linkToStart(anchor, 0)
     }
@@ -685,6 +722,7 @@ class Constraint(id: String) {
      *
      * @param anchor anchor to be connected
      */
+    @Suppress("UNUSED")
     fun linkToEnd(anchor: HAnchor?) {
         linkToEnd(anchor, 0)
     }

@@ -51,6 +51,7 @@ class CLNumber : CLElement {
         return json.toString()
     }
 
+    @Suppress("UNUSED")
     fun isInt(): Boolean {
         val value = float
         val intValue = value.toInt()
@@ -75,6 +76,7 @@ class CLNumber : CLElement {
         }
 
     // @TODO: add description
+    @Suppress("UNUSED")
     fun putValue(value: Float) {
         mValue = value
     }

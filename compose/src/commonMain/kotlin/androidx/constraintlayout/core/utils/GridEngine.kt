@@ -228,11 +228,11 @@ class GridEngine {
             }
         }
         mNextAvailableIndex = 0
-        if (mStrSkips != null && !mStrSkips!!.trim { it <= ' ' }.isEmpty()) {
+        if (mStrSkips != null && mStrSkips!!.trim { it <= ' ' }.isNotEmpty()) {
             val mSkips = parseSpans(mStrSkips!!)
             mSkips?.let { handleSkips(it) }
         }
-        if (mStrSpans != null && !mStrSpans!!.trim { it <= ' ' }.isEmpty()) {
+        if (mStrSpans != null && mStrSpans!!.trim { it <= ' ' }.isNotEmpty()) {
             val mSpans = parseSpans(mStrSpans!!)
             mSpans?.let { handleSpans(it) }
         }

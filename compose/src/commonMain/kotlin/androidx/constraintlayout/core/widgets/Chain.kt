@@ -192,7 +192,7 @@ class Chain {
                     )
                 }
                 if (isWrapContent) {
-                    if (widget.getVisibility() != GONE &&
+                    if (widget.visibility != GONE &&
                         widget.mListDimensionBehaviors[orientation]
                         == DimensionBehaviour.MATCH_CONSTRAINT
                     ) {
@@ -354,9 +354,9 @@ class Chain {
                 if (beginTarget != null && endTarget != null) {
                     var bias = 0.5f
                     bias = if (orientation == ConstraintWidget.HORIZONTAL) {
-                        head.mHorizontalBiasPercent
+                        head.horizontalBiasPercent
                     } else {
-                        head.mVerticalBiasPercent
+                        head.verticalBiasPercent
                     }
                     val beginMargin = begin.margin
                     val endMargin = end.margin
@@ -379,7 +379,7 @@ class Chain {
                     chainHead.mWidgetsMatchCount > 0 && chainHead.mWidgetsCount == chainHead.mWidgetsMatchCount
                 while (widget != null) {
                     next = widget.mNextChainWidget[orientation]
-                    while (next != null && next.getVisibility() == GONE) {
+                    while (next != null && next.visibility == GONE) {
                         next = next.mNextChainWidget[orientation]
                     }
                     if (next != null || widget == lastVisibleWidget) {
@@ -440,7 +440,7 @@ class Chain {
                             )
                         }
                     }
-                    if (widget.getVisibility() != GONE) {
+                    if (widget.visibility != GONE) {
                         previousVisibleWidget = widget
                     }
                     widget = next
@@ -453,7 +453,7 @@ class Chain {
                     chainHead.mWidgetsMatchCount > 0 && chainHead.mWidgetsCount == chainHead.mWidgetsMatchCount
                 while (widget != null) {
                     next = widget.mNextChainWidget[orientation]
-                    while (next != null && next.getVisibility() == GONE) {
+                    while (next != null && next.visibility == GONE) {
                         next = next.mNextChainWidget[orientation]
                     }
                     if (widget != firstVisibleWidget && widget != lastVisibleWidget && next != null) {
@@ -505,7 +505,7 @@ class Chain {
                             )
                         }
                     }
-                    if (widget.getVisibility() != GONE) {
+                    if (widget.visibility != GONE) {
                         previousVisibleWidget = widget
                     }
                     widget = next

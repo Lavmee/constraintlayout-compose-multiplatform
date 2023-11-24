@@ -77,7 +77,7 @@ class HorizontalWidgetRun(widget: ConstraintWidget) : WidgetRun(widget) {
             super.mDimensionBehavior = mWidget!!.horizontalDimensionBehaviour
             if (super.mDimensionBehavior != MATCH_CONSTRAINT) {
                 if (mDimensionBehavior == MATCH_PARENT) {
-                    val parent = mWidget!!.getParent()
+                    val parent = mWidget!!.parent
                     if (parent != null &&
                         (
                             parent.horizontalDimensionBehaviour == FIXED ||
@@ -100,7 +100,7 @@ class HorizontalWidgetRun(widget: ConstraintWidget) : WidgetRun(widget) {
             }
         } else {
             if (mDimensionBehavior == MATCH_PARENT) {
-                val parent = mWidget!!.getParent()
+                val parent = mWidget!!.parent
                 if (parent != null &&
                     (
                         parent.horizontalDimensionBehaviour == FIXED ||
@@ -184,11 +184,11 @@ class HorizontalWidgetRun(widget: ConstraintWidget) : WidgetRun(widget) {
                 }
             } else {
                 // no connections, nothing to do.
-                if (mWidget !is Helper && mWidget!!.getParent() != null && mWidget!!.getAnchor(
+                if (mWidget !is Helper && mWidget!!.parent != null && mWidget!!.getAnchor(
                         ConstraintAnchor.Type.CENTER,
                     )!!.mTarget == null
                 ) {
-                    val left: DependencyNode = mWidget!!.getParent()!!.mHorizontalRun!!.start
+                    val left: DependencyNode = mWidget!!.parent!!.mHorizontalRun!!.start
                     addTarget(start, left, mWidget!!.x)
                     addTarget(end, start, mDimension.value)
                 }
@@ -235,7 +235,7 @@ class HorizontalWidgetRun(widget: ConstraintWidget) : WidgetRun(widget) {
 
                     MATCH_CONSTRAINT_PERCENT -> run {
                         // we need to look up the parent dimension
-                        val parent = mWidget!!.getParent() ?: return@run
+                        val parent = mWidget!!.parent ?: return@run
                         val targetDimension: DependencyNode = parent.mVerticalRun!!.mDimension
                         mDimension.mTargets.add(targetDimension)
                         targetDimension.mDependencies.add(mDimension)
@@ -314,8 +314,8 @@ class HorizontalWidgetRun(widget: ConstraintWidget) : WidgetRun(widget) {
                 }
             } else {
                 // no connections, nothing to do.
-                if (mWidget !is Helper && mWidget!!.getParent() != null) {
-                    val left: DependencyNode = mWidget!!.getParent()!!.mHorizontalRun!!.start
+                if (mWidget !is Helper && mWidget!!.parent != null) {
+                    val left: DependencyNode = mWidget!!.parent!!.mHorizontalRun!!.start
                     addTarget(start, left, mWidget!!.x)
                     addTarget(end, start, 1, mDimension)
                 }
@@ -394,7 +394,7 @@ class HorizontalWidgetRun(widget: ConstraintWidget) : WidgetRun(widget) {
                             val s2 = mWidget!!.mTop.mTarget != null
                             val e1 = mWidget!!.mRight.mTarget != null
                             val e2 = mWidget!!.mBottom.mTarget != null
-                            val definedSide = mWidget!!.getDimensionRatioSide()
+                            val definedSide = mWidget!!.dimensionRatioSide
                             if (s1 && s2 && e1 && e2) {
                                 val ratio = mWidget!!.getDimensionRatio()
                                 if (secondStart.resolved && secondEnd.resolved) {
@@ -537,7 +537,7 @@ class HorizontalWidgetRun(widget: ConstraintWidget) : WidgetRun(widget) {
                             }
                         } else {
                             var size = 0
-                            val ratioSide = mWidget!!.getDimensionRatioSide()
+                            val ratioSide = mWidget!!.dimensionRatioSide
                             when (ratioSide) {
                                 HORIZONTAL -> {
                                     size = (
@@ -567,7 +567,7 @@ class HorizontalWidgetRun(widget: ConstraintWidget) : WidgetRun(widget) {
                     }
 
                     MATCH_CONSTRAINT_PERCENT -> {
-                        val parent = mWidget!!.getParent()
+                        val parent = mWidget!!.parent
                         if (parent != null) {
                             if (parent.mHorizontalRun!!.mDimension.resolved) {
                                 val percent = mWidget!!.mMatchConstraintPercentWidth
@@ -625,7 +625,7 @@ class HorizontalWidgetRun(widget: ConstraintWidget) : WidgetRun(widget) {
         val endTarget = end.mTargets[0]
         var startPos = startTarget.value + start.mMargin
         var endPos = endTarget.value + end.mMargin
-        var bias = mWidget!!.getHorizontalBiasPercent()
+        var bias = mWidget!!.horizontalBiasPercent
         if (startTarget == endTarget) {
             startPos = startTarget.value
             endPos = endTarget.value

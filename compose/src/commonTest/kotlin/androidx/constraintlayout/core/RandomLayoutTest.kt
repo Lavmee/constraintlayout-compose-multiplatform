@@ -15,23 +15,23 @@
  */
 package androidx.constraintlayout.core
 
- import androidx.constraintlayout.core.scout.Scout
- import androidx.constraintlayout.core.widgets.ConstraintWidget
- import androidx.constraintlayout.core.widgets.ConstraintWidgetContainer
- import androidx.constraintlayout.core.widgets.Guideline
- import androidx.constraintlayout.core.widgets.Rectangle
- import kotlin.math.abs
- import kotlin.random.Random
- import kotlin.test.Test
- import kotlin.test.assertTrue
+import androidx.constraintlayout.core.scout.Scout
+import androidx.constraintlayout.core.widgets.ConstraintWidget
+import androidx.constraintlayout.core.widgets.ConstraintWidgetContainer
+import androidx.constraintlayout.core.widgets.Guideline
+import androidx.constraintlayout.core.widgets.Rectangle
+import kotlin.math.abs
+import kotlin.random.Random
+import kotlin.test.Test
+import kotlin.test.assertTrue
 
- /**
+/**
  * This test creates a random set of non overlapping rectangles uses the scout
  * to add a sequence of constraints. Verify that the constraint engine will then layout the
  * rectangles to within 12 pixels.
  * It uses
  */
- class RandomLayoutTest {
+class RandomLayoutTest {
     @Test
     fun testRandomLayouts() {
         val r: Random = Random(4567890)
@@ -39,12 +39,17 @@ package androidx.constraintlayout.core
             val seed: Long = r.nextLong()
             println("seed = $seed")
             val list: ArrayList<Rectangle> = random(
-                seed, MAX_WIDGETS,
-                PERCENT_BIG_WIDGETS, LAYOUT_WIDTH, LAYOUT_HEIGHT
+                seed,
+                MAX_WIDGETS,
+                PERCENT_BIG_WIDGETS,
+                LAYOUT_WIDTH,
+                LAYOUT_HEIGHT,
             )
             val root = ConstraintWidgetContainer(
-                0, 0,
-                LAYOUT_WIDTH, LAYOUT_HEIGHT
+                0,
+                0,
+                LAYOUT_WIDTH,
+                LAYOUT_HEIGHT,
             )
             root.setVerticalDimensionBehaviour(ConstraintWidget.DimensionBehaviour.FIXED)
             root.setHorizontalDimensionBehaviour(ConstraintWidget.DimensionBehaviour.FIXED)
@@ -53,7 +58,7 @@ package androidx.constraintlayout.core
             var k = 0
             for (rec in list) {
                 val widget = ConstraintWidget()
-                widget.setType("TextView")
+                widget.type = "TextView"
                 val text = "TextView" + k++
                 widget.debugName = text
                 widget.setOrigin(rec.x, rec.y)
@@ -62,10 +67,10 @@ package androidx.constraintlayout.core
                 widget.width = widget.width
                 widget.height = widget.height
                 widget.setHorizontalDimensionBehaviour(
-                    ConstraintWidget.DimensionBehaviour.WRAP_CONTENT
+                    ConstraintWidget.DimensionBehaviour.WRAP_CONTENT,
                 )
                 widget.setVerticalDimensionBehaviour(
-                    ConstraintWidget.DimensionBehaviour.WRAP_CONTENT
+                    ConstraintWidget.DimensionBehaviour.WRAP_CONTENT,
                 )
                 root.add(widget)
                 widget.setX(rec.x)
@@ -78,7 +83,7 @@ package androidx.constraintlayout.core
                 }
                 widget.setDimension(rec.width, rec.height)
                 //                widget.setWrapHeight(rec.height);
- //                widget.setWrapHeight(rec.width);
+                //                widget.setWrapHeight(rec.width);
             }
             val widgetList: ArrayList<ConstraintWidget> = root.children
             Scout.inferConstraints(root)
@@ -97,7 +102,7 @@ package androidx.constraintlayout.core
                 allOk = allOk and ok
                 layout += rightPad(
                     dim(widget),
-                    15
+                    15,
                 ) + (if (ok) " == " else " != ") + dim(rect) + "\n"
             }
             assertTrue(allOk, layout)
@@ -141,9 +146,11 @@ package androidx.constraintlayout.core
         if (w is Guideline) {
             return w.left.toString() + "," + w.top + "," + 0 + "," + 0
         }
-        return if (w.getVisibility() == ConstraintWidget.GONE) {
+        return if (w.visibility == ConstraintWidget.GONE) {
             0.toString() + "," + 0 + "," + 0 + "," + 0
-        } else w.left.toString() + "," + w.top + "," + w.width + "," + w.height
+        } else {
+            w.left.toString() + "," + w.top + "," + w.width + "," + w.height
+        }
     }
 
     companion object {
@@ -171,7 +178,7 @@ package androidx.constraintlayout.core
             count: Int,
             sizeRatio: Int,
             width: Int,
-            height: Int
+            height: Int,
         ): ArrayList<Rectangle> {
             val recs: ArrayList<Rectangle> =
                 ArrayList<Rectangle>()
@@ -227,4 +234,4 @@ package androidx.constraintlayout.core
             return s.substring(0, n)
         }
     }
- }
+}

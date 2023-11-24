@@ -63,11 +63,11 @@ open class WidgetContainer : ConstraintWidget {
      */
     fun add(widget: ConstraintWidget) {
         mChildren.add(widget)
-        if (widget.getParent() != null) {
-            val container = widget.getParent() as WidgetContainer
+        if (widget.parent != null) {
+            val container = widget.parent as WidgetContainer
             container.remove(widget)
         }
-        widget.setParent(this)
+        widget.parent = this
     }
 
     /**
@@ -107,24 +107,20 @@ open class WidgetContainer : ConstraintWidget {
      */
     fun getRootConstraintContainer(): ConstraintWidgetContainer? {
         var item: ConstraintWidget = this
-        var parent: ConstraintWidget? = item.getParent()
+        var parent: ConstraintWidget? = item.parent
         var container: ConstraintWidgetContainer? = null
         if (item is ConstraintWidgetContainer) {
             container = this as ConstraintWidgetContainer
         }
         while (parent != null) {
             item = parent
-            parent = item.getParent()
+            parent = item.parent
             if (item is ConstraintWidgetContainer) {
                 container = item
             }
         }
         return container
     }
-
-    /*-----------------------------------------------------------------------*/
-    // Overloaded methods from ConstraintWidget
-    /*-----------------------------------------------------------------------*/
 
     /*-----------------------------------------------------------------------*/
     // Overloaded methods from ConstraintWidget
@@ -141,7 +137,7 @@ open class WidgetContainer : ConstraintWidget {
         val count = mChildren.size
         for (i in 0 until count) {
             val widget = mChildren[i]
-            widget.setOffset(getRootX(), getRootY())
+            widget.setOffset(rootX, rootY)
         }
     }
 

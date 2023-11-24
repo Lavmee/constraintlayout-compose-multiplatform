@@ -15,7 +15,7 @@
  */
 package androidx.constraintlayout.core.dsl
 
-open class Chain : Helper {
+open class Chain(name: String) : Helper(name, HelperType("")) {
     enum class Style {
         PACKED,
         SPREAD,
@@ -25,8 +25,7 @@ open class Chain : Helper {
     private var mStyle: Style? = null
     protected var references: ArrayList<Ref?> = ArrayList()
 
-    constructor(name: String) : super(name, HelperType(""))
-
+    @Suppress("UNUSED")
     fun getStyle(): Style? {
         return mStyle
     }

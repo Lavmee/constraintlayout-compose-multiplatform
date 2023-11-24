@@ -68,7 +68,7 @@ class BasicMeasure(constraintWidgetContainer: ConstraintWidgetContainer) {
             if (child is Barrier) {
                 continue
             }
-            if (child.isInVirtualLayout()) {
+            if (child.isInVirtualLayout) {
                 continue
             }
 
@@ -82,9 +82,9 @@ class BasicMeasure(constraintWidgetContainer: ConstraintWidgetContainer) {
             val heightBehavior = child.getDimensionBehaviour(VERTICAL)
 
             var skip = widthBehavior == MATCH_CONSTRAINT &&
-                    child.mMatchConstraintDefaultWidth != MATCH_CONSTRAINT_WRAP &&
-                    heightBehavior == MATCH_CONSTRAINT &&
-                    child.mMatchConstraintDefaultHeight != MATCH_CONSTRAINT_WRAP
+                child.mMatchConstraintDefaultWidth != MATCH_CONSTRAINT_WRAP &&
+                heightBehavior == MATCH_CONSTRAINT &&
+                child.mMatchConstraintDefaultHeight != MATCH_CONSTRAINT_WRAP
 
             if (!skip && layout.optimizeFor(Optimizer.OPTIMIZATION_DIRECT) && child !is VirtualLayout) {
                 if (widthBehavior == MATCH_CONSTRAINT &&
@@ -329,7 +329,7 @@ class BasicMeasure(constraintWidgetContainer: ConstraintWidgetContainer) {
                         ) {
                             continue
                         }
-                        if (widget.getVisibility() == GONE) {
+                        if (widget.visibility == GONE) {
                             continue
                         }
                         if (optimize && widget.mHorizontalRun!!.mDimension.resolved &&
@@ -342,7 +342,7 @@ class BasicMeasure(constraintWidgetContainer: ConstraintWidgetContainer) {
                         }
                         val preWidth = widget.width
                         val preHeight = widget.height
-                        val preBaselineDistance = widget.getBaselineDistance()
+                        val preBaselineDistance = widget.baselineDistance
                         var measureStrategy: Int = Measure.TRY_GIVEN_DIMENSIONS
                         if (j == maxIterations - 1) {
                             measureStrategy = Measure.USE_GIVEN_DIMENSIONS
@@ -355,7 +355,7 @@ class BasicMeasure(constraintWidgetContainer: ConstraintWidgetContainer) {
                         if (DEBUG && hasMeasure) {
                             println(
                                 "{#} Needs Solver pass as measure true for " +
-                                        widget.debugName,
+                                    widget.debugName,
                             )
                         }
                         if (layout.mMetrics != null) {
@@ -372,10 +372,10 @@ class BasicMeasure(constraintWidgetContainer: ConstraintWidgetContainer) {
                             if (DEBUG) {
                                 println(
                                     (
-                                            "{#} Needs Solver pass as Width for " +
-                                                    widget.debugName + " changed: " +
-                                                    measuredWidth + " != " + preWidth
-                                            ),
+                                        "{#} Needs Solver pass as Width for " +
+                                            widget.debugName + " changed: " +
+                                            measuredWidth + " != " + preWidth
+                                        ),
                                 )
                             }
                             needSolverPass = true
@@ -389,19 +389,19 @@ class BasicMeasure(constraintWidgetContainer: ConstraintWidgetContainer) {
                             if (DEBUG) {
                                 println(
                                     "{#} Needs Solver pass as Height for " +
-                                            widget.debugName + " changed: " +
-                                            measuredHeight + " != " + preHeight
+                                        widget.debugName + " changed: " +
+                                        measuredHeight + " != " + preHeight,
                                 )
                             }
                             needSolverPass = true
                         }
-                        if (widget.hasBaseline() && preBaselineDistance != widget.getBaselineDistance()) {
+                        if (widget.hasBaseline && preBaselineDistance != widget.baselineDistance) {
                             if (DEBUG) {
                                 println(
                                     "{#} Needs Solver pass as Baseline for " +
-                                            widget.debugName + " changed: " +
-                                            widget.getBaselineDistance() + " != " +
-                                            preBaselineDistance
+                                        widget.debugName + " changed: " +
+                                        widget.baselineDistance + " != " +
+                                        preBaselineDistance,
                                 )
                             }
                             needSolverPass = true
@@ -468,8 +468,8 @@ class BasicMeasure(constraintWidgetContainer: ConstraintWidgetContainer) {
         measurer.measure(widget, mMeasure)
         widget.width = mMeasure.measuredWidth
         widget.height = mMeasure.measuredHeight
-        widget.setHasBaseline(mMeasure.measuredHasBaseline)
-        widget.setBaselineDistance(mMeasure.measuredBaseline)
+        widget.hasBaseline = mMeasure.measuredHasBaseline
+        widget.baselineDistance = mMeasure.measuredBaseline
         mMeasure.measureStrategy = Measure.SELF_DIMENSIONS
         return mMeasure.measuredNeedsSolverPass
     }

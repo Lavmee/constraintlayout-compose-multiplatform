@@ -15,6 +15,7 @@
  */
 package androidx.constraintlayout.core.dsl
 
+@Suppress("UNUSED")
 class Ref(
     private var mId: String,
     private var mWeight: Float = Float.NaN,

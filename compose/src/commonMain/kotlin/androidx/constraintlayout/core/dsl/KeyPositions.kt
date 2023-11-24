@@ -15,9 +15,9 @@
  */
 package androidx.constraintlayout.core.dsl
 
-class KeyPositions // the default is evenly spaced  1 at 50, 2 at 33 & 66, 3 at 25,50,75
-(numOfFrames: Int, vararg targets: String) : Keys() {
-
+// the default is evenly spaced  1 at 50, 2 at 33 & 66, 3 at 25,50,75
+@Suppress("UNUSED")
+class KeyPositions(numOfFrames: Int, vararg targets: String) : Keys() {
     private var mTarget: Array<out String> = targets
     private var mTransitionEasing: String? = null
     private var mPositionType: Type? = null
