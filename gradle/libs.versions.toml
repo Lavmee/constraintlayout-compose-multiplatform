@@ -8,7 +8,7 @@ collection = "1.4.0-beta01"
 compose = "1.5.11"
 compose-uitooling = "1.5.4"
 kotlin = "1.9.21"
-kotlinx-serialization-json = "1.6.1"
+kotlinx-serialization-json = "1.6.2"
 maven-publish = "0.25.3"
 spotless = "6.22.0"
 
