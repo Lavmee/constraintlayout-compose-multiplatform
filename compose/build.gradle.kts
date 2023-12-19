@@ -102,17 +102,6 @@ kotlin {
             dependsOn(jvmCommonMain)
         }
 
-        val webMain by creating {
-            dependsOn(commonMain)
-        }
-
-        val jsMain by getting {
-            dependsOn(webMain)
-        }
-        val wasmJsMain by getting {
-            dependsOn(webMain)
-        }
-
         val commonTest by getting {
             dependencies {
                 implementation(kotlin("test"))
