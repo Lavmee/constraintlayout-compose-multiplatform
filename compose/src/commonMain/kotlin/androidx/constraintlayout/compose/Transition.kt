@@ -17,10 +17,10 @@
 package androidx.constraintlayout.compose
 
 import androidx.compose.runtime.Immutable
+import androidx.constraintlayout.compose.extra.javaKlass
 import androidx.constraintlayout.compose.platform.Log
 import androidx.constraintlayout.compose.platform.annotation.Language
 import androidx.constraintlayout.compose.platform.annotation.SuppressLint
-import androidx.constraintlayout.compose.platform.javaKlass
 import androidx.constraintlayout.core.parser.CLObject
 import androidx.constraintlayout.core.parser.CLParser
 import androidx.constraintlayout.core.parser.CLParsingException

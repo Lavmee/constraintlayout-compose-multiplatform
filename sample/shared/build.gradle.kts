@@ -1,4 +1,5 @@
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
+import org.jetbrains.kotlin.gradle.targets.js.dsl.ExperimentalWasmDsl
 
 plugins {
     alias(libs.plugins.multiplatform)
@@ -22,6 +23,21 @@ kotlin {
                 jvmTarget = rootProject.extra.get("jvmTarget") as String
             }
         }
+    }
+
+    js(IR) {
+        browser()
+    }
+
+    @OptIn(ExperimentalWasmDsl::class)
+    wasmJs {
+        browser {
+            commonWebpackConfig {
+                outputFileName = "sample.js"
+            }
+        }
+
+        binaries.executable()
     }
 
     macosArm64 {
@@ -136,5 +152,11 @@ compose.desktop.nativeApplication {
         targetFormats(TargetFormat.Dmg)
         packageName = "ConstraintLayoutSample"
         packageVersion = "1.0.0"
+    }
+}
+
+compose {
+    experimental {
+        web.application {}
     }
 }
