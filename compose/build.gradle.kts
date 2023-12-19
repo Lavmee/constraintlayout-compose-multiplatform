@@ -1,5 +1,6 @@
 import org.jetbrains.compose.ExperimentalComposeLibrary
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
+import org.jetbrains.kotlin.gradle.targets.js.dsl.ExperimentalWasmDsl
 
 // Copyright 2023, Sergei Gagarin and the project contributors
 // SPDX-License-Identifier: Apache-2.0
@@ -28,6 +29,15 @@ kotlin {
                 jvmTarget = rootProject.extra.get("jvmTarget") as String
             }
         }
+    }
+
+    js(IR) {
+        browser()
+    }
+
+    @OptIn(ExperimentalWasmDsl::class)
+    wasmJs {
+        browser()
     }
 
     macosArm64()
@@ -76,8 +86,6 @@ kotlin {
                 implementation(compose.runtime)
                 @OptIn(ExperimentalComposeLibrary::class)
                 implementation(compose.components.resources)
-                implementation(libs.annotation)
-                implementation(libs.collection)
                 implementation(libs.kotlin.stdlib)
                 implementation(kotlin("reflect"))
             }
@@ -87,11 +95,23 @@ kotlin {
             dependsOn(commonMain)
         }
 
-        val jvmMain by getting
-        val androidMain by getting
+        val jvmMain by getting {
+            dependsOn(jvmCommonMain)
+        }
+        val androidMain by getting {
+            dependsOn(jvmCommonMain)
+        }
 
-        jvmMain.dependsOn(jvmCommonMain)
-        androidMain.dependsOn(jvmCommonMain)
+        val webMain by creating {
+            dependsOn(commonMain)
+        }
+
+        val jsMain by getting {
+            dependsOn(webMain)
+        }
+        val wasmJsMain by getting {
+            dependsOn(webMain)
+        }
 
         val commonTest by getting {
             dependencies {
