@@ -7,7 +7,7 @@ annotation = "1.7.0"
 collection = "1.4.0-beta01"
 compose = "1.5.11"
 compose-uitooling = "1.5.4"
-kotlin = "1.9.21"
+kotlin = "1.9.22"
 maven-publish = "0.25.3"
 spotless = "6.23.3"
 
