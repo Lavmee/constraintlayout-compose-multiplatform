@@ -1,4 +1,3 @@
-import org.jetbrains.compose.ExperimentalComposeLibrary
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
 import org.jetbrains.kotlin.gradle.targets.js.dsl.ExperimentalWasmDsl
 
@@ -84,7 +83,6 @@ kotlin {
                 implementation(libs.ui.util)
                 implementation(compose.foundation)
                 implementation(compose.runtime)
-                @OptIn(ExperimentalComposeLibrary::class)
                 implementation(compose.components.resources)
                 implementation(libs.kotlin.stdlib)
                 implementation(kotlin("reflect"))

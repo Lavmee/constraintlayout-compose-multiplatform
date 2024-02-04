@@ -109,6 +109,7 @@ import androidx.constraintlayout.core.widgets.VirtualLayout
 import androidx.constraintlayout.core.widgets.analyzer.BasicMeasure
 import androidx.constraintlayout.core.widgets.analyzer.BasicMeasure.Measure.Companion.TRY_GIVEN_DIMENSIONS
 import androidx.constraintlayout.core.widgets.analyzer.BasicMeasure.Measure.Companion.USE_GIVEN_DIMENSIONS
+import constraintlayout_compose_multiplatform.compose.generated.resources.Res
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.channels.Channel
@@ -2157,7 +2158,7 @@ internal open class Measurer(
                     "image" -> {
                         Image(
                             modifier = Modifier.layoutId(id),
-                            painter = painterResource("ic_menu_gallery.png"),
+                            painter = painterResource(Res.drawable.ic_menu_gallery),
                             contentDescription = "Placeholder Image",
                         )
                     }
