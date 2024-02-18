@@ -30,7 +30,7 @@ jobs:
         run: ./gradlew desktopTest
       - name: Deploy to Sonatype
         if: startsWith(github.ref, 'refs/tags/')
-        run: ./gradlew publishAllPublicationsToSonatypeRepository
+        run: ./gradlew publish
         env:
           OSSRH_USERNAME: ${{ secrets.MAVEN_CENTRAL_USERNAME }}
           OSSRH_PASSWORD: ${{ secrets.MAVEN_CENTRAL_PASSWORD }}
