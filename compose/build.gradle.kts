@@ -8,8 +8,11 @@ plugins {
     alias(libs.plugins.multiplatform)
     alias(libs.plugins.compose)
     alias(libs.plugins.android.library)
-    alias(libs.plugins.maven.publish)
+    id("convention.publication")
 }
+
+group = "tech.annexflow.compose"
+version = "0.3.0-rc02"
 
 kotlin {
     kotlin.applyDefaultHierarchyTemplate()

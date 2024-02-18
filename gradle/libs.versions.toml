@@ -4,13 +4,10 @@ androidx-appcompat = "1.6.1"
 androidx-activityCompose = "1.8.2"
 annotation = "1.7.1"
 collection = "1.4.0"
-compose = "1.6.0-beta01"
-compose-uitooling = "1.6.0"
+compose = "1.6.0-rc02"
+compose-uitooling = "1.6.1"
 kotlin = "1.9.22"
 agp = "8.2.2"
-androidx-appcompat = "1.6.1"
-androidx-activityCompose = "1.8.1"
-maven-publish = "0.27.0"
 spotless = "6.23.3"
 
 [libraries]
@@ -29,5 +26,4 @@ multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotl
 compose = { id = "org.jetbrains.compose", version.ref = "compose" }
 android-application = { id = "com.android.application", version.ref = "agp" }
 android-library = { id = "com.android.library", version.ref = "agp" }
-maven-publish = { id = "com.vanniktech.maven.publish", version.ref = "maven-publish" }
 spotless = { id = "com.diffplug.spotless", version.ref = "spotless" }

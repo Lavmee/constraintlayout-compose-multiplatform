@@ -109,13 +109,14 @@ import androidx.constraintlayout.core.widgets.VirtualLayout
 import androidx.constraintlayout.core.widgets.analyzer.BasicMeasure
 import androidx.constraintlayout.core.widgets.analyzer.BasicMeasure.Measure.Companion.TRY_GIVEN_DIMENSIONS
 import androidx.constraintlayout.core.widgets.analyzer.BasicMeasure.Measure.Companion.USE_GIVEN_DIMENSIONS
-import constraintlayout_compose_multiplatform.compose.generated.resources.Res
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.painterResource
+import tech.annexflow.compose.compose.generated.resources.Res
+import tech.annexflow.compose.compose.generated.resources.ic_menu_gallery
 
 /**
  * Layout that positions its children according to the constraints between them.
