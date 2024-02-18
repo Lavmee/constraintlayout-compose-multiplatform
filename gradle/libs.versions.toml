@@ -1,6 +1,5 @@
 [versions]
 
-agp = "8.1.4"
 androidx-appcompat = "1.6.1"
 androidx-activityCompose = "1.8.2"
 annotation = "1.7.1"
@@ -8,6 +7,9 @@ collection = "1.4.0"
 compose = "1.6.0-beta01"
 compose-uitooling = "1.6.0"
 kotlin = "1.9.22"
+agp = "8.2.2"
+androidx-appcompat = "1.6.1"
+androidx-activityCompose = "1.8.1"
 maven-publish = "0.27.0"
 spotless = "6.23.3"
 

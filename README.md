@@ -71,6 +71,9 @@ You'll note that I have kept the package name the same as that in AndroidX. This
 val commonMain by getting {
     dependencies {
         implementation("tech.annexflow.compose:constraintlayout-compose-multiplatform:0.2.3")
+
+        /// with Compose Web (k/wasm) support
+        implementation("tech.annexflow.compose:constraintlayout-compose-multiplatform:0.3.0-alpha01")
     }
 }
 ```
