@@ -1,6 +1,5 @@
 rootProject.name = "constraintlayout-compose-multiplatform"
 pluginManagement {
-    includeBuild("convention-plugins")
     repositories {
         google()
         gradlePluginPortal()

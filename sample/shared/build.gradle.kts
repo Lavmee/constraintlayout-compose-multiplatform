@@ -46,7 +46,10 @@ kotlin {
                 entryPoint = "main"
                 freeCompilerArgs +=
                     listOf(
-                        "-linker-option", "-framework", "-linker-option", "Metal",
+                        "-linker-option",
+                        "-framework",
+                        "-linker-option",
+                        "Metal",
                     )
             }
         }
@@ -57,7 +60,10 @@ kotlin {
                 entryPoint = "main"
                 freeCompilerArgs +=
                     listOf(
-                        "-linker-option", "-framework", "-linker-option", "Metal",
+                        "-linker-option",
+                        "-framework",
+                        "-linker-option",
+                        "Metal",
                     )
             }
         }

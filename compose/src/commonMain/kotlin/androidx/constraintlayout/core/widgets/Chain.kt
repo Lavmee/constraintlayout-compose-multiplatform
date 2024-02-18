@@ -126,8 +126,14 @@ class Chain {
             }
             if (USE_CHAIN_OPTIMIZATION && !isWrapContent &&
                 Direct.solveChain(
-                    container, system, orientation, offset, chainHead,
-                    isChainSpread, isChainSpreadInside, isChainPacked,
+                    container,
+                    system,
+                    orientation,
+                    offset,
+                    chainHead,
+                    isChainSpread,
+                    isChainSpreadInside,
+                    isChainPacked,
                 )
             ) {
                 if (LinearSystem.FULL_DEBUG) {
