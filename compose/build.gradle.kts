@@ -125,48 +125,62 @@ android {
     }
 }
 
-ext["signing.keyId"] = null
-ext["signing.password"] = null
-ext["signing.secretKeyRingFile"] = null
-ext["ossrhUsername"] = null
-ext["ossrhPassword"] = null
-
-val secretPropsFile = project.rootProject.file("local.properties")
-if (secretPropsFile.exists()) {
-    secretPropsFile.reader().use {
-        Properties().apply { load(it) }
-    }.onEach { (name, value) ->
-        ext[name.toString()] = value
+extra.apply {
+    val publishPropFile = rootProject.file("publish.properties")
+    if (publishPropFile.exists()) {
+        Properties().apply {
+            load(publishPropFile.inputStream())
+        }.forEach { name, value ->
+            if (name == "signing.secretKeyRingFile") {
+                set(name.toString(), rootProject.file(value.toString()).absolutePath)
+            } else {
+                set(name.toString(), value)
+            }
+        }
+    } else {
+        set("signing.keyId", System.getenv("SIGNING_KEY_ID"))
+        set("signing.password", System.getenv("SIGNING_PASSWORD"))
+        set("signing.secretKeyRingFile", System.getenv("SIGNING_SECRET_KEY_RING_FILE"))
+        set("ossrhUsername", System.getenv("OSSRH_USERNAME"))
+        set("ossrhPassword", System.getenv("OSSRH_PASSWORD"))
     }
-} else {
-    ext["signing.keyId"] = System.getenv("SIGNING_KEY_ID")
-    ext["signing.password"] = System.getenv("SIGNING_PASSWORD")
-    ext["signing.secretKeyRingFile"] = System.getenv("SIGNING_SECRET_KEY_RING_FILE")
-    ext["ossrhUsername"] = System.getenv("OSSRH_USERNAME")
-    ext["ossrhPassword"] = System.getenv("OSSRH_PASSWORD")
 }
 
 val javadocJar by tasks.registering(Jar::class) {
     archiveClassifier.set("javadoc")
 }
-
-fun getExtraString(name: String) = ext[name]?.toString()
+// https://github.com/gradle/gradle/issues/26091
+val signingTasks = tasks.withType<Sign>()
+tasks.withType<AbstractPublishToMaven>().configureEach {
+    dependsOn(signingTasks)
+}
 
 publishing {
-    repositories {
-        maven {
-            name = "sonatype"
-            setUrl("https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/")
-            credentials {
-                username = getExtraString("ossrhUsername")
-                password = getExtraString("ossrhPassword")
+    if (rootProject.file("publish.properties").exists()) {
+        signing {
+            sign(publishing.publications)
+        }
+        repositories {
+            maven {
+                val releasesRepoUrl =
+                    "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
+                val snapshotsRepoUrl =
+                    "https://s01.oss.sonatype.org/content/repositories/snapshots/"
+                url = if (version.toString().endsWith("SNAPSHOT")) {
+                    uri(snapshotsRepoUrl)
+                } else {
+                    uri(releasesRepoUrl)
+                }
+                credentials {
+                    username = project.ext.get("ossrhUsername").toString()
+                    password = project.ext.get("ossrhPassword").toString()
+                }
             }
         }
     }
 
     publications.withType<MavenPublication> {
-        artifact(javadocJar.get())
-
+        artifact(javadocJar)
         pom {
             artifactId = "constraintlayout-compose-multiplatform"
             name.set("Compose ConstraintLayout")
@@ -178,7 +192,6 @@ publishing {
                 license {
                     name.set("The Apache Software License, Version 2.0")
                     url.set("=http://www.apache.org/licenses/LICENSE-2.0.txt")
-                    distribution.set("repo")
                 }
             }
             developers {
@@ -190,18 +203,9 @@ publishing {
             }
             scm {
                 url.set("scm:git:git://github.com/lavmee/constraintlayout-compose-multiplatform.git")
+                connection.set("scm:git:git://github.com/lavmee/constraintlayout-compose-multiplatform.git")
+                developerConnection.set("scm:git:git://github.com/lavmee/constraintlayout-compose-multiplatform.git")
             }
         }
     }
-}
-
-signing {
-    if (getExtraString("signing.keyId") != null) {
-        sign(publishing.publications)
-    }
-}
-
-val signingTasks = tasks.withType<Sign>()
-tasks.withType<AbstractPublishToMaven>().configureEach {
-    mustRunAfter(signingTasks)
 }
