@@ -195,7 +195,8 @@ class ScoutProbabilities {
             var n: Int = Integer.compare(w1!!.mConstraintWidget!!.x, w2!!.mConstraintWidget!!.x)
             if (n == 0) {
                 n = Integer.compare(
-                    w1.mConstraintWidget!!.width, w2.mConstraintWidget!!.width,
+                    w1.mConstraintWidget!!.width,
+                    w2.mConstraintWidget!!.width,
                 )
             }
             n
@@ -434,7 +435,12 @@ class ScoutProbabilities {
                             continue
                         }
                         worked = list[i].setCentered(
-                            horizontal * 2, list[wNo1], list[wNo2], widget1Side, widget2Side, bias[max1][max2],
+                            horizontal * 2,
+                            list[wNo1],
+                            list[wNo2],
+                            widget1Side,
+                            widget2Side,
+                            bias[max1][max2],
                         )
                         if (worked) {
                             mProbability[i]!![horizontal * 2] = null
@@ -912,7 +918,13 @@ class ScoutProbabilities {
             var probability = (if (diff < SLOPE_CENTER_CONNECTION) 1 else 0).toFloat() // favor close distance
             probability /= (1 + distance1 + distance2)
             probability += 1 / (1 + abs((positionDiff1 - positionDiff2).toDouble())).toFloat()
-            probability *= if (to1.isRoot && to2.isRoot) 2f else if (SUPPORT_CENTER_TO_NON_ROOT) 1f else 0f
+            probability *= if (to1.isRoot && to2.isRoot) {
+                2f
+            } else if (SUPPORT_CENTER_TO_NON_ROOT) {
+                1f
+            } else {
+                0f
+            }
             result[RESULT_PROBABILITY] = probability
             result[RESULT_MARGIN] = min(positionDiff1.toDouble(), positionDiff2.toDouble()).toFloat()
         }
