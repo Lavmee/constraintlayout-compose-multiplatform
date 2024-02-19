@@ -17,7 +17,7 @@ package androidx.constraintlayout.core.parser
 
 class CLParsingException(
     private val reason: String,
-    private val element: CLElement?,
+    element: CLElement?,
 ) : Exception(reason) {
 
     private var mLineNumber = 0

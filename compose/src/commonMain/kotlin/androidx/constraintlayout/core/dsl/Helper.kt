@@ -110,7 +110,7 @@ open class Helper {
         return ret.toString()
     }
 
-    class HelperType(val mName: String) {
+    class HelperType(private val mName: String) {
         override fun toString(): String {
             return mName
         }

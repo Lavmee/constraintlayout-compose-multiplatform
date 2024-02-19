@@ -521,7 +521,7 @@ class BasicTest {
         b.connect(ConstraintAnchor.Type.TOP, a, ConstraintAnchor.Type.BOTTOM, 8)
         b.connect(ConstraintAnchor.Type.LEFT, root, ConstraintAnchor.Type.LEFT, 8)
         b.connect(ConstraintAnchor.Type.RIGHT, root, ConstraintAnchor.Type.RIGHT, 8)
-        b.setHorizontalBiasPercent(0.2f)
+        b.horizontalBiasPercent = 0.2f
         c.connect(ConstraintAnchor.Type.BOTTOM, b, ConstraintAnchor.Type.TOP, 8)
         c.connect(ConstraintAnchor.Type.LEFT, b, ConstraintAnchor.Type.RIGHT, 8)
         d.connect(ConstraintAnchor.Type.BOTTOM, c, ConstraintAnchor.Type.TOP, 8)
@@ -614,7 +614,7 @@ class BasicTest {
         b.connect(ConstraintAnchor.Type.TOP, a, ConstraintAnchor.Type.BOTTOM, 8)
         b.connect(ConstraintAnchor.Type.LEFT, root, ConstraintAnchor.Type.LEFT, 33)
         b.connect(ConstraintAnchor.Type.RIGHT, root, ConstraintAnchor.Type.RIGHT, 16)
-        b.setHorizontalBiasPercent(0.15f)
+        b.horizontalBiasPercent = 0.15f
         c.connect(ConstraintAnchor.Type.BOTTOM, b, ConstraintAnchor.Type.TOP, 8)
         c.connect(ConstraintAnchor.Type.LEFT, b, ConstraintAnchor.Type.RIGHT, 12)
         d.connect(ConstraintAnchor.Type.BOTTOM, c, ConstraintAnchor.Type.TOP, 8)
@@ -954,8 +954,8 @@ class BasicTest {
         c.connect(ConstraintAnchor.Type.LEFT, b, ConstraintAnchor.Type.RIGHT)
         c.connect(ConstraintAnchor.Type.RIGHT, root, ConstraintAnchor.Type.RIGHT)
         b.setHorizontalDimensionBehaviour(DimensionBehaviour.MATCH_CONSTRAINT)
-        a.setVisibility(ConstraintWidget.GONE)
-        c.setVisibility(ConstraintWidget.GONE)
+        a.visibility = ConstraintWidget.GONE
+        c.visibility = ConstraintWidget.GONE
         root.measure(
             Optimizer.OPTIMIZATION_NONE,
             BasicMeasure.EXACTLY,
@@ -998,11 +998,11 @@ class BasicTest {
         c.connect(ConstraintAnchor.Type.LEFT, b, ConstraintAnchor.Type.RIGHT)
         c.connect(ConstraintAnchor.Type.RIGHT, root, ConstraintAnchor.Type.RIGHT)
         b.setHorizontalDimensionBehaviour(DimensionBehaviour.MATCH_CONSTRAINT)
-        a.setVisibility(ConstraintWidget.GONE)
-        c.setVisibility(ConstraintWidget.GONE)
+        a.visibility = ConstraintWidget.GONE
+        c.visibility = ConstraintWidget.GONE
         d.connect(ConstraintAnchor.Type.LEFT, b, ConstraintAnchor.Type.LEFT)
         d.connect(ConstraintAnchor.Type.RIGHT, b, ConstraintAnchor.Type.RIGHT)
-        d.setVisibility(ConstraintWidget.GONE)
+        d.visibility = ConstraintWidget.GONE
         root.measure(
             Optimizer.OPTIMIZATION_NONE,
             BasicMeasure.EXACTLY,

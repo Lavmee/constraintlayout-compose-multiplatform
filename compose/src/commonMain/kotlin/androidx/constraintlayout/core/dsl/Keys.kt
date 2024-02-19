@@ -16,7 +16,6 @@
 package androidx.constraintlayout.core.dsl
 
 open class Keys {
-
     protected fun unpack(str: Array<out String>): String {
         val ret = StringBuilder("[")
         for (i in str.indices) {

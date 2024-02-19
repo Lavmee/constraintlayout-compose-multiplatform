@@ -15,8 +15,8 @@
  */
 package androidx.constraintlayout.core.dsl
 
+@Suppress("UNUSED")
 class OnSwipe() {
-
     private var mDragDirection: Drag? = null
     private var mTouchAnchorSide: Side? = null
 

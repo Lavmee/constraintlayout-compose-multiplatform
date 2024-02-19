@@ -80,11 +80,11 @@ class Optimizer {
                 widget.mBottom.mSolverVariable = system.createObjectVariable(widget.mBottom)
                 system.addEquality(widget.mTop.mSolverVariable!!, top)
                 system.addEquality(widget.mBottom.mSolverVariable!!, bottom)
-                if (widget.mBaselineDistance > 0 || widget.getVisibility() == ConstraintWidget.GONE) {
+                if (widget.baselineDistance > 0 || widget.visibility == ConstraintWidget.GONE) {
                     widget.mBaseline.mSolverVariable = system.createObjectVariable(widget.mBaseline)
                     system.addEquality(
                         widget.mBaseline.mSolverVariable!!,
-                        top + widget.mBaselineDistance,
+                        top + widget.baselineDistance,
                     )
                 }
                 widget.mVerticalResolution = ConstraintWidget.DIRECT

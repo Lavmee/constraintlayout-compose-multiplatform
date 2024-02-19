@@ -37,6 +37,7 @@ class Barrier : Helper {
      *
      * @return direction
      */
+    @Suppress("UNUSED")
     fun getDirection(): Constraint.Side? {
         return mDirection
     }
@@ -56,6 +57,7 @@ class Barrier : Helper {
      *
      * @return margin
      */
+    @Suppress("UNUSED")
     fun getMargin(): Int {
         return mMargin
     }
@@ -105,6 +107,7 @@ class Barrier : Helper {
      * @param ref reference in a String representation
      * @return Chain
      */
+    @Suppress("UNUSED")
     fun addReference(ref: String): Barrier {
         return addReference(Ref.parseStringToRef(ref))
     }

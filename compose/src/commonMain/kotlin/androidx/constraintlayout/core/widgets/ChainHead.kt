@@ -71,7 +71,7 @@ class ChainHead {
             mWidgetsCount++
             widget.mNextChainWidget[mOrientation] = null
             widget.mListNextMatchConstraintsWidget[mOrientation] = null
-            if (widget.getVisibility() != ConstraintWidget.GONE) {
+            if (widget.visibility != ConstraintWidget.GONE) {
                 mVisibleWidgets++
                 if (widget.getDimensionBehaviour(mOrientation)
                     != DimensionBehaviour.MATCH_CONSTRAINT
@@ -247,7 +247,7 @@ class ChainHead {
             widget: ConstraintWidget,
             orientation: Int,
         ): Boolean {
-            return widget.getVisibility() != ConstraintWidget.GONE &&
+            return widget.visibility != ConstraintWidget.GONE &&
                 (
                     widget.mListDimensionBehaviors[orientation]
                         == DimensionBehaviour.MATCH_CONSTRAINT

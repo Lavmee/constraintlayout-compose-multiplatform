@@ -162,7 +162,7 @@ abstract class WidgetRun(widget: ConstraintWidget?) : Dependency {
 
         // Otherwise, we have to center
         var bias =
-            if (orientation == HORIZONTAL) mWidget!!.getHorizontalBiasPercent() else mWidget!!.getVerticalBiasPercent()
+            if (orientation == HORIZONTAL) mWidget!!.horizontalBiasPercent else mWidget!!.verticalBiasPercent
         if (startTarget == endTarget) {
             startPos = startTarget.value
             endPos = endTarget.value
@@ -182,7 +182,7 @@ abstract class WidgetRun(widget: ConstraintWidget?) : Dependency {
             }
 
             MATCH_CONSTRAINT_PERCENT -> {
-                val parent = mWidget!!.getParent()
+                val parent = mWidget!!.parent
                 if (parent != null) {
                     val run: WidgetRun =
                         if (orientation == HORIZONTAL) parent.mHorizontalRun!! else parent.mVerticalRun!!

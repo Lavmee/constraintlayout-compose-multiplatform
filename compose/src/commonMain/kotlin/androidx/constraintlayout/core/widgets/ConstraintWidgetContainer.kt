@@ -220,9 +220,8 @@ class ConstraintWidgetContainer : WidgetContainer {
     /**
      * Specify the xml type for the container
      */
-    override fun getType(): String {
-        return "ConstraintLayout"
-    }
+
+    override var type: String? = "ConstraintLayout"
 
     override fun reset() {
         mSystem.reset()
@@ -574,7 +573,7 @@ class ConstraintWidgetContainer : WidgetContainer {
                         child !is Guideline &&
                         child !is Barrier &&
                         child !is VirtualLayout &&
-                        !child.isInVirtualLayout()
+                        !child.isInVirtualLayout
                     )
                 ) {
                     val widthBehavior = child.getDimensionBehaviour(HORIZONTAL)
@@ -660,13 +659,13 @@ class ConstraintWidgetContainer : WidgetContainer {
                 optimizeFor(Optimizer.OPTIMIZATION_GRAPH_WRAP)
             )
         mSystem.graphOptimizer = false
-        mSystem.newgraphOptimizer = false
+        mSystem.newGraphOptimizer = false
         if ((
             mOptimizationLevel != Optimizer.OPTIMIZATION_NONE &&
                 useGraphOptimizer
             )
         ) {
-            mSystem.newgraphOptimizer = true
+            mSystem.newGraphOptimizer = true
         }
         @Suppress("unused")
         var countSolve = 0
@@ -1055,7 +1054,7 @@ class ConstraintWidgetContainer : WidgetContainer {
             if (measurer == null) {
                 return false
             }
-            if (widget.getVisibility() == GONE || widget is Guideline ||
+            if (widget.visibility == GONE || widget is Guideline ||
                 widget is Barrier
             ) {
                 if (DEBUG) {
@@ -1150,7 +1149,7 @@ class ConstraintWidgetContainer : WidgetContainer {
                         measuredWidth = measure.measuredWidth
                     }
                     measure.verticalBehavior = FIXED
-                    if (widget.getDimensionRatioSide() == -1) {
+                    if (widget.dimensionRatioSide == -1) {
                         // regardless of which side we are using for the ratio,
                         //  getDimensionRatio() already
                         // made sure that it's expressed in WxH format,
@@ -1171,8 +1170,8 @@ class ConstraintWidgetContainer : WidgetContainer {
             widget.width = measure.measuredWidth
             widget.height = measure.measuredHeight
 
-            widget.setHasBaseline(measure.measuredHasBaseline)
-            widget.setBaselineDistance(measure.measuredBaseline)
+            widget.hasBaseline = measure.measuredHasBaseline
+            widget.baselineDistance = measure.measuredBaseline
             measure.measureStrategy = BasicMeasure.Measure.SELF_DIMENSIONS
             if (DEBUG) {
                 println(

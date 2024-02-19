@@ -16,8 +16,8 @@
 package androidx.constraintlayout.core.dsl
 
 class MotionScene {
-    var mTransitions = ArrayList<Transition>()
-    var mConstraintSets = ArrayList<ConstraintSet>()
+    private var mTransitions = ArrayList<Transition>()
+    private var mConstraintSets = ArrayList<ConstraintSet>()
 
     // todo add support for variables, generate and helpers
     fun addTransition(transition: Transition) {

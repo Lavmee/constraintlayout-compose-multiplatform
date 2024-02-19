@@ -23,11 +23,13 @@ class PriorityGoalRow(var mCache: Cache) : ArrayRow(mCache) {
     private var mArrayGoals = arrayOfNulls<SolverVariable>(mTableSize)
     private var mSortArray = arrayOfNulls<SolverVariable>(mTableSize)
     private var mNumGoals = 0
-    var mAccessor: GoalVariableAccessor = GoalVariableAccessor(this)
+    private var mAccessor: GoalVariableAccessor = GoalVariableAccessor(this)
 
     inner class GoalVariableAccessor(row: PriorityGoalRow) {
-        var mVariable: SolverVariable? = null
-        var mRow: PriorityGoalRow? = row
+        private var mVariable: SolverVariable? = null
+
+        @Suppress("unused")
+        private var mRow: PriorityGoalRow? = row
 
         fun init(variable: SolverVariable?) {
             mVariable = variable
@@ -76,18 +78,19 @@ class PriorityGoalRow(var mCache: Cache) : ArrayRow(mCache) {
             }
         }
 
-        fun isNegative(): Boolean {
-            for (i in SolverVariable.MAX_STRENGTH - 1 downTo 0) {
-                val value = mVariable!!.mGoalStrengthVector[i]
-                if (value > 0) {
-                    return false
+        val isNegative: Boolean
+            get() {
+                for (i in SolverVariable.MAX_STRENGTH - 1 downTo 0) {
+                    val value = mVariable!!.mGoalStrengthVector[i]
+                    if (value > 0) {
+                        return false
+                    }
+                    if (value < 0) {
+                        return true
+                    }
                 }
-                if (value < 0) {
-                    return true
-                }
+                return false
             }
-            return false
-        }
 
         fun isSmallerThan(other: SolverVariable): Boolean {
             for (i in SolverVariable.MAX_STRENGTH - 1 downTo 0) {
@@ -101,14 +104,16 @@ class PriorityGoalRow(var mCache: Cache) : ArrayRow(mCache) {
             return false
         }
 
-        fun isNull(): Boolean {
-            for (i in 0 until SolverVariable.MAX_STRENGTH) {
-                if (mVariable!!.mGoalStrengthVector[i] != 0f) {
-                    return false
+        @Suppress("unused")
+        val isNull: Boolean
+            get() {
+                for (i in 0 until SolverVariable.MAX_STRENGTH) {
+                    if (mVariable!!.mGoalStrengthVector[i] != 0f) {
+                        return false
+                    }
                 }
+                return true
             }
-            return true
-        }
 
         fun reset() {
             mVariable!!.mGoalStrengthVector.fill(0f)
@@ -131,8 +136,7 @@ class PriorityGoalRow(var mCache: Cache) : ArrayRow(mCache) {
         mConstantValue = 0f
     }
 
-    override val isEmpty: Boolean
-        get() = mNumGoals == 0
+    override val isEmpty: Boolean get() = mNumGoals == 0
 
     override fun getPivotCandidate(system: LinearSystem?, avoid: BooleanArray?): SolverVariable? {
         var pivot = NOT_FOUND
@@ -143,7 +147,7 @@ class PriorityGoalRow(var mCache: Cache) : ArrayRow(mCache) {
             }
             mAccessor.init(variable)
             if (pivot == NOT_FOUND) {
-                if (mAccessor.isNegative()) {
+                if (mAccessor.isNegative) {
                     pivot = i
                 }
             } else if (mAccessor.isSmallerThan(mArrayGoals[pivot]!!)) {
@@ -176,11 +180,6 @@ class PriorityGoalRow(var mCache: Cache) : ArrayRow(mCache) {
                 mSortArray[i] = mArrayGoals[i]
             }
             mSortArray.filterNotNull().toTypedArray().sort(fromIndex = 0, toIndex = mNumGoals)
-
-//
-//            Arrays.sort(mSortArray, 0, mNumGoals) { variable1, variable2 ->
-//                variable1!!.id - variable2!!.id
-//            }
             for (i in 0 until mNumGoals) {
                 mArrayGoals[i] = mSortArray[i]
             }

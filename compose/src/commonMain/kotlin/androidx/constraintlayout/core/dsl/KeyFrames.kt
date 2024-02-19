@@ -16,7 +16,7 @@
 package androidx.constraintlayout.core.dsl
 
 class KeyFrames {
-    var mKeys = ArrayList<Keys>()
+    private var mKeys = ArrayList<Keys>()
 
     fun add(keyFrame: Keys) {
         mKeys.add(keyFrame)

@@ -1184,8 +1184,8 @@ open class ConstraintReference : Reference {
         if (mVerticalChainWeight != UNKNOWN.toFloat()) {
             mConstraintWidget!!.setVerticalWeight(mVerticalChainWeight)
         }
-        mConstraintWidget!!.setHorizontalBiasPercent(mHorizontalBias)
-        mConstraintWidget!!.setVerticalBiasPercent(mVerticalBias)
+        mConstraintWidget!!.horizontalBiasPercent = mHorizontalBias
+        mConstraintWidget!!.verticalBiasPercent = mVerticalBias
         mConstraintWidget!!.frame.pivotX = mPivotX
         mConstraintWidget!!.frame.pivotY = mPivotY
         mConstraintWidget!!.frame.rotationX = mRotationX
@@ -1198,7 +1198,7 @@ open class ConstraintReference : Reference {
         mConstraintWidget!!.frame.scaleY = mScaleY
         mConstraintWidget!!.frame.alpha = mAlpha
         mConstraintWidget!!.frame.visibility = mVisibility
-        mConstraintWidget!!.setVisibility(mVisibility)
+        mConstraintWidget!!.visibility = mVisibility
         mConstraintWidget!!.frame.setMotionAttributes(mMotionProperties)
         if (mCustomColors != null) {
             for (key in mCustomColors.keys) {

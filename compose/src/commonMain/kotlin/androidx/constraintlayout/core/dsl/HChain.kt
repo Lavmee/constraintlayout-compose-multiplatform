@@ -15,6 +15,7 @@
  */
 package androidx.constraintlayout.core.dsl
 
+@Suppress("UNUSED")
 class HChain : Chain {
     inner class HAnchor(side: Constraint.HSide) : Anchor(Constraint.Side.valueOf(side.name))
 

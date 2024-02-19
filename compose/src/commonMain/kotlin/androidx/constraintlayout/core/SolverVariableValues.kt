@@ -15,21 +15,21 @@
  */
 package androidx.constraintlayout.core
 
-class SolverVariableValues(row: ArrayRow?, cache: Cache) : ArrayRow.ArrayRowVariables {
+open class SolverVariableValues(row: ArrayRow?, cache: Cache) : ArrayRow.ArrayRowVariables {
 
     private val mNone = -1
     private var mSize = 16
     private val mHashSize = 16
 
-    var mKeys = IntArray(mSize)
-    var mNextKeys = IntArray(mSize)
+    private var mKeys = IntArray(mSize)
+    private var mNextKeys = IntArray(mSize)
 
-    var mVariables = IntArray(mSize)
-    var mValues = FloatArray(mSize)
-    var mPrevious = IntArray(mSize)
-    var mNext = IntArray(mSize)
-    var mCount = 0
-    var mHead = -1
+    private var mVariables = IntArray(mSize)
+    private var mValues = FloatArray(mSize)
+    private var mPrevious = IntArray(mSize)
+    private var mNext = IntArray(mSize)
+    private var mCount = 0
+    private var mHead = -1
 
     private val mRow: ArrayRow? = row
 
@@ -147,7 +147,7 @@ class SolverVariableValues(row: ArrayRow?, cache: Cache) : ArrayRow.ArrayRowVari
         return str
     }
 
-    override fun clear() {
+    final override fun clear() {
         if (DEBUG) {
             println("$this <clear>")
         }

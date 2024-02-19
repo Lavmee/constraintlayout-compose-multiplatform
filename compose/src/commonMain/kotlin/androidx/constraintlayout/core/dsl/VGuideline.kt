@@ -16,7 +16,6 @@
 package androidx.constraintlayout.core.dsl
 
 class VGuideline : Guideline {
-
     constructor(name: String) : super(name) {
         mType = HelperType(typeMap[Type.VERTICAL_GUIDELINE]!!)
     }

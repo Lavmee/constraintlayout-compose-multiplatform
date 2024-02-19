@@ -15,6 +15,7 @@
  */
 package androidx.constraintlayout.core.dsl
 
+@Suppress("UNUSED")
 class VChain : Chain {
     inner class VAnchor(side: Constraint.VSide) : Anchor(Constraint.Side.valueOf(side.name))
 

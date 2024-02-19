@@ -45,7 +45,7 @@ class RatioTest {
         a.connect(ConstraintAnchor.Type.TOP, root, ConstraintAnchor.Type.TOP)
         a.connect(ConstraintAnchor.Type.BOTTOM, b, ConstraintAnchor.Type.TOP)
         a.setHorizontalChainStyle(ConstraintWidget.CHAIN_PACKED)
-        a.setHorizontalBiasPercent(0.3f)
+        a.horizontalBiasPercent = 0.3f
         a.setVerticalChainStyle(ConstraintWidget.CHAIN_SPREAD_INSIDE)
         b.connect(ConstraintAnchor.Type.LEFT, a, ConstraintAnchor.Type.LEFT, 171)
         b.connect(ConstraintAnchor.Type.TOP, a, ConstraintAnchor.Type.BOTTOM)
@@ -597,13 +597,13 @@ class RatioTest {
         a.setVerticalDimensionBehaviour(ConstraintWidget.DimensionBehaviour.MATCH_CONSTRAINT)
         b.setHorizontalDimensionBehaviour(ConstraintWidget.DimensionBehaviour.MATCH_CONSTRAINT)
         b.setVerticalDimensionBehaviour(ConstraintWidget.DimensionBehaviour.MATCH_CONSTRAINT)
-        b.setVerticalBiasPercent(0f)
+        b.verticalBiasPercent = 0f
         c.setHorizontalDimensionBehaviour(ConstraintWidget.DimensionBehaviour.MATCH_CONSTRAINT)
         c.setVerticalDimensionBehaviour(ConstraintWidget.DimensionBehaviour.MATCH_CONSTRAINT)
-        c.setVerticalBiasPercent(0.5f)
+        c.verticalBiasPercent = 0.5f
         d.setHorizontalDimensionBehaviour(ConstraintWidget.DimensionBehaviour.MATCH_CONSTRAINT)
         d.setVerticalDimensionBehaviour(ConstraintWidget.DimensionBehaviour.MATCH_CONSTRAINT)
-        d.setVerticalBiasPercent(1f)
+        d.verticalBiasPercent = 1f
         a.setDimensionRatio("1:1")
         b.setDimensionRatio("4:1")
         c.setDimensionRatio("4:1")
@@ -701,12 +701,12 @@ class RatioTest {
         b.connect(ConstraintAnchor.Type.RIGHT, a, ConstraintAnchor.Type.RIGHT)
         b.connect(ConstraintAnchor.Type.TOP, a, ConstraintAnchor.Type.TOP)
         b.connect(ConstraintAnchor.Type.BOTTOM, a, ConstraintAnchor.Type.BOTTOM)
-        b.setVerticalBiasPercent(0.9f)
+        b.verticalBiasPercent = 0.9f
         c.connect(ConstraintAnchor.Type.LEFT, b, ConstraintAnchor.Type.LEFT)
         c.connect(ConstraintAnchor.Type.RIGHT, b, ConstraintAnchor.Type.RIGHT)
         c.connect(ConstraintAnchor.Type.TOP, b, ConstraintAnchor.Type.TOP)
         c.connect(ConstraintAnchor.Type.BOTTOM, b, ConstraintAnchor.Type.BOTTOM)
-        c.setVerticalBiasPercent(0.9f)
+        c.verticalBiasPercent = 0.9f
 
 //        root.layout();
 //        System.out.println("A: " + A);
@@ -850,8 +850,8 @@ class RatioTest {
         a.connect(ConstraintAnchor.Type.RIGHT, root, ConstraintAnchor.Type.RIGHT)
         a.connect(ConstraintAnchor.Type.TOP, root, ConstraintAnchor.Type.TOP)
         a.connect(ConstraintAnchor.Type.BOTTOM, root, ConstraintAnchor.Type.BOTTOM)
-        a.setVerticalBiasPercent(0f)
-        a.setHorizontalBiasPercent(0f)
+        a.verticalBiasPercent = 0f
+        a.horizontalBiasPercent = 0f
         a.setHorizontalDimensionBehaviour(ConstraintWidget.DimensionBehaviour.MATCH_CONSTRAINT)
         a.setVerticalDimensionBehaviour(ConstraintWidget.DimensionBehaviour.MATCH_CONSTRAINT)
         a.setDimensionRatio("1:1")
@@ -862,14 +862,14 @@ class RatioTest {
         assertEquals(a.top, 0)
         assertEquals(a.width, 600)
         assertEquals(a.height, 600)
-        a.setVerticalBiasPercent(1f)
+        a.verticalBiasPercent = 1f
         root.layout()
         println("b) root: $root A: $a")
         assertEquals(a.left, 0)
         assertEquals(a.top, 400)
         assertEquals(a.width, 600)
         assertEquals(a.height, 600)
-        a.setVerticalBiasPercent(0f)
+        a.verticalBiasPercent = 0f
         root.optimizationLevel =
             androidx.constraintlayout.core.widgets.Optimizer.OPTIMIZATION_STANDARD
         root.layout()
@@ -1083,7 +1083,7 @@ class RatioTest {
         a.connect(ConstraintAnchor.Type.RIGHT, root, ConstraintAnchor.Type.RIGHT)
         a.setHorizontalDimensionBehaviour(ConstraintWidget.DimensionBehaviour.MATCH_CONSTRAINT)
         a.setVerticalDimensionBehaviour(ConstraintWidget.DimensionBehaviour.MATCH_CONSTRAINT)
-        a.setVerticalBiasPercent(0.9f)
+        a.verticalBiasPercent = 0.9f
         a.setDimensionRatio("3.5:1")
         b.connect(ConstraintAnchor.Type.LEFT, a, ConstraintAnchor.Type.LEFT)
         b.connect(ConstraintAnchor.Type.RIGHT, a, ConstraintAnchor.Type.RIGHT)
@@ -1091,8 +1091,8 @@ class RatioTest {
         b.connect(ConstraintAnchor.Type.BOTTOM, a, ConstraintAnchor.Type.BOTTOM)
         b.setHorizontalDimensionBehaviour(ConstraintWidget.DimensionBehaviour.MATCH_CONSTRAINT)
         b.setVerticalDimensionBehaviour(ConstraintWidget.DimensionBehaviour.MATCH_CONSTRAINT)
-        b.setHorizontalBiasPercent(0.5f)
-        b.setVerticalBiasPercent(0.9f)
+        b.horizontalBiasPercent = 0.5f
+        b.verticalBiasPercent = 0.9f
         b.setDimensionRatio("4:2")
         root.layout()
         println("a) root: $root A: $a B: $b")
@@ -1128,7 +1128,7 @@ class RatioTest {
         a.connect(ConstraintAnchor.Type.RIGHT, root, ConstraintAnchor.Type.RIGHT)
         a.setHorizontalDimensionBehaviour(ConstraintWidget.DimensionBehaviour.MATCH_CONSTRAINT)
         a.setVerticalDimensionBehaviour(ConstraintWidget.DimensionBehaviour.MATCH_CONSTRAINT)
-        a.setVerticalBiasPercent(0.5f)
+        a.verticalBiasPercent = 0.5f
         a.setDimensionRatio("1:1")
         b.connect(ConstraintAnchor.Type.LEFT, a, ConstraintAnchor.Type.LEFT)
         b.connect(ConstraintAnchor.Type.RIGHT, a, ConstraintAnchor.Type.RIGHT)
@@ -1136,8 +1136,8 @@ class RatioTest {
         b.connect(ConstraintAnchor.Type.BOTTOM, a, ConstraintAnchor.Type.BOTTOM)
         b.setHorizontalDimensionBehaviour(ConstraintWidget.DimensionBehaviour.MATCH_CONSTRAINT)
         b.setVerticalDimensionBehaviour(ConstraintWidget.DimensionBehaviour.MATCH_CONSTRAINT)
-        b.setHorizontalBiasPercent(0.5f)
-        b.setVerticalBiasPercent(0.9f)
+        b.horizontalBiasPercent = 0.5f
+        b.verticalBiasPercent = 0.9f
         b.setDimensionRatio("3.5:1")
         c.connect(ConstraintAnchor.Type.LEFT, b, ConstraintAnchor.Type.LEFT)
         c.connect(ConstraintAnchor.Type.RIGHT, b, ConstraintAnchor.Type.RIGHT)
@@ -1145,8 +1145,8 @@ class RatioTest {
         c.connect(ConstraintAnchor.Type.BOTTOM, b, ConstraintAnchor.Type.BOTTOM)
         c.setHorizontalDimensionBehaviour(ConstraintWidget.DimensionBehaviour.MATCH_CONSTRAINT)
         c.setVerticalDimensionBehaviour(ConstraintWidget.DimensionBehaviour.MATCH_CONSTRAINT)
-        c.setHorizontalBiasPercent(0.5f)
-        c.setVerticalBiasPercent(0.9f)
+        c.horizontalBiasPercent = 0.5f
+        c.verticalBiasPercent = 0.9f
         c.setDimensionRatio("5:2")
         root.layout()
         println("a) root: $root A: $a B: $b C: $c")
@@ -1487,12 +1487,12 @@ class RatioTest {
         b.connect(ConstraintAnchor.Type.BOTTOM, c, ConstraintAnchor.Type.TOP)
         c.connect(ConstraintAnchor.Type.TOP, b, ConstraintAnchor.Type.BOTTOM)
         c.connect(ConstraintAnchor.Type.BOTTOM, root, ConstraintAnchor.Type.BOTTOM)
-        b.setHorizontalBiasPercent(0.501f)
+        b.horizontalBiasPercent = 0.501f
         b.setHorizontalDimensionBehaviour(ConstraintWidget.DimensionBehaviour.MATCH_CONSTRAINT)
         b.setVerticalDimensionBehaviour(ConstraintWidget.DimensionBehaviour.MATCH_CONSTRAINT)
         b.setDimensionRatio("1:1")
-        a.setBaselineDistance(88)
-        c.setBaselineDistance(88)
+        a.baselineDistance = 88
+        c.baselineDistance = 88
         root.width = 1080
         root.height = 2220
         //        root.setHorizontalDimensionBehaviour(

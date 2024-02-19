@@ -168,7 +168,7 @@ class Dimension {
                     constraintWidget.setMinWidth(mMin)
                 }
                 if (mMax < Int.MAX_VALUE) {
-                    constraintWidget.setMaxWidth(mMax)
+                    constraintWidget.maxWidth = mMax
                 }
                 when (mInitialValue) {
                     WRAP_DIMENSION -> {
@@ -206,7 +206,7 @@ class Dimension {
                     constraintWidget.setMinHeight(mMin)
                 }
                 if (mMax < Int.MAX_VALUE) {
-                    constraintWidget.setMaxHeight(mMax)
+                    constraintWidget.maxHeight = mMax
                 }
                 when (mInitialValue) {
                     WRAP_DIMENSION -> {

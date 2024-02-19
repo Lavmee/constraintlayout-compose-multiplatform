@@ -15,8 +15,8 @@
  */
 package androidx.constraintlayout.core.dsl
 
+@Suppress("UNUSED")
 class KeyCycles(numOfFrames: Int, vararg targets: String) : KeyAttributes(numOfFrames, *targets) {
-
     enum class Wave {
         SIN,
         SQUARE,

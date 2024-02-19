@@ -42,7 +42,7 @@ class FlowTest {
         flow.setVerticalAlign(Flow.VERTICAL_ALIGN_BASELINE)
         flow.add(a)
         flow.add(b)
-        a.setBaselineDistance(15)
+        a.baselineDistance = 15
         flow.height = 30
         flow.setHorizontalDimensionBehaviour(DimensionBehaviour.MATCH_CONSTRAINT)
         flow.setVerticalDimensionBehaviour(DimensionBehaviour.FIXED)
@@ -181,7 +181,7 @@ class FlowTest {
                     if (layout.horizontalDimensionBehaviour
                         === DimensionBehaviour.MATCH_PARENT
                     ) {
-                        widthSize = if (layout.getParent() != null) layout.getParent()!!.width else 0
+                        widthSize = if (layout.parent != null) layout.parent!!.width else 0
                         widthMode = BasicMeasure.EXACTLY
                     } else if (horizontalBehavior
                         === DimensionBehaviour.FIXED
@@ -193,7 +193,7 @@ class FlowTest {
                         === DimensionBehaviour.MATCH_PARENT
                     ) {
                         heightSize =
-                            if (layout.getParent() != null) layout.getParent()!!.height else 0
+                            if (layout.parent != null) layout.parent!!.height else 0
                         heightMode = BasicMeasure.EXACTLY
                     } else if (verticalBehavior === DimensionBehaviour.FIXED) {
                         heightSize = verticalDimension

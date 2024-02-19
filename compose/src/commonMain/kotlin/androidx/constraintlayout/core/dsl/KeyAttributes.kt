@@ -15,8 +15,9 @@
  */
 package androidx.constraintlayout.core.dsl
 
-open class KeyAttributes // the default is evenly spaced  1 at 50, 2 at 33 & 66, 3 at 25,50,75
-(numOfFrames: Int, vararg targets: String) : Keys() {
+// the default is evenly spaced  1 at 50, 2 at 33 & 66, 3 at 25,50,75
+@Suppress("UNUSED")
+open class KeyAttributes(numOfFrames: Int, vararg targets: String) : Keys() {
     protected var TYPE = "KeyAttributes"
     private var mTarget: Array<out String> = targets
     private var mTransitionEasing: String? = null

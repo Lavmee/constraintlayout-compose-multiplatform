@@ -209,7 +209,7 @@ class CLParser(private val mContent: String) {
                     val token = currentElement as CLToken?
                     if (!token!!.validate(c, position.toLong())) {
                         throw CLParsingException(
-                            ("incorrect token <" + c + "> at line " + mLineNumber),
+                            ("incorrect token <$c> at line $mLineNumber"),
                             token,
                         )
                     }

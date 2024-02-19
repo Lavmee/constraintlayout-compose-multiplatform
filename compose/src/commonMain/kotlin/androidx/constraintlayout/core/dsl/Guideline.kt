@@ -25,6 +25,7 @@ abstract class Guideline(name: String) : Helper(name, HelperType("")) {
      *
      * @return start position
      */
+    @Suppress("UNUSED")
     open fun getStart(): Int {
         return mStart
     }
@@ -44,6 +45,7 @@ abstract class Guideline(name: String) : Helper(name, HelperType("")) {
      *
      * @return end position
      */
+    @Suppress("UNUSED")
     open fun getEnd(): Int {
         return mEnd
     }
@@ -63,6 +65,7 @@ abstract class Guideline(name: String) : Helper(name, HelperType("")) {
      *
      * @return position in percent
      */
+    @Suppress("UNUSED")
     open fun getPercent(): Float {
         return mPercent
     }

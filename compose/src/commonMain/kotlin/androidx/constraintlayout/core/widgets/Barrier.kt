@@ -227,7 +227,7 @@ class Barrier() : HelperWidget() {
                 )
             }
             if (USE_RELAX_GONE) {
-                if (widget.getVisibility() != GONE || widget is Guideline || widget is Barrier) {
+                if (widget.visibility != GONE || widget is Guideline || widget is Barrier) {
                     system.addEquality(
                         position.mSolverVariable!!,
                         target,
@@ -256,13 +256,13 @@ class Barrier() : HelperWidget() {
                 )
                 system.addEquality(
                     mLeft.mSolverVariable!!,
-                    mParent!!.mRight.mSolverVariable!!,
+                    parent!!.mRight.mSolverVariable!!,
                     0,
                     barrierParentStrength,
                 )
                 system.addEquality(
                     mLeft.mSolverVariable!!,
-                    mParent!!.mLeft.mSolverVariable!!,
+                    parent!!.mLeft.mSolverVariable!!,
                     0,
                     barrierParentStrengthOpposite,
                 )
@@ -276,13 +276,13 @@ class Barrier() : HelperWidget() {
                 )
                 system.addEquality(
                     mLeft.mSolverVariable!!,
-                    mParent!!.mLeft.mSolverVariable!!,
+                    parent!!.mLeft.mSolverVariable!!,
                     0,
                     barrierParentStrength,
                 )
                 system.addEquality(
                     mLeft.mSolverVariable!!,
-                    mParent!!.mRight.mSolverVariable!!,
+                    parent!!.mRight.mSolverVariable!!,
                     0,
                     barrierParentStrengthOpposite,
                 )
@@ -296,13 +296,13 @@ class Barrier() : HelperWidget() {
                 )
                 system.addEquality(
                     mTop.mSolverVariable!!,
-                    mParent!!.mBottom.mSolverVariable!!,
+                    parent!!.mBottom.mSolverVariable!!,
                     0,
                     barrierParentStrength,
                 )
                 system.addEquality(
                     mTop.mSolverVariable!!,
-                    mParent!!.mTop.mSolverVariable!!,
+                    parent!!.mTop.mSolverVariable!!,
                     0,
                     barrierParentStrengthOpposite,
                 )
@@ -316,13 +316,13 @@ class Barrier() : HelperWidget() {
                 )
                 system.addEquality(
                     mTop.mSolverVariable!!,
-                    mParent!!.mTop.mSolverVariable!!,
+                    parent!!.mTop.mSolverVariable!!,
                     0,
                     barrierParentStrength,
                 )
                 system.addEquality(
                     mTop.mSolverVariable!!,
-                    mParent!!.mBottom.mSolverVariable!!,
+                    parent!!.mBottom.mSolverVariable!!,
                     0,
                     barrierParentStrengthOpposite,
                 )

@@ -614,7 +614,7 @@ open class State {
             if (reference != mParent) {
                 val widget = reference!!.getConstraintWidget()
                 widget!!.debugName = reference.getKey().toString()
-                widget.setParent(null)
+                widget.parent = null
                 if (reference.getFacade() is GuidelineReference) {
                     // we apply Guidelines first to correctly setup their ConstraintWidget.
                     reference.apply()

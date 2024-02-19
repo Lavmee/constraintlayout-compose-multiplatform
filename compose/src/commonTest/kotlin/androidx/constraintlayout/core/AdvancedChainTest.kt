@@ -425,8 +425,8 @@ class AdvancedChainTest {
             androidx.constraintlayout.core.widgets.ConstraintAnchor.Type.BOTTOM,
             0,
         )
-        b.setVisibility(ConstraintWidget.GONE)
-        d.setVisibility(ConstraintWidget.GONE)
+        b.visibility = ConstraintWidget.GONE
+        d.visibility = ConstraintWidget.GONE
         root.optimizationLevel = androidx.constraintlayout.core.widgets.Optimizer.OPTIMIZATION_NONE
         root.layout()
         println("A: $a")
@@ -552,8 +552,8 @@ class AdvancedChainTest {
         c.setVerticalDimensionBehaviour(DimensionBehaviour.MATCH_CONSTRAINT)
         ratio.setVerticalDimensionBehaviour(DimensionBehaviour.MATCH_CONSTRAINT)
         ratio.setDimensionRatio("4:3")
-        b.setVisibility(ConstraintWidget.GONE)
-        c.setVisibility(ConstraintWidget.GONE)
+        b.visibility = ConstraintWidget.GONE
+        c.visibility = ConstraintWidget.GONE
         root.optimizationLevel = androidx.constraintlayout.core.widgets.Optimizer.OPTIMIZATION_NONE
         root.layout()
         println("A: $a")

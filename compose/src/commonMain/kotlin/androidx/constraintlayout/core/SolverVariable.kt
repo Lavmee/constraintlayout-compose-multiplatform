@@ -35,8 +35,8 @@ class SolverVariable : Comparable<SolverVariable> {
 
     var mType: Type? = null
 
-    var mClientEquations: Array<ArrayRow?> = arrayOfNulls(16)
-    var mClientEquationsCount = 0
+    private var mClientEquations: Array<ArrayRow?> = arrayOfNulls(16)
+    private var mClientEquationsCount = 0
     var usageInRowCount = 0
     var mIsSynonym = false
     var mSynonym = -1
@@ -77,19 +77,22 @@ class SolverVariable : Comparable<SolverVariable> {
         mType = type
     }
 
-    constructor(type: Type, prefix: String?) {
+    @Suppress("ControlFlowWithEmptyBody")
+    constructor(type: Type, @Suppress("UNUSED_PARAMETER") prefix: String?) {
         mType = type
         if (INTERNAL_DEBUG) {
             // mName = getUniqueName(type, prefix);
         }
     }
 
+    @Suppress("unused")
     fun clearStrengths() {
         for (i in 0 until MAX_STRENGTH) {
             mStrengthVector[i] = 0F
         }
     }
 
+    @Suppress("unused")
     fun strengthsToString(): String {
         var representation = "$this["
         var negative = false
@@ -120,7 +123,7 @@ class SolverVariable : Comparable<SolverVariable> {
         return representation
     }
 
-    var mInRows: HashSet<ArrayRow?>? = if (VAR_USE_HASH) HashSet() else null
+    private var mInRows: HashSet<ArrayRow?>? = if (VAR_USE_HASH) HashSet() else null
 
     fun addToRow(row: ArrayRow?) {
         if (VAR_USE_HASH) {
@@ -309,7 +312,6 @@ class SolverVariable : Comparable<SolverVariable> {
                 Type.ERROR -> "e" + ++sUniqueErrorId
                 Type.UNKNOWN -> "V" + ++sUniqueId
             }
-            throw AssertionError(type.name)
         }
     }
 }

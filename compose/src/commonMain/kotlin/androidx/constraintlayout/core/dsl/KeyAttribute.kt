@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 package androidx.constraintlayout.core.dsl
-
+@Suppress("UNUSED")
 open class KeyAttribute(frame: Int, target: String) : Keys() {
     protected var TYPE = "KeyAttributes"
     private var mTarget: String = target

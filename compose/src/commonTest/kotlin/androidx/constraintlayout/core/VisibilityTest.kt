@@ -53,7 +53,7 @@ class VisibilityTest {
         assertEquals(a.top, root.top + margin)
         assertEquals(b.left, a.right + margin)
         assertEquals(b.top, a.bottom + margin)
-        a.setVisibility(ConstraintWidget.GONE)
+        a.visibility = ConstraintWidget.GONE
         root.layout()
         println("b) A: $a B: $b")
         assertEquals(root.width, 800)
@@ -121,7 +121,7 @@ class VisibilityTest {
         assertEquals(a.bottom, guideline.top)
         assertEquals(b.top, a.bottom)
         assertEquals(b.bottom, root.bottom)
-        a.setVisibility(ConstraintWidget.GONE)
+        a.visibility = ConstraintWidget.GONE
         root.layout()
         println("b) A: $a B: $b guideline $guideline")
         assertEquals(root.width, 800)
