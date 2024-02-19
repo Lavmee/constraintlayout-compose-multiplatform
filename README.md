@@ -73,7 +73,7 @@ val commonMain by getting {
         implementation("tech.annexflow.compose:constraintlayout-compose-multiplatform:0.2.3")
 
         /// with Compose Web (k/wasm) support
-        implementation("tech.annexflow.compose:constraintlayout-compose-multiplatform:0.3.0-alpha01")
+        implementation("tech.annexflow.compose:constraintlayout-compose-multiplatform:0.3.0-rc02")
     }
 }
 ```
