@@ -3,8 +3,8 @@ plugins {
     alias(libs.plugins.compose).apply(false)
     alias(libs.plugins.android.application).apply(false)
     alias(libs.plugins.android.library).apply(false)
-    alias(libs.plugins.spotless)
     alias(libs.plugins.maven.publish)
+    alias(libs.plugins.spotless)
 }
 
 allprojects {

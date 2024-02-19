@@ -11,9 +11,6 @@ plugins {
     alias(libs.plugins.maven.publish)
 }
 
-group = "tech.annexflow.compose"
-version = "0.3.0-rc02"
-
 kotlin {
     kotlin.applyDefaultHierarchyTemplate()
 
