@@ -80,7 +80,7 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 implementation(compose.ui)
-                implementation(libs.ui.util)
+                implementation(compose.uiUtil)
                 implementation(compose.foundation)
                 implementation(compose.runtime)
                 implementation(compose.components.resources)

@@ -99,7 +99,6 @@ kotlin {
             dependencies {
                 implementation(libs.androidx.appcompat)
                 implementation(libs.androidx.activityCompose)
-                implementation(libs.compose.uitooling)
             }
         }
 

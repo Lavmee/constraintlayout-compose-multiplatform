@@ -3,7 +3,6 @@
 androidx-appcompat = "1.6.1"
 androidx-activityCompose = "1.8.2"
 compose = "1.6.0-rc02"
-compose-uitooling = "1.6.1"
 kotlin = "1.9.22"
 agp = "8.2.2"
 maven-publish = "0.27.0"
@@ -13,9 +12,7 @@ spotless = "6.25.0"
 
 androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "androidx-appcompat" }
 androidx-activityCompose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activityCompose" }
-compose-uitooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "compose-uitooling" }
 kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib", version.ref = "kotlin" }
-ui-util = { module = "org.jetbrains.compose.ui:ui-util", version.ref = "compose" }
 
 [plugins]
 
