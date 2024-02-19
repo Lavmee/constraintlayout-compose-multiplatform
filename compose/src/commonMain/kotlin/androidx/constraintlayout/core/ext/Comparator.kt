@@ -8,5 +8,13 @@ internal fun compare(f1: Float, f2: Float): Int {
     val thisBits: Int = f1.toBits()
     val anotherBits: Int = f2.toBits()
 
-    return (if (thisBits == anotherBits) 0 else if (thisBits < anotherBits) -1 else 1)
+    return (
+        if (thisBits == anotherBits) {
+            0
+        } else if (thisBits < anotherBits) {
+            -1
+        } else {
+            1
+        }
+        )
 }

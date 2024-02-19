@@ -1,4 +1,5 @@
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
+import org.jetbrains.kotlin.gradle.targets.js.dsl.ExperimentalWasmDsl
 
 plugins {
     alias(libs.plugins.multiplatform)
@@ -24,13 +25,31 @@ kotlin {
         }
     }
 
+    js(IR) {
+        browser()
+    }
+
+    @OptIn(ExperimentalWasmDsl::class)
+    wasmJs {
+        browser {
+            commonWebpackConfig {
+                outputFileName = "sample.js"
+            }
+        }
+
+        binaries.executable()
+    }
+
     macosArm64 {
         binaries {
             executable {
                 entryPoint = "main"
                 freeCompilerArgs +=
                     listOf(
-                        "-linker-option", "-framework", "-linker-option", "Metal",
+                        "-linker-option",
+                        "-framework",
+                        "-linker-option",
+                        "Metal",
                     )
             }
         }
@@ -41,7 +60,10 @@ kotlin {
                 entryPoint = "main"
                 freeCompilerArgs +=
                     listOf(
-                        "-linker-option", "-framework", "-linker-option", "Metal",
+                        "-linker-option",
+                        "-framework",
+                        "-linker-option",
+                        "Metal",
                     )
             }
         }
@@ -136,5 +158,11 @@ compose.desktop.nativeApplication {
         targetFormats(TargetFormat.Dmg)
         packageName = "ConstraintLayoutSample"
         packageVersion = "1.0.0"
+    }
+}
+
+compose {
+    experimental {
+        web.application {}
     }
 }

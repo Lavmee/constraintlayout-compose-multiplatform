@@ -16,7 +16,6 @@
 
 package androidx.constraintlayout.compose
 
-import androidx.collection.IntIntPair
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.AnimationSpec
 import androidx.compose.animation.core.tween
@@ -78,6 +77,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.util.fastForEach
 import androidx.compose.ui.util.fastForEachIndexed
+import androidx.constraintlayout.compose.extra.IntIntPair
 import androidx.constraintlayout.compose.extra.parseLong
 import androidx.constraintlayout.compose.platform.Log
 import androidx.constraintlayout.compose.platform.annotation.Language
@@ -115,6 +115,8 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.painterResource
+import tech.annexflow.compose.compose.generated.resources.Res
+import tech.annexflow.compose.compose.generated.resources.ic_menu_gallery
 
 /**
  * Layout that positions its children according to the constraints between them.
@@ -2157,7 +2159,7 @@ internal open class Measurer(
                     "image" -> {
                         Image(
                             modifier = Modifier.layoutId(id),
-                            painter = painterResource("ic_menu_gallery.png"),
+                            painter = painterResource(Res.drawable.ic_menu_gallery),
                             contentDescription = "Placeholder Image",
                         )
                     }

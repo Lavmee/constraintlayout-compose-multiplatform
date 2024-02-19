@@ -314,7 +314,10 @@ class MotionTransitionTest {
             pos[i] = i / (ratio.size - 1).toFloat()
             ratio[i] = transition.dragToProgress(
                 pos[i],
-                cwc1.width, cwc1.height, 10f, 100f,
+                cwc1.width,
+                cwc1.height,
+                10f,
+                100f,
             )
         }
         transition.interpolate(cwc1.width, cwc1.height, 0.5f)

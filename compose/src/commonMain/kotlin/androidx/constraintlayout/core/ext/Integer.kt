@@ -4,7 +4,13 @@ import kotlin.math.roundToInt
 
 internal object Integer {
     fun compare(x: Int, y: Int): Int {
-        return if (x < y) -1 else if (x == y) 0 else 1
+        return if (x < y) {
+            -1
+        } else if (x == y) {
+            0
+        } else {
+            1
+        }
     }
 }
 

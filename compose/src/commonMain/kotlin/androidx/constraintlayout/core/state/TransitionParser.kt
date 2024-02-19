@@ -362,7 +362,8 @@ class TransitionParser {
                                     if (color != -1L) {
                                         customVars[j][i] = CustomVariable(
                                             customName,
-                                            TypedValues.Custom.TYPE_COLOR, color.toInt(),
+                                            TypedValues.Custom.TYPE_COLOR,
+                                            color.toInt(),
                                         )
                                     }
                                 }
@@ -385,7 +386,8 @@ class TransitionParser {
                                 for (j in bundles.indices) {
                                     customVars[j][i] = CustomVariable(
                                         customName,
-                                        TypedValues.Custom.TYPE_COLOR, cValue.toInt(),
+                                        TypedValues.Custom.TYPE_COLOR,
+                                        cValue.toInt(),
                                     )
                                 }
                             }

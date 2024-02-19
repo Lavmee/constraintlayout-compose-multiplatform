@@ -1215,7 +1215,9 @@ class Direct {
                             widget.setFinalHorizontal(current, current + widget.width)
                             horizontalSolvingPass(
                                 level + 1,
-                                widget, container.measurer!!, isRtl,
+                                widget,
+                                container.measurer!!,
+                                isRtl,
                             )
                             widget.width
                         } else {

@@ -161,13 +161,21 @@ class CLParser(private val mContent: String) {
             ' ', ':', ',', '\t', '\r', '\n' -> {}
             '{' -> {
                 currentElement = createElement(
-                    currentElement, position, TYPE.OBJECT, true, content,
+                    currentElement,
+                    position,
+                    TYPE.OBJECT,
+                    true,
+                    content,
                 )
             }
 
             '[' -> {
                 currentElement = createElement(
-                    currentElement, position, TYPE.ARRAY, true, content,
+                    currentElement,
+                    position,
+                    TYPE.ARRAY,
+                    true,
+                    content,
                 )
             }
 
@@ -180,11 +188,19 @@ class CLParser(private val mContent: String) {
             '"', '\'' -> {
                 currentElement = if (currentElement is CLObject) {
                     createElement(
-                        currentElement, position, TYPE.KEY, true, content,
+                        currentElement,
+                        position,
+                        TYPE.KEY,
+                        true,
+                        content,
                     )
                 } else {
                     createElement(
-                        currentElement, position, TYPE.STRING, true, content,
+                        currentElement,
+                        position,
+                        TYPE.STRING,
+                        true,
+                        content,
                     )
                 }
             }
@@ -197,14 +213,22 @@ class CLParser(private val mContent: String) {
 
             '-', '+', '.', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' -> {
                 currentElement = createElement(
-                    currentElement, position, TYPE.NUMBER, true, content,
+                    currentElement,
+                    position,
+                    TYPE.NUMBER,
+                    true,
+                    content,
                 )
             }
 
             else -> {
                 if ((currentElement is CLContainer && currentElement !is CLObject)) {
                     currentElement = createElement(
-                        currentElement, position, TYPE.TOKEN, true, content,
+                        currentElement,
+                        position,
+                        TYPE.TOKEN,
+                        true,
+                        content,
                     )
                     val token = currentElement as CLToken?
                     if (!token!!.validate(c, position.toLong())) {
@@ -215,7 +239,11 @@ class CLParser(private val mContent: String) {
                     }
                 } else {
                     currentElement = createElement(
-                        currentElement, position, TYPE.KEY, true, content,
+                        currentElement,
+                        position,
+                        TYPE.KEY,
+                        true,
+                        content,
                     )
                 }
             }
