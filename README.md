@@ -24,6 +24,7 @@ The `androidx.constraintlayout:constraintlayout-compose` library is available fo
 | iOS           | ✅                |
 | Desktop (JVM) | ✅                |
 | Desktop (Mac) | ✅ (experimental) |
+| Web           | ✅ (experimental) |
 
 ## Usage
 
@@ -70,10 +71,7 @@ You'll note that I have kept the package name the same as that in AndroidX. This
 ```kotlin
 val commonMain by getting {
     dependencies {
-        implementation("tech.annexflow.compose:constraintlayout-compose-multiplatform:0.2.3")
-
-        /// with Compose Web (k/wasm) support
-        implementation("tech.annexflow.compose:constraintlayout-compose-multiplatform:0.3.0-rc02")
+        implementation("tech.annexflow.compose:constraintlayout-compose-multiplatform:0.3.0")
     }
 }
 ```
