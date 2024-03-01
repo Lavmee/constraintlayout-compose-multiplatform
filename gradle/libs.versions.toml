@@ -2,7 +2,7 @@
 
 androidx-appcompat = "1.6.1"
 androidx-activityCompose = "1.8.2"
-compose = "1.6.0-rc02"
+compose = "1.6.0"
 kotlin = "1.9.22"
 agp = "8.2.2"
 maven-publish = "0.27.0"
