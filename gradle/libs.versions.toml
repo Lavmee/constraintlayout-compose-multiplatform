@@ -2,10 +2,10 @@
 
 androidx-appcompat = "1.6.1"
 androidx-activityCompose = "1.8.2"
-compose = "1.6.0"
-kotlin = "1.9.22"
+compose = "1.6.1"
+kotlin = "1.9.23"
 agp = "8.2.2"
-maven-publish = "0.27.0"
+maven-publish = "0.28.0"
 spotless = "6.25.0"
 
 [libraries]
