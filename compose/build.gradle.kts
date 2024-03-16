@@ -1,4 +1,3 @@
-import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
 import org.jetbrains.kotlin.gradle.targets.js.dsl.ExperimentalWasmDsl
 
 // Copyright 2023, Sergei Gagarin and the project contributors
@@ -50,16 +49,6 @@ kotlin {
         it.binaries.framework {
             baseName = "compose"
             isStatic = true
-        }
-    }
-
-    configure(targets) {
-        if (this is KotlinNativeTarget && konanTarget.family.isAppleFamily) {
-            compilations.getByName("main") {
-                val objc by cinterops.creating {
-                    defFile(project.file("src/iosMain/def/objc.def"))
-                }
-            }
         }
     }
 
