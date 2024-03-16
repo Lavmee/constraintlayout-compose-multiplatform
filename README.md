@@ -71,7 +71,7 @@ You'll note that I have kept the package name the same as that in AndroidX. This
 ```kotlin
 val commonMain by getting {
     dependencies {
-        implementation("tech.annexflow.compose:constraintlayout-compose-multiplatform:0.3.0")
+        implementation("tech.annexflow.compose:constraintlayout-compose-multiplatform:0.3.1")
     }
 }
 ```
