@@ -19,10 +19,10 @@ package androidx.constraintlayout.compose
 import androidx.compose.runtime.Immutable
 import androidx.compose.ui.layout.Measurable
 import androidx.constraintlayout.compose.extra.javaKlass
-import androidx.constraintlayout.core.parser.CLObject
-import androidx.constraintlayout.core.state.ConstraintSetParser
-import androidx.constraintlayout.core.state.ConstraintSetParser.LayoutVariables
-import androidx.constraintlayout.core.state.Transition
+import androidx.constraintlayout.coremp.parser.CLObject
+import androidx.constraintlayout.coremp.state.ConstraintSetParser
+import androidx.constraintlayout.coremp.state.ConstraintSetParser.LayoutVariables
+import androidx.constraintlayout.coremp.state.Transition
 
 // @JvmDefaultWithCompatibility
 /**

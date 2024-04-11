@@ -21,11 +21,11 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.platform.annotation.FloatRange
 import androidx.constraintlayout.compose.platform.annotation.IntRange
-import androidx.constraintlayout.core.parser.CLArray
-import androidx.constraintlayout.core.parser.CLContainer
-import androidx.constraintlayout.core.parser.CLNumber
-import androidx.constraintlayout.core.parser.CLObject
-import androidx.constraintlayout.core.parser.CLString
+import androidx.constraintlayout.coremp.parser.CLArray
+import androidx.constraintlayout.coremp.parser.CLContainer
+import androidx.constraintlayout.coremp.parser.CLNumber
+import androidx.constraintlayout.coremp.parser.CLObject
+import androidx.constraintlayout.coremp.parser.CLString
 import kotlin.properties.ObservableProperty
 import kotlin.reflect.KProperty
 

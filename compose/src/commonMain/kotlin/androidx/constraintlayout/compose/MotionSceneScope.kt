@@ -21,7 +21,7 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import androidx.constraintlayout.compose.extra.javaKlass
-import androidx.constraintlayout.core.parser.CLObject
+import androidx.constraintlayout.coremp.parser.CLObject
 
 private const val UNDEFINED_NAME_PREFIX = "androidx.constraintlayout"
 
