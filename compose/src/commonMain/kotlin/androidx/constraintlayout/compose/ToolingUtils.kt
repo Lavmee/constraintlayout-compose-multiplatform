@@ -22,10 +22,10 @@ import androidx.compose.ui.semantics.SemanticsPropertyKey
 import androidx.compose.ui.semantics.SemanticsPropertyReceiver
 import androidx.constraintlayout.compose.extra.JSONArray
 import androidx.constraintlayout.compose.extra.JSONObject
-import androidx.constraintlayout.core.state.State.Companion.PARENT
-import androidx.constraintlayout.core.widgets.ConstraintWidget
-import androidx.constraintlayout.core.widgets.ConstraintWidgetContainer
-import androidx.constraintlayout.core.widgets.HelperWidget
+import androidx.constraintlayout.coremp.state.State.Companion.PARENT
+import androidx.constraintlayout.coremp.widgets.ConstraintWidget
+import androidx.constraintlayout.coremp.widgets.ConstraintWidgetContainer
+import androidx.constraintlayout.coremp.widgets.HelperWidget
 
 /**
  * [SemanticsPropertyKey] to test [DesignInfoProvider]
