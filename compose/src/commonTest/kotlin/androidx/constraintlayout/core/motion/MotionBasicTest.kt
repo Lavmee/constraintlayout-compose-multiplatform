@@ -21,9 +21,11 @@ import androidx.constraintlayout.core.motion.utils.HyperSpline
 import androidx.constraintlayout.core.motion.utils.LinearCurveFit
 import androidx.constraintlayout.core.motion.utils.Oscillator
 import androidx.constraintlayout.core.motion.utils.StopLogicEngine
+import kotlin.math.abs
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
+
 
 class MotionBasicTest {
     @Test
@@ -154,6 +156,28 @@ class MotionBasicTest {
         assertEquals(19, countZeroCrossings(o, Oscillator.SAW_WAVE))
         assertEquals(19, countZeroCrossings(o, Oscillator.REVERSE_SAW_WAVE))
         assertEquals(20, countZeroCrossings(o, Oscillator.COS_WAVE))
+    }
+
+    @Test
+    fun testOscillatorAtKeyframe() {
+        val o = Oscillator()
+        o.setType(Oscillator.SIN_WAVE, null)
+        o.addPoint(0.0, 0f)
+        o.addPoint(0.2, 2f)
+        o.addPoint(0.5, 0f)
+        o.addPoint(0.7, 3f)
+        o.addPoint(1.0, 1f)
+        o.normalize()
+
+        // Value expected at 20%
+        val expectedAt20 = -0.7818315892114756
+        assertEquals(expectedAt20, o.getValue(0.2, 0.0), 0.00001)
+
+        // To prove that this value is continuous, we'll test it slightly before and after the
+        // keyframe
+        val error = 0.001
+        assertTrue(abs(expectedAt20 - o.getValue(0.19999, 0.0)) < error)
+        assertTrue(abs(expectedAt20 - o.getValue(0.20001, 0.0)) < error)
     }
 
 //    @Test

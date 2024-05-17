@@ -36,8 +36,6 @@ class Oscillator {
     @Suppress("unused")
     private var mNormalized = false
 
-    constructor()
-
     override fun toString(): String {
         return "pos =" + mPosition.contentToString() + " period=" + mPeriod.contentToString()
     }
@@ -97,27 +95,20 @@ class Oscillator {
     }
 
     fun getP(time: Double): Double {
-        var time = time
-        if (time < 0) {
-            time = 0.0
-        } else if (time > 1) {
-            time = 1.0
+        if (time <= 0.0) {
+            return 0.0
+        } else if (time >= 1.0) {
+            return 1.0
         }
-        var index = mPosition.binarySearch(time)
-        var p = 0.0
-        if (index > 0) {
-            p = 1.0
-        } else if (index != 0) {
+        // At this point, `index` is guaranteed to be != 0 for any time value (assuming mPosition
+        // includes 0.0)
+        var index  =mPosition.binarySearch(time)
+        if (index < 0) {
             index = -index - 1
-            val t = time
-            val m = (
-                (mPeriod[index] - mPeriod[index - 1]) /
-                    (mPosition[index] - mPosition[index - 1])
-                )
-            p =
-                mArea!![index - 1] + (mPeriod[index - 1] - m * mPosition[index - 1]) * (t - mPosition[index - 1]) + m * (t * t - mPosition[index - 1] * mPosition[index - 1]) / 2
         }
-        return p
+        val m = ((mPeriod[index] - mPeriod[index - 1])
+                / (mPosition[index] - mPosition[index - 1]))
+        return mArea!![index - 1] + (mPeriod[index - 1] - m * mPosition[index - 1]) * (time - mPosition[index - 1]) + m * (time * time - mPosition[index - 1] * mPosition[index - 1]) / 2
     }
 
     // @TODO: add description
@@ -141,27 +132,20 @@ class Oscillator {
     }
 
     fun getDP(time: Double): Double {
-        var time = time
-        if (time <= 0) {
-            time = 0.00001
-        } else if (time >= 1) {
-            time = .999999
-        }
-        var index = mPosition.binarySearch(time)
-        var p = 0.0
-        if (index > 0) {
+        if (time <= 0.0) {
             return 0.0
+        } else if (time >= 1.0) {
+            return 1.0
         }
-        if (index != 0) {
+        // At this point, `index` is guaranteed to be != 0 for any time value (assuming mPosition
+        // includes 0.0)
+        var index: Int = mPosition.binarySearch(time)
+        if (index < 0) {
             index = -index - 1
-            val t = time
-            val m = (
-                (mPeriod[index] - mPeriod[index - 1]) /
-                    (mPosition[index] - mPosition[index - 1])
-                )
-            p = m * t + (mPeriod[index - 1] - m * mPosition[index - 1])
         }
-        return p
+        val m = ((mPeriod[index] - mPeriod[index - 1])
+                / (mPosition[index] - mPosition[index - 1]))
+        return m * time + (mPeriod[index - 1] - m * mPosition[index - 1])
     }
 
     // @TODO: add description
