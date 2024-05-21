@@ -16,13 +16,13 @@
 
 package androidx.constraintlayout.compose
 
+import androidx.annotation.FloatRange
 import androidx.compose.foundation.layout.LayoutScopeMarker
 import androidx.compose.runtime.Stable
 import androidx.compose.ui.graphics.TransformOrigin
 import androidx.compose.ui.layout.FirstBaseline
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import androidx.constraintlayout.compose.platform.annotation.FloatRange
 import androidx.constraintlayout.core.parser.CLArray
 import androidx.constraintlayout.core.parser.CLNumber
 import androidx.constraintlayout.core.parser.CLObject

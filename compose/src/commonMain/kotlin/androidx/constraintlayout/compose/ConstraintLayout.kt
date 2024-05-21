@@ -16,6 +16,7 @@
 
 package androidx.constraintlayout.compose
 
+import androidx.collection.IntIntPair
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.AnimationSpec
 import androidx.compose.animation.core.tween
@@ -77,7 +78,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.util.fastForEach
 import androidx.compose.ui.util.fastForEachIndexed
-import androidx.constraintlayout.compose.extra.IntIntPair
 import androidx.constraintlayout.compose.extra.parseLong
 import androidx.constraintlayout.compose.extra.rememberEmptyPainter
 import androidx.constraintlayout.compose.platform.Log

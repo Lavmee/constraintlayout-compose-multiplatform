@@ -2,6 +2,8 @@
 
 androidx-appcompat = "1.6.1"
 androidx-activityCompose = "1.9.0"
+annotation = "1.8.0-alpha01"
+collection = "1.6.10"
 compose = "1.6.10"
 kotlin = "1.9.24"
 agp = "8.2.2"
@@ -12,6 +14,8 @@ spotless = "6.25.0"
 
 androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "androidx-appcompat" }
 androidx-activityCompose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activityCompose" }
+annotation = { module = "org.jetbrains.compose.annotation-internal:annotation", version.ref = "annotation" }
+collection = { module = "org.jetbrains.compose.collection-internal:collection", version.ref = "collection" }
 kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib", version.ref = "kotlin" }
 
 [plugins]
