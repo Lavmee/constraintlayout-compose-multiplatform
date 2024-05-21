@@ -72,7 +72,6 @@ kotlin {
                 implementation(compose.uiUtil)
                 implementation(compose.foundation)
                 implementation(compose.runtime)
-                implementation(compose.components.resources)
                 implementation(libs.kotlin.stdlib)
                 implementation(kotlin("reflect"))
             }
