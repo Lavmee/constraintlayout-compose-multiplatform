@@ -102,12 +102,14 @@ class Oscillator {
         }
         // At this point, `index` is guaranteed to be != 0 for any time value (assuming mPosition
         // includes 0.0)
-        var index  =mPosition.binarySearch(time)
+        var index = mPosition.binarySearch(time)
         if (index < 0) {
             index = -index - 1
         }
-        val m = ((mPeriod[index] - mPeriod[index - 1])
-                / (mPosition[index] - mPosition[index - 1]))
+        val m = (
+            (mPeriod[index] - mPeriod[index - 1]) /
+                (mPosition[index] - mPosition[index - 1])
+            )
         return mArea!![index - 1] + (mPeriod[index - 1] - m * mPosition[index - 1]) * (time - mPosition[index - 1]) + m * (time * time - mPosition[index - 1] * mPosition[index - 1]) / 2
     }
 
@@ -143,8 +145,10 @@ class Oscillator {
         if (index < 0) {
             index = -index - 1
         }
-        val m = ((mPeriod[index] - mPeriod[index - 1])
-                / (mPosition[index] - mPosition[index - 1]))
+        val m = (
+            (mPeriod[index] - mPeriod[index - 1]) /
+                (mPosition[index] - mPosition[index - 1])
+            )
         return m * time + (mPeriod[index - 1] - m * mPosition[index - 1])
     }
 
