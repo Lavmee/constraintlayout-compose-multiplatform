@@ -159,9 +159,3 @@ compose.desktop.nativeApplication {
         packageVersion = "1.0.0"
     }
 }
-
-compose {
-    experimental {
-        web.application {}
-    }
-}
