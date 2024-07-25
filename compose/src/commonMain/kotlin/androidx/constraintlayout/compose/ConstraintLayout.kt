@@ -967,7 +967,7 @@ class ConstraintLayoutScope @PublishedApi internal constructor() : ConstraintLay
         override fun hashCode() = constrainBlock.hashCode()
 
         override fun equals(other: Any?) =
-            constrainBlock == (other as? ConstrainAsModifier)?.constrainBlock
+            constrainBlock === (other as? ConstrainAsModifier)?.constrainBlock
     }
 }
 
@@ -1073,8 +1073,8 @@ private class ConstraintLayoutParentData(
 ) : LayoutIdParentData {
     override val layoutId: Any = ref.id
 
-    override fun equals(other: Any?) =
-        other is ConstraintLayoutParentData && ref.id == other.ref.id && constrain == other.constrain
+    override fun equals(other: Any?) = other is ConstraintLayoutParentData &&
+            ref.id == other.ref.id && constrain === other.constrain
 
     override fun hashCode() = ref.id.hashCode() * 31 + constrain.hashCode()
 }
