@@ -251,19 +251,19 @@ class WidgetFrame {
     @Throws(CLParsingException::class)
     fun setValue(key: String?, value: CLElement): Boolean {
         when (key) {
-            "pivotX" -> pivotX = value.float
-            "pivotY" -> pivotY = value.float
-            "rotationX" -> rotationX = value.float
-            "rotationY" -> rotationY = value.float
-            "rotationZ" -> rotationZ = value.float
-            "translationX" -> translationX = value.float
-            "translationY" -> translationY = value.float
-            "translationZ" -> translationZ = value.float
-            "scaleX" -> scaleX = value.float
-            "scaleY" -> scaleY = value.float
-            "alpha" -> alpha = value.float
-            "interpolatedPos" -> interpolatedPos = value.float
-            "phone_orientation" -> phone_orientation = value.float
+            "pivotX" -> pivotX = value.getFloat()
+            "pivotY" -> pivotY = value.getFloat()
+            "rotationX" -> rotationX = value.getFloat()
+            "rotationY" -> rotationY = value.getFloat()
+            "rotationZ" -> rotationZ = value.getFloat()
+            "translationX" -> translationX = value.getFloat()
+            "translationY" -> translationY = value.getFloat()
+            "translationZ" -> translationZ = value.getFloat()
+            "scaleX" -> scaleX = value.getFloat()
+            "scaleY" -> scaleY = value.getFloat()
+            "alpha" -> alpha = value.getFloat()
+            "interpolatedPos" -> interpolatedPos = value.getFloat()
+            "phone_orientation" -> phone_orientation = value.getFloat()
             "top" -> top = value.getInt()
             "left" -> left = value.getInt()
             "right" -> right = value.getInt()
@@ -293,7 +293,7 @@ class WidgetFrame {
                 val color = vStr.substring(1).toInt(16)
                 setCustomAttribute(name!!, TypedValues.Custom.TYPE_COLOR, color)
             } else if (v is CLNumber) {
-                setCustomAttribute(name!!, TypedValues.Custom.TYPE_FLOAT, v.float)
+                setCustomAttribute(name!!, TypedValues.Custom.TYPE_FLOAT, v.getFloat())
             } else {
                 setCustomAttribute(name, TypedValues.Custom.TYPE_STRING, vStr)
             }

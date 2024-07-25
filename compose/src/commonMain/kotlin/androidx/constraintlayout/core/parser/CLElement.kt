@@ -142,12 +142,13 @@ open class CLElement internal constructor(content: CharArray) : Cloneable {
 
     // @TODO: add description
 
-    open val float: Float = 0.0f
-        get() = if (this is CLNumber) {
-            field
+    open fun getFloat(): Float {
+        return if (this is CLNumber) {
+            this.getFloat()
         } else {
             Float.NaN
         }
+    }
 
     override fun clone(): CLElement {
         return CLElement(this)

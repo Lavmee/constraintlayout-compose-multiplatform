@@ -49,8 +49,8 @@ class KeyParser {
                     }
                     when (dtype.get(id)) {
                         TypedValues.FLOAT_MASK -> {
-                            bundle.add(id, value.float)
-                            println("parse " + type + " FLOAT_MASK > " + value.float)
+                            bundle.add(id, value.getFloat())
+                            println("parse " + type + " FLOAT_MASK > " + value.getFloat())
                         }
 
                         TypedValues.STRING_MASK -> {

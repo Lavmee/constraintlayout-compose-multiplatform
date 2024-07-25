@@ -109,7 +109,7 @@ class ConstraintSetParser {
                     return mMargins[stringValue]!!.toFloat()
                 }
             } else if (elementName is CLNumber) {
-                return elementName.float
+                return elementName.getFloat()
             }
             return 0f
         }
@@ -229,7 +229,7 @@ class ConstraintSetParser {
                                         state,
                                         elementName,
                                         property,
-                                        value.float,
+                                        value.getFloat(),
                                     )
                                 } else if (value is CLString) {
                                     val color: Long = parseColorString(value.content())
@@ -895,12 +895,12 @@ class ConstraintSetParser {
                     }
 
                     "hGap" -> {
-                        val hGap = element[param].float
+                        val hGap = element[param].getFloat()
                         grid.setHorizontalGaps(toPix(state, hGap))
                     }
 
                     "vGap" -> {
-                        val vGap = element[param].float
+                        val vGap = element[param].getFloat()
                         grid.setVerticalGaps(toPix(state, vGap))
                     }
 
@@ -1167,7 +1167,7 @@ class ConstraintSetParser {
                                 vLastBiasValue = vBiasObject.getFloat(2)
                             }
                         } else {
-                            vBiasValue = vBiasObject.float
+                            vBiasValue = vBiasObject.getFloat()
                         }
                         try {
                             flow!!.verticalBias(vBiasValue)
@@ -1193,7 +1193,7 @@ class ConstraintSetParser {
                                 hLastBiasValue = hBiasObject.getFloat(2)
                             }
                         } else {
-                            hBiasValue = hBiasObject.float
+                            hBiasValue = hBiasObject.getFloat()
                         }
                         try {
                             flow!!.horizontalBias(hBiasValue)
@@ -1664,7 +1664,7 @@ class ConstraintSetParser {
             for (property in properties) {
                 val value = json[property]
                 if (value is CLNumber) {
-                    reference.addCustomFloat(property, value.float)
+                    reference.addCustomFloat(property, value.getFloat())
                 } else if (value is CLString) {
                     val it: Long = parseColorString(value.content())
                     if (it != -1L) {
@@ -1987,7 +1987,7 @@ class ConstraintSetParser {
                 val minEl = obj.getOrNull("min")
                 if (minEl != null) {
                     if (minEl is CLNumber) {
-                        val min = minEl.float
+                        val min = minEl.getFloat()
                         dimension.min(state.convertDimension(dpToPixels.toPixels(min)))
                     } else if (minEl is CLString) {
                         dimension.min(Dimension.WRAP_DIMENSION)
@@ -1996,7 +1996,7 @@ class ConstraintSetParser {
                 val maxEl = obj.getOrNull("max")
                 if (maxEl != null) {
                     if (maxEl is CLNumber) {
-                        val max = maxEl.float
+                        val max = maxEl.getFloat()
                         dimension.max(state.convertDimension(dpToPixels.toPixels(max)))
                     } else if (maxEl is CLString) {
                         dimension.max(Dimension.WRAP_DIMENSION)
