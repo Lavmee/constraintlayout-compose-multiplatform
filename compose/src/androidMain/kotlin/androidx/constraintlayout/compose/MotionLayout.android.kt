@@ -15,7 +15,6 @@ import androidx.compose.ui.platform.LocalView
 @RequiresApi(30)
 private object Api30Impl {
     @JvmStatic
-    @DoNotInline
     fun isShowingLayoutBounds(view: View): Boolean {
         return view.isShowingLayoutBounds
     }
