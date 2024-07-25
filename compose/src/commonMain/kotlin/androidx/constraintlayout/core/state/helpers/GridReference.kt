@@ -101,9 +101,9 @@ class GridReference : HelperReference {
     private var mSkips: String? = null
 
     /**
-     * All the flags of a Grid
+     * An int value containing flag information.
      */
-    private var mFlags: IntArray? = null
+    private var mFlags: Int = 0
 
     /**
      * get padding left
@@ -171,17 +171,17 @@ class GridReference : HelperReference {
 
     /**
      * Get all the flags of a Grid
-     * @return a String array containing all the flags
+     * @return an int value containing flag information
      */
-    fun getFlags(): IntArray {
-        return mFlags!!
+    fun getFlags(): Int {
+        return mFlags
     }
 
     /**
      * Set flags of a Grid
-     * @param flags a String array containing all the flags
+     * @param flags an int value containing flag information
      */
-    fun setFlags(flags: IntArray) {
+    fun setFlags(flags: Int) {
         mFlags = flags
     }
 
@@ -195,19 +195,13 @@ class GridReference : HelperReference {
         }
         val strArr = flags.split("\\|".toRegex()).dropLastWhile { it.isEmpty() }
             .toTypedArray()
-        val flagList = ArrayList<Int>()
-        for (flag in strArr) {
-            when (flag.lowercase()) {
-                SUB_GRID_BY_COL_ROW -> flagList.add(0)
-                SPANS_RESPECT_WIDGET_ORDER -> flagList.add(1)
+        mFlags = 0
+        for (str in strArr) {
+            when (str.lowercase()) {
+                SUB_GRID_BY_COL_ROW_STRING -> mFlags = mFlags or 1
+                SPANS_RESPECT_WIDGET_ORDER_STRING -> mFlags = mFlags or 2
             }
         }
-        val flagArr = IntArray(flagList.size)
-        var i = 0
-        for (flag in flagList) {
-            flagArr[i++] = flag
-        }
-        mFlags = flagArr
     }
 
     /**
@@ -403,28 +397,32 @@ class GridReference : HelperReference {
         if (mVerticalGaps != 0f) {
             mGrid!!.setVerticalGaps(mVerticalGaps)
         }
-        if (mRowWeights != null && mRowWeights != "") {
+        if (mRowWeights != null && !mRowWeights!!.isEmpty()) {
             mGrid!!.setRowWeights(mRowWeights!!)
         }
-        if (mColumnWeights != null && mColumnWeights != "") {
+        if (mColumnWeights != null && !mColumnWeights!!.isEmpty()) {
             mGrid!!.setColumnWeights(mColumnWeights!!)
         }
-        if (mSpans != null && mSpans != "") {
+        if (mSpans != null && !mSpans!!.isEmpty()) {
             mGrid!!.setSpans(mSpans!!)
         }
-        if (mSkips != null && mSkips != "") {
+        if (mSkips != null && !mSkips!!.isEmpty()) {
             mGrid!!.setSkips(mSkips!!)
         }
-        if (mFlags != null && mFlags!!.isNotEmpty()) {
-            mGrid!!.setFlags(mFlags!!)
-        }
+
+        mGrid!!.setFlags(mFlags);
+
+        mGrid!!.setPaddingStart(mPaddingStart);
+        mGrid!!.setPaddingEnd(mPaddingEnd);
+        mGrid!!.setPaddingTop(mPaddingTop);
+        mGrid!!.setPaddingBottom(mPaddingBottom);
 
         // General attributes of a widget
         applyBase()
     }
 
     companion object {
-        private const val SPANS_RESPECT_WIDGET_ORDER = "spansrespectwidgetorder"
-        private const val SUB_GRID_BY_COL_ROW = "subgridbycolrow"
+        private const val SPANS_RESPECT_WIDGET_ORDER_STRING = "spansrespectwidgetorder"
+        private const val SUB_GRID_BY_COL_ROW_STRING = "subgridbycolrow"
     }
 }
