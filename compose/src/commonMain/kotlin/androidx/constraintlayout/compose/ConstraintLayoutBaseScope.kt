@@ -1364,7 +1364,7 @@ value class GridFlag private constructor(internal val value: Int) {
         val PlaceLayoutsOnSpansFirst = GridFlag(isPlaceLayoutsOnSpansFirst = true)
 
         /** Not relevant for the public API, only used now to test "internal" features. */
-        @get:TestOnly internal val SubGridByColRow = GridFlag(isSubGridByColRow = true)
+        internal val SubGridByColRow = GridFlag(isSubGridByColRow = true)
     }
 }
 
