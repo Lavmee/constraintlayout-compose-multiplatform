@@ -83,15 +83,33 @@ kotlin {
             }
         }
 
+
+        val nonAndroid by creating {
+            dependsOn(commonMain)
+        }
+
         val jvmCommonMain by creating {
             dependsOn(commonMain)
         }
 
         val jvmMain by getting {
             dependsOn(jvmCommonMain)
+            dependsOn(nonAndroid)
         }
         val androidMain by getting {
             dependsOn(jvmCommonMain)
+        }
+
+        val nativeMain by getting {
+            dependsOn(nonAndroid)
+        }
+
+        val wasmJsMain by getting {
+            dependsOn(nonAndroid)
+        }
+
+        val jsMain by getting {
+            dependsOn(nonAndroid)
         }
 
         val commonTest by getting {
