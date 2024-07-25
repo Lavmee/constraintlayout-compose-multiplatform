@@ -12,7 +12,7 @@ internal actual fun DrawScope.drawPathsPlatform(
     startFrame: WidgetFrame,
     drawPath: Boolean,
     drawKeyPositions: Boolean,
-    transition: Transition
+    transition: Transition,
 ) {
 }
 
@@ -23,13 +23,13 @@ internal actual fun DrawScope.drawFrameDebugPlatform(
     endFrame: WidgetFrame,
     pathEffect: PathEffect,
     color: Color,
-    transition: Transition
+    transition: Transition,
 ) {
 }
 
 internal actual fun DrawScope.drawFramePlatform(
     frame: WidgetFrame,
     pathEffect: PathEffect,
-    color: Color
+    color: Color,
 ) {
 }

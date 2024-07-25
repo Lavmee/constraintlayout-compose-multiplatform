@@ -40,7 +40,6 @@ import androidx.constraintlayout.core.widgets.ConstraintWidget.Companion.HORIZON
 import androidx.constraintlayout.core.widgets.ConstraintWidget.Companion.VERTICAL
 import androidx.constraintlayout.core.widgets.Flow
 
-
 class ConstraintSetParser {
 
     interface GeneratedValue {

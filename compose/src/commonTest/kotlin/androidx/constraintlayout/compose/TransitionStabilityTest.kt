@@ -16,9 +16,9 @@
 
 package androidx.constraintlayout.compose
 
+import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNotEquals
-import kotlin.test.Test
 
 @OptIn(ExperimentalMotionApi::class)
 class TransitionStabilityTest {
@@ -43,7 +43,7 @@ class TransitionStabilityTest {
                     frame(20) { alpha = 0.2f }
                     frame(80) { alpha = 0.8f }
                 }
-            }
+            },
         )
 
         // Given transition is different
@@ -56,7 +56,7 @@ class TransitionStabilityTest {
                     frame(20) { alpha = 0.2f }
                     frame(80) { alpha = 0.85f }
                 }
-            }
+            },
         )
     }
 
@@ -79,7 +79,7 @@ class TransitionStabilityTest {
               }
             }
         """
-                    .trimIndent()
+                    .trimIndent(),
             )
 
         assertEquals(
@@ -100,8 +100,8 @@ class TransitionStabilityTest {
               }
             }
             """
-                    .trimIndent()
-            )
+                    .trimIndent(),
+            ),
         )
     }
 }

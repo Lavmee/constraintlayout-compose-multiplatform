@@ -410,12 +410,12 @@ class GridReference : HelperReference {
             mGrid!!.setSkips(mSkips!!)
         }
 
-        mGrid!!.setFlags(mFlags);
+        mGrid!!.setFlags(mFlags)
 
-        mGrid!!.setPaddingStart(mPaddingStart);
-        mGrid!!.setPaddingEnd(mPaddingEnd);
-        mGrid!!.setPaddingTop(mPaddingTop);
-        mGrid!!.setPaddingBottom(mPaddingBottom);
+        mGrid!!.setPaddingStart(mPaddingStart)
+        mGrid!!.setPaddingEnd(mPaddingEnd)
+        mGrid!!.setPaddingTop(mPaddingTop)
+        mGrid!!.setPaddingBottom(mPaddingBottom)
 
         // General attributes of a widget
         applyBase()

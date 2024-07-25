@@ -19,7 +19,6 @@ package androidx.constraintlayout.compose
 import androidx.annotation.IntRange
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.Stable
-import androidx.compose.runtime.TestOnly
 import androidx.compose.ui.layout.FirstBaseline
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -51,7 +50,7 @@ abstract class ConstraintLayoutBaseScope internal constructor(extendFrom: CLObje
         ConstraintSetParser.populateState(
             containerObject,
             state,
-            ConstraintSetParser.LayoutVariables()
+            ConstraintSetParser.LayoutVariables(),
         )
     }
 
@@ -83,7 +82,7 @@ abstract class ConstraintLayoutBaseScope internal constructor(extendFrom: CLObje
     internal constructor(
         internal val id: Any,
         internal val index: Int,
-        val reference: LayoutReference
+        val reference: LayoutReference,
     )
 
     /**
@@ -97,7 +96,7 @@ abstract class ConstraintLayoutBaseScope internal constructor(extendFrom: CLObje
     internal constructor(
         internal val id: Any,
         internal val index: Int,
-        val reference: LayoutReference
+        val reference: LayoutReference,
     )
 
     /**
@@ -116,26 +115,26 @@ abstract class ConstraintLayoutBaseScope internal constructor(extendFrom: CLObje
      */
     fun constrain(
         ref: HorizontalChainReference,
-        constrainBlock: HorizontalChainScope.() -> Unit
+        constrainBlock: HorizontalChainScope.() -> Unit,
     ): HorizontalChainScope =
         HorizontalChainScope(ref.id, ref.asCLContainer()).apply(constrainBlock)
 
     /** Specifies additional constraints associated to the vertical chain identified with [ref]. */
     fun constrain(
         ref: VerticalChainReference,
-        constrainBlock: VerticalChainScope.() -> Unit
+        constrainBlock: VerticalChainScope.() -> Unit,
     ): VerticalChainScope = VerticalChainScope(ref.id, ref.asCLContainer()).apply(constrainBlock)
 
     /** Specifies the constraints associated to the layout identified with [ref]. */
     fun constrain(
         ref: ConstrainedLayoutReference,
-        constrainBlock: ConstrainScope.() -> Unit
+        constrainBlock: ConstrainScope.() -> Unit,
     ): ConstrainScope = ConstrainScope(ref.id, ref.asCLContainer()).apply(constrainBlock)
 
     /** Convenient way to apply the same constraints to multiple [ConstrainedLayoutReference]s. */
     fun constrain(
         vararg refs: ConstrainedLayoutReference,
-        constrainBlock: ConstrainScope.() -> Unit
+        constrainBlock: ConstrainScope.() -> Unit,
     ) {
         refs.forEach { ref -> constrain(ref, constrainBlock) }
     }
@@ -349,7 +348,7 @@ abstract class ConstraintLayoutBaseScope internal constructor(extendFrom: CLObje
     /** Creates and returns a left barrier, containing the specified elements. */
     fun createAbsoluteLeftBarrier(
         vararg elements: LayoutReference,
-        margin: Dp = 0.dp
+        margin: Dp = 0.dp,
     ): VerticalAnchor {
         val ref = LayoutReferenceImpl(createHelperId())
 
@@ -412,7 +411,7 @@ abstract class ConstraintLayoutBaseScope internal constructor(extendFrom: CLObje
     /** Creates and returns a right barrier, containing the specified elements. */
     fun createAbsoluteRightBarrier(
         vararg elements: LayoutReference,
-        margin: Dp = 0.dp
+        margin: Dp = 0.dp,
     ): VerticalAnchor {
         val ref = LayoutReferenceImpl(createHelperId())
 
@@ -478,7 +477,8 @@ abstract class ConstraintLayoutBaseScope internal constructor(extendFrom: CLObje
         flowVertically: Boolean = false,
         verticalGap: Dp = 0.dp,
         horizontalGap: Dp = 0.dp,
-        maxElement: Int = 0, // TODO: shouldn't this be -1? (aka: UNKNOWN)?
+        // TODO: shouldn't this be -1? (aka: UNKNOWN)?
+        maxElement: Int = 0,
         padding: Dp = 0.dp,
         wrapMode: Wrap = Wrap.None,
         verticalAlign: VerticalAlign = VerticalAlign.Center,
@@ -504,7 +504,7 @@ abstract class ConstraintLayoutBaseScope internal constructor(extendFrom: CLObje
             horizontalFlowBias = horizontalFlowBias,
             verticalFlowBias = verticalFlowBias,
             verticalStyle = verticalStyle,
-            horizontalStyle = horizontalStyle
+            horizontalStyle = horizontalStyle,
         )
     }
 
@@ -562,7 +562,7 @@ abstract class ConstraintLayoutBaseScope internal constructor(extendFrom: CLObje
             horizontalFlowBias = horizontalFlowBias,
             verticalFlowBias = verticalFlowBias,
             verticalStyle = verticalStyle,
-            horizontalStyle = horizontalStyle
+            horizontalStyle = horizontalStyle,
         )
     }
 
@@ -664,7 +664,7 @@ abstract class ConstraintLayoutBaseScope internal constructor(extendFrom: CLObje
     ): ConstrainedLayoutReference {
         if (weights.isNotEmpty() && elements.size != weights.size) {
             throw IllegalArgumentException(
-                "Number of weights (${weights.size}) should match number of elements (${elements.size})."
+                "Number of weights (${weights.size}) should match number of elements (${elements.size}).",
             )
         }
         return createGrid(
@@ -697,7 +697,7 @@ abstract class ConstraintLayoutBaseScope internal constructor(extendFrom: CLObje
     ): ConstrainedLayoutReference {
         if (weights.isNotEmpty() && elements.size != weights.size) {
             throw IllegalArgumentException(
-                "Number of weights (${weights.size}) should match number of elements (${elements.size})."
+                "Number of weights (${weights.size}) should match number of elements (${elements.size}).",
             )
         }
         return createGrid(
@@ -775,12 +775,12 @@ abstract class ConstraintLayoutBaseScope internal constructor(extendFrom: CLObje
     ): ConstrainedLayoutReference {
         if (rowWeights.isNotEmpty() && rows > 0 && rows != rowWeights.size) {
             throw IllegalArgumentException(
-                "Number of weights (${rowWeights.size}) should match number of rows ($rows)."
+                "Number of weights (${rowWeights.size}) should match number of rows ($rows).",
             )
         }
         if (columnWeights.isNotEmpty() && columns > 0 && columns != columnWeights.size) {
             throw IllegalArgumentException(
-                "Number of weights (${columnWeights.size}) should match number of columns ($columns)."
+                "Number of weights (${columnWeights.size}) should match number of columns ($columns).",
             )
         }
 
@@ -831,7 +831,7 @@ abstract class ConstraintLayoutBaseScope internal constructor(extendFrom: CLObje
      */
     fun createHorizontalChain(
         vararg elements: LayoutReference,
-        chainStyle: ChainStyle = ChainStyle.Spread
+        chainStyle: ChainStyle = ChainStyle.Spread,
     ): HorizontalChainReference {
         val ref = HorizontalChainReference(createHelperId())
         val elementArray = CLArray(charArrayOf())
@@ -876,7 +876,7 @@ abstract class ConstraintLayoutBaseScope internal constructor(extendFrom: CLObje
      */
     fun createVerticalChain(
         vararg elements: LayoutReference,
-        chainStyle: ChainStyle = ChainStyle.Spread
+        chainStyle: ChainStyle = ChainStyle.Spread,
     ): VerticalChainReference {
         val ref = VerticalChainReference(createHelperId())
         val elementArray = CLArray(charArrayOf())
@@ -963,8 +963,8 @@ abstract class ConstraintLayoutBaseScope internal constructor(extendFrom: CLObje
                     topGoneMargin = topGoneMargin,
                     endGoneMargin = endGoneMargin,
                     bottomGoneMargin = bottomGoneMargin,
-                    weight = weight
-                )
+                    weight = weight,
+                ),
             )
         }
 
@@ -996,7 +996,7 @@ abstract class ConstraintLayoutBaseScope internal constructor(extendFrom: CLObje
         endMargin: Dp = 0.dp,
         startGoneMargin: Dp = 0.dp,
         endGoneMargin: Dp = 0.dp,
-        weight: Float = Float.NaN
+        weight: Float = Float.NaN,
     ): LayoutReference =
         withChainParams(
             startMargin = startMargin,
@@ -1007,7 +1007,7 @@ abstract class ConstraintLayoutBaseScope internal constructor(extendFrom: CLObje
             topGoneMargin = 0.dp,
             endGoneMargin = endGoneMargin,
             bottomGoneMargin = 0.dp,
-            weight = weight
+            weight = weight,
         )
 
     /**
@@ -1038,7 +1038,7 @@ abstract class ConstraintLayoutBaseScope internal constructor(extendFrom: CLObje
         bottomMargin: Dp = 0.dp,
         topGoneMargin: Dp = 0.dp,
         bottomGoneMargin: Dp = 0.dp,
-        weight: Float = Float.NaN
+        weight: Float = Float.NaN,
     ): LayoutReference =
         withChainParams(
             startMargin = 0.dp,
@@ -1049,7 +1049,7 @@ abstract class ConstraintLayoutBaseScope internal constructor(extendFrom: CLObje
             topGoneMargin = topGoneMargin,
             endGoneMargin = 0.dp,
             bottomGoneMargin = bottomGoneMargin,
-            weight = weight
+            weight = weight,
         )
 
     internal fun LayoutReference.asCLContainer(): CLObject {
@@ -1149,7 +1149,7 @@ internal class ChainParams(
                 topGoneMargin = 0.dp,
                 endGoneMargin = 0.dp,
                 bottomGoneMargin = 0.dp,
-                weight = Float.NaN
+                weight = Float.NaN,
             )
     }
 }
@@ -1317,19 +1317,19 @@ value class GridFlag private constructor(internal val value: Int) {
     private constructor(
         isPlaceLayoutsOnSpansFirst: Boolean = false,
         // isSubGridByColRow is only expected to be used on tests
-        isSubGridByColRow: Boolean = false
+        isSubGridByColRow: Boolean = false,
     ) : this(
         (if (isPlaceLayoutsOnSpansFirst) 0 else GridCore.SPANS_RESPECT_WIDGET_ORDER) or
-                (if (isSubGridByColRow) GridCore.SUB_GRID_BY_COL_ROW else 0)
+            (if (isSubGridByColRow) GridCore.SUB_GRID_BY_COL_ROW else 0),
     )
 
     /** `or` operator override to allow combining flags */
     infix fun or(other: GridFlag): GridFlag =
-    // Again, implemented like this as the flag handling is non-standard. It differs from the
+        // Again, implemented like this as the flag handling is non-standard. It differs from the
         // :constraintlayout-core flag behaviors.
         GridFlag(
             isPlaceLayoutsOnSpansFirst or other.isPlaceLayoutsOnSpansFirst,
-            isSubGridByColRow or other.isSubGridByColRow
+            isSubGridByColRow or other.isSubGridByColRow,
         )
 
     /**
@@ -1423,12 +1423,12 @@ value class Skip private constructor(val description: String) {
     constructor(
         @IntRange(from = 0) position: Int,
         @IntRange(from = 1) rows: Int,
-        @IntRange(from = 1) columns: Int
+        @IntRange(from = 1) columns: Int,
     ) : this("$position:${rows}x$columns")
 
     constructor(
         @IntRange(from = 0) position: Int,
-        @IntRange(from = 1) size: Int
+        @IntRange(from = 1) size: Int,
     ) : this("$position:$size")
 }
 
@@ -1446,11 +1446,11 @@ value class Span(val description: String) {
     constructor(
         @IntRange(from = 0) position: Int,
         @IntRange(from = 1) rows: Int,
-        @IntRange(from = 1) columns: Int
+        @IntRange(from = 1) columns: Int,
     ) : this("$position:${rows}x$columns")
 
     constructor(
         @IntRange(from = 0) position: Int,
-        @IntRange(from = 1) size: Int
+        @IntRange(from = 1) size: Int,
     ) : this("$position:$size")
 }

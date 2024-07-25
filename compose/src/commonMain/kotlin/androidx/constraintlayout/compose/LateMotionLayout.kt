@@ -52,7 +52,7 @@ internal fun LateMotionLayout(
     optimizationLevel: Int,
     finishedAnimationListener: (() -> Unit)?,
     modifier: Modifier,
-    content: @Composable () -> Unit
+    content: @Composable () -> Unit,
 ) {
     val density = LocalDensity.current
     val measurer = remember { MotionMeasurer(density) }
@@ -71,14 +71,14 @@ internal fun LateMotionLayout(
             compositionSource = compositionSource,
             motionProgress = motionProgress,
             measurer = measurer,
-            optimizationLevel = optimizationLevel
+            optimizationLevel = optimizationLevel,
         )
 
     @Suppress("DEPRECATION")
     MultiMeasureLayout(
         modifier = modifier.semantics { designInfoProvider = measurer },
         measurePolicy = measurePolicy,
-        content = content
+        content = content,
     )
 
     LaunchedEffect(channel) {
@@ -132,7 +132,7 @@ private fun lateMotionLayoutMeasurePolicy(
             optimizationLevel = optimizationLevel,
             progress = motionProgress.value,
             compositionSource = compositionSource.value ?: CompositionSource.Unknown,
-            invalidateOnConstraintsCallback = null
+            invalidateOnConstraintsCallback = null,
         )
     compositionSource.value = CompositionSource.Unknown // Reset after measuring
 

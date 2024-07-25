@@ -16,15 +16,10 @@
 
 package androidx.constraintlayout.compose
 
-import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.graphics.drawscope.DrawScope
-import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.drawscope.translate
-import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.layout.Measurable
 import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.unit.Constraints
@@ -37,7 +32,6 @@ import androidx.constraintlayout.compose.extra.drawFrameDebugPlatform
 import androidx.constraintlayout.compose.extra.drawFramePlatform
 import androidx.constraintlayout.compose.extra.drawPathsPlatform
 import androidx.constraintlayout.compose.platform.annotation.SuppressWarnings
-import androidx.constraintlayout.core.motion.Motion
 import androidx.constraintlayout.core.state.Dimension
 import androidx.constraintlayout.core.state.Transition
 import androidx.constraintlayout.core.state.WidgetFrame
@@ -56,7 +50,7 @@ internal class MotionMeasurer(density: Density) : Measurer(density) {
         optimizationLevel: Int,
         constraintSet: ConstraintSet,
         measurables: List<Measurable>,
-        constraints: Constraints
+        constraints: Constraints,
     ) {
         state.reset()
         constraintSet.applyTo(state, measurables)
@@ -90,19 +84,21 @@ internal class MotionMeasurer(density: Density) : Measurer(density) {
         optimizationLevel: Int,
         progress: Float,
         compositionSource: CompositionSource,
-        invalidateOnConstraintsCallback: ShouldInvalidateCallback?
+        invalidateOnConstraintsCallback: ShouldInvalidateCallback?,
     ): IntSize {
         val needsRemeasure =
             needsRemeasure(
                 constraints = constraints,
                 source = compositionSource,
-                invalidateOnConstraintsCallback = invalidateOnConstraintsCallback
+                invalidateOnConstraintsCallback = invalidateOnConstraintsCallback,
             )
 
         if (
             lastProgressInInterpolation != progress ||
-            (layoutInformationReceiver?.getForcedWidth() != Int.MIN_VALUE &&
-                    layoutInformationReceiver?.getForcedHeight() != Int.MIN_VALUE) ||
+            (
+                layoutInformationReceiver?.getForcedWidth() != Int.MIN_VALUE &&
+                    layoutInformationReceiver?.getForcedHeight() != Int.MIN_VALUE
+                ) ||
             needsRemeasure
         ) {
             recalculateInterpolation(
@@ -114,7 +110,7 @@ internal class MotionMeasurer(density: Density) : Measurer(density) {
                 measurables = measurables,
                 optimizationLevel = optimizationLevel,
                 progress = progress,
-                remeasure = needsRemeasure
+                remeasure = needsRemeasure,
             )
         }
         oldConstraints = constraints
@@ -140,7 +136,7 @@ internal class MotionMeasurer(density: Density) : Measurer(density) {
     private fun needsRemeasure(
         constraints: Constraints,
         source: CompositionSource,
-        invalidateOnConstraintsCallback: ShouldInvalidateCallback?
+        invalidateOnConstraintsCallback: ShouldInvalidateCallback?,
     ): Boolean {
         if (this.transition.isEmpty || frameCache.isEmpty()) {
             // Nothing measured (by MotionMeasurer)
@@ -183,7 +179,7 @@ internal class MotionMeasurer(density: Density) : Measurer(density) {
         measurables: List<Measurable>,
         optimizationLevel: Int,
         progress: Float,
-        remeasure: Boolean
+        remeasure: Boolean,
     ) {
         lastProgressInInterpolation = progress
         if (remeasure) {
@@ -195,14 +191,14 @@ internal class MotionMeasurer(density: Density) : Measurer(density) {
                     Dimension.createFixed(constraints.maxWidth)
                 } else {
                     Dimension.createWrap().min(constraints.minWidth)
-                }
+                },
             )
             state.height(
                 if (constraints.hasFixedHeight) {
                     Dimension.createFixed(constraints.maxHeight)
                 } else {
                     Dimension.createWrap().min(constraints.minHeight)
-                }
+                },
             )
             // Build constraint set and apply it to the state.
             state.rootIncomingConstraints = constraints
@@ -227,7 +223,7 @@ internal class MotionMeasurer(density: Density) : Measurer(density) {
             val interpolatedFrame = this.transition.getInterpolated(child) ?: return@fastForEach
             placeables[measurable] =
                 measurable.measure(
-                    Constraints.fixed(interpolatedFrame.width(), interpolatedFrame.height())
+                    Constraints.fixed(interpolatedFrame.width(), interpolatedFrame.height()),
                 )
             frameCache[measurable] = interpolatedFrame
         }
@@ -242,7 +238,7 @@ internal class MotionMeasurer(density: Density) : Measurer(density) {
         location: FloatArray,
         types: IntArray,
         progress: IntArray,
-        count: Int
+        count: Int,
     ) {
         if (count == 0) {
             return
@@ -345,7 +341,7 @@ internal class MotionMeasurer(density: Density) : Measurer(density) {
                 parentHeight = size.height,
                 startFrame = startFrame,
                 drawPath = drawPaths,
-                drawKeyPositions = drawKeyPositions
+                drawKeyPositions = drawKeyPositions,
             )
         }
     }
@@ -355,7 +351,7 @@ internal class MotionMeasurer(density: Density) : Measurer(density) {
         parentHeight: Float,
         startFrame: WidgetFrame,
         drawPath: Boolean,
-        drawKeyPositions: Boolean
+        drawKeyPositions: Boolean,
     ) {
         drawPathsPlatform(
             parentWidth = parentWidth,
@@ -373,7 +369,7 @@ internal class MotionMeasurer(density: Density) : Measurer(density) {
         startFrame: WidgetFrame,
         endFrame: WidgetFrame,
         pathEffect: PathEffect,
-        color: Color
+        color: Color,
     ) {
         drawFrameDebugPlatform(
             parentWidth = parentWidth,
@@ -439,7 +435,7 @@ internal class MotionMeasurer(density: Density) : Measurer(density) {
         end: ConstraintSet,
         layoutDirection: LayoutDirection,
         @SuppressWarnings("HiddenTypeParameter") transition: TransitionImpl,
-        progress: Float
+        progress: Float,
     ) {
         clearConstraintSets()
 

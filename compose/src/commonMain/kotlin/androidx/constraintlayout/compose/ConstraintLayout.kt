@@ -356,7 +356,7 @@ inline fun ConstraintLayout(
     optimizationLevel: Int = Optimizer.OPTIMIZATION_STANDARD,
     animateChangesSpec: AnimationSpec<Float>? = null,
     noinline finishedAnimationListener: (() -> Unit)? = null,
-    crossinline content: @Composable ConstraintLayoutScope.() -> Unit
+    crossinline content: @Composable ConstraintLayoutScope.() -> Unit,
 ) {
     if (animateChangesSpec != null) {
         val start: MutableState<ConstraintSet?> = remember { mutableStateOf(null) }
@@ -409,7 +409,7 @@ inline fun ConstraintLayout(
             optimizationLevel = optimizationLevel,
             finishedAnimationListener = finishedAnimationListener,
             modifier = modifier,
-            content = contentDelegate
+            content = contentDelegate,
         )
         return
     }
@@ -429,7 +429,7 @@ inline fun ConstraintLayout(
                 layoutDirection,
                 constraintSet,
                 measurables,
-                optimizationLevel
+                optimizationLevel,
             )
         // We read the remeasurement requester state, to request remeasure when the value
         // changes. This will happen when the scope helpers are changing at recomposition.
@@ -464,7 +464,7 @@ inline fun ConstraintLayout(
                 // an extra recomposition.
                 SideEffect(onHelpersChanged)
             }
-        }
+        },
     )
 }
 
@@ -474,12 +474,12 @@ inline fun ConstraintLayout(
     replaceWith =
     ReplaceWith(
         "ConstraintLayout(" +
-                "modifier = modifier, " +
-                "optimizationLevel = optimizationLevel, " +
-                "animateChangesSpec = animationSpec, " +
-                "finishedAnimationListener = finishedAnimationListener" +
-                ") { content() }"
-    )
+            "modifier = modifier, " +
+            "optimizationLevel = optimizationLevel, " +
+            "animateChangesSpec = animationSpec, " +
+            "finishedAnimationListener = finishedAnimationListener" +
+            ") { content() }",
+    ),
 )
 @Composable
 inline fun ConstraintLayout(
@@ -488,14 +488,14 @@ inline fun ConstraintLayout(
     animateChanges: Boolean = false,
     animationSpec: AnimationSpec<Float> = tween<Float>(),
     noinline finishedAnimationListener: (() -> Unit)? = null,
-    crossinline content: @Composable ConstraintLayoutScope.() -> Unit
+    crossinline content: @Composable ConstraintLayoutScope.() -> Unit,
 ) {
     ConstraintLayout(
         modifier = modifier,
         optimizationLevel = optimizationLevel,
         animateChangesSpec = if (animateChanges) animationSpec else null,
         finishedAnimationListener = finishedAnimationListener,
-        content = content
+        content = content,
     )
 }
 
@@ -757,7 +757,7 @@ inline fun ConstraintLayout(
     optimizationLevel: Int = Optimizer.OPTIMIZATION_STANDARD,
     animateChangesSpec: AnimationSpec<Float>? = null,
     noinline finishedAnimationListener: (() -> Unit)? = null,
-    crossinline content: @Composable () -> Unit
+    crossinline content: @Composable () -> Unit,
 ) {
     if (animateChangesSpec != null) {
         var startConstraint by remember { mutableStateOf(constraintSet) }
@@ -790,7 +790,7 @@ inline fun ConstraintLayout(
             end = endConstraint,
             progress = progress.value,
             modifier = modifier,
-            content = { content() }
+            content = { content() },
         )
     } else {
         val needsUpdate = remember { mutableLongStateOf(0L) }
@@ -810,7 +810,7 @@ inline fun ConstraintLayout(
                     layoutDirection,
                     constraintSet,
                     measurables,
-                    optimizationLevel
+                    optimizationLevel,
                 )
             layout(layoutSize.width, layoutSize.height) {
                 with(measurer) { performLayout(measurables) }
@@ -832,7 +832,7 @@ inline fun ConstraintLayout(
                     content = {
                         measurer.createDesignElements()
                         content()
-                    }
+                    },
                 )
                 with(measurer) { drawDebugBounds(forcedScaleFactor) }
             }
@@ -848,7 +848,7 @@ inline fun ConstraintLayout(
                     contentTracker.value = Unit
                     measurer.createDesignElements()
                     content()
-                }
+                },
             )
         }
     }
@@ -860,13 +860,13 @@ inline fun ConstraintLayout(
     replaceWith =
     ReplaceWith(
         "ConstraintLayout(" +
-                "constraintSet = constraintSet, " +
-                "modifier = modifier, " +
-                "optimizationLevel = optimizationLevel, " +
-                "animateChangesSpec = animationSpec, " +
-                "finishedAnimationListener = finishedAnimationListener" +
-                ") { content() }"
-    )
+            "constraintSet = constraintSet, " +
+            "modifier = modifier, " +
+            "optimizationLevel = optimizationLevel, " +
+            "animateChangesSpec = animationSpec, " +
+            "finishedAnimationListener = finishedAnimationListener" +
+            ") { content() }",
+    ),
 )
 @Composable
 inline fun ConstraintLayout(
@@ -876,7 +876,7 @@ inline fun ConstraintLayout(
     animateChanges: Boolean = false,
     animationSpec: AnimationSpec<Float> = tween<Float>(),
     noinline finishedAnimationListener: (() -> Unit)? = null,
-    crossinline content: @Composable () -> Unit
+    crossinline content: @Composable () -> Unit,
 ) {
     ConstraintLayout(
         constraintSet = constraintSet,
@@ -884,7 +884,7 @@ inline fun ConstraintLayout(
         optimizationLevel = optimizationLevel,
         animateChangesSpec = if (animateChanges) animationSpec else null,
         finishedAnimationListener = finishedAnimationListener,
-        content = content
+        content = content,
     )
 }
 
@@ -969,7 +969,7 @@ class ConstraintLayoutScope @PublishedApi internal constructor() : ConstraintLay
     @Stable
     fun Modifier.constrainAs(
         ref: ConstrainedLayoutReference,
-        constrainBlock: ConstrainScope.() -> Unit
+        constrainBlock: ConstrainScope.() -> Unit,
     ): Modifier {
         if (isAnimateChanges) {
             // When we are expecting to animate changes, we need to preemptively obtain the
@@ -983,7 +983,7 @@ class ConstraintLayoutScope @PublishedApi internal constructor() : ConstraintLay
     @Stable
     private class ConstrainAsModifier(
         private val ref: ConstrainedLayoutReference,
-        private val constrainBlock: ConstrainScope.() -> Unit
+        private val constrainBlock: ConstrainScope.() -> Unit,
     ) :
         ParentDataModifier,
         InspectorValueInfo(
@@ -991,7 +991,7 @@ class ConstraintLayoutScope @PublishedApi internal constructor() : ConstraintLay
                 name = "constrainAs"
                 properties["ref"] = ref
                 properties["constrainBlock"] = constrainBlock
-            }
+            },
         ) {
         override fun Density.modifyParentData(parentData: Any?) =
             ConstraintLayoutParentData(ref, constrainBlock)
@@ -1094,14 +1094,14 @@ class ConstraintSetScope internal constructor(extendFrom: CLObject?) :
 @Stable
 private class ConstraintLayoutParentData(
     val ref: ConstrainedLayoutReference,
-    val constrain: ConstrainScope.() -> Unit
+    val constrain: ConstrainScope.() -> Unit,
 ) : LayoutIdParentData {
     override val layoutId: Any = ref.id
 
     override fun equals(other: Any?) =
         other is ConstraintLayoutParentData &&
-                ref.id == other.ref.id &&
-                constrain === other.constrain
+            ref.id == other.ref.id &&
+            constrain === other.constrain
 
     override fun hashCode() = ref.id.hashCode() * 31 + constrain.hashCode()
 }
@@ -1227,7 +1227,7 @@ val Dimension.Coercible.atMostWrapContent: Dimension.MinCoercible
 /** Sets the lower bound of the current [Dimension] to a fixed [dp] value. */
 @Deprecated(
     message = "Unintended method name, use atLeast(dp) instead",
-    replaceWith = ReplaceWith("this.atLeast(dp)", "androidx.constraintlayout.compose.atLeast")
+    replaceWith = ReplaceWith("this.atLeast(dp)", "androidx.constraintlayout.compose.atLeast"),
 )
 fun Dimension.MinCoercible.atLeastWrapContent(dp: Dp): Dimension =
     (this as DimensionDescription).also { it.min.update(dp) }
@@ -1296,7 +1296,7 @@ internal class DimensionDescription private constructor(value: Dp?, valueSymbol:
 internal class DimensionSymbol(
     private var value: Dp?,
     private var symbol: String?,
-    private val debugName: String
+    private val debugName: String,
 ) {
     fun update(dp: Dp) {
         value = dp
@@ -1339,7 +1339,7 @@ internal class DimensionSymbol(
 @Composable
 fun ConstraintSet(
     @Language("json5") content: String,
-    @Language("json5") overrideVariables: String? = null
+    @Language("json5") overrideVariables: String? = null,
 ): ConstraintSet {
     val constraintset =
         remember(content, overrideVariables) { JSONConstraintSet(content, overrideVariables) }
@@ -1518,7 +1518,7 @@ internal abstract class EditableJSONLayout(@Language("json5") content: String) :
 internal data class DesignElement(
     var id: String,
     var type: String,
-    var params: HashMap<String, String>
+    var params: HashMap<String, String>,
 )
 
 /**
@@ -1537,7 +1537,7 @@ fun ConstraintSet(@Language(value = "json5") jsonContent: String): ConstraintSet
  */
 fun ConstraintSet(
     extendConstraintSet: ConstraintSet,
-    @Language(value = "json5") jsonContent: String
+    @Language(value = "json5") jsonContent: String,
 ): ConstraintSet = JSONConstraintSet(content = jsonContent, extendFrom = extendConstraintSet)
 
 /**
@@ -1555,13 +1555,15 @@ fun ConstraintSet(description: ConstraintSetScope.() -> Unit): ConstraintSet =
  */
 fun ConstraintSet(
     extendConstraintSet: ConstraintSet,
-    description: ConstraintSetScope.() -> Unit
+    description: ConstraintSetScope.() -> Unit,
 ): ConstraintSet = DslConstraintSet(description, extendConstraintSet)
 
 /** The state of the [ConstraintLayout] solver. */
 class State(val density: Density) : SolverState() {
     var rootIncomingConstraints: Constraints = Constraints()
-    @Deprecated("Use #isLtr instead") var layoutDirection: LayoutDirection = LayoutDirection.Ltr
+
+    @Deprecated("Use #isLtr instead")
+    var layoutDirection: LayoutDirection = LayoutDirection.Ltr
 
     init {
         setDpToPixel { dp -> density.density * dp }
@@ -1604,7 +1606,8 @@ interface LayoutInformationReceiver {
 
 @PublishedApi
 internal open class Measurer(
-    density: Density // TODO: Change to a variable since density may change
+    // TODO: Change to a variable since density may change
+    density: Density,
 ) : BasicMeasure.Measurer, DesignInfoProvider {
     private var computedLayoutResult: String = ""
     protected var layoutInformationReceiver: LayoutInformationReceiver? = null
@@ -1649,7 +1652,7 @@ internal open class Measurer(
             (measurableLastMeasures?.get(1) ?: 0) == constraintWidget.height,
             constraintWidget.isResolvedHorizontally,
             state.rootIncomingConstraints.maxWidth,
-            widthConstraintsHolder
+            widthConstraintsHolder,
         )
         obtainConstraints(
             measure.verticalBehavior,
@@ -1659,7 +1662,7 @@ internal open class Measurer(
             (measurableLastMeasures?.get(0) ?: 0) == constraintWidget.width,
             constraintWidget.isResolvedVertically,
             state.rootIncomingConstraints.maxHeight,
-            heightConstraintsHolder
+            heightConstraintsHolder,
         )
 
         var constraints =
@@ -1667,16 +1670,20 @@ internal open class Measurer(
                 widthConstraintsHolder[0],
                 widthConstraintsHolder[1],
                 heightConstraintsHolder[0],
-                heightConstraintsHolder[1]
+                heightConstraintsHolder[1],
             )
 
         if (
-            (measure.measureStrategy == TRY_GIVEN_DIMENSIONS ||
-                    measure.measureStrategy == USE_GIVEN_DIMENSIONS) ||
-            !(measure.horizontalBehavior == MATCH_CONSTRAINT &&
+            (
+                measure.measureStrategy == TRY_GIVEN_DIMENSIONS ||
+                    measure.measureStrategy == USE_GIVEN_DIMENSIONS
+                ) ||
+            !(
+                measure.horizontalBehavior == MATCH_CONSTRAINT &&
                     constraintWidget.mMatchConstraintDefaultWidth == MATCH_CONSTRAINT_SPREAD &&
                     measure.verticalBehavior == MATCH_CONSTRAINT &&
-                    constraintWidget.mMatchConstraintDefaultHeight == MATCH_CONSTRAINT_SPREAD)
+                    constraintWidget.mMatchConstraintDefaultHeight == MATCH_CONSTRAINT_SPREAD
+                )
         ) {
             if (DEBUG) {
                 Log.d("CCL", "Measuring $widgetId with $constraints")
@@ -1690,12 +1697,12 @@ internal open class Measurer(
             val coercedWidth =
                 result.first.coerceIn(
                     constraintWidget.mMatchConstraintMinWidth.takeIf { it > 0 },
-                    constraintWidget.mMatchConstraintMaxWidth.takeIf { it > 0 }
+                    constraintWidget.mMatchConstraintMaxWidth.takeIf { it > 0 },
                 )
             val coercedHeight =
                 result.second.coerceIn(
                     constraintWidget.mMatchConstraintMinHeight.takeIf { it > 0 },
-                    constraintWidget.mMatchConstraintMaxHeight.takeIf { it > 0 }
+                    constraintWidget.mMatchConstraintMaxHeight.takeIf { it > 0 },
                 )
 
             var remeasure = false
@@ -1705,7 +1712,7 @@ internal open class Measurer(
                         minWidth = coercedWidth,
                         minHeight = constraints.minHeight,
                         maxWidth = coercedWidth,
-                        maxHeight = constraints.maxHeight
+                        maxHeight = constraints.maxHeight,
                     )
                 remeasure = true
             }
@@ -1715,7 +1722,7 @@ internal open class Measurer(
                         minWidth = constraints.minWidth,
                         minHeight = coercedHeight,
                         maxWidth = constraints.maxWidth,
-                        maxHeight = coercedHeight
+                        maxHeight = coercedHeight,
                     )
                 remeasure = true
             }
@@ -1745,7 +1752,7 @@ internal open class Measurer(
 
         measure.measuredNeedsSolverPass =
             measure.measuredWidth != measure.horizontalDimension ||
-                    measure.measuredHeight != measure.verticalDimension
+            measure.measuredHeight != measure.verticalDimension
     }
 
     fun addLayoutInformationReceiver(layoutReceiver: LayoutInformationReceiver?) {
@@ -1777,8 +1784,8 @@ internal open class Measurer(
                     json.append(" interpolated: ")
                     json.append(
                         " { left: ${child.x}, top: ${child.y}, " +
-                                "right: ${child.x + child.width}, " +
-                                "bottom: ${child.y + child.height} }"
+                            "right: ${child.x + child.width}, " +
+                            "bottom: ${child.y + child.height} }",
                     )
                     json.append("}, ")
                 }
@@ -1815,7 +1822,7 @@ internal open class Measurer(
         otherDimensionResolved: Boolean,
         currentDimensionResolved: Boolean,
         rootMaxConstraint: Int,
-        outConstraints: IntArray
+        outConstraints: IntArray,
     ): Boolean =
         when (dimensionBehaviour) {
             FIXED -> {
@@ -1837,11 +1844,15 @@ internal open class Measurer(
                 }
                 val useDimension =
                     currentDimensionResolved ||
-                            (measureStrategy == TRY_GIVEN_DIMENSIONS ||
-                                    measureStrategy == USE_GIVEN_DIMENSIONS) &&
-                            (measureStrategy == USE_GIVEN_DIMENSIONS ||
-                                    matchConstraintDefaultDimension != MATCH_CONSTRAINT_WRAP ||
-                                    otherDimensionResolved)
+                        (
+                            measureStrategy == TRY_GIVEN_DIMENSIONS ||
+                                measureStrategy == USE_GIVEN_DIMENSIONS
+                            ) &&
+                        (
+                            measureStrategy == USE_GIVEN_DIMENSIONS ||
+                                matchConstraintDefaultDimension != MATCH_CONSTRAINT_WRAP ||
+                                otherDimensionResolved
+                            )
                 if (DEBUG) {
                     Log.d("CCL", "UD $useDimension")
                 }
@@ -1870,7 +1881,7 @@ internal open class Measurer(
         layoutDirection: LayoutDirection,
         constraintSet: ConstraintSet,
         measurables: List<Measurable>,
-        optimizationLevel: Int
+        optimizationLevel: Int,
     ): IntSize {
         if (measurables.isEmpty()) {
             // TODO(b/335524398): Behavior with zero children is unexpected. It's also inconsistent
@@ -1885,14 +1896,14 @@ internal open class Measurer(
                 SolverDimension.createFixed(constraints.maxWidth)
             } else {
                 SolverDimension.createWrap().min(constraints.minWidth)
-            }
+            },
         )
         state.height(
             if (constraints.hasFixedHeight) {
                 SolverDimension.createFixed(constraints.maxHeight)
             } else {
                 SolverDimension.createWrap().min(constraints.minHeight)
-            }
+            },
         )
         state.mParent.width.apply(state, root, ConstraintWidget.HORIZONTAL)
         state.mParent.height.apply(state, root, ConstraintWidget.VERTICAL)
@@ -2001,7 +2012,7 @@ internal open class Measurer(
                 //   the placeable should be a result of the given measurable
                 placeWithFrameTransform(
                     measurable.measure(Constraints.fixed(placeable.width, placeable.height)),
-                    frame
+                    frame,
                 )
             } else {
                 placeWithFrameTransform(placeable, frame)
@@ -2025,7 +2036,7 @@ internal open class Measurer(
      */
     private fun measureWidget(
         constraintWidget: ConstraintWidget,
-        constraints: Constraints
+        constraints: Constraints,
     ): IntIntPair {
         val measurable = constraintWidget.companionWidget
         val widgetId = constraintWidget.stringId
@@ -2049,7 +2060,7 @@ internal open class Measurer(
                     widthMode,
                     constraints.maxWidth,
                     heightMode,
-                    constraints.maxHeight
+                    constraints.maxHeight,
                 )
                 IntIntPair(constraintWidget.measuredWidth, constraintWidget.measuredHeight)
             }
@@ -2135,7 +2146,7 @@ internal open class Measurer(
                                 .background(colorBackground)
                                 .padding(8.dp),
                             text = text,
-                            style = getTextStyle(element.params)
+                            style = getTextStyle(element.params),
                         )
                     }
                     "box" -> {
@@ -2146,7 +2157,7 @@ internal open class Measurer(
                             BasicText(
                                 modifier = Modifier.padding(8.dp),
                                 text = text,
-                                style = getTextStyle(element.params)
+                                style = getTextStyle(element.params),
                             )
                         }
                     }
@@ -2155,7 +2166,7 @@ internal open class Measurer(
                         BasicText(
                             modifier = Modifier.layoutId(id),
                             text = text,
-                            style = getTextStyle(element.params)
+                            style = getTextStyle(element.params),
                         )
                     }
                     "textfield" -> {
@@ -2163,14 +2174,14 @@ internal open class Measurer(
                         BasicTextField(
                             modifier = Modifier.layoutId(id),
                             value = text,
-                            onValueChange = {}
+                            onValueChange = {},
                         )
                     }
                     "image" -> {
                         Image(
                             modifier = Modifier.layoutId(id),
                             painter = rememberEmptyPainter(),
-                            contentDescription = "Placeholder Image"
+                            contentDescription = "Placeholder Image",
                         )
                     }
                 }
@@ -2188,7 +2199,7 @@ internal open class Measurer(
 internal fun Placeable.PlacementScope.placeWithFrameTransform(
     placeable: Placeable,
     frame: WidgetFrame,
-    offset: IntOffset = IntOffset.Zero
+    offset: IntOffset = IntOffset.Zero,
 ) {
     if (frame.visibility == ConstraintWidget.GONE) {
         if (DEBUG) {
@@ -2281,13 +2292,13 @@ private val DEBUG = false
 
 private fun ConstraintWidget.toDebugString() =
     "$debugName " +
-            "width $width minWidth $minWidth maxWidth $maxWidth " +
-            "height $height minHeight $minHeight maxHeight $maxHeight " +
-            "HDB $horizontalDimensionBehaviour VDB $verticalDimensionBehaviour " +
-            "MCW $mMatchConstraintDefaultWidth MCH $mMatchConstraintDefaultHeight " +
-            "percentW $mMatchConstraintPercentWidth percentH $mMatchConstraintPercentHeight"
+        "width $width minWidth $minWidth maxWidth $maxWidth " +
+        "height $height minHeight $minHeight maxHeight $maxHeight " +
+        "HDB $horizontalDimensionBehaviour VDB $verticalDimensionBehaviour " +
+        "MCW $mMatchConstraintDefaultWidth MCH $mMatchConstraintDefaultHeight " +
+        "percentW $mMatchConstraintPercentWidth percentH $mMatchConstraintPercentHeight"
 
 enum class LayoutInfoFlags {
     NONE,
-    BOUNDS
+    BOUNDS,
 }

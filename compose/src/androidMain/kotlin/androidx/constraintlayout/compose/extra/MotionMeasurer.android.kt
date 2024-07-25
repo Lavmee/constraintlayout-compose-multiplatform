@@ -20,7 +20,7 @@ internal actual fun DrawScope.drawPathsPlatform(
     startFrame: WidgetFrame,
     drawPath: Boolean,
     drawKeyPositions: Boolean,
-    transition: Transition
+    transition: Transition,
 ) {
     val debugRender = MotionRenderDebug(23f)
     debugRender.basicDraw(
@@ -30,7 +30,7 @@ internal actual fun DrawScope.drawPathsPlatform(
         parentWidth.toInt(),
         parentHeight.toInt(),
         drawPath,
-        drawKeyPositions
+        drawKeyPositions,
     )
 }
 
@@ -41,7 +41,7 @@ internal actual fun DrawScope.drawFrameDebugPlatform(
     endFrame: WidgetFrame,
     pathEffect: PathEffect,
     color: Color,
-    transition: Transition
+    transition: Transition,
 ) {
     drawFramePlatform(startFrame, pathEffect, color)
     drawFramePlatform(endFrame, pathEffect, color)
@@ -54,7 +54,7 @@ internal actual fun DrawScope.drawFrameDebugPlatform(
         1000,
         Motion.DRAW_PATH_BASIC,
         parentWidth.toInt(),
-        parentHeight.toInt()
+        parentHeight.toInt(),
     )
     if (numKeyPositions == 0) {
         //            drawLine(
@@ -74,10 +74,10 @@ internal actual fun DrawScope.drawFrameDebugPlatform(
             val keyFrameProgress = pos[i] / 100f
             val frameWidth =
                 ((1 - keyFrameProgress) * startFrame.width()) +
-                        (keyFrameProgress * endFrame.width())
+                    (keyFrameProgress * endFrame.width())
             val frameHeight =
                 ((1 - keyFrameProgress) * startFrame.height()) +
-                        (keyFrameProgress * endFrame.height())
+                    (keyFrameProgress * endFrame.height())
             val curX = x[i] * parentWidth + frameWidth / 2f
             val curY = y[i] * parentHeight + frameHeight / 2f
             //                drawLine(
@@ -111,7 +111,7 @@ internal actual fun DrawScope.drawFrameDebugPlatform(
 internal actual fun DrawScope.drawFramePlatform(
     frame: WidgetFrame,
     pathEffect: PathEffect,
-    color: Color
+    color: Color,
 ) {
     if (frame.isDefaultTransform) {
         val drawStyle = Stroke(width = 3f, pathEffect = pathEffect)
@@ -119,7 +119,7 @@ internal actual fun DrawScope.drawFramePlatform(
             color,
             Offset(frame.left.toFloat(), frame.top.toFloat()),
             Size(frame.width().toFloat(), frame.height().toFloat()),
-            style = drawStyle
+            style = drawStyle,
         )
     } else {
         val matrix = Matrix()
@@ -138,7 +138,7 @@ internal actual fun DrawScope.drawFramePlatform(
                 frame.right.toFloat(),
                 frame.bottom.toFloat(),
                 frame.left.toFloat(),
-                frame.bottom.toFloat()
+                frame.bottom.toFloat(),
             )
         matrix.mapPoints(points)
         drawLine(
@@ -146,28 +146,28 @@ internal actual fun DrawScope.drawFramePlatform(
             end = Offset(points[2], points[3]),
             color = color,
             strokeWidth = 3f,
-            pathEffect = pathEffect
+            pathEffect = pathEffect,
         )
         drawLine(
             start = Offset(points[2], points[3]),
             end = Offset(points[4], points[5]),
             color = color,
             strokeWidth = 3f,
-            pathEffect = pathEffect
+            pathEffect = pathEffect,
         )
         drawLine(
             start = Offset(points[4], points[5]),
             end = Offset(points[6], points[7]),
             color = color,
             strokeWidth = 3f,
-            pathEffect = pathEffect
+            pathEffect = pathEffect,
         )
         drawLine(
             start = Offset(points[6], points[7]),
             end = Offset(points[0], points[1]),
             color = color,
             strokeWidth = 3f,
-            pathEffect = pathEffect
+            pathEffect = pathEffect,
         )
     }
 }

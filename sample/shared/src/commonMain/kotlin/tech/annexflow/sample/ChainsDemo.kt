@@ -108,7 +108,7 @@ fun ChainsAnimatedOrientationDemo1() {
     Column(Modifier.fillMaxSize()) {
         ConstraintLayout(
             modifier = Modifier.fillMaxWidth().weight(1.0f, true),
-            animateChangesSpec = tween(800)
+            animateChangesSpec = tween(800),
         ) {
             val (box0, box1, box2) = createRefs()
             if (isHorizontal) {
@@ -129,7 +129,7 @@ fun ChainsAnimatedOrientationDemo1() {
                         centerHorizontallyTo(parent)
                     }
                 }
-                    .background(boxColors[0])
+                    .background(boxColors[0]),
             )
             Box(
                 modifier =
@@ -144,7 +144,7 @@ fun ChainsAnimatedOrientationDemo1() {
                         centerHorizontallyTo(parent)
                     }
                 }
-                    .background(boxColors[1])
+                    .background(boxColors[1]),
             )
             Box(
                 modifier =
@@ -159,7 +159,7 @@ fun ChainsAnimatedOrientationDemo1() {
                         centerHorizontallyTo(parent)
                     }
                 }
-                    .background(boxColors[2])
+                    .background(boxColors[2]),
             )
         }
         Button(onClick = { isHorizontal = !isHorizontal }) { Text(text = "Toggle Orientation") }
