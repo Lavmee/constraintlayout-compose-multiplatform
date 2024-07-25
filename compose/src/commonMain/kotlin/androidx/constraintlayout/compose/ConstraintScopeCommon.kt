@@ -27,124 +27,115 @@ import androidx.constraintlayout.core.parser.CLString
 
 // @JvmDefaultWithCompatibility
 /**
- * Represents a vertical side of a layout (i.e start and end) that can be anchored using
- * [linkTo] in their `Modifier.constrainAs` blocks.
+ * Represents a vertical side of a layout (i.e start and end) that can be anchored using [linkTo] in
+ * their `Modifier.constrainAs` blocks.
  */
 interface VerticalAnchorable {
-    /**
-     * Adds a link towards a [ConstraintLayoutBaseScope.VerticalAnchor].
-     */
+    /** Adds a link towards a [ConstraintLayoutBaseScope.VerticalAnchor]. */
     fun linkTo(
         anchor: ConstraintLayoutBaseScope.VerticalAnchor,
         margin: Dp = 0.dp,
-        goneMargin: Dp = 0.dp,
+        goneMargin: Dp = 0.dp
     )
 }
 
 // @JvmDefaultWithCompatibility
 /**
- * Represents a horizontal side of a layout (i.e top and bottom) that can be anchored using
- * [linkTo] in their `Modifier.constrainAs` blocks.
+ * Represents a horizontal side of a layout (i.e top and bottom) that can be anchored using [linkTo]
+ * in their `Modifier.constrainAs` blocks.
  */
 interface HorizontalAnchorable {
-    /**
-     * Adds a link towards a [ConstraintLayoutBaseScope.HorizontalAnchor].
-     */
+    /** Adds a link towards a [ConstraintLayoutBaseScope.HorizontalAnchor]. */
     fun linkTo(
         anchor: ConstraintLayoutBaseScope.HorizontalAnchor,
         margin: Dp = 0.dp,
-        goneMargin: Dp = 0.dp,
+        goneMargin: Dp = 0.dp
     )
 
-    /**
-     * Adds a link towards a [ConstraintLayoutBaseScope.BaselineAnchor].
-     */
+    /** Adds a link towards a [ConstraintLayoutBaseScope.BaselineAnchor]. */
     fun linkTo(
         anchor: ConstraintLayoutBaseScope.BaselineAnchor,
         margin: Dp = 0.dp,
-        goneMargin: Dp = 0.dp,
+        goneMargin: Dp = 0.dp
     )
 }
 
 // @JvmDefaultWithCompatibility
 /**
- * Represents the [FirstBaseline] of a layout that can be anchored
- * using [linkTo] in their `Modifier.constrainAs` blocks.
+ * Represents the [FirstBaseline] of a layout that can be anchored using [linkTo] in their
+ * `Modifier.constrainAs` blocks.
  */
 interface BaselineAnchorable {
-    /**
-     * Adds a link towards a [ConstraintLayoutBaseScope.BaselineAnchor].
-     */
+    /** Adds a link towards a [ConstraintLayoutBaseScope.BaselineAnchor]. */
     fun linkTo(
         anchor: ConstraintLayoutBaseScope.BaselineAnchor,
         margin: Dp = 0.dp,
-        goneMargin: Dp = 0.dp,
+        goneMargin: Dp = 0.dp
     )
 
-    /**
-     * Adds a link towards a [ConstraintLayoutBaseScope.HorizontalAnchor].
-     */
+    /** Adds a link towards a [ConstraintLayoutBaseScope.HorizontalAnchor]. */
     fun linkTo(
         anchor: ConstraintLayoutBaseScope.HorizontalAnchor,
         margin: Dp = 0.dp,
-        goneMargin: Dp = 0.dp,
+        goneMargin: Dp = 0.dp
     )
 }
 
-internal abstract class BaseVerticalAnchorable(
-    private val containerObject: CLObject,
-    index: Int,
-) : VerticalAnchorable {
+internal abstract class BaseVerticalAnchorable(private val containerObject: CLObject, index: Int) :
+    VerticalAnchorable {
     private val anchorName: String = AnchorFunctions.verticalAnchorIndexToAnchorName(index)
 
     final override fun linkTo(
         anchor: ConstraintLayoutBaseScope.VerticalAnchor,
         margin: Dp,
-        goneMargin: Dp,
+        goneMargin: Dp
     ) {
         val targetAnchorName = AnchorFunctions.verticalAnchorIndexToAnchorName(anchor.index)
-        val constraintArray = CLArray(charArrayOf()).apply {
-            add(CLString.from(anchor.id.toString()))
-            add(CLString.from(targetAnchorName))
-            add(CLNumber(margin.value))
-            add(CLNumber(goneMargin.value))
-        }
+        val constraintArray =
+            CLArray(charArrayOf()).apply {
+                add(CLString.from(anchor.id.toString()))
+                add(CLString.from(targetAnchorName))
+                add(CLNumber(margin.value))
+                add(CLNumber(goneMargin.value))
+            }
         containerObject.put(anchorName, constraintArray)
     }
 }
 
 internal abstract class BaseHorizontalAnchorable(
     private val containerObject: CLObject,
-    index: Int,
+    index: Int
 ) : HorizontalAnchorable {
     private val anchorName: String = AnchorFunctions.horizontalAnchorIndexToAnchorName(index)
 
     final override fun linkTo(
         anchor: ConstraintLayoutBaseScope.HorizontalAnchor,
         margin: Dp,
-        goneMargin: Dp,
+        goneMargin: Dp
     ) {
         val targetAnchorName = AnchorFunctions.horizontalAnchorIndexToAnchorName(anchor.index)
-        val constraintArray = CLArray(charArrayOf()).apply {
-            add(CLString.from(anchor.id.toString()))
-            add(CLString.from(targetAnchorName))
-            add(CLNumber(margin.value))
-            add(CLNumber(goneMargin.value))
-        }
+        val constraintArray =
+            CLArray(charArrayOf()).apply {
+                add(CLString.from(anchor.id.toString()))
+                add(CLString.from(targetAnchorName))
+                add(CLNumber(margin.value))
+                add(CLNumber(goneMargin.value))
+            }
         containerObject.put(anchorName, constraintArray)
     }
 
     final override fun linkTo(
         anchor: ConstraintLayoutBaseScope.BaselineAnchor,
         margin: Dp,
-        goneMargin: Dp,
+        goneMargin: Dp
     ) {
-        val constraintArray = CLArray(charArrayOf()).apply {
-            add(CLString.from(anchor.id.toString()))
-            add(CLString.from("baseline"))
-            add(CLNumber(margin.value))
-            add(CLNumber(goneMargin.value))
-        }
+        val constraintArray =
+            CLArray(charArrayOf()).apply {
+                add(CLString.from(anchor.id.toString()))
+                add(CLString.from("baseline"))
+                add(CLNumber(margin.value))
+                add(CLNumber(goneMargin.value))
+            }
         containerObject.put(anchorName, constraintArray)
     }
 }

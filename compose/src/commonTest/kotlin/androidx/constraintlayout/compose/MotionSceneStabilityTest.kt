@@ -17,8 +17,8 @@
 package androidx.constraintlayout.compose
 
 import androidx.compose.ui.unit.dp
-import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.Test
 
 @OptIn(ExperimentalMotionApi::class)
 class MotionSceneStabilityTest {
@@ -29,7 +29,8 @@ class MotionSceneStabilityTest {
             val box1 = createRefFor("box1")
             val box2 = createRefFor("box2")
             defaultTransition(
-                from = constraintSet {
+                from =
+                constraintSet {
                     constrain(box0) {
                         width = Dimension.fillToConstraints
                         height = Dimension.value(20.dp)
@@ -49,10 +50,11 @@ class MotionSceneStabilityTest {
                     createHorizontalChain(
                         box0,
                         box1.withHorizontalChainParams(startMargin = 8.dp, endMargin = 8.dp),
-                        box2,
+                        box2
                     )
                 },
-                to = constraintSet {
+                to =
+                constraintSet {
                     constrain(box0) {
                         height = Dimension.fillToConstraints
                         width = Dimension.value(20.dp)
@@ -72,17 +74,13 @@ class MotionSceneStabilityTest {
                     createVerticalChain(
                         box0,
                         box1.withVerticalChainParams(topMargin = 8.dp, bottomMargin = 8.dp),
-                        box2,
+                        box2
                     )
-                },
+                }
             ) {
                 keyAttributes(box1) {
-                    frame(33) {
-                        alpha = 0.25f
-                    }
-                    frame(66) {
-                        alpha = 0.8f
-                    }
+                    frame(33) { alpha = 0.25f }
+                    frame(66) { alpha = 0.8f }
                 }
             }
         }
@@ -90,9 +88,11 @@ class MotionSceneStabilityTest {
         // Same content, slightly different syntax
         assertEquals(
             expected = scene,
-            actual = MotionScene {
+            actual =
+            MotionScene {
                 defaultTransition(
-                    from = constraintSet {
+                    from =
+                    constraintSet {
                         val box0 = createRefFor("box0")
                         val box1 = createRefFor("box1")
                         val box2 = createRefFor("box2")
@@ -115,10 +115,11 @@ class MotionSceneStabilityTest {
                         createHorizontalChain(
                             box0,
                             box1.withChainParams(startMargin = 8.dp, endMargin = 8.dp),
-                            box2,
+                            box2
                         )
                     },
-                    to = constraintSet {
+                    to =
+                    constraintSet {
                         val box0 = createRefFor("box0")
                         val box1 = createRefFor("box1")
                         val box2 = createRefFor("box2")
@@ -141,21 +142,17 @@ class MotionSceneStabilityTest {
                         createVerticalChain(
                             box0,
                             box1.withChainParams(topMargin = 8.dp, bottomMargin = 8.dp),
-                            box2,
+                            box2
                         )
-                    },
+                    }
                 ) {
                     val box1 = createRefFor("box1")
                     keyAttributes(box1) {
-                        frame(33) {
-                            alpha = 0.25f
-                        }
-                        frame(66) {
-                            alpha = 0.8f
-                        }
+                        frame(33) { alpha = 0.25f }
+                        frame(66) { alpha = 0.8f }
                     }
                 }
-            },
+            }
         )
     }
 }

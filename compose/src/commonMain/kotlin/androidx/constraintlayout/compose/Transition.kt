@@ -26,30 +26,32 @@ import androidx.constraintlayout.core.parser.CLParser
 import androidx.constraintlayout.core.parser.CLParsingException
 import androidx.constraintlayout.core.state.TransitionParser
 
-/**
- * Defines interpolation parameters between two [ConstraintSet]s.
- */
+/** Defines interpolation parameters between two [ConstraintSet]s. */
 @ExperimentalMotionApi
 @Immutable
 interface Transition {
     fun getStartConstraintSetId(): String
+
     fun getEndConstraintSetId(): String
 }
 
 /**
  * Parses the given JSON5 into a [Transition].
  *
- * See the official [Github Wiki](https://github.com/androidx/constraintlayout/wiki/Compose-MotionLayout-JSON-Syntax#transitions) to learn the syntax.
+ * See the official
+ * [GitHub Wiki](https://github.com/androidx/constraintlayout/wiki/Compose-MotionLayout-JSON-Syntax#transitions)
+ * to learn the syntax.
  */
 @SuppressLint("ComposableNaming")
 @ExperimentalMotionApi
 fun Transition(@Language("json5") content: String): Transition {
-    val parsed = try {
-        CLParser.parse(content)
-    } catch (e: CLParsingException) {
-        Log.e("CML", "Error parsing JSON $e")
-        null
-    }
+    val parsed =
+        try {
+            CLParser.parse(content)
+        } catch (e: CLParsingException) {
+            Log.e("CML", "Error parsing JSON $e")
+            null
+        }
     return parsed?.let { TransitionImpl(parsed) } ?: TransitionImpl.EMPTY
 }
 
@@ -59,13 +61,9 @@ fun Transition(@Language("json5") content: String): Transition {
  * Used to reduced the exposed API from [Transition].
  */
 @ExperimentalMotionApi
-internal class TransitionImpl(
-    private val parsedTransition: CLObject,
-) : Transition {
+internal class TransitionImpl(private val parsedTransition: CLObject) : Transition {
 
-    /**
-     * Applies all Transition properties to [transition].
-     */
+    /** Applies all Transition properties to [transition]. */
     fun applyAllTo(transition: androidx.constraintlayout.core.state.Transition) {
         try {
             TransitionParser.parse(parsedTransition, transition)

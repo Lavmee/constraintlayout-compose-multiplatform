@@ -16,6 +16,7 @@
 
 package androidx.constraintlayout.compose
 
+import androidx.annotation.RequiresApi
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.AnimationSpec
 import androidx.compose.foundation.layout.LayoutScopeMarker
@@ -56,34 +57,29 @@ import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.extra.Ref.FloatRef
 import androidx.constraintlayout.compose.platform.annotation.SuppressWarnings
 import androidx.constraintlayout.core.widgets.Optimizer
+import kotlin.math.absoluteValue
 import kotlinx.coroutines.channels.Channel
 import kotlin.jvm.JvmInline
-import kotlin.math.absoluteValue
+import kotlin.jvm.JvmStatic
 
-/**
- * Measure flags for MotionLayout
- */
+/** Measure flags for MotionLayout */
 @Deprecated("Unnecessary, MotionLayout remeasures when its content changes.")
 enum class MotionLayoutFlag(@Suppress("UNUSED_PARAMETER") value: Long) {
     Default(0),
-
-    @Suppress("unused")
-    FullMeasure(1),
+    @Suppress("unused") FullMeasure(1)
 }
 
 enum class MotionLayoutDebugFlags {
     NONE,
     SHOW_ALL,
-    UNKNOWN,
+    UNKNOWN
 }
 
 /**
  * Layout that can animate between two different layout states described in [ConstraintSet]s.
  *
- * &nbsp;
- *
- * The animation is driven by the [progress] value, so it will typically be a result of
- * using an [Animatable][androidx.compose.animation.core.Animatable] or
+ * The animation is driven by the [progress] value, so it will typically be a result of using an
+ * [Animatable][androidx.compose.animation.core.Animatable] or
  * [animateFloatAsState][androidx.compose.animation.core.animateFloatAsState]:
  * ```
  *  var animateToEnd by remember { mutableStateOf(false) }
@@ -108,23 +104,23 @@ enum class MotionLayoutDebugFlags {
  * ```
  *
  * Note that you must use [Modifier.layoutId][androidx.compose.ui.layout.layoutId] to bind the
- * the references used in the [ConstraintSet]s to the Composable.
+ * references used in the [ConstraintSet]s to the Composable.
  *
  * @param start ConstraintSet that defines the layout at 0f progress.
  * @param end ConstraintSet that defines the layout at 1f progress.
  * @param progress Sets the interpolated position of the layout between the ConstraintSets.
  * @param modifier Modifier to apply to this layout node.
  * @param transition Defines the interpolation parameters between the [ConstraintSet]s to achieve
- * fine-tuned animations.
+ *   fine-tuned animations.
  * @param debugFlags Flags to enable visual debugging. [DebugFlags.None] by default.
  * @param optimizationLevel Optimization parameter for the underlying ConstraintLayout,
- * [Optimizer.OPTIMIZATION_STANDARD] by default.
+ *   [Optimizer.OPTIMIZATION_STANDARD] by default.
  * @param invalidationStrategy Provides strategies to optimize invalidations in [MotionLayout].
- * Excessive invalidations will be the typical cause of bad performance in [MotionLayout]. See
- * [InvalidationStrategy] to learn how to apply common strategies.
+ *   Excessive invalidations will be the typical cause of bad performance in [MotionLayout]. See
+ *   [InvalidationStrategy] to learn how to apply common strategies.
  * @param content The content to be laid out by MotionLayout, note that each layout Composable
- * should be bound to an ID defined in the [ConstraintSet]s using
- * [Modifier.layoutId][androidx.compose.ui.layout.layoutId].
+ *   should be bound to an ID defined in the [ConstraintSet]s using
+ *   [Modifier.layoutId][androidx.compose.ui.layout.layoutId].
  */
 @ExperimentalMotionApi
 @Composable
@@ -137,7 +133,7 @@ inline fun MotionLayout(
     debugFlags: DebugFlags = DebugFlags.None,
     optimizationLevel: Int = Optimizer.OPTIMIZATION_STANDARD,
     invalidationStrategy: InvalidationStrategy = InvalidationStrategy.DefaultInvalidationStrategy,
-    crossinline content: @Composable MotionLayoutScope.() -> Unit,
+    crossinline content: @Composable MotionLayoutScope.() -> Unit
 ) {
     /**
      * MutableState used to track content recompositions. It's reassigned at the content's
@@ -146,18 +142,18 @@ inline fun MotionLayout(
      * State change.
      */
     val contentTracker = remember { mutableStateOf(Unit, neverEqualPolicy()) }
-    val compositionSource =
-        remember { Ref<CompositionSource>().apply { value = CompositionSource.Unknown } }
+    val compositionSource = remember {
+        Ref<CompositionSource>().apply { value = CompositionSource.Unknown }
+    }
 
-    /**
-     * Delegate to handle composition tracking before calling the non-inline Composable
-     */
+    /** Delegate to handle composition tracking before calling the non-inline Composable */
     val contentDelegate: @Composable MotionLayoutScope.() -> Unit = {
         // Perform a reassignment to the State tracker, this will force readers to recompose at
         // the same pass as the content. The only expected reader is our MeasurePolicy.
         contentTracker.value = Unit
 
-        if (invalidationStrategy.onObservedStateChange == null &&
+        if (
+            invalidationStrategy.onObservedStateChange == null &&
             compositionSource.value == CompositionSource.Unknown
         ) {
             // Set the content as the original composition source if the MotionLayout was not
@@ -180,7 +176,7 @@ inline fun MotionLayout(
         contentTracker = contentTracker,
         compositionSource = compositionSource,
         invalidationStrategy = invalidationStrategy,
-        content = contentDelegate,
+        content = contentDelegate
     )
 }
 
@@ -188,8 +184,8 @@ inline fun MotionLayout(
  * Layout that can animate between multiple [ConstraintSet]s as defined by [Transition]s in the
  * given [MotionScene].
  *
- * The animation is driven by the [progress] value, so it will typically be a result of
- * using an [Animatable][androidx.compose.animation.core.Animatable] or
+ * The animation is driven by the [progress] value, so it will typically be a result of using an
+ * [Animatable][androidx.compose.animation.core.Animatable] or
  * [animateFloatAsState][androidx.compose.animation.core.animateFloatAsState]:
  * ```
  *  var animateToEnd by remember { mutableStateOf(false) }
@@ -219,23 +215,23 @@ inline fun MotionLayout(
  * ```
  *
  * Note that you must use [Modifier.layoutId][androidx.compose.ui.layout.layoutId] to bind the
- * the references used in the [ConstraintSet]s to the Composable.
+ * references used in the [ConstraintSet]s to the Composable.
  *
- * @param motionScene Holds all the layout states defined in [ConstraintSet]s and the
- * interpolation associated between them (known as [Transition]s).
+ * @param motionScene Holds all the layout states defined in [ConstraintSet]s and the interpolation
+ *   associated between them (known as [Transition]s).
  * @param progress Sets the interpolated position of the layout between the ConstraintSets.
  * @param modifier Modifier to apply to this layout node.
  * @param transitionName The name of the transition to apply on the layout. By default, it will
- * target the transition defined with [MotionSceneScope.defaultTransition].
+ *   target the transition defined with [MotionSceneScope.defaultTransition].
  * @param debugFlags Flags to enable visual debugging. [DebugFlags.None] by default.
  * @param optimizationLevel Optimization parameter for the underlying ConstraintLayout,
- * [Optimizer.OPTIMIZATION_STANDARD] by default.
+ *   [Optimizer.OPTIMIZATION_STANDARD] by default.
  * @param invalidationStrategy Provides strategies to optimize invalidations in [MotionLayout].
- * Excessive invalidations will be the typical cause of bad performance in [MotionLayout]. See
- * [InvalidationStrategy] to learn how to apply common strategies.
+ *   Excessive invalidations will be the typical cause of bad performance in [MotionLayout]. See
+ *   [InvalidationStrategy] to learn how to apply common strategies.
  * @param content The content to be laid out by MotionLayout, note that each layout Composable
- * should be bound to an ID defined in the [ConstraintSet]s using
- * [Modifier.layoutId][androidx.compose.ui.layout.layoutId].
+ *   should be bound to an ID defined in the [ConstraintSet]s using
+ *   [Modifier.layoutId][androidx.compose.ui.layout.layoutId].
  */
 @ExperimentalMotionApi
 @Composable
@@ -256,18 +252,18 @@ inline fun MotionLayout(
      * State change.
      */
     val contentTracker = remember { mutableStateOf(Unit, neverEqualPolicy()) }
-    val compositionSource =
-        remember { Ref<CompositionSource>().apply { value = CompositionSource.Unknown } }
+    val compositionSource = remember {
+        Ref<CompositionSource>().apply { value = CompositionSource.Unknown }
+    }
 
-    /**
-     * Delegate to handle composition tracking before calling the non-inline Composable
-     */
+    /** Delegate to handle composition tracking before calling the non-inline Composable */
     val contentDelegate: @Composable MotionLayoutScope.() -> Unit = {
         // Perform a reassignment to the State tracker, this will force readers to recompose at
         // the same pass as the content. The only expected reader is our MeasurePolicy.
         contentTracker.value = Unit
 
-        if (invalidationStrategy.onObservedStateChange == null &&
+        if (
+            invalidationStrategy.onObservedStateChange == null &&
             compositionSource.value == CompositionSource.Unknown
         ) {
             // Set the content as the original composition source if the MotionLayout was not
@@ -287,7 +283,7 @@ inline fun MotionLayout(
         contentTracker = contentTracker,
         compositionSource = compositionSource,
         invalidationStrategy = invalidationStrategy,
-        content = contentDelegate,
+        content = contentDelegate
     )
 }
 
@@ -345,22 +341,22 @@ inline fun MotionLayout(
  * Animations are run one after the other, if multiple are queued, only the last one will be
  * executed. You may use [finishedAnimationListener] to know whenever an animation is finished.
  *
- * @param motionScene Holds all the layout states defined in [ConstraintSet]s and the
- * interpolation associated between them (known as [Transition]s).
+ * @param motionScene Holds all the layout states defined in [ConstraintSet]s and the interpolation
+ *   associated between them (known as [Transition]s).
  * @param constraintSetName The name of the [ConstraintSet] to animate to. Null for no animation.
  * @param animationSpec Specifies how the internal progress value is animated.
  * @param modifier Modifier to apply to this layout node.
  * @param finishedAnimationListener Called when an animation triggered by a change in
- * [constraintSetName] has ended.
+ *   [constraintSetName] has ended.
  * @param debugFlags Flags to enable visual debugging. [DebugFlags.None] by default.
  * @param optimizationLevel Optimization parameter for the underlying ConstraintLayout,
- * [Optimizer.OPTIMIZATION_STANDARD] by default.
+ *   [Optimizer.OPTIMIZATION_STANDARD] by default.
  * @param invalidationStrategy Provides strategies to optimize invalidations in [MotionLayout].
- * Excessive invalidations will be the typical cause of bad performance in [MotionLayout]. See
- * [InvalidationStrategy] to learn how to apply common strategies.
+ *   Excessive invalidations will be the typical cause of bad performance in [MotionLayout]. See
+ *   [InvalidationStrategy] to learn how to apply common strategies.
  * @param content The content to be laid out by MotionLayout, note that each layout Composable
- * should be bound to an ID defined in the [ConstraintSet]s using
- * [Modifier.layoutId][androidx.compose.ui.layout.layoutId].
+ *   should be bound to an ID defined in the [ConstraintSet]s using
+ *   [Modifier.layoutId][androidx.compose.ui.layout.layoutId].
  */
 @ExperimentalMotionApi
 @Composable
@@ -373,8 +369,7 @@ inline fun MotionLayout(
     debugFlags: DebugFlags = DebugFlags.None,
     optimizationLevel: Int = Optimizer.OPTIMIZATION_STANDARD,
     invalidationStrategy: InvalidationStrategy = InvalidationStrategy.DefaultInvalidationStrategy,
-    @Suppress("HiddenTypeParameter")
-    crossinline content: @Composable (MotionLayoutScope.() -> Unit),
+    @Suppress("HiddenTypeParameter") crossinline content: @Composable (MotionLayoutScope.() -> Unit)
 ) {
     /**
      * MutableState used to track content recompositions. It's reassigned at the content's
@@ -383,18 +378,18 @@ inline fun MotionLayout(
      * State change.
      */
     val contentTracker = remember { mutableStateOf(Unit, neverEqualPolicy()) }
-    val compositionSource =
-        remember { Ref<CompositionSource>().apply { value = CompositionSource.Unknown } }
+    val compositionSource = remember {
+        Ref<CompositionSource>().apply { value = CompositionSource.Unknown }
+    }
 
-    /**
-     * Delegate to handle composition tracking before calling the non-inline Composable
-     */
+    /** Delegate to handle composition tracking before calling the non-inline Composable */
     val contentDelegate: @Composable MotionLayoutScope.() -> Unit = {
         // Perform a reassignment to the State tracker, this will force readers to recompose at
         // the same pass as the content. The only expected reader is our MeasurePolicy.
         contentTracker.value = Unit
 
-        if (invalidationStrategy.onObservedStateChange == null &&
+        if (
+            invalidationStrategy.onObservedStateChange == null &&
             compositionSource.value == CompositionSource.Unknown
         ) {
             // Set the content as the original composition source if the MotionLayout was not
@@ -415,7 +410,7 @@ inline fun MotionLayout(
         contentTracker = contentTracker,
         compositionSource = compositionSource,
         invalidationStrategy = invalidationStrategy,
-        content = contentDelegate,
+        content = contentDelegate
     )
 }
 
@@ -433,40 +428,37 @@ internal fun MotionLayoutCore(
     contentTracker: MutableState<Unit>,
     compositionSource: Ref<CompositionSource>,
     invalidationStrategy: InvalidationStrategy,
-    @Suppress("HiddenTypeParameter")
-    content: @Composable (MotionLayoutScope.() -> Unit),
+    @Suppress("HiddenTypeParameter") content: @Composable (MotionLayoutScope.() -> Unit)
 ) {
-    val needsUpdate = remember {
-        mutableLongStateOf(0L)
-    }
+    val needsUpdate = remember { mutableLongStateOf(0L) }
 
-    val transition = remember(motionScene, needsUpdate.longValue) {
-        motionScene.getTransitionInstance("default")
-    }
+    val transition =
+        remember(motionScene, needsUpdate.longValue) {
+            motionScene.getTransitionInstance("default")
+        }
 
-    val initialStart = remember(motionScene, needsUpdate.longValue) {
-        val startId = transition?.getStartConstraintSetId() ?: "start"
-        motionScene.getConstraintSetInstance(startId)
-    }
-    val initialEnd = remember(motionScene, needsUpdate.longValue) {
-        val endId = transition?.getEndConstraintSetId() ?: "end"
-        motionScene.getConstraintSetInstance(endId)
-    }
+    val initialStart =
+        remember(motionScene, needsUpdate.longValue) {
+            val startId = transition?.getStartConstraintSetId() ?: "start"
+            motionScene.getConstraintSetInstance(startId)
+        }
+    val initialEnd =
+        remember(motionScene, needsUpdate.longValue) {
+            val endId = transition?.getEndConstraintSetId() ?: "end"
+            motionScene.getConstraintSetInstance(endId)
+        }
 
     if (initialStart == null || initialEnd == null) {
         return
     }
 
-    var start: ConstraintSet by remember(motionScene) {
-        mutableStateOf(initialStart)
-    }
-    var end: ConstraintSet by remember(motionScene) {
-        mutableStateOf(initialEnd)
-    }
+    var start: ConstraintSet by remember(motionScene) { mutableStateOf(initialStart) }
+    var end: ConstraintSet by remember(motionScene) { mutableStateOf(initialEnd) }
 
-    val targetConstraintSet = remember(motionScene, constraintSetName) {
-        constraintSetName?.let { motionScene.getConstraintSetInstance(constraintSetName) }
-    }
+    val targetConstraintSet =
+        remember(motionScene, constraintSetName) {
+            constraintSetName?.let { motionScene.getConstraintSetInstance(constraintSetName) }
+        }
 
     val progress = remember { Animatable(0f) }
 
@@ -475,9 +467,7 @@ internal fun MotionLayoutCore(
     val channel = remember { Channel<ConstraintSet>(Channel.CONFLATED) }
 
     if (targetConstraintSet != null) {
-        SideEffect {
-            channel.trySend(targetConstraintSet)
-        }
+        SideEffect { channel.trySend(targetConstraintSet) }
 
         LaunchedEffect(motionScene, channel) {
             for (constraints in channel) {
@@ -511,7 +501,7 @@ internal fun MotionLayoutCore(
         contentTracker = contentTracker,
         compositionSource = compositionSource,
         invalidationStrategy = invalidationStrategy,
-        content = content,
+        content = content
     )
 }
 
@@ -519,8 +509,7 @@ internal fun MotionLayoutCore(
 @PublishedApi
 @Composable
 internal fun MotionLayoutCore(
-    @Suppress("HiddenTypeParameter")
-    motionScene: MotionScene,
+    @Suppress("HiddenTypeParameter") motionScene: MotionScene,
     progress: Float,
     transitionName: String,
     optimizationLevel: Int,
@@ -529,21 +518,21 @@ internal fun MotionLayoutCore(
     contentTracker: MutableState<Unit>,
     compositionSource: Ref<CompositionSource>,
     invalidationStrategy: InvalidationStrategy,
-    @Suppress("HiddenTypeParameter")
-    content: @Composable MotionLayoutScope.() -> Unit,
+    @Suppress("HiddenTypeParameter") content: @Composable MotionLayoutScope.() -> Unit,
 ) {
-    val transition = remember(motionScene, transitionName) {
-        motionScene.getTransitionInstance(transitionName)
-    }
+    val transition =
+        remember(motionScene, transitionName) { motionScene.getTransitionInstance(transitionName) }
 
-    val start = remember(motionScene, transition) {
-        val startId = transition?.getStartConstraintSetId() ?: "start"
-        motionScene.getConstraintSetInstance(startId)
-    }
-    val end = remember(motionScene, transition) {
-        val endId = transition?.getEndConstraintSetId() ?: "end"
-        motionScene.getConstraintSetInstance(endId)
-    }
+    val start =
+        remember(motionScene, transition) {
+            val startId = transition?.getStartConstraintSetId() ?: "start"
+            motionScene.getConstraintSetInstance(startId)
+        }
+    val end =
+        remember(motionScene, transition) {
+            val endId = transition?.getEndConstraintSetId() ?: "end"
+            motionScene.getConstraintSetInstance(endId)
+        }
     if (start == null || end == null) {
         return
     }
@@ -562,7 +551,7 @@ internal fun MotionLayoutCore(
         contentTracker = contentTracker,
         compositionSource = compositionSource,
         invalidationStrategy = invalidationStrategy,
-        content = content,
+        content = content
     )
 }
 
@@ -585,8 +574,7 @@ internal fun MotionLayoutCore(
     contentTracker: MutableState<Unit>,
     compositionSource: Ref<CompositionSource>,
     invalidationStrategy: InvalidationStrategy,
-    @Suppress("HiddenTypeParameter")
-    content: @Composable MotionLayoutScope.() -> Unit,
+    @Suppress("HiddenTypeParameter") content: @Composable MotionLayoutScope.() -> Unit
 ) {
     val motionProgress = createAndUpdateMotionProgress(progress = progress)
     val transitionImpl = (transition as? TransitionImpl) ?: TransitionImpl.EMPTY
@@ -597,7 +585,7 @@ internal fun MotionLayoutCore(
 
     UpdateWithForcedIfNoUserChange(
         motionProgress = motionProgress,
-        informationReceiver = informationReceiver,
+        informationReceiver = informationReceiver
     )
 
     val density = LocalDensity.current
@@ -611,7 +599,7 @@ internal fun MotionLayoutCore(
             end = end,
             layoutDirection = layoutDirection,
             transition = transitionImpl,
-            progress = motionProgress.floatValue,
+            progress = motionProgress.floatValue
         )
         true // Remember is required to return a non-Unit value
     }
@@ -619,31 +607,34 @@ internal fun MotionLayoutCore(
     if (invalidationStrategy.onObservedStateChange != null) {
         Snapshot.observe(
             readObserver = {
-                // Perform a reassignment to the State tracker, this will force readers to recompose at
+                // Perform a reassignment to the State tracker, this will force readers to recompose
+                // at
                 // the same pass as the content. The only expected reader is our MeasurePolicy.
                 contentTracker.value = Unit
 
                 if (compositionSource.value == CompositionSource.Unknown) {
-                    // Set the content as the original composition source if the MotionLayout was not
+                    // Set the content as the original composition source if the MotionLayout was
+                    // not
                     // recomposed by the caller or by itself
                     compositionSource.value = CompositionSource.Content
                 }
             },
-            block = invalidationStrategy.onObservedStateChange,
+            block = invalidationStrategy.onObservedStateChange
         )
     }
 
-    val measurePolicy = motionLayoutMeasurePolicy(
-        contentTracker = contentTracker,
-        compositionSource = compositionSource,
-        constraintSetStart = start,
-        constraintSetEnd = end,
-        transition = transitionImpl,
-        motionProgress = motionProgress,
-        measurer = measurer,
-        optimizationLevel = optimizationLevel,
-        invalidationStrategy = invalidationStrategy,
-    )
+    val measurePolicy =
+        motionLayoutMeasurePolicy(
+            contentTracker = contentTracker,
+            compositionSource = compositionSource,
+            constraintSetStart = start,
+            constraintSetEnd = end,
+            transition = transitionImpl,
+            motionProgress = motionProgress,
+            measurer = measurer,
+            optimizationLevel = optimizationLevel,
+            invalidationStrategy = invalidationStrategy
+        )
 
     measurer.addLayoutInformationReceiver(informationReceiver)
 
@@ -655,7 +646,7 @@ internal fun MotionLayoutCore(
     var doShowKeyPositions = showKeyPositions
 
     if (forcedDebug != null && forcedDebug != MotionLayoutDebugFlags.UNKNOWN) {
-        doShowBounds = forcedDebug == MotionLayoutDebugFlags.SHOW_ALL
+        doShowBounds = forcedDebug === MotionLayoutDebugFlags.SHOW_ALL
         doShowPaths = doShowBounds
         doShowKeyPositions = doShowBounds
     }
@@ -665,24 +656,23 @@ internal fun MotionLayoutCore(
 
     @Suppress("DEPRECATION")
     MultiMeasureLayout(
-        modifier = modifier
+        modifier =
+        modifier
             .motionDebug(
                 measurer = measurer,
                 scaleFactor = forcedScaleFactor,
                 showBounds = doShowBounds,
                 showPaths = doShowPaths,
-                showKeyPositions = doShowKeyPositions,
+                showKeyPositions = doShowKeyPositions
             )
             .motionPointerInput(
                 key = transition ?: TransitionImpl.EMPTY,
                 motionProgress = motionProgress,
-                measurer = measurer,
+                measurer = measurer
             )
             .semantics { designInfoProvider = measurer },
         measurePolicy = measurePolicy,
-        content = {
-            scope.content()
-        },
+        content = { scope.content() }
     )
 }
 
@@ -692,7 +682,7 @@ class MotionLayoutScope
 @Suppress("ShowingMemberInHiddenClass")
 internal constructor(
     private val measurer: MotionMeasurer,
-    private val motionProgress: MutableFloatState,
+    private val motionProgress: MutableFloatState
 ) {
     /**
      * Invokes [onBoundsChanged] whenever the Start or End bounds may have changed for the
@@ -707,14 +697,15 @@ internal constructor(
      */
     fun Modifier.onStartEndBoundsChanged(
         layoutId: Any,
-        onBoundsChanged: (startBounds: Rect, endBounds: Rect) -> Unit,
+        onBoundsChanged: (startBounds: Rect, endBounds: Rect) -> Unit
     ): Modifier {
         return composed(
-            inspectorInfo = debugInspectorInfo {
+            inspectorInfo =
+            debugInspectorInfo {
                 name = "onStartEndBoundsChanged"
                 properties["layoutId"] = layoutId
                 properties["onBoundsChanged"] = onBoundsChanged
-            },
+            }
         ) {
             // TODO: Consider returning IntRect directly, note that it would imply adding a
             //  dependency to `androidx.compose.ui.unit`
@@ -733,7 +724,8 @@ internal constructor(
             this.onPlaced {
                 val startFrame = measurer.transition.getStart(id)
                 var changed = false
-                if (startFrame.left != startPoints[0] ||
+                if (
+                    startFrame.left != startPoints[0] ||
                     startFrame.top != startPoints[1] ||
                     startFrame.right != startPoints[2] ||
                     startFrame.bottom != startPoints[3]
@@ -744,17 +736,19 @@ internal constructor(
                     startPoints[3] = startFrame.bottom
 
                     // Only instantiate a new Rect when we know the old bounds are invalid
-                    startBoundsRef.value = Rect(
-                        startPoints[0].toFloat(),
-                        startPoints[1].toFloat(),
-                        startPoints[2].toFloat(),
-                        startPoints[3].toFloat(),
-                    )
+                    startBoundsRef.value =
+                        Rect(
+                            startPoints[0].toFloat(),
+                            startPoints[1].toFloat(),
+                            startPoints[2].toFloat(),
+                            startPoints[3].toFloat(),
+                        )
                     changed = true
                 }
 
                 val endFrame = measurer.transition.getEnd(id)
-                if (endFrame.left != endPoints[0] ||
+                if (
+                    endFrame.left != endPoints[0] ||
                     endFrame.top != endPoints[1] ||
                     endFrame.right != endPoints[2] ||
                     endFrame.bottom != endPoints[3]
@@ -765,18 +759,19 @@ internal constructor(
                     endPoints[3] = endFrame.bottom
 
                     // Only instantiate a new Rect when we know the old bounds are invalid
-                    endBoundsRef.value = Rect(
-                        endPoints[0].toFloat(),
-                        endPoints[1].toFloat(),
-                        endPoints[2].toFloat(),
-                        endPoints[3].toFloat(),
-                    )
+                    endBoundsRef.value =
+                        Rect(
+                            endPoints[0].toFloat(),
+                            endPoints[1].toFloat(),
+                            endPoints[2].toFloat(),
+                            endPoints[3].toFloat(),
+                        )
                     changed = true
                 }
                 if (changed) {
                     onBoundsChanged(
                         startBoundsRef.value ?: Rect.Zero,
-                        endBoundsRef.value ?: Rect.Zero,
+                        endBoundsRef.value ?: Rect.Zero
                     )
                 }
             }
@@ -832,10 +827,7 @@ internal constructor(
 
     // TODO: Remove for 1.2.0-alphaXX with all dependent functions. Note that MotionCarousel Api
     //  depends on this.
-    inner class MotionProperties internal constructor(
-        id: String,
-        tag: String?,
-    ) {
+    inner class MotionProperties internal constructor(id: String, tag: String?) {
         private var myId = id
         private var myTag = tag
 
@@ -870,15 +862,13 @@ internal constructor(
 
     @Deprecated(
         "Unnecessary composable, name is also inconsistent for custom properties",
-        ReplaceWith("customProperties(id)"),
+        ReplaceWith("customProperties(id)")
     )
     @Composable
     fun motionProperties(id: String): State<MotionProperties> =
-        // TODO: There's no point on returning a [State] object, and probably no point on this being
+    // TODO: There's no point on returning a [State] object, and probably no point on this being
         //  a Composable
-        remember(id) {
-            mutableStateOf(MotionProperties(id, null))
-        }
+        remember(id) { mutableStateOf(MotionProperties(id, null)) }
 
     @Deprecated("Deprecated for naming consistency", ReplaceWith("customProperties(id)"))
     fun motionProperties(id: String, tag: String): MotionProperties {
@@ -985,14 +975,14 @@ internal fun motionLayoutMeasurePolicy(
     motionProgress: MutableFloatState,
     measurer: MotionMeasurer,
     optimizationLevel: Int,
-    invalidationStrategy: InvalidationStrategy,
-): MeasurePolicy =
-    MeasurePolicy { measurables, constraints ->
-        // Do a state read, to guarantee that we control measure when the content recomposes without
-        // notifying our Composable caller
-        contentTracker.value
+    invalidationStrategy: InvalidationStrategy
+): MeasurePolicy = MeasurePolicy { measurables, constraints ->
+    // Do a state read, to guarantee that we control measure when the content recomposes without
+    // notifying our Composable caller
+    contentTracker.value
 
-        val layoutSize = measurer.performInterpolationMeasure(
+    val layoutSize =
+        measurer.performInterpolationMeasure(
             constraints = constraints,
             layoutDirection = this.layoutDirection,
             constraintSetStart = constraintSetStart,
@@ -1002,16 +992,12 @@ internal fun motionLayoutMeasurePolicy(
             optimizationLevel = optimizationLevel,
             progress = motionProgress.floatValue,
             compositionSource = compositionSource.value ?: CompositionSource.Unknown,
-            invalidateOnConstraintsCallback = invalidationStrategy.shouldInvalidate,
+            invalidateOnConstraintsCallback = invalidationStrategy.shouldInvalidate
         )
-        compositionSource.value = CompositionSource.Unknown // Reset after measuring
+    compositionSource.value = CompositionSource.Unknown // Reset after measuring
 
-        layout(layoutSize.width, layoutSize.height) {
-            with(measurer) {
-                performLayout(measurables)
-            }
-        }
-    }
+    layout(layoutSize.width, layoutSize.height) { with(measurer) { performLayout(measurables) } }
+}
 
 /**
  * Updates [motionProgress] from changes in [LayoutInformationReceiver.getForcedProgress].
@@ -1021,7 +1007,7 @@ internal fun motionLayoutMeasurePolicy(
 @Composable
 internal fun UpdateWithForcedIfNoUserChange(
     motionProgress: MutableFloatState,
-    informationReceiver: LayoutInformationReceiver?,
+    informationReceiver: LayoutInformationReceiver?
 ) {
     if (informationReceiver == null) {
         return
@@ -1066,22 +1052,23 @@ internal fun Modifier.motionDebug(
     scaleFactor: Float,
     showBounds: Boolean,
     showPaths: Boolean,
-    showKeyPositions: Boolean,
+    showKeyPositions: Boolean
 ): Modifier {
     var debugModifier: Modifier = this
     if (!scaleFactor.isNaN()) {
         debugModifier = debugModifier.scale(scaleFactor)
     }
     if (showBounds || showKeyPositions || showPaths) {
-        debugModifier = debugModifier.drawBehind {
-            with(measurer) {
-                /*drawDebug(
-                    drawBounds = showBounds,
-                    drawPaths = showPaths,
-                    drawKeyPositions = showKeyPositions
-                )*/
+        debugModifier =
+            debugModifier.drawBehind {
+                with(measurer) {
+                    drawDebug(
+                        drawBounds = showBounds,
+                        drawPaths = showPaths,
+                        drawKeyPositions = showKeyPositions
+                    )
+                }
             }
-        }
     }
     return debugModifier
 }
@@ -1091,8 +1078,8 @@ internal fun Modifier.motionDebug(
  *
  * The source will help us identify possible pathways for optimization.
  *
- * E.g.: If the content was not recomposed, we can assume that previous measurements are still valid,
- * so there's no need to recalculate the entire interpolation, only the current frame.
+ * E.g.: If the content was not recomposed, we can assume that previous measurements are still
+ * valid, so there's no need to recalculate the entire interpolation, only the current frame.
  */
 @PublishedApi
 internal enum class CompositionSource {
@@ -1105,7 +1092,7 @@ internal enum class CompositionSource {
      * Content recomposed, need to remeasure everything: **start**, **end** and **interpolated**
      * states.
      */
-    Content,
+    Content
 }
 
 /**
@@ -1114,41 +1101,38 @@ internal enum class CompositionSource {
  * @property showBounds
  * @property showPaths
  * @property showKeyPositions
- *
  * @see DebugFlags.None
  * @see DebugFlags.All
  */
 @JvmInline
 value class DebugFlags internal constructor(private val flags: Int) {
     /**
-     * @param showBounds Whether to show the bounds of widgets at the start and end of the current transition.
-     * @param showPaths Whether to show the paths each widget will take through the current transition.
-     * @param showKeyPositions Whether to show a diamond icon representing KeyPositions defined for each widget along the path.
+     * @param showBounds Whether to show the bounds of widgets at the start and end of the current
+     *   transition.
+     * @param showPaths Whether to show the paths each widget will take through the current
+     *   transition.
+     * @param showKeyPositions Whether to show a diamond icon representing KeyPositions defined for
+     *   each widget along the path.
      */
     constructor(
         showBounds: Boolean = false,
         showPaths: Boolean = false,
-        showKeyPositions: Boolean = false,
+        showKeyPositions: Boolean = false
     ) : this(
         (if (showBounds) BOUNDS_FLAG else 0) or
-            (if (showPaths) PATHS_FLAG else 0) or
-            (if (showKeyPositions) KEY_POSITIONS_FLAG else 0),
+                (if (showPaths) PATHS_FLAG else 0) or
+                (if (showKeyPositions) KEY_POSITIONS_FLAG else 0)
     )
 
-    /**
-     * When enabled, shows the bounds of widgets at the start and end of the current transition.
-     */
+    /** When enabled, shows the bounds of widgets at the start and end of the current transition. */
     val showBounds: Boolean
         get() = flags and BOUNDS_FLAG > 0
 
-    /**
-     * When enabled, shows the paths each widget will take through the current transition.
-     */
+    /** When enabled, shows the paths each widget will take through the current transition. */
     val showPaths: Boolean
         get() = flags and PATHS_FLAG > 0
 
     /**
-     *
      * When enabled, shows a diamond icon representing KeyPositions defined for each widget along
      * the path.
      */
@@ -1157,19 +1141,17 @@ value class DebugFlags internal constructor(private val flags: Int) {
 
     override fun toString(): String =
         "DebugFlags(" +
-            "showBounds = $showBounds, " +
-            "showPaths = $showPaths, " +
-            "showKeyPositions = $showKeyPositions" +
-            ")"
+                "showBounds = $showBounds, " +
+                "showPaths = $showPaths, " +
+                "showKeyPositions = $showKeyPositions" +
+                ")"
 
     companion object {
         private const val BOUNDS_FLAG = 1
         private const val PATHS_FLAG = 1 shl 1
         private const val KEY_POSITIONS_FLAG = 1 shl 2
 
-        /**
-         * [DebugFlags] instance with all flags disabled.
-         */
+        /** [DebugFlags] instance with all flags disabled. */
         val None = DebugFlags(0)
 
         /**
@@ -1182,22 +1164,9 @@ value class DebugFlags internal constructor(private val flags: Int) {
 }
 
 /**
- * Wrapper to pass Class Verification from calling methods unavailable on older API.
- */
-// @RequiresApi(30)
-// private object Api30Impl {
-//    @JvmStatic
-//    @DoNotInline
-//    fun isShowingLayoutBounds(view: View): Boolean {
-//        return view.isShowingLayoutBounds
-//    }
-// }
-
-/**
  * Helper scope that provides some strategies to improve performance based on incoming constraints.
  *
  * As a starting approach, we recommend trying the following:
- *
  * ```
  * MotionLayout(
  *     ...,
@@ -1228,22 +1197,22 @@ class InvalidationStrategySpecification internal constructor() {
      *
      * The rate limit is defined by two variables. Use [skipCount] to indicate how many consecutive
      * measure passes should skip invalidation, you may then provide a [threshold] (in pixels) to
-     * indicate when to invalidate regardless of how many passes are left to skip. This is
-     * important since you only want to skip invalidation passes when there's **not** a significant
-     * change in dimensions.
+     * indicate when to invalidate regardless of how many passes are left to skip. This is important
+     * since you only want to skip invalidation passes when there's **not** a significant change in
+     * dimensions.
      *
      * Overall, you don't want [skipCount] to be too high otherwise it'll result in a "jumpy" layout
      * behavior, but you also don't want the [threshold] to be too low, otherwise you'll lose the
      * benefit of rate limiting.
      *
-     * A good starting point is setting [skipCount] to 3 and [threshold] to 5. You can then
-     * adjust based on your expectations of performance and perceived smoothness.
+     * A good starting point is setting [skipCount] to 3 and [threshold] to 5. You can then adjust
+     * based on your expectations of performance and perceived smoothness.
      */
     fun shouldInvalidateOnFixedWidth(
         oldConstraints: Constraints,
         newConstraints: Constraints,
         skipCount: Int,
-        threshold: Int,
+        threshold: Int
     ): Boolean {
         if (oldConstraints.hasFixedWidth && newConstraints.hasFixedWidth) {
             val diff = (newConstraints.maxWidth - oldConstraints.maxWidth).absoluteValue
@@ -1272,22 +1241,22 @@ class InvalidationStrategySpecification internal constructor() {
      *
      * The rate limit is defined by two variables. Use [skipCount] to indicate how many consecutive
      * measure passes should skip invalidation, you may then provide a [threshold] (in pixels) to
-     * indicate when to invalidate regardless of how many passes are left to skip. This is
-     * important since you only want to skip invalidation passes when there's **not** a significant
-     * change in dimensions.
+     * indicate when to invalidate regardless of how many passes are left to skip. This is important
+     * since you only want to skip invalidation passes when there's **not** a significant change in
+     * dimensions.
      *
      * Overall, you don't want [skipCount] to be too high otherwise it'll result in a "jumpy" layout
      * behavior, but you also don't want the [threshold] to be too low, otherwise you'll lose the
      * benefit of rate limiting.
      *
-     * A good starting point is setting [skipCount] to 3 and [threshold] to 5. You can then
-     * adjust based on your expectations of performance and perceived smoothness.
+     * A good starting point is setting [skipCount] to 3 and [threshold] to 5. You can then adjust
+     * based on your expectations of performance and perceived smoothness.
      */
     fun shouldInvalidateOnFixedHeight(
         oldConstraints: Constraints,
         newConstraints: Constraints,
         skipCount: Int,
-        threshold: Int,
+        threshold: Int
     ): Boolean {
         if (oldConstraints.hasFixedHeight && newConstraints.hasFixedHeight) {
             val diff = (newConstraints.maxHeight - oldConstraints.maxHeight).absoluteValue
@@ -1317,22 +1286,20 @@ class InvalidationStrategySpecification internal constructor() {
  *
  * An invalidation can be triggered by two reasons:
  * - Incoming fixed size constraints have changed. This is necessary since layouts are highly
- * dependent on their available space, it'll typically happen if you are externally animating the
- * dimensions of [MotionLayout].
+ *   dependent on their available space, it'll typically happen if you are externally animating the
+ *   dimensions of [MotionLayout].
  * - The content of MotionLayout recomposes. This is necessary since Layouts in Compose don't know
- * the reason for a new measure pass, so we need to recalculate animations even if recomposition
- * didn't affect the actual Layout. For example, this **definitely** happens if you are using
- * [MotionLayoutScope.customProperties], even when you are just animating a background color, the
- * custom property will trigger a recomposition in the content and [MotionLayout] will be forced to
- * invalidate since it cannot know that the Layout was not affected.
+ *   the reason for a new measure pass, so we need to recalculate animations even if recomposition
+ *   didn't affect the actual Layout. For example, this **definitely** happens if you are using
+ *   [MotionLayoutScope.customProperties], even when you are just animating a background color, the
+ *   custom property will trigger a recomposition in the content and [MotionLayout] will be forced
+ *   to invalidate since it cannot know that the Layout was not affected.
  *
  * So, you may use [InvalidationStrategy] to help [MotionLayout] decide when to invalidate:
- *
  * - [onObservedStateChange]: Mitigates invalidation from content recomposition by explicitly
- * reading the State variables you want to cause invalidation. You'll likely want to
- * apply this strategy to most of your [MotionLayout] Composables. As, in the most simple cases you
- * can just provide an empty lambda. Here's a full example:
- *
+ *   reading the State variables you want to cause invalidation. You'll likely want to apply this
+ *   strategy to most of your [MotionLayout] Composables. As, in the most simple cases you can just
+ *   provide an empty lambda. Here's a full example:
  * ```
  * val progress = remember { Animatable(0f) }
  *
@@ -1455,7 +1422,6 @@ class InvalidationStrategySpecification internal constructor() {
  *
  * For example, if you don't expect the text to need more than one line, you can set the Text with
  * `softWrap = false` and `overflow = TextOverflow.Visible`:
- *
  * ```
  * MotionLayout(
  *     motionScene = motionScene,
@@ -1473,15 +1439,13 @@ class InvalidationStrategySpecification internal constructor() {
  * ```
  *
  * The Text layout won't change significantly and performance will be much improved.
- *
  * - [onIncomingConstraints]: With this lambda you can mitigate invalidation from incoming
- * constraints. You'll only have to worry about providing this lambda if you or the Layout you're
- * using is animating measuring constraints on [MotionLayout]. If the size is only changing in specific,
- * discrete values, then you should allow [MotionLayout] to invalidate normally.
+ *   constraints. You'll only have to worry about providing this lambda if you or the Layout you're
+ *   using is animating measuring constraints on [MotionLayout]. If the size is only changing in
+ *   specific, discrete values, then you should allow [MotionLayout] to invalidate normally.
  *
  * Here's an example where we manually animate [MotionLayout]'s size through a Modifier (along with
  * the MotionLayout animation), and shows how to mitigate invalidation by rate-limiting:
- *
  * ```
  * val textId = "text"
  * val progress = remember { Animatable(0f) }
@@ -1541,17 +1505,18 @@ class InvalidationStrategySpecification internal constructor() {
  * }
  * ```
  *
- * Note that [shouldInvalidateOnFixedWidth][InvalidationStrategySpecification.shouldInvalidateOnFixedWidth]
- * and [shouldInvalidateOnFixedHeight][InvalidationStrategySpecification.shouldInvalidateOnFixedHeight]
+ * Note that
+ * [shouldInvalidateOnFixedWidth][InvalidationStrategySpecification.shouldInvalidateOnFixedWidth]
+ * and
+ * [shouldInvalidateOnFixedHeight][InvalidationStrategySpecification.shouldInvalidateOnFixedHeight]
  * are helper methods available in [InvalidationStrategySpecification].
  *
- * An alternative to rate-limiting is to "simply" avoid invalidation from changed fixed size constraints.
- * This can be done by leaving [MotionLayout] as wrap content and then have it choose its own start
- * and ending size. Naturally, this is not always feasible, specially if it's a parent Composable the one
- * that's animating the size constraints.
+ * An alternative to rate-limiting is to "simply" avoid invalidation from changed fixed size
+ * constraints. This can be done by leaving [MotionLayout] as wrap content and then have it choose
+ * its own start and ending size. Naturally, this is not always feasible, specially if it's a parent
+ * Composable the one that's animating the size constraints.
  *
  * But, here's the MotionScene showing how to achieve this behavior based on the example above:
- *
  * ```
  * MotionScene {
  *     // We'll use fakeParentRef to choose our starting and ending size then constrain everything
@@ -1587,13 +1552,12 @@ class InvalidationStrategySpecification internal constructor() {
  * You can then remove the size modifier and the invalidation strategy for `onIncomingConstraints`,
  * as [MotionLayout] will animate through both sizes without invalidating.
  *
+ * @property onIncomingConstraints
+ * @property onObservedStateChange
  * @see InvalidationStrategy.DefaultInvalidationStrategy
  * @see InvalidationStrategySpecification
  * @see InvalidationStrategySpecification.shouldInvalidateOnFixedWidth
  * @see InvalidationStrategySpecification.shouldInvalidateOnFixedHeight
- *
- * @property onIncomingConstraints
- * @property onObservedStateChange
  */
 class InvalidationStrategy(
     /**
@@ -1608,16 +1572,14 @@ class InvalidationStrategy(
      * /[shouldInvalidateOnFixedHeight][InvalidationStrategySpecification.shouldInvalidateOnFixedHeight]
      * to learn some strategies on how to improve invalidation due to incoming constraints.
      */
-    val onIncomingConstraints: (InvalidationStrategySpecification.(
-        old: Constraints,
-        new: Constraints
-    ) -> Boolean)? = null,
+    val onIncomingConstraints:
+    (InvalidationStrategySpecification.(old: Constraints, new: Constraints) -> Boolean)? =
+        null,
     /**
      * Lambda to implement invalidation on observed State changes.
      *
-     * [State][androidx.compose.runtime.State] based variables should be read in the block of
-     * this lambda to have [MotionLayout] invalidate whenever any of those variables
-     * have changed.
+     * [State][androidx.compose.runtime.State] based variables should be read in the block of this
+     * lambda to have [MotionLayout] invalidate whenever any of those variables have changed.
      *
      * You may use an assigned value or delegated variable for this purpose:
      * ```
@@ -1636,7 +1598,7 @@ class InvalidationStrategy(
      * See [InvalidationStrategy] to learn more about common strategies regarding invalidation on
      * onObservedStateChange.
      */
-    val onObservedStateChange: (() -> Unit)?,
+    val onObservedStateChange: (() -> Unit)?
 ) {
     private val scope = InvalidationStrategySpecification()
 
@@ -1646,17 +1608,17 @@ class InvalidationStrategy(
      *
      * Returns null to indicate that there's no user logic to handle this type of invalidation.
      */
-    internal val shouldInvalidate: ShouldInvalidateCallback? = kotlin.run {
-        if (onIncomingConstraints == null) {
-            null
-        } else {
-            ShouldInvalidateCallback { old, new ->
-                onIncomingConstraints.let { lambda ->
-                    scope.lambda(old, new)
+    internal val shouldInvalidate: ShouldInvalidateCallback? =
+        kotlin.run {
+            if (onIncomingConstraints == null) {
+                // Nothing to invalidate with, let MotionMeasurer decide
+                null
+            } else {
+                ShouldInvalidateCallback { old, new ->
+                    onIncomingConstraints.let { lambda -> scope.lambda(old, new) }
                 }
             }
         }
-    }
 
     companion object {
         /**
