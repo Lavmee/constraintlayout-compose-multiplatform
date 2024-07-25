@@ -30,6 +30,7 @@ import androidx.constraintlayout.core.state.Dimension
 import androidx.constraintlayout.core.state.Transition
 import androidx.constraintlayout.core.widgets.Optimizer
 
+@ExperimentalMotionApi
 internal class MotionMeasurer(density: Density) : Measurer(density) {
     private val DEBUG = false
     private var lastProgressInInterpolation = 0f
@@ -134,11 +135,13 @@ internal class MotionMeasurer(density: Density) : Measurer(density) {
         }
 
         if (oldConstraints != null && invalidateOnConstraintsCallback != null) {
+            // User is deciding when to invalidate on measuring constraints
             if (invalidateOnConstraintsCallback(oldConstraints!!, constraints)) {
                 // User is deciding when to invalidate
                 return true
             }
         } else {
+            // Default behavior, only take this path if there's no user logic to invalidate
             if ((constraints.hasFixedHeight && !state.sameFixedHeight(constraints.maxHeight)) ||
                 (constraints.hasFixedWidth && !state.sameFixedWidth(constraints.maxWidth))
             ) {
@@ -147,7 +150,7 @@ internal class MotionMeasurer(density: Density) : Measurer(density) {
             }
         }
 
-        // Content recomposed
+        // Content recomposed. Or marked as such by InvalidationStrategy.onObservedStateChange.
         return source == CompositionSource.Content
     }
 
