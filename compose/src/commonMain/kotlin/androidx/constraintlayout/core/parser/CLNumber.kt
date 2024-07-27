@@ -29,7 +29,7 @@ class CLNumber : CLElement {
     }
 
     override fun toJSON(): String {
-        val value = float
+        val value = getFloat()
         val intValue = value.toInt()
         return if (intValue.toFloat() == value) {
             "" + intValue
@@ -41,7 +41,7 @@ class CLNumber : CLElement {
     override fun toFormattedJSON(indent: Int, forceIndent: Int): String {
         val json = StringBuilder()
         addIndent(json, indent)
-        val value = float
+        val value = getFloat()
         val intValue = value.toInt()
         if (intValue.toFloat() == value) {
             json.append(intValue)
@@ -53,7 +53,7 @@ class CLNumber : CLElement {
 
     @Suppress("UNUSED")
     fun isInt(): Boolean {
-        val value = float
+        val value = getFloat()
         val intValue = value.toInt()
         return intValue.toFloat() == value
     }
@@ -66,14 +66,13 @@ class CLNumber : CLElement {
         return mValue.toInt()
     }
 
-    override val float: Float
-        get() {
-            if (mValue.isNaN() && hasContent()) {
-                // If the value is undefined, attempt to define it from the content
-                mValue = content().toFloat()
-            }
-            return mValue
+    override fun getFloat(): Float {
+        if (mValue.isNaN() && hasContent()) {
+            // If the value is undefined, attempt to define it from the content
+            mValue = content().toFloat()
         }
+        return mValue
+    }
 
     // @TODO: add description
     @Suppress("UNUSED")
@@ -87,8 +86,8 @@ class CLNumber : CLElement {
         }
 
         if (other is CLNumber) {
-            val thisFloat = float
-            val otherFloat = other.float
+            val thisFloat = getFloat()
+            val otherFloat = other.getFloat()
             return if (thisFloat.isNaN() && otherFloat.isNaN()) {
                 // Consider equal if both elements have a NaN value
                 true

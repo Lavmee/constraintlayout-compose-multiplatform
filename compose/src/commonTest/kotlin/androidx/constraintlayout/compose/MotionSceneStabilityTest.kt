@@ -29,7 +29,8 @@ class MotionSceneStabilityTest {
             val box1 = createRefFor("box1")
             val box2 = createRefFor("box2")
             defaultTransition(
-                from = constraintSet {
+                from =
+                constraintSet {
                     constrain(box0) {
                         width = Dimension.fillToConstraints
                         height = Dimension.value(20.dp)
@@ -52,7 +53,8 @@ class MotionSceneStabilityTest {
                         box2,
                     )
                 },
-                to = constraintSet {
+                to =
+                constraintSet {
                     constrain(box0) {
                         height = Dimension.fillToConstraints
                         width = Dimension.value(20.dp)
@@ -77,12 +79,8 @@ class MotionSceneStabilityTest {
                 },
             ) {
                 keyAttributes(box1) {
-                    frame(33) {
-                        alpha = 0.25f
-                    }
-                    frame(66) {
-                        alpha = 0.8f
-                    }
+                    frame(33) { alpha = 0.25f }
+                    frame(66) { alpha = 0.8f }
                 }
             }
         }
@@ -90,9 +88,11 @@ class MotionSceneStabilityTest {
         // Same content, slightly different syntax
         assertEquals(
             expected = scene,
-            actual = MotionScene {
+            actual =
+            MotionScene {
                 defaultTransition(
-                    from = constraintSet {
+                    from =
+                    constraintSet {
                         val box0 = createRefFor("box0")
                         val box1 = createRefFor("box1")
                         val box2 = createRefFor("box2")
@@ -118,7 +118,8 @@ class MotionSceneStabilityTest {
                             box2,
                         )
                     },
-                    to = constraintSet {
+                    to =
+                    constraintSet {
                         val box0 = createRefFor("box0")
                         val box1 = createRefFor("box1")
                         val box2 = createRefFor("box2")
@@ -147,12 +148,8 @@ class MotionSceneStabilityTest {
                 ) {
                     val box1 = createRefFor("box1")
                     keyAttributes(box1) {
-                        frame(33) {
-                            alpha = 0.25f
-                        }
-                        frame(66) {
-                            alpha = 0.8f
-                        }
+                        frame(33) { alpha = 0.25f }
+                        frame(66) { alpha = 0.8f }
                     }
                 }
             },

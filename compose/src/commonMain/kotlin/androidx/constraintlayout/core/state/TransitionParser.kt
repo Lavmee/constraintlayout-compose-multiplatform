@@ -353,7 +353,7 @@ class TransitionParser {
                                     customVars[j][i] = CustomVariable(
                                         customName,
                                         TypedValues.Custom.TYPE_FLOAT,
-                                        arrayValues[j].float,
+                                        arrayValues[j].getFloat(),
                                     )
                                 }
                             } else { // since it is not a number switching to custom color parsing
@@ -372,7 +372,7 @@ class TransitionParser {
                     } else {
                         val value = key.value
                         if (value is CLNumber) {
-                            val fValue = value.float
+                            val fValue = value.getFloat()
                             for (j in bundles.indices) {
                                 customVars[j][i] = CustomVariable(
                                     customName,

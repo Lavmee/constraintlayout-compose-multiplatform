@@ -16,11 +16,11 @@
 package androidx.constraintlayout.core.utils
 
 import androidx.constraintlayout.core.LinearSystem
+import androidx.constraintlayout.core.platform.System
 import androidx.constraintlayout.core.widgets.ConstraintWidget
 import androidx.constraintlayout.core.widgets.ConstraintWidget.DimensionBehaviour.MATCH_CONSTRAINT
 import androidx.constraintlayout.core.widgets.ConstraintWidgetContainer
 import androidx.constraintlayout.core.widgets.VirtualLayout
-import kotlin.collections.HashSet
 import kotlin.math.max
 import kotlin.math.sqrt
 
@@ -121,9 +121,9 @@ class GridCore() : VirtualLayout() {
     private var mConstraintMatrix: Array<IntArray>? = null
 
     /**
-     * A String array stores the flags
+     * An int value containing flag information.
      */
-    private var mFlags: IntArray? = null
+    private var mFlags: Int = 0
 
     /**
      * A int matrix to store the span related information
@@ -134,17 +134,6 @@ class GridCore() : VirtualLayout() {
      * Index specify the next span to be handled.
      */
     private var mSpanIndex = 0
-
-    /**
-     * Flag to respect the order of the Widgets when arranging for span
-     */
-    private var mSpansRespectWidgetOrder = false
-
-    /**
-     * Flag to reverse the order of width/height specified in span
-     * e.g., 1:3x2 -> 1:2x3
-     */
-    private var mSubGridByColRow = false
 
     constructor(rows: Int, columns: Int) : this() {
         mRowsSet = rows
@@ -356,17 +345,17 @@ class GridCore() : VirtualLayout() {
 
     /**
      * Get all the flags of a Grid
-     * @return a int array containing all the flags
+     * @return an int value containing flag information
      */
-    fun getFlags(): IntArray? {
+    fun getFlags(): Int {
         return mFlags
     }
 
     /**
      * Set flags of a Grid
-     * @param flags a int array containing all the flags
+     * @param flags an int value containing flag information
      */
-    fun setFlags(flags: IntArray) {
+    fun setFlags(flags: Int) {
         mFlags = flags
     }
 
@@ -376,7 +365,7 @@ class GridCore() : VirtualLayout() {
      * @param spansMatrix a int matrix that contains span information
      */
     private fun handleSpans(spansMatrix: Array<IntArray>) {
-        if (mSpansRespectWidgetOrder) {
+        if (isSpansRespectWidgetOrder()) {
             return
         }
         for (i in spansMatrix.indices) {
@@ -421,7 +410,7 @@ class GridCore() : VirtualLayout() {
                 // no more available position.
                 return
             }
-            if (mSpansRespectWidgetOrder && mSpanMatrix != null) {
+            if (isSpansRespectWidgetOrder() && mSpanMatrix != null) {
                 if (mSpanIndex < mSpanMatrix!!.size && mSpanMatrix!![mSpanIndex][0] == position) {
                     // when invoke getNextPosition this position would be set to false
                     mPositionMatrix!![row][col] = true
@@ -459,7 +448,7 @@ class GridCore() : VirtualLayout() {
         if (mRows < 1 || mColumns < 1) {
             return
         }
-        handleFlags()
+
         if (isUpdate) {
             for (i in 0 until mPositionMatrix!!.size) {
                 for (j in 0 until mPositionMatrix!![0].size) {
@@ -565,7 +554,9 @@ class GridCore() : VirtualLayout() {
     }
 
     /**
-     * parse the weights/pads in the string format into a float array
+     * Parse the weights/pads in the string format into a float array. Note that weight are
+     * normally expected to match the size. But in case they don't, we trim or pad the weight with
+     * trailing 1 to match the expected size.
      *
      * @param size size of the return array
      * @param str  weights/pads in a string format
@@ -577,12 +568,22 @@ class GridCore() : VirtualLayout() {
         }
         val values = str.split(",".toRegex()).dropLastWhile { it.isEmpty() }
             .toTypedArray()
-        if (values.size != size) {
-            return null
-        }
+
+        // Return array must be of the expected size, effectively trimming excess weights
         val arr = FloatArray(size)
         for (i in arr.indices) {
-            arr[i] = values[i].trim { it <= ' ' }.toFloat()
+            if (i < values.size) {
+                try {
+                    arr[i] = values[i].toFloat()
+                } catch (e: Exception) {
+                    System.err.println(("Error parsing `" + values[i]) + "`: " + e.message)
+                    // Fallback to 1f.
+                    arr[i] = 1f
+                }
+            } else {
+                // Fill in missing weights with 1f
+                arr[i] = 1f
+            }
         }
         return arr
     }
@@ -905,7 +906,7 @@ class GridCore() : VirtualLayout() {
                     rowAndCol = indexAndSpan[1].split("x".toRegex()).dropLastWhile { it.isEmpty() }
                         .toTypedArray()
                     spanMatrix[i][0] = indexAndSpan[0].toInt()
-                    if (mSubGridByColRow) {
+                    if (isSubGridByColRow()) {
                         spanMatrix[i][1] = rowAndCol[1].toInt()
                         spanMatrix[i][2] = rowAndCol[0].toInt()
                     } else {
@@ -966,19 +967,15 @@ class GridCore() : VirtualLayout() {
     }
 
     /**
-     * If flags are given, set the values of the corresponding variables to true.
+     * Flag to implicitly reverse the order of width/height specified in spans & skips.
+     * E.g.: 1:3x2 is read as 1:2x3
      */
-    private fun handleFlags() {
-        if (mFlags == null) {
-            return
-        }
-        for (flag in mFlags!!) {
-            when (flag) {
-                SPANS_RESPECT_WIDGET_ORDER -> mSpansRespectWidgetOrder = true
-                SUB_GRID_BY_COL_ROW -> mSubGridByColRow = true
-            }
-        }
-    }
+    private fun isSubGridByColRow(): Boolean = (mFlags and SUB_GRID_BY_COL_ROW) > 0
+
+    /**
+     * Flag to respect the order of the Widgets when arranging for spans.
+     */
+    private fun isSpansRespectWidgetOrder(): Boolean = (mFlags and SPANS_RESPECT_WIDGET_ORDER) > 0
 
     override fun measure(widthMode: Int, widthSize: Int, heightMode: Int, heightSize: Int) {
         super.measure(widthMode, widthSize, heightMode, heightSize)
@@ -993,14 +990,18 @@ class GridCore() : VirtualLayout() {
     }
 
     companion object {
+        // TODO: Handle padding from VirtualLayout. It should represent the padding applied around the
+        //  Grid itself. Usually decreasing its size.
+
         const val HORIZONTAL = 0
         const val VERTICAL = 1
+
+        // Flags using incremental bit positions
         const val SUB_GRID_BY_COL_ROW = 0
         const val SPANS_RESPECT_WIDGET_ORDER = 1
+
         private const val DEFAULT_SIZE = 3 // default rows and columns.
-
         private const val MAX_ROWS = 50 // maximum number of rows can be specified.
-
         private const val MAX_COLUMNS = 50 // maximum number of columns can be specified.
     }
 }

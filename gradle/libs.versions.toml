@@ -1,13 +1,12 @@
 [versions]
 
 androidx-appcompat = "1.7.0"
-androidx-activityCompose = "1.9.0"
+androidx-activityCompose = "1.9.1"
 annotation = "1.8.0-alpha01"
-collection = "1.6.10"
-compose = "1.6.10"
-kotlin = "1.9.24"
-agp = "8.2.2"
-maven-publish = "0.28.0"
+compose = "1.7.0-alpha01"
+kotlin = "2.0.0"
+agp = "8.3.2"
+maven-publish = "0.29.0"
 spotless = "6.25.0"
 
 [libraries]
@@ -15,13 +14,14 @@ spotless = "6.25.0"
 androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "androidx-appcompat" }
 androidx-activityCompose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activityCompose" }
 annotation = { module = "org.jetbrains.compose.annotation-internal:annotation", version.ref = "annotation" }
-collection = { module = "org.jetbrains.compose.collection-internal:collection", version.ref = "collection" }
+collection = { module = "org.jetbrains.compose.collection-internal:collection", version.ref = "compose" }
 kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib", version.ref = "kotlin" }
 
 [plugins]
 
 multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 compose = { id = "org.jetbrains.compose", version.ref = "compose" }
+compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 android-application = { id = "com.android.application", version.ref = "agp" }
 android-library = { id = "com.android.library", version.ref = "agp" }
 maven-publish = { id = "com.vanniktech.maven.publish", version.ref = "maven-publish" }

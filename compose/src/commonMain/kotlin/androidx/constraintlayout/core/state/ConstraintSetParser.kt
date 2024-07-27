@@ -15,6 +15,7 @@
  */
 package androidx.constraintlayout.core.state
 
+import androidx.constraintlayout.core.ext.roundToIntOrZero
 import androidx.constraintlayout.core.motion.utils.TypedBundle
 import androidx.constraintlayout.core.motion.utils.TypedValues
 import androidx.constraintlayout.core.motion.utils.TypedValues.MotionType.Companion.TYPE_QUANTIZE_INTERPOLATOR_TYPE
@@ -28,6 +29,7 @@ import androidx.constraintlayout.core.parser.CLObject
 import androidx.constraintlayout.core.parser.CLParser
 import androidx.constraintlayout.core.parser.CLParsingException
 import androidx.constraintlayout.core.parser.CLString
+import androidx.constraintlayout.core.platform.System
 import androidx.constraintlayout.core.state.helpers.BarrierReference
 import androidx.constraintlayout.core.state.helpers.ChainReference
 import androidx.constraintlayout.core.state.helpers.FlowReference
@@ -109,7 +111,7 @@ class ConstraintSetParser {
                     return mMargins[stringValue]!!.toFloat()
                 }
             } else if (elementName is CLNumber) {
-                return elementName.float
+                return elementName.getFloat()
             }
             return 0f
         }
@@ -229,7 +231,7 @@ class ConstraintSetParser {
                                         state,
                                         elementName,
                                         property,
-                                        value.float,
+                                        value.getFloat(),
                                     )
                                 } else if (value is CLString) {
                                     val color: Long = parseColorString(value.content())
@@ -895,12 +897,12 @@ class ConstraintSetParser {
                     }
 
                     "hGap" -> {
-                        val hGap = element[param].float
+                        val hGap = element[param].getFloat()
                         grid.setHorizontalGaps(toPix(state, hGap))
                     }
 
                     "vGap" -> {
-                        val vGap = element[param].float
+                        val vGap = element[param].getFloat()
                         grid.setVerticalGaps(toPix(state, vGap))
                     }
 
@@ -934,54 +936,54 @@ class ConstraintSetParser {
 
                     "padding" -> {
                         val paddingObject = element[param]
-                        var paddingStart = 0
-                        var paddingTop = 0
-                        var paddingEnd = 0
-                        var paddingBottom = 0
+                        var paddingStart = 0f
+                        var paddingTop = 0f
+                        var paddingEnd = 0f
+                        var paddingBottom = 0f
                         if (paddingObject is CLArray && paddingObject.size() > 1) {
-                            paddingStart = paddingObject.getInt(0)
+                            paddingStart = paddingObject.getInt(0).toFloat()
                             paddingEnd = paddingStart
-                            paddingTop = paddingObject.getInt(1)
+                            paddingTop = paddingObject.getInt(1).toFloat()
                             paddingBottom = paddingTop
                             if (paddingObject.size() > 2) {
-                                paddingEnd = paddingObject.getInt(2)
+                                paddingEnd = paddingObject.getInt(2).toFloat()
                                 paddingBottom = try {
-                                    paddingObject.getInt(3)
+                                    paddingObject.getInt(3).toFloat()
                                 } catch (e: IndexOutOfBoundsException) {
-                                    0
+                                    0f
                                 }
                             }
                         } else {
-                            paddingStart = paddingObject.getInt()
+                            paddingStart = paddingObject.getInt().toFloat()
                             paddingTop = paddingStart
                             paddingEnd = paddingStart
                             paddingBottom = paddingStart
                         }
-                        grid.setPaddingStart(paddingStart)
-                        grid.setPaddingTop(paddingTop)
-                        grid.setPaddingEnd(paddingEnd)
-                        grid.setPaddingBottom(paddingBottom)
+                        grid.setPaddingStart(toPix(state, paddingStart).roundToIntOrZero())
+                        grid.setPaddingTop(toPix(state, paddingTop).roundToIntOrZero())
+                        grid.setPaddingEnd(toPix(state, paddingEnd).roundToIntOrZero())
+                        grid.setPaddingBottom(toPix(state, paddingBottom).roundToIntOrZero())
                     }
 
                     "flags" -> {
-                        var flags: String? = element[param].content()
-                        if (flags != null && flags.length > 0) {
+                        var flagValue = 0
+                        var flags = ""
+                        try {
+                            val obj = element[param]
+                            if (obj is CLNumber) {
+                                flagValue = obj.getInt()
+                            } else {
+                                flags = obj.content()
+                            }
+                        } catch (ex: Exception) {
+                            System.err.println("Error parsing grid flags $ex")
+                        }
+
+                        if (flags != null && !flags.isEmpty()) {
+                            // In older APIs, the flags may still be defined as a String
                             grid.setFlags(flags)
                         } else {
-                            val flagArray = element.getArrayOrNull(param)
-                            flags = ""
-                            if (flagArray != null) {
-                                var i = 0
-                                while (i < flagArray.size()) {
-                                    val flag = flagArray[i].content()
-                                    flags += flag
-                                    if (i != flagArray.size() - 1) {
-                                        flags += "|"
-                                    }
-                                    i++
-                                }
-                                grid.setFlags(flags)
-                            }
+                            grid.setFlags(flagValue)
                         }
                     }
 
@@ -1107,33 +1109,33 @@ class ConstraintSetParser {
 
                     "padding" -> {
                         val paddingObject = element[param]
-                        var paddingLeft = 0
-                        var paddingTop = 0
-                        var paddingRight = 0
-                        var paddingBottom = 0
+                        var paddingLeft = 0f
+                        var paddingTop = 0f
+                        var paddingRight = 0f
+                        var paddingBottom = 0f
                         if (paddingObject is CLArray && paddingObject.size() > 1) {
-                            paddingLeft = paddingObject.getInt(0)
+                            paddingLeft = paddingObject.getInt(0).toFloat()
                             paddingRight = paddingLeft
-                            paddingTop = paddingObject.getInt(1)
+                            paddingTop = paddingObject.getInt(1).toFloat()
                             paddingBottom = paddingTop
                             if (paddingObject.size() > 2) {
-                                paddingRight = paddingObject.getInt(2)
+                                paddingRight = paddingObject.getInt(2).toFloat()
                                 try {
-                                    paddingBottom = paddingObject.getInt(3)
+                                    paddingBottom = paddingObject.getInt(3).toFloat()
                                 } catch (e: IndexOutOfBoundsException) {
-                                    paddingBottom = 0
+                                    paddingBottom = 0F
                                 }
                             }
                         } else {
-                            paddingLeft = paddingObject.getInt()
+                            paddingLeft = paddingObject.getInt().toFloat()
                             paddingTop = paddingLeft
                             paddingRight = paddingLeft
                             paddingBottom = paddingLeft
                         }
-                        flow!!.setPaddingLeft(paddingLeft)
-                        flow.setPaddingTop(paddingTop)
-                        flow.setPaddingRight(paddingRight)
-                        flow.setPaddingBottom(paddingBottom)
+                        flow!!.setPaddingLeft(toPix(state, paddingLeft).roundToIntOrZero())
+                        flow.setPaddingTop(toPix(state, paddingTop).roundToIntOrZero())
+                        flow.setPaddingRight(toPix(state, paddingRight).roundToIntOrZero())
+                        flow.setPaddingBottom(toPix(state, paddingBottom).roundToIntOrZero())
                     }
 
                     "vAlign" -> {
@@ -1167,7 +1169,7 @@ class ConstraintSetParser {
                                 vLastBiasValue = vBiasObject.getFloat(2)
                             }
                         } else {
-                            vBiasValue = vBiasObject.float
+                            vBiasValue = vBiasObject.getFloat()
                         }
                         try {
                             flow!!.verticalBias(vBiasValue)
@@ -1193,7 +1195,7 @@ class ConstraintSetParser {
                                 hLastBiasValue = hBiasObject.getFloat(2)
                             }
                         } else {
-                            hBiasValue = hBiasObject.float
+                            hBiasValue = hBiasObject.getFloat()
                         }
                         try {
                             flow!!.horizontalBias(hBiasValue)
@@ -1664,7 +1666,7 @@ class ConstraintSetParser {
             for (property in properties) {
                 val value = json[property]
                 if (value is CLNumber) {
-                    reference.addCustomFloat(property, value.float)
+                    reference.addCustomFloat(property, value.getFloat())
                 } else if (value is CLString) {
                     val it: Long = parseColorString(value.content())
                     if (it != -1L) {
@@ -1987,7 +1989,7 @@ class ConstraintSetParser {
                 val minEl = obj.getOrNull("min")
                 if (minEl != null) {
                     if (minEl is CLNumber) {
-                        val min = minEl.float
+                        val min = minEl.getFloat()
                         dimension.min(state.convertDimension(dpToPixels.toPixels(min)))
                     } else if (minEl is CLString) {
                         dimension.min(Dimension.WRAP_DIMENSION)
@@ -1996,7 +1998,7 @@ class ConstraintSetParser {
                 val maxEl = obj.getOrNull("max")
                 if (maxEl != null) {
                     if (maxEl is CLNumber) {
-                        val max = maxEl.float
+                        val max = maxEl.getFloat()
                         dimension.max(state.convertDimension(dpToPixels.toPixels(max)))
                     } else if (maxEl is CLString) {
                         dimension.max(Dimension.WRAP_DIMENSION)

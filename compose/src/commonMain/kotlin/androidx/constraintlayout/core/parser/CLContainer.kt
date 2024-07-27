@@ -132,7 +132,7 @@ open class CLContainer : CLElement {
     @Throws(CLParsingException::class)
     fun getFloat(name: String): Float {
         val element: CLElement = get(name)
-        return element.float
+        return element.getFloat()
     }
 
     @Throws(CLParsingException::class)
@@ -249,7 +249,7 @@ open class CLContainer : CLElement {
     fun getFloatOrNaN(name: String?): Float {
         val element = getOrNull(name)
         return if (element is CLNumber) {
-            element.float
+            element.getFloat()
         } else {
             Float.NaN
         }
@@ -276,7 +276,7 @@ open class CLContainer : CLElement {
     @Throws(CLParsingException::class)
     fun getFloat(index: Int): Float {
         val element: CLElement = get(index)
-        return element.float
+        return element.getFloat()
     }
 
     @Throws(CLParsingException::class)

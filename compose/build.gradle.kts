@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.targets.js.dsl.ExperimentalWasmDsl
 
 // Copyright 2023, Sergei Gagarin and the project contributors
@@ -6,26 +8,26 @@ import org.jetbrains.kotlin.gradle.targets.js.dsl.ExperimentalWasmDsl
 plugins {
     alias(libs.plugins.multiplatform)
     alias(libs.plugins.compose)
+    alias(libs.plugins.compose.compiler)
     alias(libs.plugins.android.library)
     alias(libs.plugins.maven.publish)
 }
 
+val extraJvmTarget = rootProject.extra.get("jvmTarget") as String
+
+@OptIn(ExperimentalKotlinGradlePluginApi::class)
 kotlin {
     kotlin.applyDefaultHierarchyTemplate()
 
     androidTarget {
         publishLibraryVariants("release")
-        compilations.all {
-            kotlinOptions {
-                jvmTarget = rootProject.extra.get("jvmTarget") as String
-            }
+        compilerOptions {
+            jvmTarget.set(JvmTarget.fromTarget(extraJvmTarget))
         }
     }
     jvm {
-        compilations.all {
-            kotlinOptions {
-                jvmTarget = rootProject.extra.get("jvmTarget") as String
-            }
+        compilerOptions {
+            jvmTarget.set(JvmTarget.fromTarget(extraJvmTarget))
         }
     }
 
@@ -54,8 +56,10 @@ kotlin {
 
     targets.configureEach {
         compilations.configureEach {
-            compilerOptions.configure {
-                freeCompilerArgs.add("-Xexpect-actual-classes")
+            compileTaskProvider.configure {
+                compilerOptions {
+                    freeCompilerArgs.add("-Xexpect-actual-classes")
+                }
             }
         }
     }
@@ -79,15 +83,32 @@ kotlin {
             }
         }
 
+        val nonAndroid by creating {
+            dependsOn(commonMain)
+        }
+
         val jvmCommonMain by creating {
             dependsOn(commonMain)
         }
 
         val jvmMain by getting {
             dependsOn(jvmCommonMain)
+            dependsOn(nonAndroid)
         }
         val androidMain by getting {
             dependsOn(jvmCommonMain)
+        }
+
+        val nativeMain by getting {
+            dependsOn(nonAndroid)
+        }
+
+        val wasmJsMain by getting {
+            dependsOn(nonAndroid)
+        }
+
+        val jsMain by getting {
+            dependsOn(nonAndroid)
         }
 
         val commonTest by getting {

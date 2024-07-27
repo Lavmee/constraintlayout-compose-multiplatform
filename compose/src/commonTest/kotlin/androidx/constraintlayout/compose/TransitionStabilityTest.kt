@@ -24,30 +24,24 @@ import kotlin.test.assertNotEquals
 class TransitionStabilityTest {
     @Test
     fun testTransitionDslEquality() {
-        val transition = Transition("start", "end") {
-            val a = createRefFor("a")
-            keyAttributes(a) {
-                frame(20) {
-                    alpha = 0.2f
-                }
-                frame(80) {
-                    alpha = 0.8f
+        val transition =
+            Transition("start", "end") {
+                val a = createRefFor("a")
+                keyAttributes(a) {
+                    frame(20) { alpha = 0.2f }
+                    frame(80) { alpha = 0.8f }
                 }
             }
-        }
 
         // Transitions should be equivalent
         assertEquals(
             expected = transition,
-            actual = Transition("start", "end") {
+            actual =
+            Transition("start", "end") {
                 val a = createRefFor("a")
                 keyAttributes(a) {
-                    frame(20) {
-                        alpha = 0.2f
-                    }
-                    frame(80) {
-                        alpha = 0.8f
-                    }
+                    frame(20) { alpha = 0.2f }
+                    frame(80) { alpha = 0.8f }
                 }
             },
         )
@@ -55,15 +49,12 @@ class TransitionStabilityTest {
         // Given transition is different
         assertNotEquals(
             illegal = transition,
-            actual = Transition("start", "end") {
+            actual =
+            Transition("start", "end") {
                 val a = createRefFor("a")
                 keyAttributes(a) {
-                    frame(20) {
-                        alpha = 0.2f
-                    }
-                    frame(80) {
-                        alpha = 0.85f
-                    }
+                    frame(20) { alpha = 0.2f }
+                    frame(80) { alpha = 0.85f }
                 }
             },
         )
@@ -71,8 +62,9 @@ class TransitionStabilityTest {
 
     @Test
     fun testTransitionJsonEquality() {
-        val transition = Transition(
-            """
+        val transition =
+            Transition(
+                """
             {
               from: 'start',
               to: 'end',
@@ -86,8 +78,9 @@ class TransitionStabilityTest {
                 ],
               }
             }
-            """.trimIndent(),
-        )
+        """
+                    .trimIndent(),
+            )
 
         assertEquals(
             transition,
@@ -106,7 +99,8 @@ class TransitionStabilityTest {
                 ],
               }
             }
-                """.trimIndent(),
+            """
+                    .trimIndent(),
             ),
         )
     }
