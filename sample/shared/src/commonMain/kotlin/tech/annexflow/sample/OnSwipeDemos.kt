@@ -41,6 +41,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.DebugFlags
 import androidx.constraintlayout.compose.Dimension
+import androidx.constraintlayout.compose.ExperimentalMotionApi
 import androidx.constraintlayout.compose.MotionLayout
 import androidx.constraintlayout.compose.MotionScene
 import androidx.constraintlayout.compose.OnSwipe
@@ -54,6 +55,7 @@ import androidx.constraintlayout.compose.layoutId
  * Shows how to define swipe-driven transitions with `KeyPositions` and custom colors using the
  * JSON5 syntax for MotionLayout.
  */
+@OptIn(ExperimentalMotionApi::class)
 @Composable
 fun SimpleOnSwipe() {
     var mode by remember {
@@ -154,6 +156,7 @@ fun SimpleOnSwipe() {
     }
 }
 
+@OptIn(ExperimentalMotionApi::class)
 @Composable
 fun MultiSwipeDsl() {
     val modes = remember { arrayOf(SwipeMode.Velocity, SwipeMode.Spring) }
@@ -199,6 +202,7 @@ fun MultiSwipeDsl() {
     }
 }
 
+@OptIn(ExperimentalMotionApi::class)
 @Stable
 @Immutable
 private data class SimpleSwipeConfig(
@@ -207,6 +211,7 @@ private data class SimpleSwipeConfig(
     val touchUp: SwipeTouchUp,
 )
 
+@OptIn(ExperimentalMotionApi::class)
 @Composable
 private fun SimpleSwipeDsl(config: SimpleSwipeConfig) {
     val mode = config.mode

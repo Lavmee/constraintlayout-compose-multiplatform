@@ -27,6 +27,7 @@ import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.DebugFlags
 import androidx.constraintlayout.compose.Dimension
+import androidx.constraintlayout.compose.ExperimentalMotionApi
 import androidx.constraintlayout.compose.MotionLayout
 import androidx.constraintlayout.compose.MotionScene
 import androidx.constraintlayout.compose.OnSwipe
@@ -42,6 +43,7 @@ import androidx.constraintlayout.compose.SwipeSide
  *
  * The animation is driven with an swipe gesture defined by [OnSwipe].
  */
+@OptIn(ExperimentalMotionApi::class)
 @Composable
 internal fun CustomColorInKeyAttributesDemo() {
     val boxId = "box"

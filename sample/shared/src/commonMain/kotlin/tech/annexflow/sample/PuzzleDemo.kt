@@ -39,6 +39,7 @@ import androidx.constraintlayout.compose.Arc
 import androidx.constraintlayout.compose.ConstraintLayoutBaseScope
 import androidx.constraintlayout.compose.DebugFlags
 import androidx.constraintlayout.compose.Dimension
+import androidx.constraintlayout.compose.ExperimentalMotionApi
 import androidx.constraintlayout.compose.MotionLayout
 import androidx.constraintlayout.compose.MotionScene
 import androidx.constraintlayout.compose.Wrap
@@ -55,6 +56,7 @@ import androidx.constraintlayout.compose.Wrap
  *
  * @see PuzzlePiece
  */
+@OptIn(ExperimentalMotionApi::class)
 @Composable
 internal fun AnimatedPuzzlePiecesDemo() {
     val grid = 5

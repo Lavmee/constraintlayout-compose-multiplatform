@@ -48,6 +48,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.DebugFlags
 import androidx.constraintlayout.compose.Dimension
+import androidx.constraintlayout.compose.ExperimentalMotionApi
 import androidx.constraintlayout.compose.MotionLayout
 import androidx.constraintlayout.compose.MotionScene
 import kotlin.random.Random
@@ -57,6 +58,7 @@ import kotlin.random.Random
  *
  * Where the MotionScene is defined using the DSL.
  */
+@OptIn(ExperimentalMotionApi::class)
 @Composable
 internal fun MotionInLazyColumnDslDemo() {
     val scene = MotionScene {
@@ -179,6 +181,7 @@ internal fun AnimateGraphsOnRevealDemo() {
     }
 }
 
+@OptIn(ExperimentalMotionApi::class)
 @Composable
 private fun DynamicGraph(
     values: List<Float> = listOf<Float>(12f, 32f, 21f, 32f, 2f),

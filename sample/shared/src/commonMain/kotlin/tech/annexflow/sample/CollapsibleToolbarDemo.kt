@@ -48,6 +48,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.DebugFlags
 import androidx.constraintlayout.compose.Dimension
+import androidx.constraintlayout.compose.ExperimentalMotionApi
 import androidx.constraintlayout.compose.MotionLayout
 import androidx.constraintlayout.compose.MotionScene
 
@@ -68,6 +69,7 @@ import androidx.constraintlayout.compose.MotionScene
  * When the Column is at the start the MotionLayout sits on top of the Spacer. As the user scrolls
  * up the MotionLayout shrinks with the scrolling Spacer then, stops.
  */
+@OptIn(ExperimentalMotionApi::class)
 @Composable
 internal fun ToolBarDslDemo() {
     val scroll = rememberScrollState(0)
@@ -184,6 +186,7 @@ internal fun ToolBarDslDemo() {
  * When the onPreScroll of the NestedScrollConnection is called It returns the amount of "offset" to
  * absorb and uses the offset to collapse the MotionLayout.
  */
+@OptIn(ExperimentalMotionApi::class)
 @Composable
 internal fun ToolBarLazyDslDemo() {
     val big = 250.dp
