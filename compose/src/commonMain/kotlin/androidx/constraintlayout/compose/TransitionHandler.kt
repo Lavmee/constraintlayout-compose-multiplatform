@@ -23,20 +23,20 @@ import androidx.compose.ui.unit.Velocity
 
 /**
  * Helper class that handles the interactions between Compose and
- * [androidx.constraintlayout.core.state.Transition].
+ * [tech.annexflow.constraintlayout.core.state.Transition].
  */
 @ExperimentalMotionApi
 internal class TransitionHandler(
     private val motionMeasurer: MotionMeasurer,
     private val motionProgress: MutableFloatState,
 ) {
-    private val transition: androidx.constraintlayout.core.state.Transition
+    private val transition: tech.annexflow.constraintlayout.core.state.Transition
         get() = motionMeasurer.transition
 
     /**
      * Whether we consume the rest of the drag for OnSwipe.
      *
-     * @see androidx.constraintlayout.core.state.Transition.isFirstDownAccepted
+     * @see tech.annexflow.constraintlayout.core.state.Transition.isFirstDownAccepted
      */
     fun onAcceptFirstDownForOnSwipe(offset: Offset) =
         transition.isFirstDownAccepted(offset.x, offset.y)

@@ -21,10 +21,10 @@ import androidx.constraintlayout.compose.extra.javaKlass
 import androidx.constraintlayout.compose.platform.Log
 import androidx.constraintlayout.compose.platform.annotation.Language
 import androidx.constraintlayout.compose.platform.annotation.SuppressLint
-import androidx.constraintlayout.core.parser.CLObject
-import androidx.constraintlayout.core.parser.CLParser
-import androidx.constraintlayout.core.parser.CLParsingException
-import androidx.constraintlayout.core.state.TransitionParser
+import tech.annexflow.constraintlayout.core.parser.CLObject
+import tech.annexflow.constraintlayout.core.parser.CLParser
+import tech.annexflow.constraintlayout.core.parser.CLParsingException
+import tech.annexflow.constraintlayout.core.state.TransitionParser
 
 /** Defines interpolation parameters between two [ConstraintSet]s. */
 @ExperimentalMotionApi
@@ -64,7 +64,7 @@ fun Transition(@Language("json5") content: String): Transition {
 internal class TransitionImpl(private val parsedTransition: CLObject) : Transition {
 
     /** Applies all Transition properties to [transition]. */
-    fun applyAllTo(transition: androidx.constraintlayout.core.state.Transition) {
+    fun applyAllTo(transition: tech.annexflow.constraintlayout.core.state.Transition) {
         try {
             TransitionParser.parse(parsedTransition, transition)
         } catch (e: CLParsingException) {
@@ -76,7 +76,7 @@ internal class TransitionImpl(private val parsedTransition: CLObject) : Transiti
      * Applies only the KeyFrame related properties (KeyCycles, KeyAttributes, KeyPositions) to
      * [transition], which effectively sets the respective parameters for each WidgetState.
      */
-    fun applyKeyFramesTo(transition: androidx.constraintlayout.core.state.Transition) {
+    fun applyKeyFramesTo(transition: tech.annexflow.constraintlayout.core.state.Transition) {
         try {
             TransitionParser.parseKeyFrames(parsedTransition, transition)
         } catch (e: CLParsingException) {
