@@ -16,7 +16,7 @@
 
 package androidx.constraintlayout.compose
 
-import androidx.annotation.IntRange
+import androidx.constraintlayout.compose.shaded.androidx.annotation.IntRange
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.Stable
 import androidx.compose.ui.layout.FirstBaseline

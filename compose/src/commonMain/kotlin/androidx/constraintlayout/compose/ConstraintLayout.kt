@@ -16,7 +16,7 @@
 
 package androidx.constraintlayout.compose
 
-import androidx.collection.IntIntPair
+import androidx.constraintlayout.compose.shaded.androidx.collection.IntIntPair
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.AnimationSpec
 import androidx.compose.animation.core.tween

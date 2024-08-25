@@ -16,7 +16,7 @@
 
 package androidx.constraintlayout.compose
 
-import androidx.annotation.FloatRange
+import androidx.constraintlayout.compose.shaded.androidx.annotation.FloatRange
 import androidx.compose.foundation.layout.LayoutScopeMarker
 import androidx.compose.runtime.Stable
 import androidx.compose.ui.graphics.TransformOrigin

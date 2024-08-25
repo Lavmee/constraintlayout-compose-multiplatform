@@ -16,8 +16,8 @@
 
 package androidx.constraintlayout.compose
 
-import androidx.annotation.FloatRange
-import androidx.annotation.IntRange
+import androidx.constraintlayout.compose.shaded.androidx.annotation.FloatRange
+import androidx.constraintlayout.compose.shaded.androidx.annotation.IntRange
 import androidx.compose.foundation.layout.LayoutScopeMarker
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
