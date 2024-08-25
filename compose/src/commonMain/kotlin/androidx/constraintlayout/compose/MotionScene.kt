@@ -22,10 +22,10 @@ import androidx.compose.runtime.remember
 import androidx.constraintlayout.compose.platform.Log
 import androidx.constraintlayout.compose.platform.annotation.Language
 import androidx.constraintlayout.compose.platform.annotation.SuppressLint
-import androidx.constraintlayout.core.parser.CLParser
-import androidx.constraintlayout.core.parser.CLParsingException
-import androidx.constraintlayout.core.state.ConstraintSetParser
-import androidx.constraintlayout.core.state.CoreMotionScene
+import tech.annexflow.constraintlayout.core.parser.CLParser
+import tech.annexflow.constraintlayout.core.parser.CLParsingException
+import tech.annexflow.constraintlayout.core.state.ConstraintSetParser
+import tech.annexflow.constraintlayout.core.state.CoreMotionScene
 
 /** Information for MotionLayout to animate between multiple [ConstraintSet]s. */
 @ExperimentalMotionApi

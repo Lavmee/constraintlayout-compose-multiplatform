@@ -20,8 +20,8 @@ import android.graphics.DashPathEffect
 import android.graphics.Paint
 import android.graphics.Path
 import android.graphics.Rect
-import androidx.constraintlayout.core.motion.Motion
-import androidx.constraintlayout.core.motion.MotionPaths
+import tech.annexflow.constraintlayout.core.motion.Motion
+import tech.annexflow.constraintlayout.core.motion.MotionPaths
 
 internal class MotionRenderDebug(textSize: Float) {
     var mPoints: FloatArray? = null
