@@ -35,14 +35,14 @@ import androidx.compose.ui.graphics.drawscope.translate
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.layout.layoutId
-import androidx.constraintlayout.compose.Arc
-import androidx.constraintlayout.compose.ConstraintLayoutBaseScope
-import androidx.constraintlayout.compose.DebugFlags
-import androidx.constraintlayout.compose.Dimension
-import androidx.constraintlayout.compose.ExperimentalMotionApi
-import androidx.constraintlayout.compose.MotionLayout
-import androidx.constraintlayout.compose.MotionScene
-import androidx.constraintlayout.compose.Wrap
+import tech.annexflow.constraintlayout.compose.Arc
+import tech.annexflow.constraintlayout.compose.ConstraintLayoutBaseScope
+import tech.annexflow.constraintlayout.compose.DebugFlags
+import tech.annexflow.constraintlayout.compose.Dimension
+import tech.annexflow.constraintlayout.compose.ExperimentalMotionApi
+import tech.annexflow.constraintlayout.compose.MotionLayout
+import tech.annexflow.constraintlayout.compose.MotionScene
+import tech.annexflow.constraintlayout.compose.Wrap
 
 /**
  * Shows how to animate moving pieces of a puzzle using MotionLayout.

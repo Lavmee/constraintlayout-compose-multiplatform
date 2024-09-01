@@ -39,17 +39,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.constraintlayout.compose.DebugFlags
-import androidx.constraintlayout.compose.Dimension
-import androidx.constraintlayout.compose.ExperimentalMotionApi
-import androidx.constraintlayout.compose.MotionLayout
-import androidx.constraintlayout.compose.MotionScene
-import androidx.constraintlayout.compose.OnSwipe
-import androidx.constraintlayout.compose.SwipeDirection
-import androidx.constraintlayout.compose.SwipeMode
-import androidx.constraintlayout.compose.SwipeSide
-import androidx.constraintlayout.compose.SwipeTouchUp
-import androidx.constraintlayout.compose.layoutId
+import tech.annexflow.constraintlayout.compose.DebugFlags
+import tech.annexflow.constraintlayout.compose.Dimension
+import tech.annexflow.constraintlayout.compose.ExperimentalMotionApi
+import tech.annexflow.constraintlayout.compose.MotionLayout
+import tech.annexflow.constraintlayout.compose.MotionScene
+import tech.annexflow.constraintlayout.compose.OnSwipe
+import tech.annexflow.constraintlayout.compose.SwipeDirection
+import tech.annexflow.constraintlayout.compose.SwipeMode
+import tech.annexflow.constraintlayout.compose.SwipeSide
+import tech.annexflow.constraintlayout.compose.SwipeTouchUp
+import tech.annexflow.constraintlayout.compose.layoutId
 
 /**
  * Shows how to define swipe-driven transitions with `KeyPositions` and custom colors using the

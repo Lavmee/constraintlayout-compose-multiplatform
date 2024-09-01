@@ -33,11 +33,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.unit.dp
-import androidx.constraintlayout.compose.ConstraintLayout
-import androidx.constraintlayout.compose.ConstraintLayoutBaseScope
-import androidx.constraintlayout.compose.ConstraintSet
-import androidx.constraintlayout.compose.ConstraintSetScope
-import androidx.constraintlayout.compose.Dimension
+import tech.annexflow.constraintlayout.compose.ConstraintLayout
+import tech.annexflow.constraintlayout.compose.ConstraintLayoutBaseScope
+import tech.annexflow.constraintlayout.compose.ConstraintSet
+import tech.annexflow.constraintlayout.compose.ConstraintSetScope
+import tech.annexflow.constraintlayout.compose.Dimension
 
 /**
  * Shows the usage of `animateChanges = true` with a chain that changes orientation.

@@ -117,7 +117,7 @@ kotlin {
 }
 
 android {
-    namespace = "androidx.constraintlayout.compose"
+    namespace = "tech.annexflow.constraintlayout.compose"
     compileSdk = 34
     defaultConfig {
         minSdk = 21

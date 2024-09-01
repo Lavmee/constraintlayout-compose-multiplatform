@@ -37,11 +37,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.unit.dp
-import androidx.constraintlayout.compose.ChainStyle
-import androidx.constraintlayout.compose.DebugFlags
-import androidx.constraintlayout.compose.ExperimentalMotionApi
-import androidx.constraintlayout.compose.MotionLayout
-import androidx.constraintlayout.compose.MotionScene
+import tech.annexflow.constraintlayout.compose.ChainStyle
+import tech.annexflow.constraintlayout.compose.DebugFlags
+import tech.annexflow.constraintlayout.compose.ExperimentalMotionApi
+import tech.annexflow.constraintlayout.compose.MotionLayout
+import tech.annexflow.constraintlayout.compose.MotionScene
 
 private const val STAGGERED_VALUE = 0.4f
 
