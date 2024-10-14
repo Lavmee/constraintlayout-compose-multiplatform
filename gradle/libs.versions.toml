@@ -6,7 +6,7 @@ annotation = "1.8.0-alpha01"
 compose = "1.7.0-alpha03"
 kotlin = "2.0.0"
 agp = "8.3.2"
-maven-publish = "0.29.0"
+maven-publish = "0.30.0"
 spotless = "6.25.0"
 
 [libraries]
