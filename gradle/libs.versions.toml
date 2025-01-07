@@ -7,7 +7,7 @@ compose = "1.7.0"
 kotlin = "2.0.21"
 agp = "8.5.2"
 maven-publish = "0.30.0"
-spotless = "6.25.0"
+spotless = "7.0.1"
 
 [libraries]
 
