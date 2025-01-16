@@ -1,7 +1,7 @@
 [versions]
 
 androidx-appcompat = "1.7.0"
-androidx-activityCompose = "1.9.3"
+androidx-activityCompose = "1.10.0"
 annotation = "1.9.0"
 compose = "1.7.0"
 kotlin = "2.0.21"
