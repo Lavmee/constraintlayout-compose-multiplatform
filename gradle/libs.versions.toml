@@ -3,7 +3,7 @@
 androidx-appcompat = "1.7.0"
 androidx-activityCompose = "1.9.3"
 annotation = "1.9.0"
-compose = "1.7.0"
+compose = "1.8.0+dev2018"
 kotlin = "2.0.21"
 agp = "8.5.2"
 maven-publish = "0.30.0"
