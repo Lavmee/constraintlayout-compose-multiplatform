@@ -113,6 +113,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.launch
+import kotlin.experimental.ExperimentalObjCRefinement
+import kotlin.native.HiddenFromObjC
 
 /**
  * Layout that positions its children according to the constraints between them.
@@ -2251,6 +2253,8 @@ internal fun Placeable.PlacementScope.placeWithFrameTransform(
     }
 }
 
+@OptIn(ExperimentalObjCRefinement::class)
+@HiddenFromObjC
 object DesignElements {
     var map = HashMap<String, @Composable (String, HashMap<String, String>) -> Unit>()
 
