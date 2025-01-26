@@ -41,7 +41,7 @@ import androidx.constraintlayout.core.widgets.ConstraintWidgetContainer
 import kotlin.math.roundToInt
 
 open class State {
-    private var mDpToPixel: CorePixelDp? = null
+    private lateinit var mDpToPixel: CorePixelDp
     private var mIsLtr = true
     protected var mReferences = HashMap<Any, Reference>()
     protected var mHelperReferences = HashMap<Any, HelperReference>()
@@ -193,14 +193,14 @@ open class State {
         mReferences[PARENT] = mParent
     }
 
-    fun getDpToPixel(): CorePixelDp? {
+    fun getDpToPixel(): CorePixelDp {
         return mDpToPixel
     }
 
     /**
      * Set the function that converts dp to Pixels
      */
-    fun setDpToPixel(dpToPixel: CorePixelDp?) {
+    fun setDpToPixel(dpToPixel: CorePixelDp) {
         mDpToPixel = dpToPixel
     }
 
@@ -250,7 +250,7 @@ open class State {
      *
      * @param value the object to convert from
      */
-    open fun convertDimension(value: Any?): Int {
+    open fun convertDimension(value: Any): Int {
         if (value is Float) {
             return value.roundToInt()
         }
@@ -264,7 +264,7 @@ open class State {
     /**
      * Create a new reference given a key.
      */
-    fun createConstraintReference(key: Any?): ConstraintReference {
+    fun createConstraintReference(key: Any): ConstraintReference {
         return ConstraintReference(this)
     }
 
@@ -300,23 +300,20 @@ open class State {
         return this
     }
 
-    fun reference(key: Any?): Reference? {
+    fun reference(key: Any): Reference? {
         return mReferences[key]
     }
 
     // @TODO: add description
-    fun constraints(key: Any?): ConstraintReference? {
+    fun constraints(key: Any): ConstraintReference {
         var reference = mReferences[key]
         if (reference == null) {
             reference = createConstraintReference(key)
-            mReferences[key!!] = reference
+            mReferences[key] = reference
             reference.setKey(key)
         }
-        return if (reference is ConstraintReference) {
-            reference
-        } else {
-            null
-        }
+
+        return reference as ConstraintReference
     }
 
     private var mNumHelpers = 0
@@ -373,17 +370,17 @@ open class State {
     }
 
     // @TODO: add description
-    fun horizontalGuideline(key: Any?): GuidelineReference? {
+    fun horizontalGuideline(key: Any): GuidelineReference? {
         return guideline(key, ConstraintWidget.HORIZONTAL)
     }
 
     // @TODO: add description
-    fun verticalGuideline(key: Any?): GuidelineReference? {
+    fun verticalGuideline(key: Any): GuidelineReference? {
         return guideline(key, ConstraintWidget.VERTICAL)
     }
 
     // @TODO: add description
-    fun guideline(key: Any?, orientation: Int): GuidelineReference? {
+    fun guideline(key: Any, orientation: Int): GuidelineReference? {
         val reference: ConstraintReference? = constraints(key)
         if (reference?.getFacade() == null ||
             reference.getFacade() !is GuidelineReference
@@ -397,7 +394,7 @@ open class State {
     }
 
     // @TODO: add description
-    fun barrier(key: Any?, direction: Direction): BarrierReference? {
+    fun barrier(key: Any, direction: Direction): BarrierReference? {
         val reference: ConstraintReference? = constraints(key)
         if (reference?.getFacade() == null || reference.getFacade() !is BarrierReference) {
             val barrierReference = BarrierReference(this)
@@ -435,9 +432,9 @@ open class State {
      * @param vertical is it a vertical or horizontal flow
      * @return a FlowReference
      */
-    fun getFlow(key: Any?, vertical: Boolean): FlowReference? {
-        val reference: ConstraintReference? = constraints(key)
-        if (reference?.getFacade() == null || reference.getFacade() !is FlowReference) {
+    fun getFlow(key: Any, vertical: Boolean): FlowReference {
+        val reference: ConstraintReference = constraints(key)
+        if (reference.getFacade() == null || reference.getFacade() !is FlowReference) {
             val flowReference: FlowReference =
                 if (vertical) {
                     FlowReference(this, VERTICAL_FLOW)
@@ -447,9 +444,9 @@ open class State {
                         HORIZONTAL_FLOW,
                     )
                 }
-            reference?.setFacade(flowReference)
+            reference.setFacade(flowReference)
         }
-        return reference?.getFacade() as FlowReference?
+        return reference.getFacade() as FlowReference
     }
 
     // @TODO: add description
@@ -538,36 +535,29 @@ open class State {
     // @TODO: add description
     fun directMapping() {
         for (key in mReferences.keys) {
-            val ref: Reference =
-                constraints(key) ?: continue
-            val reference: ConstraintReference = ref as ConstraintReference
+            val reference: ConstraintReference = constraints(key)
             reference.setView(key)
         }
     }
 
     // @TODO: add description
-    fun map(key: Any?, view: Any) {
-        val ref: ConstraintReference? = constraints(key)
-        if (ref != null) {
-            ref.setView(view)
-        }
+    fun map(key: Any, view: Any) {
+        val ref: ConstraintReference = constraints(key)
+        ref.setView(view)
     }
 
     // @TODO: add description
     fun setTag(key: String, tag: String) {
-        val ref: Reference? = constraints(key)
-        if (ref is ConstraintReference) {
-            val reference: ConstraintReference = ref
-            reference.setTag(tag)
-            var list: ArrayList<String>? = null
-            if (!mTags.containsKey(tag)) {
-                list = ArrayList()
-                mTags[tag] = list
-            } else {
-                list = mTags[tag]
-            }
-            list!!.add(key)
+        val reference: ConstraintReference = constraints(key)
+        reference.setTag(tag)
+        var list: ArrayList<String>? = null
+        if (!mTags.containsKey(tag)) {
+            list = ArrayList()
+            mTags[tag] = list
+        } else {
+            list = mTags[tag]
         }
+        list!!.add(key)
     }
 
     // @TODO: add description
@@ -593,7 +583,7 @@ open class State {
                 if (constraintReference == null) {
                     constraintReference = constraints(key)
                 }
-                constraintReference!!.setConstraintWidget(helperWidget)
+                constraintReference.setConstraintWidget(helperWidget)
             }
         }
         for (key in mReferences.keys) {
@@ -605,7 +595,7 @@ open class State {
                     if (constraintReference == null) {
                         constraintReference = constraints(key)
                     }
-                    constraintReference!!.setConstraintWidget(helperWidget)
+                    constraintReference.setConstraintWidget(helperWidget)
                 }
             }
         }

@@ -432,7 +432,7 @@ class ConstraintSetParser {
                 if (PARSER_DEBUG) {
                     println(
                         "[" + elementName + "] = " + element +
-                            " > " + element.getContainer(),
+                                " > " + element.getContainer(),
                     )
                 }
                 when (elementName) {
@@ -705,7 +705,7 @@ class ConstraintSetParser {
         }
 
         private fun toPix(state: State, dp: Float): Float {
-            return state.getDpToPixel()!!.toPixels(dp)
+            return state.getDpToPixel().toPixels(dp)
         }
 
         /**
@@ -741,7 +741,7 @@ class ConstraintSetParser {
                         if (refs !is CLArray || refs.size() < 1) {
                             println(
                                 chainName + " contains should be an array \"" + refs.content() +
-                                    "\"",
+                                        "\"",
                             )
                             return
                         }
@@ -871,7 +871,7 @@ class ConstraintSetParser {
                             while (j < list.size()) {
                                 val elementNameReference = list[j].content()
                                 val elementReference = state.constraints(elementNameReference)
-                                grid.add(elementReference!!)
+                                grid.add(elementReference)
                                 j++
                             }
                         }
@@ -908,28 +908,28 @@ class ConstraintSetParser {
 
                     "spans" -> {
                         val spans = element[param].content()
-                        if (spans != null && spans.contains(":")) {
+                        if (spans.contains(":")) {
                             grid.setSpans(spans)
                         }
                     }
 
                     "skips" -> {
                         val skips = element[param].content()
-                        if (skips != null && skips.contains(":")) {
+                        if (skips.contains(":")) {
                             grid.setSkips(skips)
                         }
                     }
 
                     "rowWeights" -> {
                         val rowWeights = element[param].content()
-                        if (rowWeights != null && rowWeights.contains(",")) {
+                        if (rowWeights.contains(",")) {
                             grid.setRowWeights(rowWeights)
                         }
                     }
 
                     "columnWeights" -> {
                         val columnWeights = element[param].content()
-                        if (columnWeights != null && columnWeights.contains(",")) {
+                        if (columnWeights.contains(",")) {
                             grid.setColumnWeights(columnWeights)
                         }
                     }
@@ -949,7 +949,7 @@ class ConstraintSetParser {
                                 paddingEnd = paddingObject.getInt(2).toFloat()
                                 paddingBottom = try {
                                     paddingObject.getInt(3).toFloat()
-                                } catch (e: IndexOutOfBoundsException) {
+                                } catch (_: IndexOutOfBoundsException) {
                                     0f
                                 }
                             }
@@ -979,7 +979,7 @@ class ConstraintSetParser {
                             System.err.println("Error parsing grid flags $ex")
                         }
 
-                        if (flags != null && !flags.isEmpty()) {
+                        if (!flags.isEmpty()) {
                             // In older APIs, the flags may still be defined as a String
                             grid.setFlags(flags)
                         } else {
@@ -989,7 +989,7 @@ class ConstraintSetParser {
 
                     else -> {
                         val reference = state.constraints(name)
-                        applyAttribute(state, layoutVariables, reference!!, element, param)
+                        applyAttribute(state, layoutVariables, reference, element, param)
                     }
                 }
             }
@@ -1034,7 +1034,7 @@ class ConstraintSetParser {
             element: CLObject,
         ) {
             val isVertical = flowType[0] == 'v'
-            val flow: FlowReference? = state.getFlow(flowName, isVertical)
+            val flow: FlowReference = state.getFlow(flowName, isVertical)
             for (param: String in element.names()) {
                 when (param) {
                     "contains" -> {
@@ -1042,7 +1042,7 @@ class ConstraintSetParser {
                         if (refs !is CLArray || refs.size() < 1) {
                             println(
                                 flowName + " contains should be an array \"" + refs.content() +
-                                    "\"",
+                                        "\"",
                             )
                             return
                         }
@@ -1072,39 +1072,39 @@ class ConstraintSetParser {
                                             postMargin = toPix(state, array.getFloat(3))
                                         }
                                     }
-                                    flow!!.addFlowElement(id, weight, preMargin, postMargin)
+                                    flow.addFlowElement(id, weight, preMargin, postMargin)
                                 }
                             } else {
-                                flow!!.add(chainElement.content())
+                                flow.add(chainElement.content())
                             }
                             i++
                         }
                     }
 
                     "type" -> if ((element[param].content() == "hFlow")) {
-                        flow!!.setOrientation(HORIZONTAL)
+                        flow.setOrientation(HORIZONTAL)
                     } else {
-                        flow!!.setOrientation(VERTICAL)
+                        flow.setOrientation(VERTICAL)
                     }
 
                     "wrap" -> {
                         val wrapValue = element[param].content()
-                        flow!!.setWrapMode(State.Wrap.getValueByString(wrapValue))
+                        flow.setWrapMode(State.Wrap.getValueByString(wrapValue))
                     }
 
                     "vGap" -> {
                         val vGapValue = element[param].getInt()
-                        flow!!.setVerticalGap(vGapValue)
+                        flow.setVerticalGap(vGapValue)
                     }
 
                     "hGap" -> {
                         val hGapValue = element[param].getInt()
-                        flow!!.setHorizontalGap(hGapValue)
+                        flow.setHorizontalGap(hGapValue)
                     }
 
                     "maxElement" -> {
                         val maxElementValue = element[param].getInt()
-                        flow!!.setMaxElementsWrap(maxElementValue)
+                        flow.setMaxElementsWrap(maxElementValue)
                     }
 
                     "padding" -> {
@@ -1122,7 +1122,7 @@ class ConstraintSetParser {
                                 paddingRight = paddingObject.getInt(2).toFloat()
                                 try {
                                     paddingBottom = paddingObject.getInt(3).toFloat()
-                                } catch (e: IndexOutOfBoundsException) {
+                                } catch (_: IndexOutOfBoundsException) {
                                     paddingBottom = 0F
                                 }
                             }
@@ -1132,7 +1132,7 @@ class ConstraintSetParser {
                             paddingRight = paddingLeft
                             paddingBottom = paddingLeft
                         }
-                        flow!!.setPaddingLeft(toPix(state, paddingLeft).roundToIntOrZero())
+                        flow.setPaddingLeft(toPix(state, paddingLeft).roundToIntOrZero())
                         flow.setPaddingTop(toPix(state, paddingTop).roundToIntOrZero())
                         flow.setPaddingRight(toPix(state, paddingRight).roundToIntOrZero())
                         flow.setPaddingBottom(toPix(state, paddingBottom).roundToIntOrZero())
@@ -1141,25 +1141,25 @@ class ConstraintSetParser {
                     "vAlign" -> {
                         val vAlignValue = element[param].content()
                         when (vAlignValue) {
-                            "top" -> flow!!.setVerticalAlign(Flow.VERTICAL_ALIGN_TOP)
-                            "bottom" -> flow!!.setVerticalAlign(Flow.VERTICAL_ALIGN_BOTTOM)
-                            "baseline" -> flow!!.setVerticalAlign(Flow.VERTICAL_ALIGN_BASELINE)
-                            else -> flow!!.setVerticalAlign(Flow.VERTICAL_ALIGN_CENTER)
+                            "top" -> flow.setVerticalAlign(Flow.VERTICAL_ALIGN_TOP)
+                            "bottom" -> flow.setVerticalAlign(Flow.VERTICAL_ALIGN_BOTTOM)
+                            "baseline" -> flow.setVerticalAlign(Flow.VERTICAL_ALIGN_BASELINE)
+                            else -> flow.setVerticalAlign(Flow.VERTICAL_ALIGN_CENTER)
                         }
                     }
 
                     "hAlign" -> {
                         val hAlignValue = element[param].content()
                         when (hAlignValue) {
-                            "start" -> flow!!.setHorizontalAlign(Flow.HORIZONTAL_ALIGN_START)
-                            "end" -> flow!!.setHorizontalAlign(Flow.HORIZONTAL_ALIGN_END)
-                            else -> flow!!.setHorizontalAlign(Flow.HORIZONTAL_ALIGN_CENTER)
+                            "start" -> flow.setHorizontalAlign(Flow.HORIZONTAL_ALIGN_START)
+                            "end" -> flow.setHorizontalAlign(Flow.HORIZONTAL_ALIGN_END)
+                            else -> flow.setHorizontalAlign(Flow.HORIZONTAL_ALIGN_CENTER)
                         }
                     }
 
                     "vFlowBias" -> {
                         val vBiasObject = element[param]
-                        var vBiasValue: Float = 0.5f
+                        var vBiasValue = 0.5f
                         var vFirstBiasValue = 0.5f
                         var vLastBiasValue = 0.5f
                         if (vBiasObject is CLArray && vBiasObject.size() > 1) {
@@ -1172,20 +1172,20 @@ class ConstraintSetParser {
                             vBiasValue = vBiasObject.getFloat()
                         }
                         try {
-                            flow!!.verticalBias(vBiasValue)
+                            flow.verticalBias(vBiasValue)
                             if (vFirstBiasValue != 0.5f) {
                                 flow.setFirstVerticalBias(vFirstBiasValue)
                             }
                             if (vLastBiasValue != 0.5f) {
                                 flow.setLastVerticalBias(vLastBiasValue)
                             }
-                        } catch (e: NumberFormatException) {
+                        } catch (_: NumberFormatException) {
                         }
                     }
 
                     "hFlowBias" -> {
                         val hBiasObject = element[param]
-                        var hBiasValue: Float = 0.5f
+                        var hBiasValue = 0.5f
                         var hFirstBiasValue = 0.5f
                         var hLastBiasValue = 0.5f
                         if (hBiasObject is CLArray && hBiasObject.size() > 1) {
@@ -1198,14 +1198,14 @@ class ConstraintSetParser {
                             hBiasValue = hBiasObject.getFloat()
                         }
                         try {
-                            flow!!.horizontalBias(hBiasValue)
+                            flow.horizontalBias(hBiasValue)
                             if (hFirstBiasValue != 0.5f) {
                                 flow.setFirstHorizontalBias(hFirstBiasValue)
                             }
                             if (hLastBiasValue != 0.5f) {
                                 flow.setLastHorizontalBias(hLastBiasValue)
                             }
-                        } catch (e: NumberFormatException) {
+                        } catch (_: NumberFormatException) {
                         }
                     }
 
@@ -1224,15 +1224,15 @@ class ConstraintSetParser {
                             vStyleValueStr = vStyleObject.content()
                         }
                         if (vStyleValueStr != "") {
-                            flow!!.setVerticalStyle(State.Chain.getValueByString(vStyleValueStr))
+                            flow.setVerticalStyle(State.Chain.getValueByString(vStyleValueStr))
                         }
                         if (vFirstStyleValueStr != "") {
-                            flow!!.setFirstVerticalStyle(
+                            flow.setFirstVerticalStyle(
                                 State.Chain.getValueByString(vFirstStyleValueStr),
                             )
                         }
                         if (vLastStyleValueStr != "") {
-                            flow!!.setLastVerticalStyle(
+                            flow.setLastVerticalStyle(
                                 State.Chain.getValueByString(
                                     vLastStyleValueStr,
                                 ),
@@ -1255,15 +1255,15 @@ class ConstraintSetParser {
                             hStyleValueStr = hStyleObject.content()
                         }
                         if (hStyleValueStr != "") {
-                            flow!!.setHorizontalStyle(State.Chain.getValueByString(hStyleValueStr))
+                            flow.setHorizontalStyle(State.Chain.getValueByString(hStyleValueStr))
                         }
                         if (hFirstStyleValueStr != "") {
-                            flow!!.setFirstHorizontalStyle(
+                            flow.setFirstHorizontalStyle(
                                 State.Chain.getValueByString(hFirstStyleValueStr),
                             )
                         }
                         if (hLastStyleValueStr != "") {
-                            flow!!.setLastHorizontalStyle(
+                            flow.setLastHorizontalStyle(
                                 State.Chain.getValueByString(hLastStyleValueStr),
                             )
                         }
@@ -1273,7 +1273,7 @@ class ConstraintSetParser {
                         // Get the underlying reference for the flow, apply the constraints
                         // attributes to it
                         val reference = state.constraints(flowName)
-                        applyAttribute(state, layoutVariables, reference!!, element, param)
+                        applyAttribute(state, layoutVariables, reference, element, param)
                     }
                 }
             }
@@ -1294,7 +1294,7 @@ class ConstraintSetParser {
         fun parseGuidelineParams(
             orientation: Int,
             state: State,
-            guidelineId: String?,
+            guidelineId: String,
             params: CLObject,
         ) {
             val constraints = params.names()
@@ -1309,7 +1309,7 @@ class ConstraintSetParser {
             // since `start` & `end` represent the `top` and `bottom` distances respectively.
             val isLtr = !state.isRtl || orientation == HORIZONTAL
             val guidelineReference: GuidelineReference =
-                reference!!.getFacade()!! as GuidelineReference
+                reference.getFacade()!! as GuidelineReference
 
             // Whether the guideline is based on percentage or distance
             var isPercent = false
@@ -1382,7 +1382,7 @@ class ConstraintSetParser {
         @Throws(CLParsingException::class)
         fun parseBarrier(
             state: State,
-            elementName: String?,
+            elementName: String,
             element: CLObject,
         ) {
             val isLtr = !state.isRtl
@@ -1428,11 +1428,11 @@ class ConstraintSetParser {
                                 if (PARSER_DEBUG) {
                                     println(
                                         "Add REFERENCE " +
-                                            "(\$elementNameReference = \$elementReference) " +
-                                            "TO BARRIER ",
+                                                "(\$elementNameReference = \$elementReference) " +
+                                                "TO BARRIER ",
                                     )
                                 }
-                                reference!!.add(elementReference!!)
+                                reference!!.add(elementReference)
                                 j++
                             }
                         }
@@ -1444,11 +1444,11 @@ class ConstraintSetParser {
         @Throws(CLParsingException::class)
         fun parseWidget(
             state: State,
-            layoutVariables: LayoutVariables?,
-            elementName: String?,
+            layoutVariables: LayoutVariables,
+            elementName: String,
             element: CLObject,
         ) {
-            val reference = state.constraints(elementName)!!
+            val reference = state.constraints(elementName)
             parseWidget(state, layoutVariables, reference, element)
         }
 
@@ -1477,7 +1477,7 @@ class ConstraintSetParser {
                         element,
                         attributeName,
                         state,
-                        state.getDpToPixel()!!,
+                        state.getDpToPixel(),
                     ),
                 )
 
@@ -1486,19 +1486,19 @@ class ConstraintSetParser {
                         element,
                         attributeName,
                         state,
-                        state.getDpToPixel()!!,
+                        state.getDpToPixel(),
                     ),
                 )
 
                 "center" -> {
                     val target = element.getString(attributeName)
-                    val targetReference: ConstraintReference?
-                    targetReference = if (target == "parent") {
-                        state.constraints(State.PARENT)
-                    } else {
-                        state.constraints(target)
-                    }
-                    reference.startToStart(targetReference!!)
+                    val targetReference =
+                        if (target == "parent") {
+                            state.constraints(State.PARENT)
+                        } else {
+                            state.constraints(target)
+                        }
+                    reference.startToStart(targetReference)
                     reference.endToEnd(targetReference)
                     reference.topToTop(targetReference)
                     reference.bottomToBottom(targetReference)
@@ -1508,11 +1508,9 @@ class ConstraintSetParser {
                     val target = element.getString(attributeName)
                     val targetReference =
                         if (target == "parent") {
-                            state.constraints(State.PARENT)!!
+                            state.constraints(State.PARENT)
                         } else {
-                            state.constraints(
-                                target,
-                            )!!
+                            state.constraints(target)
                         }
                     reference.startToStart(targetReference)
                     reference.endToEnd(targetReference)
@@ -1522,11 +1520,11 @@ class ConstraintSetParser {
                     val target = element.getString(attributeName)
                     val targetReference =
                         if (target == "parent") {
-                            state.constraints(State.PARENT)!!
+                            state.constraints(State.PARENT)
                         } else {
                             state.constraints(
                                 target,
-                            )!!
+                            )
                         }
                     reference.topToTop(targetReference)
                     reference.bottomToBottom(targetReference)
@@ -1636,22 +1634,14 @@ class ConstraintSetParser {
 
         @Throws(CLParsingException::class)
         fun parseWidget(
-            state: State?,
-            layoutVariables: LayoutVariables?,
+            state: State,
+            layoutVariables: LayoutVariables,
             reference: ConstraintReference,
             element: CLObject,
         ) {
-            if (reference.width == null) {
-                // Default to Wrap when the Dimension has not been assigned
-                reference.setWidth(Dimension.createWrap())
-            }
-            if (reference.height == null) {
-                // Default to Wrap when the Dimension has not been assigned
-                reference.setHeight(Dimension.createWrap())
-            }
             val constraints = element.names()
             for (constraintName in constraints) {
-                applyAttribute(state!!, layoutVariables!!, reference, element, constraintName)
+                applyAttribute(state, layoutVariables, reference, element, constraintName)
             }
         }
 
@@ -1699,7 +1689,7 @@ class ConstraintSetParser {
          * }
          * }
          * }
-         </pre> *
+        </pre> *
          */
         @Throws(CLParsingException::class)
         private fun parseMotionProperties(
@@ -1826,19 +1816,19 @@ class ConstraintSetParser {
                     }
 
                     "top" -> when (anchor) {
-                        "top" -> reference.topToTop(targetReference!!)
-                        "bottom" -> reference.topToBottom(targetReference!!)
+                        "top" -> reference.topToTop(targetReference)
+                        "bottom" -> reference.topToBottom(targetReference)
                         "baseline" -> {
-                            state.baselineNeededFor(targetReference!!.getKey()!!)
+                            state.baselineNeededFor(targetReference.getKey()!!)
                             reference.topToBaseline(targetReference)
                         }
                     }
 
                     "bottom" -> when (anchor) {
-                        "top" -> reference.bottomToTop(targetReference!!)
-                        "bottom" -> reference.bottomToBottom(targetReference!!)
+                        "top" -> reference.bottomToTop(targetReference)
+                        "bottom" -> reference.bottomToBottom(targetReference)
                         "baseline" -> {
-                            state.baselineNeededFor(targetReference!!.getKey()!!)
+                            state.baselineNeededFor(targetReference.getKey()!!)
                             reference.bottomToBaseline(targetReference)
                         }
                     }
@@ -1846,18 +1836,18 @@ class ConstraintSetParser {
                     "baseline" -> when (anchor) {
                         "baseline" -> {
                             state.baselineNeededFor(reference.getKey()!!)
-                            state.baselineNeededFor(targetReference!!.getKey()!!)
+                            state.baselineNeededFor(targetReference.getKey()!!)
                             reference.baselineToBaseline(targetReference)
                         }
 
                         "top" -> {
                             state.baselineNeededFor(reference.getKey()!!)
-                            reference.baselineToTop(targetReference!!)
+                            reference.baselineToTop(targetReference)
                         }
 
                         "bottom" -> {
                             state.baselineNeededFor(reference.getKey()!!)
-                            reference.baselineToBottom(targetReference!!)
+                            reference.baselineToBottom(targetReference)
                         }
                     }
 
@@ -1893,15 +1883,15 @@ class ConstraintSetParser {
                     // Resolved anchors, apply corresponding constraint
                     if (isHorOriginLeft) {
                         if (isHorTargetLeft) {
-                            reference.leftToLeft(targetReference!!)
+                            reference.leftToLeft(targetReference)
                         } else {
-                            reference.leftToRight(targetReference!!)
+                            reference.leftToRight(targetReference)
                         }
                     } else {
                         if (isHorTargetLeft) {
-                            reference.rightToLeft(targetReference!!)
+                            reference.rightToLeft(targetReference)
                         } else {
-                            reference.rightToRight(targetReference!!)
+                            reference.rightToRight(targetReference)
                         }
                     }
                 }
@@ -1919,22 +1909,22 @@ class ConstraintSetParser {
                         }
                     when (constraintName) {
                         "start" -> if (isLtr) {
-                            reference.leftToLeft(targetReference!!)
+                            reference.leftToLeft(targetReference)
                         } else {
-                            reference.rightToRight(targetReference!!)
+                            reference.rightToRight(targetReference)
                         }
 
                         "end" -> if (isLtr) {
-                            reference.rightToRight(targetReference!!)
+                            reference.rightToRight(targetReference)
                         } else {
-                            reference.leftToLeft(targetReference!!)
+                            reference.leftToLeft(targetReference)
                         }
 
-                        "top" -> reference.topToTop(targetReference!!)
-                        "bottom" -> reference.bottomToBottom(targetReference!!)
+                        "top" -> reference.topToTop(targetReference)
+                        "bottom" -> reference.bottomToBottom(targetReference)
                         "baseline" -> {
                             state.baselineNeededFor(reference.getKey()!!)
-                            state.baselineNeededFor(targetReference!!.getKey()!!)
+                            state.baselineNeededFor(targetReference.getKey()!!)
                             reference.baselineToBaseline(targetReference)
                         }
                     }
