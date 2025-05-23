@@ -35,7 +35,7 @@ internal constructor(
      * The internal representation of the [IntIntPair]. [packedValue] has no guarantees for
      * stability across library versions.
      */
-    @JvmField public val packedValue: Long
+    @JvmField public val packedValue: Long,
 ) {
     /**
      * Constructs a [IntIntPair] with two [Int] values.
