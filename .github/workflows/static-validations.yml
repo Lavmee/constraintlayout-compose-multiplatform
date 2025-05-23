@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Set up JDK
         uses: actions/setup-java@v3
@@ -31,7 +31,7 @@ jobs:
         run: ./gradlew lint --stacktrace
 
       - name: Upload ConstraintLayout Compose Lint Report
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: constraintlayout-lint-report
           path: compose/build/reports
