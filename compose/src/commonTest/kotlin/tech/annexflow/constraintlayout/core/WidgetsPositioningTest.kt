@@ -15,12 +15,12 @@
  */
 package tech.annexflow.constraintlayout.core
 
+import kotlinx.coroutines.Runnable
 import tech.annexflow.constraintlayout.core.widgets.ConstraintAnchor
 import tech.annexflow.constraintlayout.core.widgets.ConstraintWidget
 import tech.annexflow.constraintlayout.core.widgets.ConstraintWidgetContainer
 import tech.annexflow.constraintlayout.core.widgets.Guideline
 import tech.annexflow.constraintlayout.core.widgets.Optimizer
-import kotlinx.coroutines.Runnable
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals

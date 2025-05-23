@@ -15,9 +15,9 @@
  */
 package tech.annexflow.constraintlayout.core.motion
 
+import kotlinx.coroutines.Runnable
 import tech.annexflow.constraintlayout.core.motion.utils.KeyCache
 import tech.annexflow.constraintlayout.core.motion.utils.TypedValues
-import kotlinx.coroutines.Runnable
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
