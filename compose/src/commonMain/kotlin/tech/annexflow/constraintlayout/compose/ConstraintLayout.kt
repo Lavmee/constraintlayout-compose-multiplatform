@@ -16,7 +16,6 @@
 
 package tech.annexflow.constraintlayout.compose
 
-import tech.annexflow.constraintlayout.compose.shaded.androidx.collection.IntIntPair
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.AnimationSpec
 import androidx.compose.animation.core.tween
@@ -78,11 +77,19 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.util.fastForEach
 import androidx.compose.ui.util.fastForEachIndexed
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.launch
+import tech.annexflow.constraintlayout.compose.Dimension.Companion.fillToConstraints
+import tech.annexflow.constraintlayout.compose.Dimension.Companion.value
+import tech.annexflow.constraintlayout.compose.Dimension.Companion.wrapContent
 import tech.annexflow.constraintlayout.compose.extra.parseLong
 import tech.annexflow.constraintlayout.compose.extra.rememberEmptyPainter
 import tech.annexflow.constraintlayout.compose.platform.Log
 import tech.annexflow.constraintlayout.compose.platform.annotation.Language
 import tech.annexflow.constraintlayout.compose.platform.annotation.SuppressLint
+import tech.annexflow.constraintlayout.compose.shaded.androidx.collection.IntIntPair
 import tech.annexflow.constraintlayout.core.parser.CLElement
 import tech.annexflow.constraintlayout.core.parser.CLNumber
 import tech.annexflow.constraintlayout.core.parser.CLObject
@@ -109,10 +116,6 @@ import tech.annexflow.constraintlayout.core.widgets.VirtualLayout
 import tech.annexflow.constraintlayout.core.widgets.analyzer.BasicMeasure
 import tech.annexflow.constraintlayout.core.widgets.analyzer.BasicMeasure.Measure.Companion.TRY_GIVEN_DIMENSIONS
 import tech.annexflow.constraintlayout.core.widgets.analyzer.BasicMeasure.Measure.Companion.USE_GIVEN_DIMENSIONS
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.MainScope
-import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.launch
 import kotlin.experimental.ExperimentalObjCRefinement
 import kotlin.native.HiddenFromObjC
 
