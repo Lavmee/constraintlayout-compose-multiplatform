@@ -34,5 +34,5 @@ allprojects {
 }
 
 extra.apply {
-    set("jvmTarget", "1.8")
+    set("jvmTarget", "11")
 }

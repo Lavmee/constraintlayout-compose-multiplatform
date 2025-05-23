@@ -16,7 +16,6 @@
 
 package androidx.constraintlayout.compose
 
-import androidx.constraintlayout.compose.shaded.androidx.collection.IntIntPair
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.AnimationSpec
 import androidx.compose.animation.core.tween
@@ -83,6 +82,7 @@ import androidx.constraintlayout.compose.extra.rememberEmptyPainter
 import androidx.constraintlayout.compose.platform.Log
 import androidx.constraintlayout.compose.platform.annotation.Language
 import androidx.constraintlayout.compose.platform.annotation.SuppressLint
+import androidx.constraintlayout.compose.shaded.androidx.collection.IntIntPair
 import androidx.constraintlayout.core.parser.CLElement
 import androidx.constraintlayout.core.parser.CLNumber
 import androidx.constraintlayout.core.parser.CLObject
