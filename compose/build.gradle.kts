@@ -9,7 +9,7 @@ plugins {
     alias(libs.plugins.multiplatform)
     alias(libs.plugins.compose)
     alias(libs.plugins.compose.compiler)
-    alias(libs.plugins.android.library)
+    alias(libs.plugins.android.kotlin.library)
     alias(libs.plugins.maven.publish)
 }
 
@@ -19,8 +19,10 @@ val extraJvmTarget = rootProject.extra.get("jvmTarget") as String
 kotlin {
     kotlin.applyDefaultHierarchyTemplate()
 
-    androidTarget {
-        publishLibraryVariants("release")
+    androidLibrary {
+        namespace = "tech.annexflow.constraintlayout.compose"
+        compileSdk = 36
+        minSdk = 21
         compilerOptions {
             jvmTarget.set(JvmTarget.fromTarget(extraJvmTarget))
         }
@@ -113,17 +115,5 @@ kotlin {
                 implementation(kotlin("test"))
             }
         }
-    }
-}
-
-android {
-    namespace = "tech.annexflow.constraintlayout.compose"
-    compileSdk = 35
-    defaultConfig {
-        minSdk = 21
-    }
-    compileOptions {
-        sourceCompatibility = JavaVersion.toVersion(rootProject.extra.get("jvmTarget") as String)
-        targetCompatibility = JavaVersion.toVersion(rootProject.extra.get("jvmTarget") as String)
     }
 }
