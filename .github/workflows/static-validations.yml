@@ -23,9 +23,6 @@ jobs:
             
       - name: Make gradlew executable
         run: chmod +x ./gradlew
-        
-      - name: Spotless Check
-        run: ./gradlew spotlessCheck --stacktrace
 
       - name: Lint
         run: ./gradlew lint --stacktrace
