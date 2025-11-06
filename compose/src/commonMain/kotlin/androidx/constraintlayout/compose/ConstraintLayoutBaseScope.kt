@@ -22,7 +22,7 @@ import androidx.compose.ui.layout.FirstBaseline
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.platform.annotation.SuppressLint
-import androidx.constraintlayout.compose.shaded.androidx.annotation.IntRange
+import androidx.annotation.IntRange
 import androidx.constraintlayout.core.parser.CLArray
 import androidx.constraintlayout.core.parser.CLElement
 import androidx.constraintlayout.core.parser.CLNumber

@@ -78,6 +78,8 @@ kotlin {
                 implementation(compose.uiUtil)
                 implementation(compose.foundation)
                 implementation(compose.runtime)
+                implementation(libs.annotation)
+                implementation(libs.collection)
                 implementation(kotlin("reflect"))
             }
         }

@@ -22,7 +22,7 @@ import androidx.compose.ui.graphics.TransformOrigin
 import androidx.compose.ui.layout.FirstBaseline
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import androidx.constraintlayout.compose.shaded.androidx.annotation.FloatRange
+import androidx.annotation.FloatRange
 import androidx.constraintlayout.core.parser.CLArray
 import androidx.constraintlayout.core.parser.CLNumber
 import androidx.constraintlayout.core.parser.CLObject

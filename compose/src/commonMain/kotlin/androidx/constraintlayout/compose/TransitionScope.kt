@@ -19,8 +19,8 @@ package androidx.constraintlayout.compose
 import androidx.compose.foundation.layout.LayoutScopeMarker
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import androidx.constraintlayout.compose.shaded.androidx.annotation.FloatRange
-import androidx.constraintlayout.compose.shaded.androidx.annotation.IntRange
+import androidx.annotation.FloatRange
+import androidx.annotation.IntRange
 import androidx.constraintlayout.core.parser.CLArray
 import androidx.constraintlayout.core.parser.CLContainer
 import androidx.constraintlayout.core.parser.CLNumber

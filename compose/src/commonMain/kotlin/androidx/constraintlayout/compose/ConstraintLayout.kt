@@ -82,7 +82,7 @@ import androidx.constraintlayout.compose.extra.rememberEmptyPainter
 import androidx.constraintlayout.compose.platform.Log
 import androidx.constraintlayout.compose.platform.annotation.Language
 import androidx.constraintlayout.compose.platform.annotation.SuppressLint
-import androidx.constraintlayout.compose.shaded.androidx.collection.IntIntPair
+import androidx.collection.IntIntPair
 import androidx.constraintlayout.core.parser.CLElement
 import androidx.constraintlayout.core.parser.CLNumber
 import androidx.constraintlayout.core.parser.CLObject
