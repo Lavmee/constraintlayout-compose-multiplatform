@@ -43,11 +43,11 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.constraintlayout.compose.DebugFlags
-import androidx.constraintlayout.compose.Dimension
-import androidx.constraintlayout.compose.ExperimentalMotionApi
-import androidx.constraintlayout.compose.MotionLayout
-import androidx.constraintlayout.compose.MotionScene
+import tech.annexflow.constraintlayout.compose.DebugFlags
+import tech.annexflow.constraintlayout.compose.Dimension
+import tech.annexflow.constraintlayout.compose.ExperimentalMotionApi
+import tech.annexflow.constraintlayout.compose.MotionLayout
+import tech.annexflow.constraintlayout.compose.MotionScene
 import constraintlayout_compose_multiplatform.sample.shared.generated.resources.Res
 import constraintlayout_compose_multiplatform.sample.shared.generated.resources.ic_face
 import constraintlayout_compose_multiplatform.sample.shared.generated.resources.ic_menu

@@ -31,7 +31,7 @@ The `androidx.constraintlayout:constraintlayout-compose` library is available fo
 Usage is very simple:
 
 ```kotlin
-import androidx.constraintlayout.compose.ConstraintLayout
+import tech.annexflow.constraintlayout.compose.ConstraintLayout
 
 @Composable
 fun ConstraintLayoutContent() {

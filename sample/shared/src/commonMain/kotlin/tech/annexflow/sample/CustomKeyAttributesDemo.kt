@@ -25,14 +25,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.unit.dp
-import androidx.constraintlayout.compose.DebugFlags
-import androidx.constraintlayout.compose.Dimension
-import androidx.constraintlayout.compose.ExperimentalMotionApi
-import androidx.constraintlayout.compose.MotionLayout
-import androidx.constraintlayout.compose.MotionScene
-import androidx.constraintlayout.compose.OnSwipe
-import androidx.constraintlayout.compose.SwipeDirection
-import androidx.constraintlayout.compose.SwipeSide
+import tech.annexflow.constraintlayout.compose.DebugFlags
+import tech.annexflow.constraintlayout.compose.Dimension
+import tech.annexflow.constraintlayout.compose.ExperimentalMotionApi
+import tech.annexflow.constraintlayout.compose.MotionLayout
+import tech.annexflow.constraintlayout.compose.MotionScene
+import tech.annexflow.constraintlayout.compose.OnSwipe
+import tech.annexflow.constraintlayout.compose.SwipeDirection
+import tech.annexflow.constraintlayout.compose.SwipeSide
 
 /**
  * Shows how to use MotionLayout to interpolate custom values such as colors during animation.
