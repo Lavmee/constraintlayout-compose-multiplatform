@@ -86,8 +86,8 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                implementation(compose.runtime)
-                implementation(compose.material3)
+                implementation(libs.compose.runtime)
+                implementation(libs.compose.material3)
                 implementation(project(":compose"))
             }
         }
@@ -107,7 +107,7 @@ kotlin {
 
         val desktopMain by getting {
             dependencies {
-                implementation(compose.desktop.common)
+                implementation(libs.compose.desktop)
                 implementation(compose.desktop.currentOs)
             }
         }

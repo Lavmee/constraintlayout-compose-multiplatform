@@ -16,11 +16,11 @@
 
 package androidx.constraintlayout.compose
 
+import androidx.annotation.FloatRange
+import androidx.annotation.IntRange
 import androidx.compose.foundation.layout.LayoutScopeMarker
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import androidx.annotation.FloatRange
-import androidx.annotation.IntRange
 import androidx.constraintlayout.core.parser.CLArray
 import androidx.constraintlayout.core.parser.CLContainer
 import androidx.constraintlayout.core.parser.CLNumber
@@ -289,7 +289,7 @@ sealed class BaseKeyFramesScope(vararg targets: ConstrainedLayoutReference) {
                 CLString(targetChars).apply {
                     start = 0
                     end = targetChars.size.toLong() - 1
-                },
+                }
             )
         }
     }
@@ -316,8 +316,7 @@ sealed class BaseKeyFramesScope(vararg targets: ConstrainedLayoutReference) {
  * Fake private implementation of [BaseKeyFramesScope] to prevent exhaustive `when` usages of
  * [BaseKeyFramesScope], while `sealed` prevents undesired inheritance of [BaseKeyFramesScope].
  */
-@OptIn(ExperimentalMotionApi::class)
-private class FakeKeyFramesScope : BaseKeyFramesScope()
+@OptIn(ExperimentalMotionApi::class) private class FakeKeyFramesScope : BaseKeyFramesScope()
 
 /**
  * Scope where multiple attribute KeyFrames may be defined.
@@ -449,6 +448,7 @@ sealed class BaseKeyFrameScope {
      *
      * E.g.: `var curveFit: CurveFit? by addNameOnPropertyChange(null)`
      */
+    @Suppress("EXPOSED_TYPE_PARAMETER_BOUND_DEPRECATION_WARNING")
     protected fun <E : NamedPropertyOrValue?> addNameOnPropertyChange(
         initialValue: E,
         nameOverride: String? = null,
@@ -495,7 +495,7 @@ sealed class BaseKeyFrameScope {
                         CLString(stringChars).apply {
                             start = 0
                             end = stringChars.size.toLong() - 1
-                        },
+                        }
                     )
                 }
                 is Dp -> {
@@ -513,8 +513,7 @@ sealed class BaseKeyFrameScope {
  * Fake private implementation of [BaseKeyFrameScope] to prevent exhaustive `when` usages of
  * [BaseKeyFrameScope], while `sealed` prevents undesired inheritance of [BaseKeyFrameScope].
  */
-@OptIn(ExperimentalMotionApi::class)
-private class FakeKeyFrameScope : BaseKeyFrameScope()
+@OptIn(ExperimentalMotionApi::class) private class FakeKeyFrameScope : BaseKeyFrameScope()
 
 /**
  * Scope to define KeyFrame attributes.
@@ -603,7 +602,7 @@ class KeyCycleScope internal constructor() : BaseKeyFrameScope() {
     // TODO: Add Wave Shape & Custom Wave
 }
 
-internal interface NamedPropertyOrValue {
+interface NamedPropertyOrValue {
     val name: String
 }
 
