@@ -86,6 +86,7 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
+                implementation(libs.compose.components.resources)
                 implementation(libs.compose.runtime)
                 implementation(libs.compose.material3)
                 implementation(project(":compose"))

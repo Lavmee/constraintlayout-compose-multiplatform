@@ -26,9 +26,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Face
-import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableFloatStateOf
@@ -51,6 +48,10 @@ import androidx.constraintlayout.compose.Dimension
 import androidx.constraintlayout.compose.ExperimentalMotionApi
 import androidx.constraintlayout.compose.MotionLayout
 import androidx.constraintlayout.compose.MotionScene
+import constraintlayout_compose_multiplatform.sample.shared.generated.resources.Res
+import constraintlayout_compose_multiplatform.sample.shared.generated.resources.ic_face
+import constraintlayout_compose_multiplatform.sample.shared.generated.resources.ic_menu
+import org.jetbrains.compose.resources.vectorResource
 
 /**
  * A demo of using MotionLayout as a collapsing Toolbar using the DSL to define the MotionScene.
@@ -144,14 +145,14 @@ internal fun ToolBarDslDemo() {
             modifier = Modifier
                 .layoutId("image")
                 .background(customColor("image", "cover")),
-            imageVector = Icons.Default.Face,
+            imageVector = vectorResource(Res.drawable.ic_face),
             contentDescription = null,
             contentScale = ContentScale.Crop,
             colorFilter = ColorFilter.tint(Color(0x51FFFFFF)),
         )
         Image(
             modifier = Modifier.layoutId("icon"),
-            imageVector = Icons.Default.Menu,
+            imageVector = vectorResource(Res.drawable.ic_menu),
             contentDescription = null,
             colorFilter = ColorFilter.tint(Color.White),
         )
@@ -274,14 +275,14 @@ internal fun ToolBarLazyDslDemo() {
                 modifier = Modifier
                     .layoutId("image")
                     .background(customColor("image", "cover")),
-                imageVector = Icons.Default.Face,
+                imageVector = vectorResource(Res.drawable.ic_face),
                 contentDescription = null,
                 contentScale = ContentScale.Crop,
                 colorFilter = ColorFilter.tint(Color(0x51FFFFFF)),
             )
             Image(
                 modifier = Modifier.layoutId("icon"),
-                imageVector = Icons.Default.Menu,
+                imageVector = vectorResource(Res.drawable.ic_menu),
                 contentDescription = null,
                 colorFilter = ColorFilter.tint(Color.White),
             )

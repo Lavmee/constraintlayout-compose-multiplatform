@@ -27,8 +27,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -45,6 +43,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import constraintlayout_compose_multiplatform.sample.shared.generated.resources.Res
+import constraintlayout_compose_multiplatform.sample.shared.generated.resources.ic_arrow_back
+import org.jetbrains.compose.resources.vectorResource
 
 internal data class ComposeDemo(val title: String, val content: @Composable () -> Unit)
 
@@ -98,7 +99,7 @@ internal fun ComposeConstraintLayoutDemos() {
                             verticalAlignment = Alignment.CenterVertically,
                         ) {
                             Icon(
-                                imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                                imageVector = vectorResource(Res.drawable.ic_arrow_back),
                                 contentDescription = "Back",
                             )
                             Text(text = composeDemo.title)
