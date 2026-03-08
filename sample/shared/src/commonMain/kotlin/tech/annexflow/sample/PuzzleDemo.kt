@@ -21,8 +21,6 @@ import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Face
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -43,6 +41,9 @@ import tech.annexflow.constraintlayout.compose.ExperimentalMotionApi
 import tech.annexflow.constraintlayout.compose.MotionLayout
 import tech.annexflow.constraintlayout.compose.MotionScene
 import tech.annexflow.constraintlayout.compose.Wrap
+import constraintlayout_compose_multiplatform.sample.shared.generated.resources.Res
+import constraintlayout_compose_multiplatform.sample.shared.generated.resources.ic_face
+import org.jetbrains.compose.resources.vectorResource
 
 /**
  * Shows how to animate moving pieces of a puzzle using MotionLayout.
@@ -144,7 +145,7 @@ internal fun AnimatedPuzzlePiecesDemo() {
         progress = progress,
         debugFlags = DebugFlags.None,
     ) {
-        val painter = rememberVectorPainter(image = Icons.Default.Face)
+        val painter = rememberVectorPainter(image = vectorResource(Res.drawable.ic_face))
         index.forEachIndexed { i, id ->
             PuzzlePiece(
                 x = i % grid,

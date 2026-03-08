@@ -74,10 +74,12 @@ kotlin {
         }
         val commonMain by getting {
             dependencies {
-                implementation(compose.ui)
-                implementation(compose.uiUtil)
-                implementation(compose.foundation)
-                implementation(compose.runtime)
+                implementation(libs.compose.ui)
+                implementation(libs.compose.ui.util)
+                implementation(libs.compose.foundation)
+                implementation(libs.compose.runtime)
+                implementation(libs.annotation)
+                implementation(libs.collection)
                 implementation(kotlin("reflect"))
             }
         }

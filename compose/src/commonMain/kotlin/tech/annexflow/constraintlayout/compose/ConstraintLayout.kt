@@ -77,6 +77,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.util.fastForEach
 import androidx.compose.ui.util.fastForEachIndexed
+import androidx.collection.IntIntPair
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.channels.Channel
@@ -89,7 +90,6 @@ import tech.annexflow.constraintlayout.compose.extra.rememberEmptyPainter
 import tech.annexflow.constraintlayout.compose.platform.Log
 import tech.annexflow.constraintlayout.compose.platform.annotation.Language
 import tech.annexflow.constraintlayout.compose.platform.annotation.SuppressLint
-import tech.annexflow.constraintlayout.compose.shaded.androidx.collection.IntIntPair
 import tech.annexflow.constraintlayout.core.parser.CLElement
 import tech.annexflow.constraintlayout.core.parser.CLNumber
 import tech.annexflow.constraintlayout.core.parser.CLObject

@@ -22,11 +22,11 @@ import androidx.compose.ui.graphics.TransformOrigin
 import androidx.compose.ui.layout.FirstBaseline
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import tech.annexflow.constraintlayout.compose.shaded.androidx.annotation.FloatRange
 import tech.annexflow.constraintlayout.core.parser.CLArray
 import tech.annexflow.constraintlayout.core.parser.CLNumber
 import tech.annexflow.constraintlayout.core.parser.CLObject
 import tech.annexflow.constraintlayout.core.parser.CLString
+import androidx.annotation.FloatRange
 import kotlin.properties.ObservableProperty
 import kotlin.reflect.KProperty
 

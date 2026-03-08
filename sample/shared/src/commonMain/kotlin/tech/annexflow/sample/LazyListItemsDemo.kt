@@ -28,9 +28,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Face
-import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -51,6 +48,10 @@ import tech.annexflow.constraintlayout.compose.Dimension
 import tech.annexflow.constraintlayout.compose.ExperimentalMotionApi
 import tech.annexflow.constraintlayout.compose.MotionLayout
 import tech.annexflow.constraintlayout.compose.MotionScene
+import constraintlayout_compose_multiplatform.sample.shared.generated.resources.Res
+import constraintlayout_compose_multiplatform.sample.shared.generated.resources.ic_face
+import constraintlayout_compose_multiplatform.sample.shared.generated.resources.ic_menu
+import org.jetbrains.compose.resources.vectorResource
 import kotlin.random.Random
 
 /**
@@ -127,7 +128,7 @@ internal fun MotionInLazyColumnDslDemo() {
                 ) {
                     Image(
                         modifier = Modifier.layoutId("image"),
-                        imageVector = Icons.Default.Face,
+                        imageVector = vectorResource(Res.drawable.ic_face),
                         contentDescription = null,
                         contentScale = ContentScale.Crop,
                     )
@@ -138,7 +139,7 @@ internal fun MotionInLazyColumnDslDemo() {
                                 animateToEnd = !animateToEnd
                                 model[it] = animateToEnd
                             },
-                        imageVector = Icons.Default.Menu,
+                        imageVector = vectorResource(Res.drawable.ic_menu),
                         contentDescription = null,
                         colorFilter = ColorFilter.tint(Color.White),
                     )

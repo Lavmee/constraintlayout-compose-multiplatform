@@ -1,17 +1,29 @@
 [versions]
 
 androidx-appcompat = "1.7.1"
-androidx-activityCompose = "1.11.0"
-annotation = "1.9.0"
-compose = "1.9.0"
-kotlin = "2.1.21"
-agp = "8.13.0"
-maven-publish = "0.34.0"
+androidx-activityCompose = "1.12.4"
+annotation = "1.9.1"
+collection = "1.5.0"
+compose = "1.10.2"
+compose-material3 = "1.10.0-alpha05"
+kotlin = "2.3.10"
+agp = "8.13.2"
+maven-publish = "0.36.0"
 
 [libraries]
 
 androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "androidx-appcompat" }
 androidx-activityCompose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activityCompose" }
+annotation = { module = "androidx.annotation:annotation", version.ref = "annotation" }
+collection = { module = "androidx.collection:collection", version.ref = "collection" }
+
+compose-components-resources = { module = "org.jetbrains.compose.components:components-resources", version.ref = "compose" }
+compose-desktop = { module = "org.jetbrains.compose.desktop:desktop", version.ref = "compose" }
+compose-foundation = { module = "org.jetbrains.compose.foundation:foundation", version.ref = "compose" }
+compose-runtime = { module = "org.jetbrains.compose.runtime:runtime", version.ref = "compose" }
+compose-material3 = { module = "org.jetbrains.compose.material3:material3", version.ref = "compose-material3" }
+compose-ui = { module = "org.jetbrains.compose.ui:ui", version.ref = "compose" }
+compose-ui-util = { module = "org.jetbrains.compose.ui:ui-util", version.ref = "compose" }
 
 [plugins]
 

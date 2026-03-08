@@ -86,8 +86,9 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                implementation(compose.runtime)
-                implementation(compose.material3)
+                implementation(libs.compose.components.resources)
+                implementation(libs.compose.runtime)
+                implementation(libs.compose.material3)
                 implementation(project(":compose"))
             }
         }
@@ -107,7 +108,7 @@ kotlin {
 
         val desktopMain by getting {
             dependencies {
-                implementation(compose.desktop.common)
+                implementation(libs.compose.desktop)
                 implementation(compose.desktop.currentOs)
             }
         }
@@ -121,11 +122,11 @@ kotlin {
 
 android {
     namespace = "tech.annexflow.sample"
-    compileSdk = 35
+    compileSdk = 36
 
     defaultConfig {
         minSdk = 24
-        targetSdk = 35
+        targetSdk = 36
 
         applicationId = "tech.annexflow.sample.androidApp"
         versionCode = 1
