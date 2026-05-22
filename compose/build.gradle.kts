@@ -19,13 +19,14 @@ val extraJvmTarget = rootProject.extra.get("jvmTarget") as String
 kotlin {
     kotlin.applyDefaultHierarchyTemplate()
 
-    androidLibrary {
+    android {
         namespace = "androidx.constraintlayout.compose"
         compileSdk = 37
         minSdk = 21
         compilerOptions {
             jvmTarget.set(JvmTarget.fromTarget(extraJvmTarget))
         }
+        withHostTest {}
     }
     jvm {
         compilerOptions {
