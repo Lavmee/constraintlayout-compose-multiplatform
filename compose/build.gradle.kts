@@ -21,7 +21,7 @@ kotlin {
 
     androidLibrary {
         namespace = "androidx.constraintlayout.compose"
-        compileSdk = 36
+        compileSdk = 37
         minSdk = 21
         compilerOptions {
             jvmTarget.set(JvmTarget.fromTarget(extraJvmTarget))

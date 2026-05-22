@@ -107,11 +107,11 @@ kotlin {
 
 android {
     namespace = "tech.annexflow.sample"
-    compileSdk = 36
+    compileSdk = 37
 
     defaultConfig {
         minSdk = 24
-        targetSdk = 36
+        targetSdk = 37
 
         applicationId = "tech.annexflow.sample.androidApp"
         versionCode = 1
