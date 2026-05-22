@@ -57,23 +57,8 @@ kotlin {
             }
         }
     }
-    macosX64 {
-        binaries {
-            executable {
-                entryPoint = "main"
-                freeCompilerArgs +=
-                    listOf(
-                        "-linker-option",
-                        "-framework",
-                        "-linker-option",
-                        "Metal",
-                    )
-            }
-        }
-    }
 
     listOf(
-        iosX64(),
         iosArm64(),
         iosSimulatorArm64(),
     ).forEach {
@@ -156,7 +141,7 @@ compose.desktop {
 }
 
 compose.desktop.nativeApplication {
-    targets(kotlin.targets.getByName("macosX64"), kotlin.targets.getByName("macosArm64"))
+    targets(kotlin.targets.getByName("macosArm64"))
     distributions {
         targetFormats(TargetFormat.Dmg)
         packageName = "ConstraintLayoutSample"
