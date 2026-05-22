@@ -5,18 +5,20 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
     alias(libs.plugins.multiplatform)
+    alias(libs.plugins.android.kotlin.library)
     alias(libs.plugins.compose)
     alias(libs.plugins.compose.compiler)
-    alias(libs.plugins.android.application)
 }
 
 val extraJvmTarget = rootProject.extra.get("jvmTarget") as String
 
 @OptIn(ExperimentalKotlinGradlePluginApi::class)
 kotlin {
-    kotlin.applyDefaultHierarchyTemplate()
+    applyDefaultHierarchyTemplate()
 
-    androidTarget {
+    android {
+        namespace = "tech.annexflow.sample.shared"
+        compileSdk { version = release(37) }
         compilerOptions {
             jvmTarget.set(JvmTarget.fromTarget(extraJvmTarget))
         }
@@ -57,23 +59,8 @@ kotlin {
             }
         }
     }
-    macosX64 {
-        binaries {
-            executable {
-                entryPoint = "main"
-                freeCompilerArgs +=
-                    listOf(
-                        "-linker-option",
-                        "-framework",
-                        "-linker-option",
-                        "Metal",
-                    )
-            }
-        }
-    }
 
     listOf(
-        iosX64(),
         iosArm64(),
         iosSimulatorArm64(),
     ).forEach {
@@ -120,29 +107,6 @@ kotlin {
     }
 }
 
-android {
-    namespace = "tech.annexflow.sample"
-    compileSdk = 36
-
-    defaultConfig {
-        minSdk = 24
-        targetSdk = 36
-
-        applicationId = "tech.annexflow.sample.androidApp"
-        versionCode = 1
-        versionName = "1.0.0"
-    }
-    sourceSets["main"].apply {
-        manifest.srcFile("src/androidMain/AndroidManifest.xml")
-        res.srcDirs("src/androidMain/resources")
-        resources.srcDirs("src/commonMain/resources")
-    }
-    compileOptions {
-        sourceCompatibility = JavaVersion.toVersion(rootProject.extra.get("jvmTarget") as String)
-        targetCompatibility = JavaVersion.toVersion(rootProject.extra.get("jvmTarget") as String)
-    }
-}
-
 compose.desktop {
     application {
         mainClass = "MainKt"
@@ -156,7 +120,7 @@ compose.desktop {
 }
 
 compose.desktop.nativeApplication {
-    targets(kotlin.targets.getByName("macosX64"), kotlin.targets.getByName("macosArm64"))
+    targets(kotlin.targets.getByName("macosArm64"))
     distributions {
         targetFormats(TargetFormat.Dmg)
         packageName = "ConstraintLayoutSample"
