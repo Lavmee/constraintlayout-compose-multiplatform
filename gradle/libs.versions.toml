@@ -39,4 +39,4 @@ compose = { id = "org.jetbrains.compose", version.ref = "compose" }
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 android-application = { id = "com.android.application", version.ref = "agp" }
 android-kotlin-library = { id = "com.android.kotlin.multiplatform.library", version.ref = "agp" }
-maven-publish = { id = "com.vanniktech.maven.publish", version.ref = "maven-publish" }
+maven-publish = { id = "com.vanniktech.maven.publish.base", version.ref = "maven-publish" }

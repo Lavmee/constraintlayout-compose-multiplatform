@@ -32,7 +32,6 @@ class ConstraintLayoutLibraryPlugin : Plugin<Project> {
                 "com.android.kotlin.multiplatform.library",
                 "org.jetbrains.compose",
                 "org.jetbrains.kotlin.plugin.compose",
-                "com.vanniktech.maven.publish",
             ).forEach(pluginManager::apply)
 
             val flavour = LibraryFlavour.of(this)

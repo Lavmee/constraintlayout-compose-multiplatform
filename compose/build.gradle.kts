@@ -5,4 +5,5 @@
 // `:compose-shaded-compose` generate theirs from this one — see `build-logic`.
 plugins {
     id("tech.annexflow.constraintlayout-library")
+    id("tech.annexflow.constraintlayout-publish")
 }
