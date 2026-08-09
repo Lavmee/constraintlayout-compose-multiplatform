@@ -24,7 +24,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 
 @Composable
-internal fun App() = MaterialTheme {
+fun App() = MaterialTheme {
     Box(modifier = Modifier.windowInsetsPadding(WindowInsets.safeDrawing)) {
         ComposeConstraintLayoutDemos()
     }
