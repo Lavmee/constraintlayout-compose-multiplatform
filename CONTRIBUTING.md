@@ -22,5 +22,20 @@ Make sure you have
  - JDK 17  
  - A Mac if you're developing Compose for iOS/macOS
 
+### Project layout
+
+`:compose` is the only module with sources — edit them there. The two shaded flavours,
+`:compose-shaded` and `:compose-shaded-compose`, own no `src/` at all: their sources are generated
+from `:compose` at build time by rewriting package names, so a change to `:compose` reaches every
+published flavour on its own. The generation and the shared Kotlin Multiplatform configuration live
+in the `build-logic` convention plugin; what makes each flavour different is the `constraintlayout.*`
+properties in its own `gradle.properties`.
+
+To inspect what a flavour will actually compile:
+
+```shell
+./gradlew :compose-shaded:relocateCommonMain
+```
+
 ### Code guidelines
 To check the code style, run `./gradlew spotlessCheck` and fix the errors before you submit any PR.  

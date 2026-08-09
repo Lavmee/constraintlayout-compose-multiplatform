@@ -73,13 +73,38 @@ val commonMain by getting {
     dependencies {
         /// Compose 1.11.0+
         implementation("tech.annexflow.compose:constraintlayout-compose-multiplatform:0.8.0")
-        /// Compose 1.11.0+ with different tech.annexflow.constraintlayout.core package
-        implementation("tech.annexflow.compose:constraintlayout-compose-multiplatform:0.8.0-shaded-core")
-        /// Compose 1.11.0+ with different tech.annexflow.constraintlayout package
-        implementation("tech.annexflow.compose:constraintlayout-compose-multiplatform:0.8.0-shaded")
     }
 }
 ```
+
+### Shaded flavours
+
+If the `androidx.constraintlayout` package names clash with something else on your classpath — most
+often the real `androidx.constraintlayout:constraintlayout-compose` on Android — pick a relocated
+flavour instead. All three are built from the same sources and released under the same version.
+
+| Artifact | Packages it ships |
+|---|---|
+| `constraintlayout-compose-multiplatform` | `androidx.constraintlayout.compose` + `androidx.constraintlayout.core` |
+| `constraintlayout-compose-multiplatform-shaded` | `tech.annexflow.constraintlayout.compose` + `tech.annexflow.constraintlayout.core` |
+| `constraintlayout-compose-multiplatform-shaded-compose` | `tech.annexflow.constraintlayout.compose` + `androidx.constraintlayout.core` |
+
+```kotlin
+/// Everything relocated — the flavour to reach for when you hit a clash
+implementation("tech.annexflow.compose:constraintlayout-compose-multiplatform-shaded:0.8.0")
+```
+
+Two caveats:
+
+- `-shaded-compose` relocates only the Compose layer and still ships the solver as
+  `androidx.constraintlayout.core`, so it does **not** resolve a clash with
+  `androidx.constraintlayout:constraintlayout-core`. Use `-shaded` for that.
+- The flavours declare overlapping package names, so exactly one of them belongs on a classpath.
+
+Before 0.8.0 the flavours were published as version suffixes on a single artifact. They are separate
+artifacts now, because a shared artifact id let Gradle's version-conflict resolution silently swap
+one flavour for another: `0.8.0-shaded` becomes `-shaded:0.8.0`, and `0.8.0-shaded-core` — which
+despite its name relocated the Compose layer, not the solver — becomes `-shaded-compose:0.8.0`.
 
 ## Credits
 Thanks to Chris Banes for the initial structure of the project.

@@ -26,8 +26,12 @@ jobs:
         run: chmod +x ./gradlew
       - name: Build
         run: ./gradlew :sample:assemble
+      - name: Build shaded flavours
+        run: ./gradlew :compose-shaded:assemble :compose-shaded-compose:assemble
       - name: Test
         run: ./gradlew desktopTest
+      - name: Test shaded flavours
+        run: ./gradlew :compose-shaded:jvmTest :compose-shaded-compose:jvmTest
       - name: Deploy to Sonatype
         if: startsWith(github.ref, 'refs/tags/')
         run: ./gradlew publish

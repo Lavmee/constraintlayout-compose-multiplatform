@@ -25,6 +25,13 @@ compose-material3 = { module = "org.jetbrains.compose.material3:material3", vers
 compose-ui = { module = "org.jetbrains.compose.ui:ui", version.ref = "compose" }
 compose-ui-util = { module = "org.jetbrains.compose.ui:ui-util", version.ref = "compose" }
 
+# Plugin artifacts, consumed as `compileOnly` by the `build-logic` convention plugins.
+gradlePlugin-android = { module = "com.android.tools.build:gradle", version.ref = "agp" }
+gradlePlugin-compose = { module = "org.jetbrains.compose:compose-gradle-plugin", version.ref = "compose" }
+gradlePlugin-composeCompiler = { module = "org.jetbrains.kotlin:compose-compiler-gradle-plugin", version.ref = "kotlin" }
+gradlePlugin-kotlin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
+gradlePlugin-mavenPublish = { module = "com.vanniktech:gradle-maven-publish-plugin", version.ref = "maven-publish" }
+
 [plugins]
 
 multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }

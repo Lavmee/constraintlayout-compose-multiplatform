@@ -1,5 +1,7 @@
 rootProject.name = "constraintlayout-compose-multiplatform"
 pluginManagement {
+    includeBuild("build-logic")
+
     repositories {
         google()
         gradlePluginPortal()
@@ -17,4 +19,9 @@ dependencyResolutionManagement {
 
 include(":sample:androidApp")
 include(":sample:shared")
+
+// The library is published in three flavours. Only `:compose` has sources; the two shaded flavours
+// generate theirs from it at build time — see `build-logic`.
 include(":compose")
+include(":compose-shaded")
+include(":compose-shaded-compose")
