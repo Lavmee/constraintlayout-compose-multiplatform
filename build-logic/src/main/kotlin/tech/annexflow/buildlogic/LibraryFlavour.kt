@@ -7,8 +7,8 @@ import org.gradle.api.Project
 
 /**
  * One publishable flavour of the ConstraintLayout Compose Multiplatform library, described by the
- * `constraintlayout.*` properties in the module's own `gradle.properties` — the same place the
- * `POM_*` properties already live.
+ * `constraintlayout.*` properties in the module's own `gradle.properties` — the only per-flavour
+ * configuration there is, since everything else about a flavour is shared by definition.
  *
  * A flavour with empty [shadeRules] compiles its own `src/` tree; that is `:compose`, the single
  * place where sources are edited. A flavour with non-empty [shadeRules] owns no sources at all: its
@@ -20,6 +20,12 @@ internal data class LibraryFlavour(
     val androidNamespace: String,
     /** `baseName` of the produced iOS framework. Must be unique across every module of the build. */
     val frameworkBaseName: String,
+    /** Maven artifact id. Deliberately not the module name — `:compose` publishes as `constraintlayout-compose-multiplatform`. */
+    val artifactId: String,
+    /** POM `<name>`. */
+    val pomName: String,
+    /** POM `<description>`. The one line a consumer reads to tell the flavours apart. */
+    val pomDescription: String,
     /** Package prefixes to rewrite while generating sources, e.g. `androidx.foo` -> `tech.annexflow.foo`. */
     val shadeRules: Map<String, String>,
 ) {
@@ -28,6 +34,9 @@ internal data class LibraryFlavour(
             LibraryFlavour(
                 androidNamespace = project.requiredProperty("constraintlayout.androidNamespace"),
                 frameworkBaseName = project.requiredProperty("constraintlayout.frameworkBaseName"),
+                artifactId = project.requiredProperty("constraintlayout.artifactId"),
+                pomName = project.requiredProperty("constraintlayout.pomName"),
+                pomDescription = project.requiredProperty("constraintlayout.pomDescription"),
                 shadeRules = parseShadeRules(project.findProperty("constraintlayout.shadeRules") as String?),
             )
 

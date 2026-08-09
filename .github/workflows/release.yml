@@ -1,0 +1,105 @@
+name: Release
+
+# A tag publishes; the dispatch publishes a snapshot. The two share every step but the version and
+# the final Gradle task, so the dispatch is a real rehearsal of the release path rather than a
+# second code path that can rot. Debug the workflow with the dispatch before pushing a tag.
+on:
+  push:
+    tags: [ '*' ]
+  workflow_dispatch:
+
+# No cancel-in-progress: two tags pushed close together must publish one after the other, not race.
+# A cancelled publish can leave a deployment open in the Portal.
+#
+# The group is a constant rather than anything derived from github.ref, because for a tag push
+# github.ref is refs/tags/0.9.0 — unique per tag, so every release would get a group to itself and
+# serialize against nothing. One name for the whole workflow is what actually queues a second
+# release behind the first, and it queues the dispatch rehearsal behind a live release too.
+concurrency:
+  group: release
+
+permissions:
+  contents: read
+
+jobs:
+  # macOS is not a preference. Three of the seven targets are Apple ones and cannot be built
+  # anywhere else, and a Kotlin/Native target that cannot be built is dropped from the root module
+  # rather than failing the build — so a publisher on Linux ships root modules with no iOS and no
+  # macOS, silently. The staging check below is what refuses that if this ever moves.
+  publish:
+    name: Publish
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Validate Gradle Wrapper
+        uses: gradle/actions/wrapper-validation@v4
+
+      - name: Setup JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: zulu
+          java-version: 17
+
+      - uses: gradle/actions/setup-gradle@v4
+
+      - name: Resolve the version
+        id: version
+        run: |
+          if [ "${{ github.event_name }}" = "push" ]; then
+            # Tags in this repository are bare versions (0.8.0), but a leading `v` is stripped so
+            # a `v0.9.0` tag releases 0.9.0 rather than a version named after the tag style.
+            version="${GITHUB_REF_NAME#v}"
+            echo "release=true" >> "$GITHUB_OUTPUT"
+            echo "version=$version" >> "$GITHUB_OUTPUT"
+            echo "version_arg=-PconstraintlayoutVersion=$version" >> "$GITHUB_OUTPUT"
+          else
+            # An empty version_arg leaves build.gradle.kts's own -SNAPSHOT default in force.
+            echo "release=false" >> "$GITHUB_OUTPUT"
+            echo "version=" >> "$GITHUB_OUTPUT"
+            echo "version_arg=" >> "$GITHUB_OUTPUT"
+          fi
+
+      # Staged locally first. This is where a root module missing a platform is caught, which is
+      # the failure the whole design is arranged around and the one a green build will not show.
+      #
+      # The version is passed so the check can confirm that what Gradle actually wrote to disk is
+      # the version being released. Nothing else compares the tag to the staged output, and the gap
+      # is not theoretical — if -PconstraintlayoutVersion ever stopped reaching the modules the
+      # version would stay at build.gradle.kts's -SNAPSHOT default, publishAndReleaseToMavenCentral
+      # would route it to the snapshot repository, release nothing at the Portal and exit 0, and
+      # the tag would report a successful release of nothing. On the dispatch path the argument is
+      # empty, which the script treats as "no version to assert".
+      - name: Stage the release
+        run: |
+          ./gradlew publishAllPublicationsToLocalStagingRepository \
+            ${{ steps.version.outputs.version_arg }}
+          scripts/check-staged-release.sh build/localStaging "${{ steps.version.outputs.version }}"
+        env:
+          ORG_GRADLE_PROJECT_signingInMemoryKey: ${{ secrets.GPG_KEY }}
+          ORG_GRADLE_PROJECT_signingInMemoryKeyId: ${{ secrets.GPG_KEY_ID }}
+          ORG_GRADLE_PROJECT_signingInMemoryKeyPassword: ${{ secrets.GPG_KEY_PASSWORD }}
+
+      - name: Publish
+        env:
+          ORG_GRADLE_PROJECT_mavenCentralUsername: ${{ secrets.MAVEN_CENTRAL_USERNAME }}
+          ORG_GRADLE_PROJECT_mavenCentralPassword: ${{ secrets.MAVEN_CENTRAL_PASSWORD }}
+          ORG_GRADLE_PROJECT_signingInMemoryKey: ${{ secrets.GPG_KEY }}
+          ORG_GRADLE_PROJECT_signingInMemoryKeyId: ${{ secrets.GPG_KEY_ID }}
+          ORG_GRADLE_PROJECT_signingInMemoryKeyPassword: ${{ secrets.GPG_KEY_PASSWORD }}
+        run: |
+          if [ "${{ steps.version.outputs.release }}" = "true" ]; then
+            # Uploads one deployment per flavour and releases each once the Portal has validated it.
+            ./gradlew publishAndReleaseToMavenCentral ${{ steps.version.outputs.version_arg }}
+          else
+            # The plugin routes a -SNAPSHOT version to the snapshot repository and performs no
+            # Portal release, so this is the same path minus the irreversible step.
+            ./gradlew publishAllPublicationsToMavenCentralRepository
+          fi
+
+      - name: Upload the staged release
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: staged-release
+          path: build/localStaging

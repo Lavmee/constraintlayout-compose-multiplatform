@@ -39,3 +39,29 @@ To inspect what a flavour will actually compile:
 
 ### Code guidelines
 To check the code style, run `./gradlew spotlessCheck` and fix the errors before you submit any PR.  
+
+### Releasing
+
+Pushing a tag is the whole release. There is no version to bump first: the version comes from the
+tag, and `build.gradle.kts` defaults to a `-SNAPSHOT` for every other build.
+
+```shell
+git tag 0.9.0 && git push origin 0.9.0
+```
+
+`.github/workflows/release.yml` then stages all three flavours into `build/localStaging`, runs
+`scripts/check-staged-release.sh` over what landed there, and only uploads if that passes. The check
+refuses a release whose root modules are missing targets (which is what a publish from a host
+without Xcode silently produces), whose artifacts are unsigned (the signing tasks skip rather than
+fail when no key is configured), or whose staged version is not the tag.
+
+Run the same path without releasing anything by triggering the workflow manually — `workflow_dispatch`
+publishes a snapshot through every step a tag takes, minus the irreversible one. To stage and check
+locally:
+
+```shell
+./gradlew publishAllPublicationsToLocalStagingRepository && scripts/check-staged-release.sh build/localStaging
+```
+
+Without a signing key that reports every artifact as unsigned and exits non-zero, which is correct —
+it is the same thing the workflow would say if the `GPG_KEY` secret went missing.

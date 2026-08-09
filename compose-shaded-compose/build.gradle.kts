@@ -5,4 +5,5 @@
 // Its flavour is described by `constraintlayout.*` in gradle.properties.
 plugins {
     id("tech.annexflow.constraintlayout-library")
+    id("tech.annexflow.constraintlayout-publish")
 }

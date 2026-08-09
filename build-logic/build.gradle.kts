@@ -21,5 +21,9 @@ gradlePlugin {
             id = "tech.annexflow.constraintlayout-library"
             implementationClass = "tech.annexflow.buildlogic.ConstraintLayoutLibraryPlugin"
         }
+        register("constraintlayoutPublish") {
+            id = "tech.annexflow.constraintlayout-publish"
+            implementationClass = "tech.annexflow.buildlogic.ConstraintLayoutPublishPlugin"
+        }
     }
 }
