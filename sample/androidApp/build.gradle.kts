@@ -1,15 +1,12 @@
-import org.jetbrains.compose.desktop.application.dsl.TargetFormat
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
+    alias(libs.plugins.android.application)
     alias(libs.plugins.compose)
     alias(libs.plugins.compose.compiler)
-    alias(libs.plugins.android.application)
 }
 
 val extraJvmTarget = rootProject.extra.get("jvmTarget") as String
-
-kotlin {
-}
 
 android {
     namespace = "tech.annexflow.sample"
@@ -23,25 +20,21 @@ android {
         versionCode = 1
         versionName = "1.0.0"
     }
-    sourceSets["main"].apply {
-        manifest.srcFile("src/androidMain/AndroidManifest.xml")
-        res.directories.add("src/androidMain/resources")
-        resources.directories.add("src/commonMain/resources")
-    }
+
     compileOptions {
-        sourceCompatibility = JavaVersion.toVersion(rootProject.extra.get("jvmTarget") as String)
-        targetCompatibility = JavaVersion.toVersion(rootProject.extra.get("jvmTarget") as String)
+        sourceCompatibility = JavaVersion.toVersion(extraJvmTarget)
+        targetCompatibility = JavaVersion.toVersion(extraJvmTarget)
     }
 }
 
-compose.desktop {
-    application {
-        mainClass = "MainKt"
-
-        nativeDistributions {
-            targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
-            packageName = "tech.annexflow.sample.desktopApp"
-            packageVersion = "1.0.0"
-        }
+kotlin {
+    compilerOptions {
+        jvmTarget.set(JvmTarget.fromTarget(extraJvmTarget))
     }
+}
+
+dependencies {
+    implementation(project(":sample:shared"))
+    implementation(libs.androidx.appcompat)
+    implementation(libs.androidx.activityCompose)
 }

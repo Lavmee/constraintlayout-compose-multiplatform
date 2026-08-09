@@ -1,5 +1,4 @@
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
-import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
@@ -12,7 +11,6 @@ plugins {
 
 val extraJvmTarget = rootProject.extra.get("jvmTarget") as String
 
-@OptIn(ExperimentalKotlinGradlePluginApi::class)
 kotlin {
     applyDefaultHierarchyTemplate()
 
@@ -24,25 +22,19 @@ kotlin {
         }
     }
 
-    jvm("desktop") {
+    jvm {
         compilerOptions {
             jvmTarget.set(JvmTarget.fromTarget(extraJvmTarget))
         }
     }
 
-    js(IR) {
+    js {
         browser()
     }
 
     @OptIn(ExperimentalWasmDsl::class)
     wasmJs {
-        browser {
-            commonWebpackConfig {
-                outputFileName = "sample.js"
-            }
-        }
-
-        binaries.executable()
+        browser()
     }
 
     macosArm64 {
@@ -71,50 +63,15 @@ kotlin {
     }
 
     sourceSets {
-        val commonMain by getting {
-            dependencies {
-                implementation(libs.compose.components.resources)
-                implementation(libs.compose.runtime)
-                implementation(libs.compose.material3)
-                implementation(project(":compose"))
-            }
+        commonMain.dependencies {
+            api(libs.compose.runtime)
+            implementation(libs.compose.components.resources)
+            implementation(libs.compose.material3)
+            implementation(project(":compose"))
         }
 
-        val commonTest by getting {
-            dependencies {
-                implementation(kotlin("test"))
-            }
-        }
-
-        val androidMain by getting {
-            dependencies {
-                implementation(libs.androidx.appcompat)
-                implementation(libs.androidx.activityCompose)
-            }
-        }
-
-        val desktopMain by getting {
-            dependencies {
-                implementation(libs.compose.desktop)
-                implementation(compose.desktop.currentOs)
-            }
-        }
-
-        val iosMain by getting {
-            dependencies {
-            }
-        }
-    }
-}
-
-compose.desktop {
-    application {
-        mainClass = "MainKt"
-
-        nativeDistributions {
-            targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
-            packageName = "tech.annexflow.sample.desktopApp"
-            packageVersion = "1.0.0"
+        commonTest.dependencies {
+            implementation(kotlin("test"))
         }
     }
 }

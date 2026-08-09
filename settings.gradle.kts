@@ -10,6 +10,7 @@ pluginManagement {
 }
 
 dependencyResolutionManagement {
+    @Suppress("UnstableApiUsage")
     repositories {
         google()
         mavenCentral()
@@ -18,6 +19,8 @@ dependencyResolutionManagement {
 }
 
 include(":sample:androidApp")
+include(":sample:desktopApp")
+include(":sample:webApp")
 include(":sample:shared")
 
 // The library is published in three flavours. Only `:compose` has sources; the two shaded flavours

@@ -11,7 +11,6 @@ import org.gradle.api.artifacts.VersionCatalogsExtension
 import org.gradle.api.plugins.ExtensionAware
 import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.getByType
-import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
@@ -24,7 +23,7 @@ private const val ANDROID_MIN_SDK = 21
  * flavour shares this single definition of targets, source-set hierarchy and dependencies; they
  * differ only in the [LibraryFlavour] read from the module's own `gradle.properties`.
  */
-@OptIn(ExperimentalKotlinGradlePluginApi::class, ExperimentalWasmDsl::class)
+@OptIn(ExperimentalWasmDsl::class)
 class ConstraintLayoutLibraryPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {
