@@ -29,7 +29,10 @@ open class Helper {
     protected val name: String
     protected var mType: HelperType
     protected var mConfig: String? = null
-    protected var configMap: MutableMap<String, String>? = HashMap()
+    // `toString()` renders this map key by key, so its iteration order is part of the emitted
+    // JSON. `HashMap` orders by hash bucket on JVM but by insertion everywhere else, which made
+    // the generated JSON differ per target; `LinkedHashMap` pins it to insertion order for all.
+    protected var configMap: MutableMap<String, String>? = LinkedHashMap()
 
     constructor(name: String, type: HelperType) {
         this.name = name
@@ -59,7 +62,7 @@ open class Helper {
         if (mConfig == null || mConfig!!.isEmpty()) {
             return null
         }
-        val map: MutableMap<String, String> = HashMap()
+        val map: MutableMap<String, String> = LinkedHashMap()
         val builder = StringBuilder()
         var key = ""
         var value: String
