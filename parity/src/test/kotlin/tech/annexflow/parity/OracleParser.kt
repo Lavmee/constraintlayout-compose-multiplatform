@@ -23,9 +23,9 @@ object OracleParser : ParserSubject {
                 structure = buildString { describe(root, 0, this) },
             )
         } catch (e: CLParsingException) {
-            ParseOutcome.Failed("CLParsingException", e.reason())
+            ParseOutcome.Failed(e.reason())
         } catch (e: Exception) {
-            ParseOutcome.Failed(e::class.simpleName.orEmpty(), e.message.orEmpty())
+            ParseOutcome.Leaked(ParseOutcome.categorise(e))
         } catch (e: StackOverflowError) {
             ParseOutcome.Crashed("StackOverflowError")
         } catch (e: OutOfMemoryError) {

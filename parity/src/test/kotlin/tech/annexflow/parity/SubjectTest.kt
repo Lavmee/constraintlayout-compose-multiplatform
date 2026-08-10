@@ -35,8 +35,26 @@ class SubjectTest {
     @Test
     fun bothSubjectsTurnParseErrorsIntoFailed() {
         for (subject in subjects) {
+            val outcome = subject.parse("no json here")
+            assertEquals(
+                ParseOutcome.Failed("invalid json content (unknown at line 0)"),
+                outcome,
+                subject.name,
+            )
+        }
+    }
+
+    /**
+     * Truncated input makes `content()` read past the buffer, so an index error escapes the parser
+     * instead of a `CLParsingException`. Upstream does this too — the port is faithful here — and
+     * pinning it down keeps the distinction between a decision the parser made and a detail leaking
+     * out of it honest.
+     */
+    @Test
+    fun bothSubjectsLeakOnTruncatedInput() {
+        for (subject in subjects) {
             val outcome = subject.parse("{ test: [")
-            assertTrue(outcome is ParseOutcome.Failed, "${subject.name} returned $outcome")
+            assertEquals(ParseOutcome.Leaked("IndexOutOfBounds"), outcome, subject.name)
         }
     }
 

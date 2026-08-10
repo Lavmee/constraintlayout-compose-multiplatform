@@ -39,6 +39,11 @@ jobs:
         run: ./gradlew :compose:jvmTest
       - name: Test shaded flavours
         run: ./gradlew :compose-shaded:jvmTest :compose-shaded-compose:jvmTest
+      # Compares the ported parser against a vendored copy of the upstream one. The suite above
+      # came from upstream too, so it can only pin down behaviour upstream itself exercises; this
+      # is what catches translation defects hiding behind inputs that suite never tries.
+      - name: Parity tests
+        run: ./gradlew :parity:test
 
       # Publishing is not here. It lives in release.yml, which a tag triggers directly, so a
       # release is one job that stages, verifies and uploads rather than a step bolted to the end
