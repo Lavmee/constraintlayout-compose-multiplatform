@@ -805,26 +805,29 @@ class ConstraintWidgetContainer : WidgetContainer {
                 }
             }
             if (true) {
-                val width = max(mMinWidth, width)
-                if (width > width) {
+                // Named apart from the `width`/`height` properties on purpose: the Java original
+                // reads them back through `getWidth()`/`getHeight()`, so a local of the same name
+                // would shadow the property and reduce both guards below to `x > x`.
+                val minimumWidth = max(mMinWidth, width)
+                if (minimumWidth > width) {
                     if (DEBUG_LAYOUT) {
                         println(
-                            "layout override 2, width from " + width + " vs " + width,
+                            "layout override 2, width from " + width + " vs " + minimumWidth,
                         )
                     }
-                    this.width = width
+                    this.width = minimumWidth
                     mListDimensionBehaviors[DIMENSION_HORIZONTAL] = FIXED
                     wrap_override = true
                     needsSolving = true
                 }
-                val height = max(mMinHeight, height)
-                if (height > height) {
+                val minimumHeight = max(mMinHeight, height)
+                if (minimumHeight > height) {
                     if (DEBUG_LAYOUT) {
                         println(
-                            "layout override 2, height from " + height + " vs " + height,
+                            "layout override 2, height from " + height + " vs " + minimumHeight,
                         )
                     }
-                    this.height = height
+                    this.height = minimumHeight
                     mListDimensionBehaviors[DIMENSION_VERTICAL] = FIXED
                     wrap_override = true
                     needsSolving = true
