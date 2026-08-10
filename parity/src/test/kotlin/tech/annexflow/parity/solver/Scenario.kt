@@ -34,16 +34,73 @@ data class WidgetSpec(
     val maxHeight: Int,
     val horizontalBias: Float,
     val verticalBias: Float,
+    /** `setDimensionRatio`'s documented format: `[H|V],[float|x:y]` or `[float|x:y]`. Null when unset. */
+    val dimensionRatio: String?,
 )
 
-/** [target] is an index into [Scenario.widgets], or `null` for the root. */
+/** What a connection can point at. */
+sealed interface Target {
+    data object Root : Target
+
+    data class Widget(val index: Int) : Target
+
+    data class Barrier(val index: Int) : Target
+
+    data class Guideline(val index: Int) : Target
+}
+
 data class ConnectionSpec(
     val from: Int,
     val fromSide: Side,
-    val target: Int?,
+    val target: Target,
     val toSide: Side,
     val margin: Int,
 )
+
+/**
+ * A barrier resolves to the extreme edge of the widgets it references. [referenced] is never empty:
+ * a barrier over nothing resolves to nothing useful and would be inert coverage.
+ */
+data class BarrierSpec(
+    val name: String,
+    val side: Side,
+    val margin: Int,
+    val referenced: List<Int>,
+)
+
+/** The three ways `Guideline` accepts a position, matching its `RELATIVE_*` modes. */
+sealed interface GuidelinePosition {
+    data class Begin(val value: Int) : GuidelinePosition
+
+    data class End(val value: Int) : GuidelinePosition
+
+    data class Percent(val value: Float) : GuidelinePosition
+}
+
+data class GuidelineSpec(
+    val name: String,
+    val vertical: Boolean,
+    val position: GuidelinePosition,
+)
+
+enum class ChainStyle { SPREAD, SPREAD_INSIDE, PACKED }
+
+/**
+ * A chain is not a class in the engine — it emerges from a run of widgets linked to each other in
+ * both directions, with a style set on the head. This record exists so the pattern can be asserted
+ * complete; the connections themselves still live in [Scenario.connections].
+ */
+data class ChainSpec(
+    val members: List<Int>,
+    val horizontal: Boolean,
+    val style: ChainStyle,
+)
+
+/**
+ * A circular constraint, which positions a widget at an angle and distance from another rather than
+ * by anchors. [target] is always lower than [from], so it cannot reintroduce a cycle.
+ */
+data class CircularSpec(val from: Int, val target: Int, val angle: Float, val radius: Int)
 
 data class Scenario(
     val seed: Long,
@@ -55,4 +112,8 @@ data class Scenario(
     val rootMinHeight: Int,
     val widgets: List<WidgetSpec>,
     val connections: List<ConnectionSpec>,
+    val circular: List<CircularSpec>,
+    val barriers: List<BarrierSpec>,
+    val guidelines: List<GuidelineSpec>,
+    val chains: List<ChainSpec>,
 )
