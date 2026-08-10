@@ -31,6 +31,7 @@ object OracleSolver : SolverSubject {
                     if (spec.maxHeight != Int.MAX_VALUE) maxHeight = spec.maxHeight
                     horizontalBiasPercent = spec.horizontalBias
                     verticalBiasPercent = spec.verticalBias
+                    spec.dimensionRatio?.let { setDimensionRatio(it) }
                     root.add(this)
                 }
             }
@@ -41,6 +42,14 @@ object OracleSolver : SolverSubject {
                     connection.target?.let { widgets[it] } ?: root,
                     side(connection.toSide),
                     connection.margin,
+                )
+            }
+
+            for (circle in scenario.circular) {
+                widgets[circle.from].connectCircularConstraint(
+                    widgets[circle.target],
+                    circle.angle,
+                    circle.radius,
                 )
             }
 

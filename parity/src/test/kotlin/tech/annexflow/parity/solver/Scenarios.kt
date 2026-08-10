@@ -17,30 +17,57 @@ object Scenarios {
     private const val MIN_WIDGETS = 2
     private const val MAX_WIDGETS = 8
 
+    private val RATIOS = listOf("16:9", "4:3", "1:1", "3:2", "W,16:9", "H,2:3", "0.5", "2.0")
+
     fun generate(seed: Long): Scenario {
         val random = Random(seed)
         val count = random.nextInt(MIN_WIDGETS, MAX_WIDGETS + 1)
 
         val widgets = (0 until count).map { index ->
+            val horizontal = behaviour(random)
+            val vertical = behaviour(random)
+            val ratioIsMeaningful =
+                horizontal == Behaviour.MATCH_CONSTRAINT || vertical == Behaviour.MATCH_CONSTRAINT
             WidgetSpec(
                 name = "w$index",
                 width = random.nextInt(20, 200),
                 height = random.nextInt(20, 200),
-                horizontal = behaviour(random),
-                vertical = behaviour(random),
+                horizontal = horizontal,
+                vertical = vertical,
                 minWidth = if (random.nextInt(4) == 0) random.nextInt(1, 150) else 0,
                 minHeight = if (random.nextInt(4) == 0) random.nextInt(1, 150) else 0,
                 maxWidth = if (random.nextInt(6) == 0) random.nextInt(150, 400) else Int.MAX_VALUE,
                 maxHeight = if (random.nextInt(6) == 0) random.nextInt(150, 400) else Int.MAX_VALUE,
                 horizontalBias = random.nextInt(0, 11) / 10f,
                 verticalBias = random.nextInt(0, 11) / 10f,
+                // A ratio on a widget whose dimensions are both fixed is inert — the fixed sizes
+                // win and nothing is exercised. Drawing it only when an axis is MATCH_CONSTRAINT
+                // keeps generated coverage honest.
+                dimensionRatio = if (ratioIsMeaningful && random.nextInt(3) == 0) {
+                    RATIOS[random.nextInt(RATIOS.size)]
+                } else {
+                    null
+                },
             )
         }
 
+        // A widget is anchored either by its edges or circularly, never both: the two together
+        // over-constrain it, and the solver's resolution of that conflict is not what this
+        // harness is measuring.
+        val circular = mutableListOf<CircularSpec>()
         val connections = mutableListOf<ConnectionSpec>()
         for (index in 0 until count) {
-            connections += axisConnections(random, index, horizontal = true)
-            connections += axisConnections(random, index, horizontal = false)
+            if (index > 0 && random.nextInt(5) == 0) {
+                circular += CircularSpec(
+                    from = index,
+                    target = random.nextInt(index),
+                    angle = random.nextInt(0, 360).toFloat(),
+                    radius = random.nextInt(10, 200),
+                )
+            } else {
+                connections += axisConnections(random, index, horizontal = true)
+                connections += axisConnections(random, index, horizontal = false)
+            }
         }
 
         return Scenario(
@@ -55,6 +82,7 @@ object Scenarios {
             rootMinHeight = if (random.nextInt(2) == 0) random.nextInt(1, 600) else 0,
             widgets = widgets,
             connections = connections,
+            circular = circular,
         )
     }
 

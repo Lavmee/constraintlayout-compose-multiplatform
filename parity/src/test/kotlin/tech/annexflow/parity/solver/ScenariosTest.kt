@@ -85,4 +85,61 @@ class ScenariosTest {
         }
         assertTrue(matching >= 10, "only $matching of 200 scenarios exercise the root minimum")
     }
+
+    @Test
+    fun ratiosOnlyAppearOnWidgetsWithAMatchConstraintAxis() {
+        for (seed in 1L..300L) {
+            for (widget in Scenarios.generate(seed).widgets) {
+                if (widget.dimensionRatio != null) {
+                    assertTrue(
+                        widget.horizontal == Behaviour.MATCH_CONSTRAINT ||
+                            widget.vertical == Behaviour.MATCH_CONSTRAINT,
+                        "seed $seed: ${widget.name} has ratio ${widget.dimensionRatio} " +
+                            "but neither axis is MATCH_CONSTRAINT, so the ratio is inert",
+                    )
+                }
+            }
+        }
+    }
+
+    @Test
+    fun someScenariosCarryARatio() {
+        val matching = (1L..300L).count { seed ->
+            Scenarios.generate(seed).widgets.any { it.dimensionRatio != null }
+        }
+        assertTrue(matching >= 30, "only $matching of 300 scenarios carry a ratio")
+    }
+
+    @Test
+    fun circularConstraintsTargetLowerIndices() {
+        for (seed in 1L..300L) {
+            for (circular in Scenarios.generate(seed).circular) {
+                assertTrue(
+                    circular.target < circular.from,
+                    "seed $seed: widget ${circular.from} circles ${circular.target}",
+                )
+            }
+        }
+    }
+
+    @Test
+    fun circularlyConstrainedWidgetsHaveNoAnchorConnections() {
+        for (seed in 1L..300L) {
+            val scenario = Scenarios.generate(seed)
+            val circled = scenario.circular.map { it.from }.toSet()
+            for (connection in scenario.connections) {
+                assertTrue(
+                    connection.from !in circled,
+                    "seed $seed: widget ${connection.from} has both a circular constraint and " +
+                        "an anchor connection, which over-constrains it",
+                )
+            }
+        }
+    }
+
+    @Test
+    fun someScenariosCarryACircularConstraint() {
+        val matching = (1L..300L).count { Scenarios.generate(it).circular.isNotEmpty() }
+        assertTrue(matching >= 30, "only $matching of 300 scenarios carry a circular constraint")
+    }
 }

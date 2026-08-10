@@ -34,6 +34,8 @@ data class WidgetSpec(
     val maxHeight: Int,
     val horizontalBias: Float,
     val verticalBias: Float,
+    /** `setDimensionRatio`'s documented format: `[H|V],[float|x:y]` or `[float|x:y]`. Null when unset. */
+    val dimensionRatio: String?,
 )
 
 /** [target] is an index into [Scenario.widgets], or `null` for the root. */
@@ -45,6 +47,12 @@ data class ConnectionSpec(
     val margin: Int,
 )
 
+/**
+ * A circular constraint, which positions a widget at an angle and distance from another rather than
+ * by anchors. [target] is always lower than [from], so it cannot reintroduce a cycle.
+ */
+data class CircularSpec(val from: Int, val target: Int, val angle: Float, val radius: Int)
+
 data class Scenario(
     val seed: Long,
     val rootWidth: Int,
@@ -55,4 +63,5 @@ data class Scenario(
     val rootMinHeight: Int,
     val widgets: List<WidgetSpec>,
     val connections: List<ConnectionSpec>,
+    val circular: List<CircularSpec>,
 )
