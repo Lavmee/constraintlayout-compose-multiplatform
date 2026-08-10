@@ -11,6 +11,7 @@ plugins {
     alias(libs.plugins.android.application).apply(false)
     alias(libs.plugins.android.kotlin.library).apply(false)
     alias(libs.plugins.maven.publish).apply(false)
+    alias(libs.plugins.jvm).apply(false)
 }
 
 group = "tech.annexflow.compose"

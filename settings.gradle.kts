@@ -28,3 +28,7 @@ include(":sample:shared")
 include(":compose")
 include(":compose-shaded")
 include(":compose-shaded-compose")
+
+// Not published. Compares the port against a vendored copy of the upstream parser, to catch
+// translation defects the inherited test suite cannot see — it came from upstream too.
+include(":parity")
