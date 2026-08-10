@@ -1,0 +1,3 @@
+# Upstream sources vendored verbatim as a comparison oracle — see parity/UPSTREAM.md. Marked so
+# they do not swamp the repository's language statistics or clutter diffs.
+parity/src/oracle/** linguist-vendored

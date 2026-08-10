@@ -17,6 +17,9 @@ androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "a
 # kept byte-identical to upstream, so the annotation has to resolve rather than be stripped.
 jspecify = { module = "org.jspecify:jspecify", version = "1.0.0" }
 androidx-activityCompose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activityCompose" }
+# Also used compile-only by `:parity`'s vendored upstream sources — four of them carry @RestrictTo
+# and the files are kept byte-identical to upstream, so the annotation has to resolve rather than
+# be stripped.
 annotation = { module = "androidx.annotation:annotation", version.ref = "annotation" }
 collection = { module = "androidx.collection:collection", version.ref = "collection" }
 
