@@ -1,0 +1,15 @@
+{
+ConstraintSets:{
+start:{
+a:{
+horizontalBias:0.3,
+verticalBias:0.2,
+circular:['parent',0,10],
+verticalWeight:2.1,
+horizontalWeight:1.0,
+width:'50%',
+height:'60%',
+},
+},
+},
+}

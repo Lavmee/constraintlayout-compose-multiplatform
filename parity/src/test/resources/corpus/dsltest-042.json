@@ -1,0 +1,15 @@
+{
+  ConstraintSets: {
+    start: {
+      chain1: {
+        type: 'vChain',
+        contains: ['a1', ['b1', 30, 50, 20], 'c1', ['d1', 10]]
+      },
+      chain2: {
+        type: 'vChain',
+        contains: ['a1', ['b1', 10, 15, 20], ['c1', 25, 35], ['ref2', 20, 50]]
+      },
+      chain3: { type: 'vChain', contains: [['ref3', 75]] }
+    }
+  }
+}

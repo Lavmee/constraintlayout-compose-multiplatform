@@ -1,0 +1,37 @@
+{
+  ConstraintSets: {
+    start: {
+      a: {
+        width: 40,
+        height: 40,
+        start: ['parent', 'start', 16],
+        bottom: ['parent', 'bottom', 16]
+      }
+    },
+    end: {
+      a: {
+        width: 40,
+        height: 40,
+        end: ['parent', 'end', 16],
+        top: ['parent', 'top', 16]
+      }
+    }
+  },
+  Transitions: {
+    default: {
+      from: 'start',
+      to: 'end',
+      pathMotionArc: 'startHorizontal',
+      KeyFrames: {
+        KeyAttributes: [
+          {
+            target: ['a'],
+            frames: [25, 50],
+            scaleX: 3,
+            scaleY: 0.3
+          }
+        ]
+      }
+    }
+  }
+}

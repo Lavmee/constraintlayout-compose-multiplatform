@@ -1,0 +1,13 @@
+{
+Transitions:{
+expand:{
+from:'start',
+to:'end',
+OnSwipe:{
+anchor:'button',
+direction:'right',
+side:'right',
+},
+},
+},
+}

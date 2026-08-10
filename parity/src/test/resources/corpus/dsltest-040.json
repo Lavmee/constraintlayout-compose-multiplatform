@@ -1,0 +1,14 @@
+{
+  ConstraintSets: {
+    start: {
+      chain1: { type: 'vChain', style: 'spread_inside' },
+      chain2: { type: 'vChain', style: 'packed', baseline: ['c1', 'baseline'] },
+      chain3: {
+        type: 'vChain',
+        style: 'spread',
+        top: ['c2', 'bottom', 10],
+        bottom: ['c3', 'top', 25, 50]
+      }
+    }
+  }
+}

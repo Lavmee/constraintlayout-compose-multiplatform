@@ -13,6 +13,9 @@ maven-publish = "0.37.0"
 [libraries]
 
 androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "androidx-appcompat" }
+# Compile-only, for `:parity`'s vendored upstream sources — they carry @NonNull annotations and are
+# kept byte-identical to upstream, so the annotation has to resolve rather than be stripped.
+jspecify = { module = "org.jspecify:jspecify", version = "1.0.0" }
 androidx-activityCompose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activityCompose" }
 annotation = { module = "androidx.annotation:annotation", version.ref = "annotation" }
 collection = { module = "androidx.collection:collection", version.ref = "collection" }
@@ -40,3 +43,4 @@ compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "
 android-application = { id = "com.android.application", version.ref = "agp" }
 android-kotlin-library = { id = "com.android.kotlin.multiplatform.library", version.ref = "agp" }
 maven-publish = { id = "com.vanniktech.maven.publish.base", version.ref = "maven-publish" }
+jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }

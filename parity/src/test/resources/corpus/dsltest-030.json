@@ -1,0 +1,9 @@
+{
+  ConstraintSets: {
+    start: {
+      g1: { type: 'vGuideline' },
+      g2: { type: 'vGuideline', start: 10 },
+      g3: { type: 'vGuideline', percent: 0.5 }
+    }
+  }
+}

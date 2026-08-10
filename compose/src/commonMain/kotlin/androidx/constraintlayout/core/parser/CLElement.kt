@@ -70,8 +70,11 @@ open class CLElement internal constructor(content: CharArray) : Cloneable {
         if (mStart > mEnd || mEnd == Long.MAX_VALUE) {
             return getStrClass() + " (INVALID, " + mStart + "-" + mEnd + ")"
         }
-        var content: String = mContent.joinToString("")
-        content = content.substring(mStart.toInt(), mEnd.toInt() + 1)
+        var length = (mEnd - mStart + 1).toInt()
+        if (length > 1000) {
+            length = 1000
+        }
+        val content = mContent.concatToString(mStart.toInt(), mStart.toInt() + length)
 
         return getStrClass() + " (" + mStart + " : " + mEnd + ") <<" + content + ">>"
     }
@@ -93,16 +96,18 @@ open class CLElement internal constructor(content: CharArray) : Cloneable {
 
     // @TODO: add description
     fun content(): String {
-        val content: String = mContent.joinToString("")
-        // Handle empty string
-        if (content.isEmpty()) {
+        if (mContent.isEmpty() || mStart == -1L) {
             return ""
         }
-        return if (mEnd == Long.MAX_VALUE || mEnd < mStart) {
-            content.substring(mStart.toInt(), mStart.toInt() + 1)
-        } else {
-            content.substring(mStart.toInt(), mEnd.toInt() + 1)
+        if (mEnd == Long.MAX_VALUE || mEnd < mStart) {
+            return mContent.concatToString(mStart.toInt(), mStart.toInt() + 1)
         }
+        var length = (mEnd - mStart + 1).toInt()
+        // Limit string length to avoid out of memory issues with very large literals
+        if (length > 1000) {
+            length = 1000
+        }
+        return mContent.concatToString(mStart.toInt(), mStart.toInt() + length)
     }
 
     fun hasContent(): Boolean {
