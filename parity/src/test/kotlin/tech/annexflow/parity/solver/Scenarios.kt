@@ -58,17 +58,20 @@ object Scenarios {
             GuidelineSpec(
                 name = "g$index",
                 vertical = random.nextBoolean(),
+                // The root is at least 400 (see rootWidth/rootHeight below), so an upper bound past
+                // that lets some draws land beyond the root's edge, not just short of it. Percent
+                // spans the full 0..100 inclusive so the 0% and 100% edges are reached too.
                 position = when (random.nextInt(3)) {
-                    0 -> GuidelinePosition.Begin(random.nextInt(10, 300))
-                    1 -> GuidelinePosition.End(random.nextInt(10, 300))
-                    else -> GuidelinePosition.Percent(random.nextInt(1, 100) / 100f)
+                    0 -> GuidelinePosition.Begin(random.nextInt(10, 500))
+                    1 -> GuidelinePosition.End(random.nextInt(10, 500))
+                    else -> GuidelinePosition.Percent(random.nextInt(0, 101) / 100f)
                 },
             )
         }
 
         // A barrier sits over widgets from the lower half, so widgets above it can target it
         // without closing a cycle. With fewer than two widgets there is no room for that.
-        val barriers = if (count >= 3 && random.nextInt(2) == 0) {
+        val barriers = if (count >= 2 && random.nextInt(2) == 0) {
             val ceiling = count / 2
             val referenced = (0 until ceiling).filter { random.nextBoolean() }.ifEmpty { listOf(0) }
             listOf(
@@ -158,18 +161,19 @@ object Scenarios {
         for ((position, member) in chain.members.withIndex()) {
             val previous = chain.members.getOrNull(position - 1)
             val next = chain.members.getOrNull(position + 1)
-            val margin = random.nextInt(0, 30)
 
+            // Margins are drawn independently per connection, same as the non-chain path, so
+            // asymmetric margins can occur here too.
             out += if (previous == null) {
-                ConnectionSpec(member, startSide, Target.Root, startSide, margin)
+                ConnectionSpec(member, startSide, Target.Root, startSide, random.nextInt(0, 30))
             } else {
-                ConnectionSpec(member, startSide, Target.Widget(previous), endSide, margin)
+                ConnectionSpec(member, startSide, Target.Widget(previous), endSide, random.nextInt(0, 30))
             }
 
             out += if (next == null) {
-                ConnectionSpec(member, endSide, Target.Root, endSide, margin)
+                ConnectionSpec(member, endSide, Target.Root, endSide, random.nextInt(0, 30))
             } else {
-                ConnectionSpec(member, endSide, Target.Widget(next), startSide, margin)
+                ConnectionSpec(member, endSide, Target.Widget(next), startSide, random.nextInt(0, 30))
             }
         }
         return out
@@ -188,19 +192,25 @@ object Scenarios {
     ): List<ConnectionSpec> {
         val (start, end) = if (horizontal) Side.LEFT to Side.RIGHT else Side.TOP to Side.BOTTOM
         val target = pickTarget(random, index, horizontal, barriers, guidelines)
+        val isLine = target is Target.Barrier || target is Target.Guideline
 
-        if (random.nextInt(3) == 0) {
+        if (isLine || random.nextInt(3) == 0) {
             // A single connection. Targeting a sibling's opposite side chains the widgets one after
             // another; targeting the matching side of the root or a sibling anchors them together.
-            // Both shapes matter, so pick between them rather than always chaining.
+            // Both shapes matter, so pick between them rather than always chaining. A barrier or
+            // guideline is a line rather than a span — `Guideline.getAnchor` returns the same
+            // anchor for both of its sides, and a barrier is likewise one-sided — so it is always
+            // single-connected here regardless of the roll.
             val toSide = if (target is Target.Widget && random.nextInt(2) == 0) end else start
             return listOf(ConnectionSpec(index, start, target, toSide, random.nextInt(0, 40)))
         }
 
         // Two connections anchor the widget to the container's two edges — each side to its
         // matching side, so the span between them (and therefore a MATCH_CONSTRAINT dimension) is
-        // real and positive rather than collapsing both anchors onto the same edge. Margins are
-        // drawn independently so asymmetric margins can occur.
+        // real and positive rather than collapsing both anchors onto the same edge. That only holds
+        // when the target has two distinct edges, true of the root and of a sibling widget; a
+        // barrier or guideline is handled above instead. Margins are drawn independently so
+        // asymmetric margins can occur.
         return listOf(
             ConnectionSpec(index, start, target, start, random.nextInt(0, 40)),
             ConnectionSpec(index, end, target, end, random.nextInt(0, 40)),
@@ -209,9 +219,11 @@ object Scenarios {
 
     /**
      * A barrier is only a legal target for a widget above every widget the barrier references —
-     * otherwise the barrier would depend on a widget that depends on the barrier. A guideline is
-     * only legal on the axis it divides: a vertical guideline is a vertical line, so widgets
-     * constrain to it horizontally.
+     * otherwise the barrier would depend on a widget that depends on the barrier. Both a barrier
+     * and a guideline are only legal on the axis they constrain: upstream `Barrier.addToSolver`
+     * emits equations for its own axis alone and never calls `super`, so a LEFT/RIGHT barrier is a
+     * vertical line usable only for horizontal connections, and likewise TOP/BOTTOM for vertical —
+     * the same rule `Guideline` follows, where a vertical guideline is a vertical line.
      */
     private fun pickTarget(
         random: Random,
@@ -220,7 +232,9 @@ object Scenarios {
         barriers: List<BarrierSpec>,
         guidelines: List<GuidelineSpec>,
     ): Target {
-        val barrierIndex = barriers.indices.filter { index > barriers[it].referenced.max() }
+        val barrierIndex = barriers.indices.filter {
+            index > barriers[it].referenced.max() && barriers[it].side.isHorizontal == horizontal
+        }
         val guidelineIndex = guidelines.indices.filter { guidelines[it].vertical == horizontal }
 
         val choices = buildList {

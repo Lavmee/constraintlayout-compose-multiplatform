@@ -180,19 +180,25 @@ class ScenariosTest {
         }
     }
 
+    /**
+     * `someScenariosCarryABarrier` and `someScenariosCarryAGuideline` below only prove those
+     * participants get constructed — neither proves any connection actually points at one. An
+     * off-by-one in the barrier index or axis filtering inside `pickTarget` could silently drop
+     * every barrier (or guideline) connection while every other test, including those two, stayed
+     * green: the branch would claim coverage it did not have. This also folds in what
+     * `everyConnectionTargetResolves` used to check — every target's index is constructed from
+     * `.indices` inside `pickTarget`, so resolution can never fail; a variant simply never
+     * appearing was the real gap.
+     */
     @Test
-    fun everyConnectionTargetResolves() {
+    fun everyTargetVariantIsEmittedAsAConnectionTarget() {
+        val kinds = mutableSetOf<String>()
         for (seed in 1L..300L) {
-            val scenario = Scenarios.generate(seed)
-            for (connection in scenario.connections) {
-                when (val target = connection.target) {
-                    is Target.Root -> Unit
-                    is Target.Widget -> assertTrue(target.index in scenario.widgets.indices)
-                    is Target.Barrier -> assertTrue(target.index in scenario.barriers.indices)
-                    is Target.Guideline -> assertTrue(target.index in scenario.guidelines.indices)
-                }
+            for (connection in Scenarios.generate(seed).connections) {
+                kinds += connection.target::class.simpleName.orEmpty()
             }
         }
+        assertEquals(setOf("Root", "Widget", "Barrier", "Guideline"), kinds, "generated kinds: $kinds")
     }
 
     @Test
@@ -229,11 +235,13 @@ class ScenariosTest {
         for (seed in 1L..300L) {
             for (chain in Scenarios.generate(seed).chains) {
                 assertTrue(chain.members.size >= 2, "seed $seed: chain of ${chain.members.size}")
-                assertEquals(
-                    chain.members,
-                    chain.members.sorted(),
-                    "seed $seed: chain members out of order",
-                )
+                for ((a, b) in chain.members.zipWithNext()) {
+                    assertEquals(
+                        a + 1,
+                        b,
+                        "seed $seed: chain members are not contiguous: ${chain.members}",
+                    )
+                }
             }
         }
     }
