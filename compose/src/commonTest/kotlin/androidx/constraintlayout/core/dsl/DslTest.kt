@@ -748,15 +748,15 @@ class DslTest {
             start:{
             grid1:{
             type:'grid',
-            column:5,
             row:3,
+            column:5,
             },
             vchain:{
             type:'vChain',
-            contains:['c1','d1'],
+            style:'spread',
             top:['a1',1,2],
             bottom:['b1',10],
-            style:'spread',
+            contains:['c1','d1'],
             },
             },
             },
@@ -768,13 +768,13 @@ class DslTest {
         val formatExp = """{
   ConstraintSets: {
     start: {
-      grid1: { type: 'grid', column: 5, row: 3 },
+      grid1: { type: 'grid', row: 3, column: 5 },
       vchain: {
         type: 'vChain',
-        contains: ['c1', 'd1'],
+        style: 'spread',
         top: ['a1', 1, 2],
         bottom: ['b1', 10],
-        style: 'spread'
+        contains: ['c1', 'd1']
       }
     }
   }
@@ -1024,8 +1024,8 @@ class DslTest {
             },
             chain3:{
             type:'vChain',
-            top:['a1',1,2],
             style:'packed',
+            top:['a1',1,2],
             },
             },
             },
@@ -1039,7 +1039,7 @@ class DslTest {
     start: {
       chain1: { type: 'vChain' },
       chain2: { type: 'vChain', style: 'spread' },
-      chain3: { type: 'vChain', top: ['a1', 1, 2], style: 'packed' }
+      chain3: { type: 'vChain', style: 'packed', top: ['a1', 1, 2] }
     }
   }
 }"""
@@ -1084,8 +1084,8 @@ class DslTest {
             },
             chain3:{
             type:'vChain',
-            top:['c2','bottom',10],
             style:'spread',
+            top:['c2','bottom',10],
             bottom:['c3','top',25,50],
             },
             },
@@ -1102,8 +1102,8 @@ class DslTest {
       chain2: { type: 'vChain', style: 'packed', baseline: ['c1', 'baseline'] },
       chain3: {
         type: 'vChain',
-        top: ['c2', 'bottom', 10],
         style: 'spread',
+        top: ['c2', 'bottom', 10],
         bottom: ['c3', 'top', 25, 50]
       }
     }
@@ -1214,8 +1214,8 @@ class DslTest {
             },
             chain3:{
             type:'hChain',
-            start:['a1',1,2],
             style:'packed',
+            start:['a1',1,2],
             },
             },
             },
@@ -1229,7 +1229,7 @@ class DslTest {
     start: {
       chain1: { type: 'hChain' },
       chain2: { type: 'hChain', style: 'spread' },
-      chain3: { type: 'hChain', start: ['a1', 1, 2], style: 'packed' }
+      chain3: { type: 'hChain', style: 'packed', start: ['a1', 1, 2] }
     }
   }
 }"""
@@ -1271,8 +1271,8 @@ class DslTest {
             start:{
             chain1:{
             type:'hChain',
-            start:['c1','end',10,25],
             style:'packed',
+            start:['c1','end',10,25],
             end:['c2','start'],
             },
             chain2:{
@@ -1283,8 +1283,8 @@ class DslTest {
             },
             chain3:{
             type:'hChain',
-            start:['a2','start',10,20],
             style:'packed',
+            start:['a2','start',10,20],
             end:['b2','end',30,40],
             },
             },
@@ -1299,8 +1299,8 @@ class DslTest {
     start: {
       chain1: {
         type: 'hChain',
-        start: ['c1', 'end', 10, 25],
         style: 'packed',
+        start: ['c1', 'end', 10, 25],
         end: ['c2', 'start']
       },
       chain2: {
@@ -1311,8 +1311,8 @@ class DslTest {
       },
       chain3: {
         type: 'hChain',
-        start: ['a2', 'start', 10, 20],
         style: 'packed',
+        start: ['a2', 'start', 10, 20],
         end: ['b2', 'end', 30, 40]
       }
     }
@@ -1397,9 +1397,9 @@ class DslTest {
             start:{
             barrier1:{
             type:'barrier',
+            direction:'bottom',
             margin:10,
             contains:[['a1',1,2],'b1'],
-            direction:'bottom',
             },
             },
             },
@@ -1413,9 +1413,9 @@ class DslTest {
     start: {
       barrier1: {
         type: 'barrier',
+        direction: 'bottom',
         margin: 10,
-        contains: [['a1', 1, 2], 'b1'],
-        direction: 'bottom'
+        contains: [['a1', 1, 2], 'b1']
       }
     }
   }
@@ -1454,15 +1454,15 @@ class DslTest {
             start:{
             barrier1:{
             type:'barrier',
+            direction:'top',
             margin:25,
             contains:[['a1',1.0,2.0],'b1',['c1',10.0,15.0],],
-            direction:'top',
             },
             barrier2:{
             type:'barrier',
             contains:['a1',['b1',10.0,15.0,25.0],],
-            margin:15,
             direction:'start',
+            margin:15,
             },
             },
             },
@@ -1476,15 +1476,15 @@ class DslTest {
     start: {
       barrier1: {
         type: 'barrier',
+        direction: 'top',
         margin: 25,
-        contains: [['a1', 1, 2], 'b1', ['c1', 10, 15]],
-        direction: 'top'
+        contains: [['a1', 1, 2], 'b1', ['c1', 10, 15]]
       },
       barrier2: {
         type: 'barrier',
         contains: ['a1', ['b1', 10, 15, 25]],
-        margin: 15,
-        direction: 'start'
+        direction: 'start',
+        margin: 15
       }
     }
   }

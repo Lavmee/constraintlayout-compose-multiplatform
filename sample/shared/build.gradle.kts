@@ -76,6 +76,14 @@ kotlin {
     }
 }
 
+// The package of the generated `Res` class defaults to `<project.group>.<project.name>`, and the
+// root build script hands every subproject the publishing group. That coupling is invisible from
+// here: changing the group renames this package and breaks the imports in `commonMain`, which is
+// exactly what happened in 17be42a. Pin the package so publishing coordinates cannot move it.
+compose.resources {
+    packageOfResClass = "tech.annexflow.sample.shared.generated.resources"
+}
+
 compose.desktop.nativeApplication {
     targets(kotlin.targets.getByName("macosArm64"))
     distributions {

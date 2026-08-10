@@ -41,9 +41,9 @@ import androidx.constraintlayout.compose.ExperimentalMotionApi
 import androidx.constraintlayout.compose.MotionLayout
 import androidx.constraintlayout.compose.MotionScene
 import androidx.constraintlayout.compose.Wrap
-import constraintlayout_compose_multiplatform.sample.shared.generated.resources.Res
-import constraintlayout_compose_multiplatform.sample.shared.generated.resources.ic_face
 import org.jetbrains.compose.resources.vectorResource
+import tech.annexflow.sample.shared.generated.resources.Res
+import tech.annexflow.sample.shared.generated.resources.ic_face
 
 /**
  * Shows how to animate moving pieces of a puzzle using MotionLayout.

@@ -48,10 +48,10 @@ import androidx.constraintlayout.compose.Dimension
 import androidx.constraintlayout.compose.ExperimentalMotionApi
 import androidx.constraintlayout.compose.MotionLayout
 import androidx.constraintlayout.compose.MotionScene
-import constraintlayout_compose_multiplatform.sample.shared.generated.resources.Res
-import constraintlayout_compose_multiplatform.sample.shared.generated.resources.ic_face
-import constraintlayout_compose_multiplatform.sample.shared.generated.resources.ic_menu
 import org.jetbrains.compose.resources.vectorResource
+import tech.annexflow.sample.shared.generated.resources.Res
+import tech.annexflow.sample.shared.generated.resources.ic_face
+import tech.annexflow.sample.shared.generated.resources.ic_menu
 import kotlin.random.Random
 
 /**
