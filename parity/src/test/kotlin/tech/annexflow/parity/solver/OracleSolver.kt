@@ -91,6 +91,20 @@ object OracleSolver : SolverSubject {
                 )
             }
 
+            for (chain in scenario.chains) {
+                val head = widgets[chain.members.first()]
+                val style = when (chain.style) {
+                    ChainStyle.SPREAD -> ConstraintWidget.CHAIN_SPREAD
+                    ChainStyle.SPREAD_INSIDE -> ConstraintWidget.CHAIN_SPREAD_INSIDE
+                    ChainStyle.PACKED -> ConstraintWidget.CHAIN_PACKED
+                }
+                if (chain.horizontal) {
+                    head.setHorizontalChainStyle(style)
+                } else {
+                    head.setVerticalChainStyle(style)
+                }
+            }
+
             root.layout()
             LayoutOutcome.LaidOut(render(root, guidelines, widgets, barriers))
         } catch (e: Exception) {

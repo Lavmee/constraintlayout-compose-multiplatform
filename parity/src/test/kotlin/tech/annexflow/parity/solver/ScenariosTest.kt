@@ -23,9 +23,13 @@ class ScenariosTest {
     fun connectionsAreAcyclic() {
         for (seed in 1L..200L) {
             val scenario = Scenarios.generate(seed)
+            val chained = scenario.chains.flatMap { it.members }.toSet()
             for (connection in scenario.connections) {
                 val target = connection.target
-                if (target is Target.Widget) {
+                // A chain's own forward links deliberately target a higher-indexed widget — that
+                // reverse link is what makes it a chain. Every other connection still only ever
+                // targets the root or a lower-indexed widget.
+                if (target is Target.Widget && connection.from !in chained) {
                     assertTrue(
                         target.index < connection.from,
                         "seed $seed: widget ${connection.from} targets ${target.index}",
@@ -211,5 +215,86 @@ class ScenariosTest {
             }
         }
         assertEquals(setOf("Begin", "End", "Percent"), kinds, "generated kinds: $kinds")
+    }
+
+    @Test
+    fun someScenariosCarryAChain() {
+        val matching = (1L..300L).count { Scenarios.generate(it).chains.isNotEmpty() }
+        assertTrue(matching >= 30, "only $matching of 300 scenarios carry a chain")
+    }
+
+    @Test
+    fun chainMembersAreContiguousAndAtLeastTwo() {
+        for (seed in 1L..300L) {
+            for (chain in Scenarios.generate(seed).chains) {
+                assertTrue(chain.members.size >= 2, "seed $seed: chain of ${chain.members.size}")
+                assertEquals(
+                    chain.members,
+                    chain.members.sorted(),
+                    "seed $seed: chain members out of order",
+                )
+            }
+        }
+    }
+
+    /**
+     * The whole point. A chain is a bidirectional run: every adjacent pair links both ways, and the
+     * two ends anchor outward. A partially emitted chain is the exact shape of the degenerate
+     * connections that once passed unnoticed, so completeness is asserted rather than assumed.
+     */
+    @Test
+    fun everyChainIsEmittedWhole() {
+        for (seed in 1L..300L) {
+            val scenario = Scenarios.generate(seed)
+            for (chain in scenario.chains) {
+                val (startSide, endSide) =
+                    if (chain.horizontal) Side.LEFT to Side.RIGHT else Side.TOP to Side.BOTTOM
+                val links = scenario.connections.filter { it.from in chain.members }
+
+                for ((position, member) in chain.members.withIndex()) {
+                    val previous = chain.members.getOrNull(position - 1)
+                    val next = chain.members.getOrNull(position + 1)
+
+                    val backward = links.single { it.from == member && it.fromSide == startSide }
+                    if (previous == null) {
+                        assertTrue(
+                            backward.target is Target.Root,
+                            "seed $seed: chain head $member is not anchored outward",
+                        )
+                    } else {
+                        assertEquals(
+                            Target.Widget(previous),
+                            backward.target,
+                            "seed $seed: chain member $member does not link back to $previous",
+                        )
+                        assertEquals(endSide, backward.toSide, "seed $seed: member $member")
+                    }
+
+                    val forward = links.single { it.from == member && it.fromSide == endSide }
+                    if (next == null) {
+                        assertTrue(
+                            forward.target is Target.Root,
+                            "seed $seed: chain tail $member is not anchored outward",
+                        )
+                    } else {
+                        assertEquals(
+                            Target.Widget(next),
+                            forward.target,
+                            "seed $seed: chain member $member does not link on to $next",
+                        )
+                        assertEquals(startSide, forward.toSide, "seed $seed: member $member")
+                    }
+                }
+            }
+        }
+    }
+
+    @Test
+    fun everyChainStyleIsGenerated() {
+        val styles = mutableSetOf<ChainStyle>()
+        for (seed in 1L..300L) {
+            Scenarios.generate(seed).chains.forEach { styles += it.style }
+        }
+        assertEquals(ChainStyle.entries.toSet(), styles, "generated styles: $styles")
     }
 }

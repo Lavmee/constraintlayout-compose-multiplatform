@@ -72,6 +72,7 @@ class SolverDifferentialTest {
             scenario.circular.forEach { append("circular : ").append(it).append('\n') }
             scenario.barriers.forEach { append("barrier  : ").append(it).append('\n') }
             scenario.guidelines.forEach { append("guideline: ").append(it).append('\n') }
+            scenario.chains.forEach { append("chain    : ").append(it).append('\n') }
             append("oracle   :\n").append(indent(oracle)).append('\n')
             append("port     :\n").append(indent(port))
         }

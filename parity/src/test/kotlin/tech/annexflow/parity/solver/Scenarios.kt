@@ -12,7 +12,8 @@ import kotlin.random.Random
  * reported by CI reproduces exactly. And connections only ever target the root, a lower-indexed
  * widget, a guideline, or a barrier whose referenced widgets are all lower-indexed, so the
  * constraint graph is acyclic — a cycle would leave the solver failing to settle, and the harness
- * would be measuring that instead of the port.
+ * would be measuring that instead of the port. The one deliberate exception is a chain: its members
+ * link to each other in both directions, which is what makes a run of widgets a chain at all.
  */
 object Scenarios {
     private const val MIN_WIDGETS = 2
@@ -82,12 +83,31 @@ object Scenarios {
             emptyList()
         }
 
+        // A chain claims a contiguous run of widgets on one axis. Its members get no ordinary
+        // connections on that axis — the chain supplies them — and none on the other either, to
+        // keep the generated shape simple enough to reason about when a divergence is reported.
+        val chains = if (count >= 3 && random.nextInt(2) == 0) {
+            val length = random.nextInt(2, minOf(count, 4) + 1)
+            val first = random.nextInt(0, count - length + 1)
+            listOf(
+                ChainSpec(
+                    members = (first until first + length).toList(),
+                    horizontal = random.nextBoolean(),
+                    style = ChainStyle.entries[random.nextInt(ChainStyle.entries.size)],
+                ),
+            )
+        } else {
+            emptyList()
+        }
+        val chained = chains.flatMap { it.members }.toSet()
+
         // A widget is anchored either by its edges or circularly, never both: the two together
         // over-constrain it, and the solver's resolution of that conflict is not what this
         // harness is measuring.
         val circular = mutableListOf<CircularSpec>()
         val connections = mutableListOf<ConnectionSpec>()
         for (index in 0 until count) {
+            if (index in chained) continue
             if (index > 0 && random.nextInt(5) == 0) {
                 circular += CircularSpec(
                     from = index,
@@ -100,6 +120,7 @@ object Scenarios {
                 connections += axisConnections(random, index, horizontal = false, barriers, guidelines)
             }
         }
+        chains.forEach { connections += chainConnections(random, it) }
 
         return Scenario(
             seed = seed,
@@ -116,11 +137,43 @@ object Scenarios {
             circular = circular,
             barriers = barriers,
             guidelines = guidelines,
+            chains = chains,
         )
     }
 
     private fun behaviour(random: Random): Behaviour =
         Behaviour.entries[random.nextInt(Behaviour.entries.size)]
+
+    /**
+     * Emits a chain as one unit: the head anchored outward, every adjacent pair linked in both
+     * directions, the tail anchored outward. There is no path through this function that produces a
+     * partial chain — the reverse links are what make it a chain at all, and a run missing one is
+     * just a row of widgets that looks like coverage.
+     */
+    private fun chainConnections(random: Random, chain: ChainSpec): List<ConnectionSpec> {
+        val (startSide, endSide) =
+            if (chain.horizontal) Side.LEFT to Side.RIGHT else Side.TOP to Side.BOTTOM
+        val out = mutableListOf<ConnectionSpec>()
+
+        for ((position, member) in chain.members.withIndex()) {
+            val previous = chain.members.getOrNull(position - 1)
+            val next = chain.members.getOrNull(position + 1)
+            val margin = random.nextInt(0, 30)
+
+            out += if (previous == null) {
+                ConnectionSpec(member, startSide, Target.Root, startSide, margin)
+            } else {
+                ConnectionSpec(member, startSide, Target.Widget(previous), endSide, margin)
+            }
+
+            out += if (next == null) {
+                ConnectionSpec(member, endSide, Target.Root, endSide, margin)
+            } else {
+                ConnectionSpec(member, endSide, Target.Widget(next), startSide, margin)
+            }
+        }
+        return out
+    }
 
     /**
      * One or two connections on a single axis. Both sides are needed for `MATCH_CONSTRAINT` to mean

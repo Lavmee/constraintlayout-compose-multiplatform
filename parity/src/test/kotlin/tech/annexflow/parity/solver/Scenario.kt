@@ -83,6 +83,19 @@ data class GuidelineSpec(
     val position: GuidelinePosition,
 )
 
+enum class ChainStyle { SPREAD, SPREAD_INSIDE, PACKED }
+
+/**
+ * A chain is not a class in the engine — it emerges from a run of widgets linked to each other in
+ * both directions, with a style set on the head. This record exists so the pattern can be asserted
+ * complete; the connections themselves still live in [Scenario.connections].
+ */
+data class ChainSpec(
+    val members: List<Int>,
+    val horizontal: Boolean,
+    val style: ChainStyle,
+)
+
 /**
  * A circular constraint, which positions a widget at an angle and distance from another rather than
  * by anchors. [target] is always lower than [from], so it cannot reintroduce a cycle.
@@ -102,4 +115,5 @@ data class Scenario(
     val circular: List<CircularSpec>,
     val barriers: List<BarrierSpec>,
     val guidelines: List<GuidelineSpec>,
+    val chains: List<ChainSpec>,
 )
