@@ -24,8 +24,15 @@ jobs:
           gradle-home-cache-cleanup: true
       - name: Make gradlew executable
         run: chmod +x ./gradlew
+      # `:sample` is only a container directory since the per-platform split, so it owns no
+      # `assemble` task — the sample modules have to be named individually.
       - name: Build
-        run: ./gradlew :sample:assemble
+        run: >-
+          ./gradlew
+          :sample:shared:assemble
+          :sample:androidApp:assemble
+          :sample:desktopApp:assemble
+          :sample:webApp:assemble
       - name: Build shaded flavours
         run: ./gradlew :compose-shaded:assemble :compose-shaded-compose:assemble
       - name: Test
