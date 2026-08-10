@@ -68,7 +68,7 @@ open class CLElement internal constructor(content: CharArray) : Cloneable {
 
     override fun toString(): String {
         if (mStart > mEnd || mEnd == Long.MAX_VALUE) {
-            return this::class.toString() + " (INVALID, " + mStart + "-" + mEnd + ")"
+            return getStrClass() + " (INVALID, " + mStart + "-" + mEnd + ")"
         }
         var content: String = mContent.joinToString("")
         content = content.substring(mStart.toInt(), mEnd.toInt() + 1)
@@ -76,9 +76,11 @@ open class CLElement internal constructor(content: CharArray) : Cloneable {
         return getStrClass() + " (" + mStart + " : " + mEnd + ") <<" + content + ">>"
     }
 
+    // `KClass.toString()` is not portable: on JVM and Native it renders as
+    // `class <fully.qualified.Name>`, but on JS the package is absent, so trimming at the last
+    // `.` used to leave the `class ` prefix behind. `simpleName` is the same on every target.
     fun getStrClass(): String {
-        val myClass = this::class.toString()
-        return myClass.substring(myClass.lastIndexOf('.') + 1)
+        return this::class.simpleName ?: ""
     }
 
     protected fun getDebugName(): String {
