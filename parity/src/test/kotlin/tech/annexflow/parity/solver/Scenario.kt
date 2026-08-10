@@ -38,13 +38,49 @@ data class WidgetSpec(
     val dimensionRatio: String?,
 )
 
-/** [target] is an index into [Scenario.widgets], or `null` for the root. */
+/** What a connection can point at. */
+sealed interface Target {
+    data object Root : Target
+
+    data class Widget(val index: Int) : Target
+
+    data class Barrier(val index: Int) : Target
+
+    data class Guideline(val index: Int) : Target
+}
+
 data class ConnectionSpec(
     val from: Int,
     val fromSide: Side,
-    val target: Int?,
+    val target: Target,
     val toSide: Side,
     val margin: Int,
+)
+
+/**
+ * A barrier resolves to the extreme edge of the widgets it references. [referenced] is never empty:
+ * a barrier over nothing resolves to nothing useful and would be inert coverage.
+ */
+data class BarrierSpec(
+    val name: String,
+    val side: Side,
+    val margin: Int,
+    val referenced: List<Int>,
+)
+
+/** The three ways `Guideline` accepts a position, matching its `RELATIVE_*` modes. */
+sealed interface GuidelinePosition {
+    data class Begin(val value: Int) : GuidelinePosition
+
+    data class End(val value: Int) : GuidelinePosition
+
+    data class Percent(val value: Float) : GuidelinePosition
+}
+
+data class GuidelineSpec(
+    val name: String,
+    val vertical: Boolean,
+    val position: GuidelinePosition,
 )
 
 /**
@@ -64,4 +100,6 @@ data class Scenario(
     val widgets: List<WidgetSpec>,
     val connections: List<ConnectionSpec>,
     val circular: List<CircularSpec>,
+    val barriers: List<BarrierSpec>,
+    val guidelines: List<GuidelineSpec>,
 )

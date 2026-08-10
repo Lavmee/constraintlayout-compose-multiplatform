@@ -3,9 +3,11 @@
 
 package tech.annexflow.parity.solver
 
+import androidx.constraintlayout.core.widgets.Barrier
 import androidx.constraintlayout.core.widgets.ConstraintAnchor
 import androidx.constraintlayout.core.widgets.ConstraintWidget
 import androidx.constraintlayout.core.widgets.ConstraintWidgetContainer
+import androidx.constraintlayout.core.widgets.Guideline
 
 /** The vendored upstream solver. It defines correct behaviour for every comparison here. */
 object OracleSolver : SolverSubject {
@@ -19,6 +21,19 @@ object OracleSolver : SolverSubject {
             root.setVerticalDimensionBehaviour(behaviour(scenario.rootVertical))
             if (scenario.rootMinWidth > 0) root.setMinWidth(scenario.rootMinWidth)
             if (scenario.rootMinHeight > 0) root.setMinHeight(scenario.rootMinHeight)
+
+            val guidelines = scenario.guidelines.map { spec ->
+                Guideline().apply {
+                    debugName = spec.name
+                    setOrientation(if (spec.vertical) Guideline.VERTICAL else Guideline.HORIZONTAL)
+                    when (val position = spec.position) {
+                        is GuidelinePosition.Begin -> setGuideBegin(position.value)
+                        is GuidelinePosition.End -> setGuideEnd(position.value)
+                        is GuidelinePosition.Percent -> setGuidePercent(position.value)
+                    }
+                    root.add(this)
+                }
+            }
 
             val widgets = scenario.widgets.map { spec ->
                 ConstraintWidget(spec.width, spec.height).apply {
@@ -36,10 +51,33 @@ object OracleSolver : SolverSubject {
                 }
             }
 
+            val barriers = scenario.barriers.map { spec ->
+                Barrier().apply {
+                    debugName = spec.name
+                    setBarrierType(
+                        when (spec.side) {
+                            Side.LEFT -> Barrier.LEFT
+                            Side.RIGHT -> Barrier.RIGHT
+                            Side.TOP -> Barrier.TOP
+                            Side.BOTTOM -> Barrier.BOTTOM
+                        },
+                    )
+                    setMargin(spec.margin)
+                    spec.referenced.forEach { add(widgets[it]) }
+                    root.add(this)
+                }
+            }
+
             for (connection in scenario.connections) {
+                val target = when (val to = connection.target) {
+                    is Target.Root -> root
+                    is Target.Widget -> widgets[to.index]
+                    is Target.Barrier -> barriers[to.index]
+                    is Target.Guideline -> guidelines[to.index]
+                }
                 widgets[connection.from].connect(
                     side(connection.fromSide),
-                    connection.target?.let { widgets[it] } ?: root,
+                    target,
                     side(connection.toSide),
                     connection.margin,
                 )
@@ -54,7 +92,7 @@ object OracleSolver : SolverSubject {
             }
 
             root.layout()
-            LayoutOutcome.LaidOut(render(root, widgets.map { it.debugName to it }))
+            LayoutOutcome.LaidOut(render(root, guidelines, widgets, barriers))
         } catch (e: Exception) {
             LayoutOutcome.Leaked(LayoutOutcome.categorise(e))
         } catch (e: StackOverflowError) {
@@ -81,12 +119,18 @@ object OracleSolver : SolverSubject {
             Side.BOTTOM -> ConstraintAnchor.Type.BOTTOM
         }
 
-    private fun render(root: ConstraintWidgetContainer, widgets: List<Pair<String?, ConstraintWidget>>): String =
+    private fun render(
+        root: ConstraintWidgetContainer,
+        guidelines: List<ConstraintWidget>,
+        widgets: List<ConstraintWidget>,
+        barriers: List<ConstraintWidget>,
+    ): String =
         buildString {
             append("root: ").append(root.width).append('x').append(root.height).append('\n')
-            for ((name, widget) in widgets) {
-                append(name).append(": (").append(widget.x).append(", ").append(widget.y)
-                    .append(") ").append(widget.width).append('x').append(widget.height).append('\n')
+            for (participant in guidelines + widgets + barriers) {
+                append(participant.debugName).append(": (").append(participant.x).append(", ")
+                    .append(participant.y).append(") ").append(participant.width).append('x')
+                    .append(participant.height).append('\n')
             }
         }
 }

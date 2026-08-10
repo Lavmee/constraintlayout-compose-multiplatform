@@ -9,9 +9,10 @@ import kotlin.random.Random
  * Generates layouts from a seed.
  *
  * Two properties are load-bearing. Generation is a pure function of the seed, so a divergence
- * reported by CI reproduces exactly. And connections only ever target the root or a lower-indexed
- * widget, so the constraint graph is acyclic — a cycle would leave the solver failing to settle,
- * and the harness would be measuring that instead of the port.
+ * reported by CI reproduces exactly. And connections only ever target the root, a lower-indexed
+ * widget, a guideline, or a barrier whose referenced widgets are all lower-indexed, so the
+ * constraint graph is acyclic — a cycle would leave the solver failing to settle, and the harness
+ * would be measuring that instead of the port.
  */
 object Scenarios {
     private const val MIN_WIDGETS = 2
@@ -51,6 +52,36 @@ object Scenarios {
             )
         }
 
+        // Guidelines depend on nothing, so any widget may target one.
+        val guidelines = (0 until random.nextInt(0, 3)).map { index ->
+            GuidelineSpec(
+                name = "g$index",
+                vertical = random.nextBoolean(),
+                position = when (random.nextInt(3)) {
+                    0 -> GuidelinePosition.Begin(random.nextInt(10, 300))
+                    1 -> GuidelinePosition.End(random.nextInt(10, 300))
+                    else -> GuidelinePosition.Percent(random.nextInt(1, 100) / 100f)
+                },
+            )
+        }
+
+        // A barrier sits over widgets from the lower half, so widgets above it can target it
+        // without closing a cycle. With fewer than two widgets there is no room for that.
+        val barriers = if (count >= 3 && random.nextInt(2) == 0) {
+            val ceiling = count / 2
+            val referenced = (0 until ceiling).filter { random.nextBoolean() }.ifEmpty { listOf(0) }
+            listOf(
+                BarrierSpec(
+                    name = "b0",
+                    side = Side.entries[random.nextInt(Side.entries.size)],
+                    margin = random.nextInt(0, 30),
+                    referenced = referenced,
+                ),
+            )
+        } else {
+            emptyList()
+        }
+
         // A widget is anchored either by its edges or circularly, never both: the two together
         // over-constrain it, and the solver's resolution of that conflict is not what this
         // harness is measuring.
@@ -65,8 +96,8 @@ object Scenarios {
                     radius = random.nextInt(10, 200),
                 )
             } else {
-                connections += axisConnections(random, index, horizontal = true)
-                connections += axisConnections(random, index, horizontal = false)
+                connections += axisConnections(random, index, horizontal = true, barriers, guidelines)
+                connections += axisConnections(random, index, horizontal = false, barriers, guidelines)
             }
         }
 
@@ -83,6 +114,8 @@ object Scenarios {
             widgets = widgets,
             connections = connections,
             circular = circular,
+            barriers = barriers,
+            guidelines = guidelines,
         )
     }
 
@@ -93,26 +126,60 @@ object Scenarios {
      * One or two connections on a single axis. Both sides are needed for `MATCH_CONSTRAINT` to mean
      * anything, so the two-sided case is common rather than incidental.
      */
-    private fun axisConnections(random: Random, index: Int, horizontal: Boolean): List<ConnectionSpec> {
+    private fun axisConnections(
+        random: Random,
+        index: Int,
+        horizontal: Boolean,
+        barriers: List<BarrierSpec>,
+        guidelines: List<GuidelineSpec>,
+    ): List<ConnectionSpec> {
         val (start, end) = if (horizontal) Side.LEFT to Side.RIGHT else Side.TOP to Side.BOTTOM
-        val target = if (index == 0 || random.nextInt(2) == 0) null else random.nextInt(index)
+        val target = pickTarget(random, index, horizontal, barriers, guidelines)
 
         if (random.nextInt(3) == 0) {
             // A single connection. Targeting a sibling's opposite side chains the widgets one after
             // another; targeting the matching side of the root or a sibling anchors them together.
             // Both shapes matter, so pick between them rather than always chaining.
-            val toSide = if (target != null && random.nextInt(2) == 0) end else start
+            val toSide = if (target is Target.Widget && random.nextInt(2) == 0) end else start
             return listOf(ConnectionSpec(index, start, target, toSide, random.nextInt(0, 40)))
         }
 
-        // Two connections anchor the widget to the container's two edges — the root's for a null
-        // target, a sibling's for a non-null one — each side to its matching side, so the span
-        // between them (and therefore a MATCH_CONSTRAINT dimension) is real and positive rather
-        // than collapsing both anchors onto the same edge. Margins are drawn independently so
-        // asymmetric margins can occur.
+        // Two connections anchor the widget to the container's two edges — each side to its
+        // matching side, so the span between them (and therefore a MATCH_CONSTRAINT dimension) is
+        // real and positive rather than collapsing both anchors onto the same edge. Margins are
+        // drawn independently so asymmetric margins can occur.
         return listOf(
             ConnectionSpec(index, start, target, start, random.nextInt(0, 40)),
             ConnectionSpec(index, end, target, end, random.nextInt(0, 40)),
         )
+    }
+
+    /**
+     * A barrier is only a legal target for a widget above every widget the barrier references —
+     * otherwise the barrier would depend on a widget that depends on the barrier. A guideline is
+     * only legal on the axis it divides: a vertical guideline is a vertical line, so widgets
+     * constrain to it horizontally.
+     */
+    private fun pickTarget(
+        random: Random,
+        index: Int,
+        horizontal: Boolean,
+        barriers: List<BarrierSpec>,
+        guidelines: List<GuidelineSpec>,
+    ): Target {
+        val barrierIndex = barriers.indices.filter { index > barriers[it].referenced.max() }
+        val guidelineIndex = guidelines.indices.filter { guidelines[it].vertical == horizontal }
+
+        val choices = buildList {
+            add { Target.Root }
+            if (index > 0) add { Target.Widget(random.nextInt(index)) }
+            if (barrierIndex.isNotEmpty()) {
+                add { Target.Barrier(barrierIndex[random.nextInt(barrierIndex.size)]) }
+            }
+            if (guidelineIndex.isNotEmpty()) {
+                add { Target.Guideline(guidelineIndex[random.nextInt(guidelineIndex.size)]) }
+            }
+        }
+        return choices[random.nextInt(choices.size)]()
     }
 }

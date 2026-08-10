@@ -25,10 +25,12 @@ class ScenariosTest {
             val scenario = Scenarios.generate(seed)
             for (connection in scenario.connections) {
                 val target = connection.target
-                assertTrue(
-                    target == null || target < connection.from,
-                    "seed $seed: widget ${connection.from} targets $target",
-                )
+                if (target is Target.Widget) {
+                    assertTrue(
+                        target.index < connection.from,
+                        "seed $seed: widget ${connection.from} targets ${target.index}",
+                    )
+                }
             }
         }
     }
@@ -141,5 +143,73 @@ class ScenariosTest {
     fun someScenariosCarryACircularConstraint() {
         val matching = (1L..300L).count { Scenarios.generate(it).circular.isNotEmpty() }
         assertTrue(matching >= 30, "only $matching of 300 scenarios carry a circular constraint")
+    }
+
+    @Test
+    fun barriersAlwaysReferenceAtLeastOneWidget() {
+        for (seed in 1L..300L) {
+            for (barrier in Scenarios.generate(seed).barriers) {
+                assertTrue(
+                    barrier.referenced.isNotEmpty(),
+                    "seed $seed: ${barrier.name} references nothing and resolves to nothing useful",
+                )
+            }
+        }
+    }
+
+    @Test
+    fun connectionsToABarrierComeFromWidgetsBelowItsReferences() {
+        for (seed in 1L..300L) {
+            val scenario = Scenarios.generate(seed)
+            for (connection in scenario.connections) {
+                val target = connection.target
+                if (target is Target.Barrier) {
+                    val highest = scenario.barriers[target.index].referenced.max()
+                    assertTrue(
+                        connection.from > highest,
+                        "seed $seed: widget ${connection.from} targets a barrier over widget " +
+                            "$highest, which would close a cycle",
+                    )
+                }
+            }
+        }
+    }
+
+    @Test
+    fun everyConnectionTargetResolves() {
+        for (seed in 1L..300L) {
+            val scenario = Scenarios.generate(seed)
+            for (connection in scenario.connections) {
+                when (val target = connection.target) {
+                    is Target.Root -> Unit
+                    is Target.Widget -> assertTrue(target.index in scenario.widgets.indices)
+                    is Target.Barrier -> assertTrue(target.index in scenario.barriers.indices)
+                    is Target.Guideline -> assertTrue(target.index in scenario.guidelines.indices)
+                }
+            }
+        }
+    }
+
+    @Test
+    fun someScenariosCarryABarrier() {
+        val matching = (1L..300L).count { Scenarios.generate(it).barriers.isNotEmpty() }
+        assertTrue(matching >= 30, "only $matching of 300 scenarios carry a barrier")
+    }
+
+    @Test
+    fun someScenariosCarryAGuideline() {
+        val matching = (1L..300L).count { Scenarios.generate(it).guidelines.isNotEmpty() }
+        assertTrue(matching >= 30, "only $matching of 300 scenarios carry a guideline")
+    }
+
+    @Test
+    fun everyGuidelinePositionKindIsGenerated() {
+        val kinds = mutableSetOf<String>()
+        for (seed in 1L..300L) {
+            for (guideline in Scenarios.generate(seed).guidelines) {
+                kinds += guideline.position::class.simpleName.orEmpty()
+            }
+        }
+        assertEquals(setOf("Begin", "End", "Percent"), kinds, "generated kinds: $kinds")
     }
 }
