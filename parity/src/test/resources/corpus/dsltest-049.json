@@ -1,0 +1,12 @@
+{
+ConstraintSets:{
+start:{
+barrier1:{
+type:'barrier',
+direction:'bottom',
+margin:10,
+contains:[['a1',1,2],'b1'],
+},
+},
+},
+}

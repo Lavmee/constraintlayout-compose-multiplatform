@@ -1,0 +1,14 @@
+{
+ConstraintSets:{
+start:{
+chain1:{
+type:'hChain',
+contains:[['a1',10.0,20.0,30.0],'b1',['c1',50.0],],
+},
+chain2:{
+type:'hChain',
+contains:[['a1',10.0,15.0,20.0],'a2',['a3',0.0,0.0,100.0],],
+},
+},
+},
+}

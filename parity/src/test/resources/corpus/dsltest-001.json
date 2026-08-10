@@ -1,0 +1,8 @@
+{
+Transitions:{
+default:{
+from:'start',
+to:'end',
+},
+},
+}

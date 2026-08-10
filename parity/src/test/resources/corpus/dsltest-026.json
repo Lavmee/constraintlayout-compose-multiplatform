@@ -1,0 +1,7 @@
+{
+  ConstraintSets: {
+    start: {
+      barrier1: { type: 'barrier', margin: 10, contains: [['a1', 1, 2], 'b1'] }
+    }
+  }
+}

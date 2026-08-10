@@ -1,0 +1,11 @@
+{
+  ConstraintSets: {
+    start: {
+      chain1: { type: 'hChain', contains: [['a1', 10, 20, 30], 'b1', ['c1', 50]] },
+      chain2: {
+        type: 'hChain',
+        contains: [['a1', 10, 15, 20], 'a2', ['a3', 0, 0, 100]]
+      }
+    }
+  }
+}

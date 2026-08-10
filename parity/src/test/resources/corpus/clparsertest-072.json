@@ -1,0 +1,89 @@
+{
+  Debug: { name: 'motion6' },
+  ConstraintSets: {
+    start: {
+      Variables: {
+        texts: {
+          tag: 'text'
+        },
+        margin: {
+          from: 0,
+          step: 50
+        }
+      },
+      Generate: {
+        texts: {
+          top: ['parent', 'top', 'margin'],
+          start: ['parent', 'end', 16]
+        }
+      },
+      box: {
+        width: 'spread',
+        height: 64,
+        centerHorizontally: 'parent',
+        bottom: ['parent', 'bottom']
+      },
+      content: {
+        width: 'spread',
+        height: '400',
+        centerHorizontally: 'parent',
+        top: ['box', 'bottom', 32]
+      },
+      name: { centerVertically: 'box', start: ['parent', 'start', 16] }
+    },
+    end: {
+      Variables: {
+        texts: {
+          tag: 'text'
+        },
+        margin: {
+          from: 0,
+          step: 50
+        }
+      },
+      Generate: {
+        texts: {
+          start: ['parent', 'start', 32],
+          top: ['content', 'top', 'margin']
+        }
+      },
+      box: {
+        width: 'spread',
+        height: 200,
+        centerHorizontally: 'parent',
+        top: ['parent', 'top']
+      },
+      content: {
+        width: 'spread',
+        height: 'spread',
+        centerHorizontally: 'parent',
+        top: ['box', 'bottom'],
+        bottom: ['parent', 'bottom']
+      },
+      name: {
+        rotationZ: 90,
+        scaleX: 2,
+        scaleY: 2,
+        end: ['parent', 'end', 16],
+        top: ['parent', 'top', 90]
+      }
+    }
+  },
+  Transitions: {
+    default: {
+      from: 'start',
+      to: 'end',
+      pathMotionArc: 'startHorizontal',
+      KeyFrames: {
+        KeyAttributes: [
+          {
+            target: ['box', 'content'],
+            frames: [50],
+            rotationZ: [25],
+            rotationY: [25]
+          }
+        ]
+      }
+    }
+  }
+}

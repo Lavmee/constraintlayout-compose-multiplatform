@@ -1,0 +1,27 @@
+{
+            Header: { exportAs: 'mtest01'},
+
+            ConstraintSets: {
+              start: {
+                id1: {
+                  width: 40, height: 40,
+                  start:  ['parent', 'start' , 16],
+                  bottom: ['parent', 'bottom', 16]
+                }
+              },
+
+              end: {
+                id1: {
+                  width: 40, height: 40,
+                  end: ['parent', 'end', 16],
+                  top: ['parent', 'top', 16]
+                }
+              }
+            },
+
+            Transitions: {
+              default: {
+                from: 'start',   to: 'end',
+              }
+            }
+        }

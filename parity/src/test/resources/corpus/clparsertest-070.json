@@ -1,0 +1,19 @@
+{
+  Transitions: {
+    default: {
+      from: 'start',
+      to: 'end',
+      pathMotionArc: 'startHorizontal',
+      KeyFrames: {
+        KeyAttributes: [
+          {
+            target: ['a'],
+            frames: [25, 50],
+            scaleX: 3,
+            scaleY: 0.3
+          }
+        ]
+      }
+    }
+  }
+}

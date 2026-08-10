@@ -1,0 +1,9 @@
+{
+  ConstraintSets: {
+    start: {
+      g1: { type: 'hGuideline', end: 30 },
+      g2: { type: 'hGuideline', start: 50 },
+      g3: { type: 'hGuideline', percent: 0.25 }
+    }
+  }
+}

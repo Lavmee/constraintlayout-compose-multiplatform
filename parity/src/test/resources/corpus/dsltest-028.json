@@ -1,0 +1,14 @@
+{
+  ConstraintSets: {
+    start: {
+      grid1: { type: 'grid', row: 3, column: 5 },
+      vchain: {
+        type: 'vChain',
+        style: 'spread',
+        top: ['a1', 1, 2],
+        bottom: ['b1', 10],
+        contains: ['c1', 'd1']
+      }
+    }
+  }
+}

@@ -1,0 +1,10 @@
+{
+  Transitions: {
+    expand: {
+      from: 'start',
+      to: 'end',
+      OnSwipe: { anchor: 'button', direction: 'right', side: 'right' },
+      keyFrames: { KeyPositions: { target: ['button1', 'button2'], frame: [33, 66] } }
+    }
+  }
+}

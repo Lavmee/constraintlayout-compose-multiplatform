@@ -1,0 +1,9 @@
+{
+  ConstraintSets: {
+    start: {
+      chain1: { type: 'vChain' },
+      chain2: { type: 'vChain', style: 'spread' },
+      chain3: { type: 'vChain', style: 'packed', top: ['a1', 1, 2] }
+    }
+  }
+}

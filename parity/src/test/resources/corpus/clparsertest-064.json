@@ -1,0 +1,32 @@
+{
+  Variables: {
+    bottom: 20
+  },
+  Helpers: [
+    ['hChain', ['a','b','c'], {
+      start: ['leftGuideline1', 'start'],
+      style: 'packed'
+    }],
+    ['hChain', ['d','e','f']],
+    ['vChain', ['d','e','f'], {
+      bottom: ['topGuideline1', 'top']
+    }],
+    ['vGuideline', {
+      id: 'leftGuideline1', start: 100
+    }],
+    ['hGuideline', {
+      id: 'topGuideline1', percent: 0.5
+    }]
+  ],
+  a: {
+    bottom: ['b', 'top', 'bottom']
+  },
+  b: {
+    width: '30%',
+    height: '1:1',
+    centerVertically: 'parent'
+  },
+  c: {
+    top: ['b', 'bottom']
+  }
+}

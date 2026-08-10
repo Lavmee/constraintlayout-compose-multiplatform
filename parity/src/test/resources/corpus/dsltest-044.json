@@ -1,0 +1,9 @@
+{
+  ConstraintSets: {
+    start: {
+      chain1: { type: 'hChain' },
+      chain2: { type: 'hChain', style: 'spread' },
+      chain3: { type: 'hChain', style: 'packed', start: ['a1', 1, 2] }
+    }
+  }
+}

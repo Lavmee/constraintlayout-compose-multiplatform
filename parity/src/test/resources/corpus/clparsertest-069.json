@@ -1,0 +1,10 @@
+{
+  ConstraintSets: {
+    Generate: {
+      texts: {
+        top: ['parent', 'top', 'margin'],
+        start: ['parent', 'end', 16]
+      }
+    }
+  }
+}
