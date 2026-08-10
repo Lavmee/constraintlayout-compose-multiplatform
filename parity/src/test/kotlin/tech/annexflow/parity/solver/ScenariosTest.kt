@@ -23,13 +23,14 @@ class ScenariosTest {
     fun connectionsAreAcyclic() {
         for (seed in 1L..200L) {
             val scenario = Scenarios.generate(seed)
-            val chained = scenario.chains.flatMap { it.members }.toSet()
+            // A chain's own forward link is the one deliberate exception: it targets the next
+            // (higher-indexed) member, which is what makes the run a chain. That exception is
+            // scoped to exactly those (from, target) pairs — a chain member's *backward* link
+            // still only ever targets the root or a lower-indexed widget, same as everything else.
+            val chainForwardLinks = scenario.chains.flatMap { it.members.zipWithNext() }.toSet()
             for (connection in scenario.connections) {
                 val target = connection.target
-                // A chain's own forward links deliberately target a higher-indexed widget — that
-                // reverse link is what makes it a chain. Every other connection still only ever
-                // targets the root or a lower-indexed widget.
-                if (target is Target.Widget && connection.from !in chained) {
+                if (target is Target.Widget && (connection.from to target.index) !in chainForwardLinks) {
                     assertTrue(
                         target.index < connection.from,
                         "seed $seed: widget ${connection.from} targets ${target.index}",
@@ -284,6 +285,39 @@ class ScenariosTest {
                         )
                         assertEquals(startSide, forward.toSide, "seed $seed: member $member")
                     }
+                }
+            }
+        }
+    }
+
+    /**
+     * Completes the guarantee `everyChainIsEmittedWhole` leaves open: that test pins down what a
+     * chain member's two axis-side connections point at, but never asserts there are only two —
+     * a stray connection on the orthogonal axis, or a duplicate on the same side, would still pass
+     * it. Without this, chain-member acyclicity rests on reading `generate()`'s `continue` guard
+     * rather than on the suite actually proving it.
+     */
+    @Test
+    fun chainMembersHaveExactlyTheChainsTwoConnections() {
+        for (seed in 1L..300L) {
+            val scenario = Scenarios.generate(seed)
+            for (chain in scenario.chains) {
+                val (startSide, endSide) =
+                    if (chain.horizontal) Side.LEFT to Side.RIGHT else Side.TOP to Side.BOTTOM
+                for (member in chain.members) {
+                    val fromMember = scenario.connections.filter { it.from == member }
+                    assertEquals(
+                        2,
+                        fromMember.size,
+                        "seed $seed: chain member $member has ${fromMember.size} connections, " +
+                            "expected exactly the 2 the chain supplies",
+                    )
+                    assertEquals(
+                        setOf(startSide, endSide),
+                        fromMember.map { it.fromSide }.toSet(),
+                        "seed $seed: chain member $member's connections are not exactly one per " +
+                            "chain-axis side",
+                    )
                 }
             }
         }
