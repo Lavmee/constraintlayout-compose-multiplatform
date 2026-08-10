@@ -43,9 +43,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import constraintlayout_compose_multiplatform.sample.shared.generated.resources.Res
-import constraintlayout_compose_multiplatform.sample.shared.generated.resources.ic_arrow_back
 import org.jetbrains.compose.resources.vectorResource
+import tech.annexflow.sample.shared.generated.resources.Res
+import tech.annexflow.sample.shared.generated.resources.ic_arrow_back
 
 internal data class ComposeDemo(val title: String, val content: @Composable () -> Unit)
 
