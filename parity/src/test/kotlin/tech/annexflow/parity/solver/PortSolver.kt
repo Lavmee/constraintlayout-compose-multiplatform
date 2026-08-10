@@ -52,6 +52,8 @@ object PortSolver : SolverSubject {
             LayoutOutcome.Crashed("StackOverflowError")
         } catch (e: OutOfMemoryError) {
             LayoutOutcome.Crashed("OutOfMemoryError")
+        } catch (e: Throwable) {
+            LayoutOutcome.Crashed(e::class.simpleName ?: "Unknown")
         }
 
     private fun behaviour(value: Behaviour): ConstraintWidget.DimensionBehaviour =

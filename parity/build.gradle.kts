@@ -30,7 +30,7 @@ sourceSets {
 
 dependencies {
     "oracleCompileOnly"(libs.jspecify)
-    "oracleCompileOnly"(libs.androidx.annotation.jvm)
+    "oracleCompileOnly"(libs.annotation)
     testImplementation(project(":compose-shaded"))
     testImplementation(kotlin("test"))
 }

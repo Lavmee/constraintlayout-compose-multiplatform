@@ -47,21 +47,35 @@ class ScenariosTest {
     }
 
     @Test
-    fun everyBehaviourIsReachable() {
+    fun everyChildBehaviourIsReachable() {
+        val seen = mutableSetOf<Behaviour>()
+        for (seed in 1L..200L) {
+            Scenarios.generate(seed).widgets.forEach { seen += it.horizontal; seen += it.vertical }
+        }
+        assertEquals(Behaviour.entries.toSet(), seen, "unreached: ${Behaviour.entries.toSet() - seen}")
+    }
+
+    @Test
+    fun rootBehaviourIsFixedOrWrapContentOnly() {
         val seen = mutableSetOf<Behaviour>()
         for (seed in 1L..200L) {
             val scenario = Scenarios.generate(seed)
             seen += scenario.rootHorizontal
             seen += scenario.rootVertical
-            scenario.widgets.forEach { seen += it.horizontal; seen += it.vertical }
         }
-        assertEquals(Behaviour.entries.toSet(), seen, "unreached: ${Behaviour.entries.toSet() - seen}")
+        assertEquals(
+            setOf(Behaviour.FIXED, Behaviour.WRAP_CONTENT),
+            seen,
+            "unreached or unexpected: ${setOf(Behaviour.FIXED, Behaviour.WRAP_CONTENT) - seen} / " +
+                "${seen - setOf(Behaviour.FIXED, Behaviour.WRAP_CONTENT)}",
+        )
     }
 
     /**
-     * The acceptance probe in Task 4 reverts the minimum-size fix from #336, which only bites a
-     * container whose wrap-content size lands below its minimum. If the generator never emits that
-     * combination the probe cannot fire, so it is a requirement rather than a happy accident.
+     * A wrap-content root with a minimum is the case where the root's own size becomes an output
+     * of the layout pass rather than an input — the minimum can only bind if wrap-content would
+     * otherwise have shrunk the root below it. If the generator never emits that combination, this
+     * corner of solver behaviour goes untested.
      */
     @Test
     fun someScenariosGiveTheRootWrapContentAndAMinimum() {

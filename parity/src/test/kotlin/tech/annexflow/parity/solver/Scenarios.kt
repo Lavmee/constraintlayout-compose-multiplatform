@@ -68,17 +68,23 @@ object Scenarios {
     private fun axisConnections(random: Random, index: Int, horizontal: Boolean): List<ConnectionSpec> {
         val (start, end) = if (horizontal) Side.LEFT to Side.RIGHT else Side.TOP to Side.BOTTOM
         val target = if (index == 0 || random.nextInt(2) == 0) null else random.nextInt(index)
-        val margin = random.nextInt(0, 40)
 
-        // Targeting a sibling's opposite side chains the widgets; targeting the root's same side
-        // anchors them. Both shapes matter, so pick between them rather than always chaining.
-        val toStart = if (target == null) start else if (random.nextInt(2) == 0) start else end
-        val first = ConnectionSpec(index, start, target, toStart, margin)
-
-        return if (random.nextInt(3) == 0) {
-            listOf(first)
-        } else {
-            listOf(first, ConnectionSpec(index, end, target, if (target == null) end else toStart, margin))
+        if (random.nextInt(3) == 0) {
+            // A single connection. Targeting a sibling's opposite side chains the widgets one after
+            // another; targeting the matching side of the root or a sibling anchors them together.
+            // Both shapes matter, so pick between them rather than always chaining.
+            val toSide = if (target != null && random.nextInt(2) == 0) end else start
+            return listOf(ConnectionSpec(index, start, target, toSide, random.nextInt(0, 40)))
         }
+
+        // Two connections anchor the widget to the container's two edges — the root's for a null
+        // target, a sibling's for a non-null one — each side to its matching side, so the span
+        // between them (and therefore a MATCH_CONSTRAINT dimension) is real and positive rather
+        // than collapsing both anchors onto the same edge. Margins are drawn independently so
+        // asymmetric margins can occur.
+        return listOf(
+            ConnectionSpec(index, start, target, start, random.nextInt(0, 40)),
+            ConnectionSpec(index, end, target, end, random.nextInt(0, 40)),
+        )
     }
 }
