@@ -3,6 +3,7 @@
 
 package tech.annexflow.parity.solver
 
+import androidx.constraintlayout.core.widgets.Optimizer
 import kotlin.random.Random
 
 /**
@@ -125,6 +126,16 @@ object Scenarios {
         }
         chains.forEach { connections += chainConnections(random, it) }
 
+        // A wrap-content root only re-measures under AT_MOST, so that mode is drawn often rather
+        // than uniformly — it is the branch the measure entry point exists to reach.
+        val measureSpec = MeasureSpec(
+            widthMode = measureMode(random),
+            heightMode = measureMode(random),
+            // Widening this is the next step, not this one: the graph path lives behind
+            // OPTIMIZATION_GRAPH and belongs on the measure path once it is compared at all.
+            optimizationLevel = Optimizer.OPTIMIZATION_STANDARD,
+        )
+
         return Scenario(
             seed = seed,
             rootWidth = random.nextInt(400, 1200),
@@ -141,11 +152,20 @@ object Scenarios {
             barriers = barriers,
             guidelines = guidelines,
             chains = chains,
+            measureSpec = measureSpec,
         )
     }
 
     private fun behaviour(random: Random): Behaviour =
         Behaviour.entries[random.nextInt(Behaviour.entries.size)]
+
+    private fun measureMode(random: Random): MeasureMode =
+        when (random.nextInt(4)) {
+            0 -> MeasureMode.UNSPECIFIED
+            1 -> MeasureMode.AT_MOST
+            2 -> MeasureMode.AT_MOST
+            else -> MeasureMode.EXACTLY
+        }
 
     /**
      * Emits a chain as one unit: the head anchored outward, every adjacent pair linked in both

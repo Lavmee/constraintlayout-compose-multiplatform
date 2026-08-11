@@ -96,6 +96,21 @@ data class ChainSpec(
     val style: ChainStyle,
 )
 
+/** Mirrors `BasicMeasure`'s modes: `UNSPECIFIED` 0, `EXACTLY` 1 shl 30, `AT_MOST` 2 shl 30. */
+enum class MeasureMode { UNSPECIFIED, EXACTLY, AT_MOST }
+
+/**
+ * The arguments `ConstraintWidgetContainer.measure` needs and `layout` does not.
+ *
+ * `AT_MOST` is the interesting mode: it is what makes a wrap-content root re-measure, which is the
+ * loop this harness reaches only through the measure entry point.
+ */
+data class MeasureSpec(
+    val widthMode: MeasureMode,
+    val heightMode: MeasureMode,
+    val optimizationLevel: Int,
+)
+
 /**
  * A circular constraint, which positions a widget at an angle and distance from another rather than
  * by anchors. [target] is always lower than [from], so it cannot reintroduce a cycle.
@@ -116,4 +131,5 @@ data class Scenario(
     val barriers: List<BarrierSpec>,
     val guidelines: List<GuidelineSpec>,
     val chains: List<ChainSpec>,
+    val measureSpec: MeasureSpec,
 )

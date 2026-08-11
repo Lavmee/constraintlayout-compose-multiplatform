@@ -3,6 +3,7 @@
 
 package tech.annexflow.parity.solver
 
+import androidx.constraintlayout.core.widgets.Optimizer
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
@@ -338,5 +339,45 @@ class ScenariosTest {
             Scenarios.generate(seed).chains.forEach { styles += it.style }
         }
         assertEquals(ChainStyle.entries.toSet(), styles, "generated styles: $styles")
+    }
+
+    @Test
+    fun everyMeasureModeIsGenerated() {
+        val widthModes = mutableSetOf<MeasureMode>()
+        val heightModes = mutableSetOf<MeasureMode>()
+        for (seed in 1L..300L) {
+            val spec = Scenarios.generate(seed).measureSpec
+            widthModes += spec.widthMode
+            heightModes += spec.heightMode
+        }
+        assertEquals(MeasureMode.entries.toSet(), widthModes, "width modes: $widthModes")
+        assertEquals(MeasureMode.entries.toSet(), heightModes, "height modes: $heightModes")
+    }
+
+    /**
+     * `AT_MOST` on a wrap-content root is what drives `BasicMeasure`'s re-measure loop, which is the
+     * whole reason the measure entry point is being compared. If the generator stops producing that
+     * combination the loop goes unexercised while the suite still passes, so it is pinned.
+     */
+    @Test
+    fun someScenariosMeasureAWrapContentRootAtMost() {
+        val matching = (1L..300L).count { seed ->
+            val scenario = Scenarios.generate(seed)
+            (scenario.rootHorizontal == Behaviour.WRAP_CONTENT &&
+                scenario.measureSpec.widthMode == MeasureMode.AT_MOST) ||
+                (scenario.rootVertical == Behaviour.WRAP_CONTENT &&
+                    scenario.measureSpec.heightMode == MeasureMode.AT_MOST)
+        }
+        assertTrue(matching >= 20, "only $matching of 300 scenarios measure a wrap root AT_MOST")
+    }
+
+    @Test
+    fun theOptimizationLevelIsStandard() {
+        for (seed in 1L..50L) {
+            assertEquals(
+                Optimizer.OPTIMIZATION_STANDARD,
+                Scenarios.generate(seed).measureSpec.optimizationLevel,
+            )
+        }
     }
 }
