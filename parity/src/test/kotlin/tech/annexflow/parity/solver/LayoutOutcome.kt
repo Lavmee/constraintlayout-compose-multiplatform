@@ -16,9 +16,9 @@ sealed interface LayoutOutcome {
     data class LaidOut(val geometry: String) : LayoutOutcome
 
     /**
-     * An exception escaped `layout()`. Compared by portable category, not exception class: the port
-     * is multiplatform and cannot raise JVM-specific exception classes on Native or JS, so class
-     * equality would demand something no correct port could deliver.
+     * An exception escaped `layout()` or `measure()`. Compared by portable category, not exception
+     * class: the port is multiplatform and cannot raise JVM-specific exception classes on Native or
+     * JS, so class equality would demand something no correct port could deliver.
      */
     data class Leaked(val category: String) : LayoutOutcome
 

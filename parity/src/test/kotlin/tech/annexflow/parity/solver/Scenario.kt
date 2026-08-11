@@ -100,15 +100,24 @@ data class ChainSpec(
 enum class MeasureMode { UNSPECIFIED, EXACTLY, AT_MOST }
 
 /**
+ * Mirrors `Optimizer`'s level constants, which exist separately in each package. Only `STANDARD`
+ * is generated today — see [Scenarios] for why.
+ */
+enum class OptimizationLevel { STANDARD }
+
+/**
  * The arguments `ConstraintWidgetContainer.measure` needs and `layout` does not.
  *
- * `AT_MOST` is the interesting mode: it is what makes a wrap-content root re-measure, which is the
- * loop this harness reaches only through the measure entry point.
+ * These are carried through to `measure()` but are inert at `OPTIMIZATION_STANDARD`:
+ * `BasicMeasure.solverMeasure` only reads `widthMode`/`heightMode`/`widthSize`/`heightSize` inside
+ * its `if (optimize)` branch, and `optimize` requires `OPTIMIZATION_GRAPH` or
+ * `OPTIMIZATION_GRAPH_WRAP` — neither of which `OPTIMIZATION_STANDARD` sets. They are plumbed and
+ * generated now so that raising the optimization level later needs no change to the scenario model.
  */
 data class MeasureSpec(
     val widthMode: MeasureMode,
     val heightMode: MeasureMode,
-    val optimizationLevel: Int,
+    val optimizationLevel: OptimizationLevel,
 )
 
 /**

@@ -25,6 +25,7 @@ import kotlin.test.fail
 class SolverDifferentialTest {
     private val seeds = 1L..2000L
     private val minimumLaidOut = 1800
+    private val maxExamplesPerEntry = 5
 
     private enum class Entry(val label: String) {
         LAYOUT("layout"),
@@ -39,7 +40,11 @@ class SolverDifferentialTest {
 
     @Test
     fun thePortAgreesWithTheOracle() {
-        val divergences = mutableListOf<String>()
+        // Keyed per entry point rather than one shared list: LAYOUT runs before MEASURE for every
+        // seed, so a global cap would let early layout divergences crowd out every measure
+        // divergence from the reported examples while the counts stayed correct and the diagnostic
+        // went blind.
+        val divergences = mutableMapOf(Entry.LAYOUT to mutableListOf<String>(), Entry.MEASURE to mutableListOf<String>())
         var totalDivergences = 0
         val laidOut = mutableMapOf(Entry.LAYOUT to 0, Entry.MEASURE to 0)
 
@@ -51,7 +56,8 @@ class SolverDifferentialTest {
                 if (oracle is LayoutOutcome.LaidOut) laidOut[entry] = laidOut.getValue(entry) + 1
                 if (oracle != port) {
                     totalDivergences++
-                    if (divergences.size < 5) divergences += report(entry, scenario, oracle, port)
+                    val examples = divergences.getValue(entry)
+                    if (examples.size < maxExamplesPerEntry) examples += report(entry, scenario, oracle, port)
                 }
             }
         }
@@ -69,9 +75,10 @@ class SolverDifferentialTest {
         }
 
         if (totalDivergences > 0) {
+            val examples = Entry.entries.flatMap { divergences.getValue(it) }
             fail(
                 "$totalDivergences of ${seeds.count() * Entry.entries.size} comparisons diverged " +
-                    "(showing the first ${divergences.size}):\n\n${divergences.joinToString("\n\n")}",
+                    "(showing up to $maxExamplesPerEntry per entry point):\n\n${examples.joinToString("\n\n")}",
             )
         }
     }

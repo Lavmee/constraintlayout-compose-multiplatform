@@ -8,6 +8,7 @@ import androidx.constraintlayout.core.widgets.ConstraintAnchor
 import androidx.constraintlayout.core.widgets.ConstraintWidget
 import androidx.constraintlayout.core.widgets.ConstraintWidgetContainer
 import androidx.constraintlayout.core.widgets.Guideline
+import androidx.constraintlayout.core.widgets.Optimizer
 import androidx.constraintlayout.core.widgets.analyzer.BasicMeasure
 
 /** The vendored upstream solver. It defines correct behaviour for every comparison here. */
@@ -48,13 +49,13 @@ object OracleSolver : SolverSubject {
             val spec = scenario.widgets.firstOrNull { it.name == widget.debugName }
             measure.measuredWidth =
                 if (measure.horizontalBehavior == ConstraintWidget.DimensionBehaviour.WRAP_CONTENT) {
-                    spec?.width ?: widget.width
+                    spec?.width ?: error("no spec for widget ${widget.debugName}")
                 } else {
                     measure.horizontalDimension
                 }
             measure.measuredHeight =
                 if (measure.verticalBehavior == ConstraintWidget.DimensionBehaviour.WRAP_CONTENT) {
-                    spec?.height ?: widget.height
+                    spec?.height ?: error("no spec for widget ${widget.debugName}")
                 } else {
                     measure.verticalDimension
                 }
@@ -70,7 +71,7 @@ object OracleSolver : SolverSubject {
             val tree = build(scenario)
             tree.root.measurer = SpecMeasurer(scenario)
             tree.root.measure(
-                scenario.measureSpec.optimizationLevel,
+                optimizationLevel(scenario.measureSpec.optimizationLevel),
                 mode(scenario.measureSpec.widthMode),
                 scenario.rootWidth,
                 mode(scenario.measureSpec.heightMode),
@@ -96,6 +97,11 @@ object OracleSolver : SolverSubject {
             MeasureMode.UNSPECIFIED -> BasicMeasure.UNSPECIFIED
             MeasureMode.EXACTLY -> BasicMeasure.EXACTLY
             MeasureMode.AT_MOST -> BasicMeasure.AT_MOST
+        }
+
+    private fun optimizationLevel(value: OptimizationLevel): Int =
+        when (value) {
+            OptimizationLevel.STANDARD -> Optimizer.OPTIMIZATION_STANDARD
         }
 
     private fun build(scenario: Scenario): Tree {

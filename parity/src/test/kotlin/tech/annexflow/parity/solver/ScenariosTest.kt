@@ -3,7 +3,6 @@
 
 package tech.annexflow.parity.solver
 
-import androidx.constraintlayout.core.widgets.Optimizer
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
@@ -341,6 +340,12 @@ class ScenariosTest {
         assertEquals(ChainStyle.entries.toSet(), styles, "generated styles: $styles")
     }
 
+    /**
+     * The modes are inert at the `OPTIMIZATION_STANDARD` level this harness runs at — see
+     * [MeasureSpec] — so this does not pin any observable behaviour. It pins forward-preparation:
+     * the day the optimization level is raised and the modes start mattering, every value must
+     * already be reachable rather than requiring a change to the generator at that point.
+     */
     @Test
     fun everyMeasureModeIsGenerated() {
         val widthModes = mutableSetOf<MeasureMode>()
@@ -355,9 +360,11 @@ class ScenariosTest {
     }
 
     /**
-     * `AT_MOST` on a wrap-content root is what drives `BasicMeasure`'s re-measure loop, which is the
-     * whole reason the measure entry point is being compared. If the generator stops producing that
-     * combination the loop goes unexercised while the suite still passes, so it is pinned.
+     * `AT_MOST` on a wrap-content root is what would drive `BasicMeasure`'s re-measure loop once the
+     * optimization level is raised enough for the modes to matter — see [MeasureSpec], where they
+     * are inert at `OPTIMIZATION_STANDARD`. This does not pin any behaviour reached today; it pins
+     * forward-preparation, so that combination is already well represented in the generator rather
+     * than needing to be added when the level is raised.
      */
     @Test
     fun someScenariosMeasureAWrapContentRootAtMost() {
@@ -372,10 +379,10 @@ class ScenariosTest {
     }
 
     @Test
-    fun theOptimizationLevelIsStandard() {
+    fun theOptimizationLevelIsAlwaysStandard() {
         for (seed in 1L..50L) {
             assertEquals(
-                Optimizer.OPTIMIZATION_STANDARD,
+                OptimizationLevel.STANDARD,
                 Scenarios.generate(seed).measureSpec.optimizationLevel,
             )
         }
