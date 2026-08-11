@@ -36,4 +36,45 @@ class SolverSubjectTest {
         val scenario = Scenarios.generate(1)
         assertEquals(OracleSolver.layout(scenario), PortSolver.layout(scenario))
     }
+
+    @Test
+    fun bothSubjectsMeasureAScenario() {
+        val scenario = Scenarios.generate(1)
+        for (subject in subjects) {
+            val outcome = subject.measure(scenario)
+            assertTrue(outcome is LayoutOutcome.LaidOut, "${subject.name} returned $outcome")
+        }
+    }
+
+    @Test
+    fun measuredGeometryNamesEveryParticipant() {
+        val scenario = Scenarios.generate(1)
+        for (subject in subjects) {
+            val geometry = (subject.measure(scenario) as LayoutOutcome.LaidOut).geometry
+            assertTrue(geometry.contains("root"), "${subject.name}: $geometry")
+            for (widget in scenario.widgets) {
+                assertTrue(geometry.contains(widget.name), "${subject.name} missing ${widget.name}")
+            }
+        }
+    }
+
+    @Test
+    fun subjectsAgreeWhenMeasuringASingleScenario() {
+        val scenario = Scenarios.generate(1)
+        assertEquals(OracleSolver.measure(scenario), PortSolver.measure(scenario))
+    }
+
+    /**
+     * The two entry points answer different questions, so they are never compared against each
+     * other — only oracle-to-port within each. This case documents that they genuinely differ, so a
+     * future change that silently made `measure` delegate to `layout` would be visible.
+     */
+    @Test
+    fun measuringAndLayingOutAreDistinctPaths() {
+        val differing = (1L..200L).count { seed ->
+            val scenario = Scenarios.generate(seed)
+            OracleSolver.measure(scenario) != OracleSolver.layout(scenario)
+        }
+        assertTrue(differing > 0, "measure() and layout() produced identical results on 200 seeds")
+    }
 }

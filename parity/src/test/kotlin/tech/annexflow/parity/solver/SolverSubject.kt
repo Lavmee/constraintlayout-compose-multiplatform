@@ -11,5 +11,19 @@ package tech.annexflow.parity.solver
 interface SolverSubject {
     val name: String
 
+    /**
+     * The solver's own entry point. Production does not call this directly, but both mutation
+     * probes so far fired through it, so it stays compared in its own right.
+     */
     fun layout(scenario: Scenario): LayoutOutcome
+
+    /**
+     * The entry point production uses: `ConstraintWidgetContainer.measure`, which runs the
+     * orchestration in `BasicMeasure` and only reaches `layout` as one of its branches.
+     *
+     * Compared against the other implementation's `measure`, never against `layout` — the two are
+     * different contracts and a cross comparison would fail for reasons that say nothing about the
+     * port.
+     */
+    fun measure(scenario: Scenario): LayoutOutcome
 }

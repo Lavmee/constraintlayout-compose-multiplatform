@@ -8,6 +8,7 @@ import androidx.constraintlayout.core.widgets.ConstraintAnchor
 import androidx.constraintlayout.core.widgets.ConstraintWidget
 import androidx.constraintlayout.core.widgets.ConstraintWidgetContainer
 import androidx.constraintlayout.core.widgets.Guideline
+import androidx.constraintlayout.core.widgets.analyzer.BasicMeasure
 
 /** The vendored upstream solver. It defines correct behaviour for every comparison here. */
 object OracleSolver : SolverSubject {
@@ -33,6 +34,68 @@ object OracleSolver : SolverSubject {
             LayoutOutcome.Crashed("OutOfMemoryError")
         } catch (e: Throwable) {
             LayoutOutcome.Crashed(e::class.simpleName ?: "Unknown")
+        }
+
+    /**
+     * Answers with each widget's intrinsic size, taken from its spec, matched by `debugName`.
+     *
+     * Deliberately stateless: `solverMeasure` calls back repeatedly across re-measure passes, and a
+     * measurer that remembered anything would make the outcome depend on call order — inventing
+     * divergences between the two implementations and masking real ones.
+     */
+    private class SpecMeasurer(private val scenario: Scenario) : BasicMeasure.Measurer {
+        override fun measure(widget: ConstraintWidget, measure: BasicMeasure.Measure) {
+            val spec = scenario.widgets.firstOrNull { it.name == widget.debugName }
+            measure.measuredWidth =
+                if (measure.horizontalBehavior == ConstraintWidget.DimensionBehaviour.WRAP_CONTENT) {
+                    spec?.width ?: widget.width
+                } else {
+                    measure.horizontalDimension
+                }
+            measure.measuredHeight =
+                if (measure.verticalBehavior == ConstraintWidget.DimensionBehaviour.WRAP_CONTENT) {
+                    spec?.height ?: widget.height
+                } else {
+                    measure.verticalDimension
+                }
+            measure.measuredHasBaseline = false
+            measure.measuredNeedsSolverPass = false
+        }
+
+        override fun didMeasures() = Unit
+    }
+
+    override fun measure(scenario: Scenario): LayoutOutcome =
+        try {
+            val tree = build(scenario)
+            tree.root.measurer = SpecMeasurer(scenario)
+            tree.root.measure(
+                scenario.measureSpec.optimizationLevel,
+                mode(scenario.measureSpec.widthMode),
+                scenario.rootWidth,
+                mode(scenario.measureSpec.heightMode),
+                scenario.rootHeight,
+                0,
+                0,
+                0,
+                0,
+            )
+            LayoutOutcome.LaidOut(render(tree))
+        } catch (e: Exception) {
+            LayoutOutcome.Leaked(LayoutOutcome.categorise(e))
+        } catch (e: StackOverflowError) {
+            LayoutOutcome.Crashed("StackOverflowError")
+        } catch (e: OutOfMemoryError) {
+            LayoutOutcome.Crashed("OutOfMemoryError")
+        } catch (e: Throwable) {
+            LayoutOutcome.Crashed(e::class.simpleName ?: "Unknown")
+        }
+
+    private fun mode(value: MeasureMode): Int =
+        when (value) {
+            MeasureMode.UNSPECIFIED -> BasicMeasure.UNSPECIFIED
+            MeasureMode.EXACTLY -> BasicMeasure.EXACTLY
+            MeasureMode.AT_MOST -> BasicMeasure.AT_MOST
         }
 
     private fun build(scenario: Scenario): Tree {
