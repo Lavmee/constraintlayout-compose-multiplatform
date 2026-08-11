@@ -71,7 +71,26 @@ class ConstraintLayoutLibraryPlugin : Plugin<Project> {
                 targets.configureEach {
                     compilations.configureEach {
                         compileTaskProvider.configure {
-                            compilerOptions.freeCompilerArgs.add("-Xexpect-actual-classes")
+                            compilerOptions.freeCompilerArgs.addAll(
+                                "-Xexpect-actual-classes",
+                                // Casts the compiler can already prove will always throw. In a
+                                // mechanical Java-to-Kotlin port these are never a style question:
+                                // Java's `(float) x` narrows, Kotlin's `x as Float` throws, and the
+                                // two read almost alike. That is how #342 shipped a
+                                // ClassCastException in ArcCurveFit — reported as a warning nobody
+                                // read.
+                                //
+                                // Promoting these two and nothing else is deliberate. Blanket
+                                // `allWarningsAsErrors` would be the wrong tool: of the 74 warnings
+                                // on this tree, the ones checked against the Java original turned
+                                // out to be upstream's own redundancy made visible by Kotlin's
+                                // types — dead null checks on fields Java initialises at their
+                                // declaration. Silencing those would mean diverging from the
+                                // original in 74 places, and line-by-line comparison against
+                                // upstream is how defects get found here.
+                                "-Xwarning-level=NUMERIC_CAST_NEVER_SUCCEEDS_BUT_CAN_BE_REPLACED_WITH_TO_CALL:error",
+                                "-Xwarning-level=CAST_NEVER_SUCCEEDS:error",
+                            )
                         }
                     }
                 }
