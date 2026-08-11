@@ -91,12 +91,12 @@ class ArcCurveFit : CurveFit {
                 val dt: Double = t - mArcs[0].mTime1
                 val p = 0
                 if (mArcs[p].mLinear) {
-                    v[0] = (mArcs[p].getLinearX(t0) + dt * mArcs[p].getLinearDX(t0)) as Float
-                    v[1] = (mArcs[p].getLinearY(t0) + dt * mArcs[p].getLinearDY(t0)) as Float
+                    v[0] = (mArcs[p].getLinearX(t0) + dt * mArcs[p].getLinearDX(t0)).toFloat()
+                    v[1] = (mArcs[p].getLinearY(t0) + dt * mArcs[p].getLinearDY(t0)).toFloat()
                 } else {
                     mArcs[p].setPoint(t0)
-                    v[0] = (mArcs[p].getX() + dt * mArcs[p].getDX()) as Float
-                    v[1] = (mArcs[p].getY() + dt * mArcs[p].getDY()) as Float
+                    v[0] = (mArcs[p].getX() + dt * mArcs[p].getDX()).toFloat()
+                    v[1] = (mArcs[p].getY() + dt * mArcs[p].getDY()).toFloat()
                 }
                 return
             }
@@ -105,12 +105,12 @@ class ArcCurveFit : CurveFit {
                 val dt = t - t0
                 val p: Int = mArcs.size - 1
                 if (mArcs[p].mLinear) {
-                    v[0] = (mArcs[p].getLinearX(t0) + dt * mArcs[p].getLinearDX(t0)) as Float
-                    v[1] = (mArcs[p].getLinearY(t0) + dt * mArcs[p].getLinearDY(t0)) as Float
+                    v[0] = (mArcs[p].getLinearX(t0) + dt * mArcs[p].getLinearDX(t0)).toFloat()
+                    v[1] = (mArcs[p].getLinearY(t0) + dt * mArcs[p].getLinearDY(t0)).toFloat()
                 } else {
                     mArcs[p].setPoint(t)
-                    v[0] = mArcs[p].getX() as Float
-                    v[1] = mArcs[p].getY() as Float
+                    v[0] = mArcs[p].getX().toFloat()
+                    v[1] = mArcs[p].getY().toFloat()
                 }
                 return
             }
@@ -124,13 +124,13 @@ class ArcCurveFit : CurveFit {
         for (i in 0 until mArcs.size) {
             if (t <= mArcs[i].mTime2) {
                 if (mArcs[i].mLinear) {
-                    v[0] = mArcs[i].getLinearX(t) as Float
-                    v[1] = mArcs[i].getLinearY(t) as Float
+                    v[0] = mArcs[i].getLinearX(t).toFloat()
+                    v[1] = mArcs[i].getLinearY(t).toFloat()
                     return
                 }
                 mArcs[i].setPoint(t)
-                v[0] = mArcs[i].getX() as Float
-                v[1] = mArcs[i].getY() as Float
+                v[0] = mArcs[i].getX().toFloat()
+                v[1] = mArcs[i].getY().toFloat()
                 return
             }
         }
