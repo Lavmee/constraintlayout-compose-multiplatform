@@ -130,13 +130,25 @@ class MotionConstrainedPoint : Comparable<MotionConstrainedPoint> {
         }
     }
 
+    // Upstream writes these as `mask[c++] |= expr`, where Java evaluates the index once and reads
+    // and writes the same slot. Kotlin has no `|=` for Boolean, and expanding it to
+    // `mask[c++] = mask[c++] or expr` evaluates the index twice: it wrote to every other slot,
+    // read from the ones in between, and advanced `c` by two per line. The index is now read once
+    // per slot, and `c` advances separately.
+    //
+    // Nothing calls this overload — neither here nor upstream — but it is corrected rather than
+    // removed, so it stays a faithful copy of the original.
     fun different(points: MotionConstrainedPoint, mask: BooleanArray, custom: Array<String?>?) {
         var c = 0
-        mask[c++] = mask[c++] or diff(mPosition, points.mPosition)
-        mask[c++] = mask[c++] or diff(mX, points.mX)
-        mask[c++] = mask[c++] or diff(mY, points.mY)
-        mask[c++] = mask[c++] or diff(mWidth, points.mWidth)
-        mask[c++] = mask[c++] or diff(mHeight, points.mHeight)
+        mask[c] = mask[c] or diff(mPosition, points.mPosition)
+        c++
+        mask[c] = mask[c] or diff(mX, points.mX)
+        c++
+        mask[c] = mask[c] or diff(mY, points.mY)
+        c++
+        mask[c] = mask[c] or diff(mWidth, points.mWidth)
+        c++
+        mask[c] = mask[c] or diff(mHeight, points.mHeight)
     }
 
     var mTempValue = DoubleArray(18)
