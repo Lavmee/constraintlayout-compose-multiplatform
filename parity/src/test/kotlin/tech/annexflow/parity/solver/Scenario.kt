@@ -96,6 +96,30 @@ data class ChainSpec(
     val style: ChainStyle,
 )
 
+/** Mirrors `BasicMeasure`'s modes: `UNSPECIFIED` 0, `EXACTLY` 1 shl 30, `AT_MOST` 2 shl 30. */
+enum class MeasureMode { UNSPECIFIED, EXACTLY, AT_MOST }
+
+/**
+ * Mirrors `Optimizer`'s level constants, which exist separately in each package. Only `STANDARD`
+ * is generated today — see [Scenarios] for why.
+ */
+enum class OptimizationLevel { STANDARD }
+
+/**
+ * The arguments `ConstraintWidgetContainer.measure` needs and `layout` does not.
+ *
+ * These are carried through to `measure()` but are inert at `OPTIMIZATION_STANDARD`:
+ * `BasicMeasure.solverMeasure` only reads `widthMode`/`heightMode`/`widthSize`/`heightSize` inside
+ * its `if (optimize)` branch, and `optimize` requires `OPTIMIZATION_GRAPH` or
+ * `OPTIMIZATION_GRAPH_WRAP` — neither of which `OPTIMIZATION_STANDARD` sets. They are plumbed and
+ * generated now so that raising the optimization level later needs no change to the scenario model.
+ */
+data class MeasureSpec(
+    val widthMode: MeasureMode,
+    val heightMode: MeasureMode,
+    val optimizationLevel: OptimizationLevel,
+)
+
 /**
  * A circular constraint, which positions a widget at an angle and distance from another rather than
  * by anchors. [target] is always lower than [from], so it cannot reintroduce a cycle.
@@ -116,4 +140,5 @@ data class Scenario(
     val barriers: List<BarrierSpec>,
     val guidelines: List<GuidelineSpec>,
     val chains: List<ChainSpec>,
+    val measureSpec: MeasureSpec,
 )

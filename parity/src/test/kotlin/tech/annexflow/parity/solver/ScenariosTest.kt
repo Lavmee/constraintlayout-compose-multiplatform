@@ -339,4 +339,52 @@ class ScenariosTest {
         }
         assertEquals(ChainStyle.entries.toSet(), styles, "generated styles: $styles")
     }
+
+    /**
+     * The modes are inert at the `OPTIMIZATION_STANDARD` level this harness runs at — see
+     * [MeasureSpec] — so this does not pin any observable behaviour. It pins forward-preparation:
+     * the day the optimization level is raised and the modes start mattering, every value must
+     * already be reachable rather than requiring a change to the generator at that point.
+     */
+    @Test
+    fun everyMeasureModeIsGenerated() {
+        val widthModes = mutableSetOf<MeasureMode>()
+        val heightModes = mutableSetOf<MeasureMode>()
+        for (seed in 1L..300L) {
+            val spec = Scenarios.generate(seed).measureSpec
+            widthModes += spec.widthMode
+            heightModes += spec.heightMode
+        }
+        assertEquals(MeasureMode.entries.toSet(), widthModes, "width modes: $widthModes")
+        assertEquals(MeasureMode.entries.toSet(), heightModes, "height modes: $heightModes")
+    }
+
+    /**
+     * `AT_MOST` on a wrap-content root is what would drive `BasicMeasure`'s re-measure loop once the
+     * optimization level is raised enough for the modes to matter — see [MeasureSpec], where they
+     * are inert at `OPTIMIZATION_STANDARD`. This does not pin any behaviour reached today; it pins
+     * forward-preparation, so that combination is already well represented in the generator rather
+     * than needing to be added when the level is raised.
+     */
+    @Test
+    fun someScenariosMeasureAWrapContentRootAtMost() {
+        val matching = (1L..300L).count { seed ->
+            val scenario = Scenarios.generate(seed)
+            (scenario.rootHorizontal == Behaviour.WRAP_CONTENT &&
+                scenario.measureSpec.widthMode == MeasureMode.AT_MOST) ||
+                (scenario.rootVertical == Behaviour.WRAP_CONTENT &&
+                    scenario.measureSpec.heightMode == MeasureMode.AT_MOST)
+        }
+        assertTrue(matching >= 20, "only $matching of 300 scenarios measure a wrap root AT_MOST")
+    }
+
+    @Test
+    fun theOptimizationLevelIsAlwaysStandard() {
+        for (seed in 1L..50L) {
+            assertEquals(
+                OptimizationLevel.STANDARD,
+                Scenarios.generate(seed).measureSpec.optimizationLevel,
+            )
+        }
+    }
 }
