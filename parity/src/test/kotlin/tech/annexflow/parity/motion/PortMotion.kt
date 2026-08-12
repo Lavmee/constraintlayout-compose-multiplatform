@@ -10,8 +10,8 @@ import tech.annexflow.constraintlayout.core.motion.key.MotionKeyPosition
 import tech.annexflow.constraintlayout.core.motion.utils.KeyCache
 
 /**
- * Drives the vendored upstream Java. `PortMotion` performs the same sequence against the shaded
- * port; keeping the two in step is the whole contract, so any edit here needs the mirror edit there.
+ * Drives the shaded port. `OracleMotion` performs the same sequence against the vendored upstream
+ * Java; keeping the two in step is the whole contract, so any edit here needs the mirror edit there.
  */
 internal class PortMotion : MotionSubject {
     override fun run(scenario: MotionScenario): MotionOutcome =
