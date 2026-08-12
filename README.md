@@ -72,7 +72,7 @@ You'll note that I have kept the package name the same as that in AndroidX. This
 val commonMain by getting {
     dependencies {
         /// Compose 1.11.0+
-        implementation("tech.annexflow.compose:constraintlayout-compose-multiplatform:0.8.1")
+        implementation("tech.annexflow.compose:constraintlayout-compose-multiplatform:0.8.2")
     }
 }
 ```
@@ -91,7 +91,7 @@ flavour instead. All three are built from the same sources and released under th
 
 ```kotlin
 /// Everything relocated — the flavour to reach for when you hit a clash
-implementation("tech.annexflow.compose:constraintlayout-compose-multiplatform-shaded:0.8.1")
+implementation("tech.annexflow.compose:constraintlayout-compose-multiplatform-shaded:0.8.2")
 ```
 
 Two caveats:
