@@ -275,15 +275,23 @@ class MotionPaths : Comparable<MotionPaths> {
         }
     }
 
+    // Upstream writes these as `mask[c++] |= expr`, where Java evaluates the index once and reads
+    // and writes the same slot. Kotlin has no `|=` for Boolean, and expanding it to
+    // `mask[c++] = mask[c] or expr` evaluates the index twice, so each slot took in its NEIGHBOUR's
+    // value instead of its own. The index is now read once per slot, and `c` advances separately.
     fun different(points: MotionPaths, mask: BooleanArray, custom: Array<String>, arcMode: Boolean) {
         var c = 0
         val diffx = diff(mX, points.mX)
         val diffy = diff(mY, points.mY)
-        mask[c++] = mask[c] or diff(mPosition, points.mPosition)
-        mask[c++] = mask[c] or (diffx || diffy || arcMode)
-        mask[c++] = mask[c] or (diffx || diffy || arcMode)
-        mask[c++] = mask[c] or diff(mWidth, points.mWidth)
-        mask[c++] = mask[c] or diff(mHeight, points.mHeight)
+        mask[c] = mask[c] or diff(mPosition, points.mPosition)
+        c++
+        mask[c] = mask[c] or (diffx || diffy || arcMode)
+        c++
+        mask[c] = mask[c] or (diffx || diffy || arcMode)
+        c++
+        mask[c] = mask[c] or diff(mWidth, points.mWidth)
+        c++
+        mask[c] = mask[c] or diff(mHeight, points.mHeight)
     }
 
     fun getCenter(p: Double, toUse: IntArray, data: DoubleArray, point: FloatArray, offset: Int) {
