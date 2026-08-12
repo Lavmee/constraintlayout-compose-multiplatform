@@ -61,7 +61,6 @@ internal sealed interface KeySpec {
         val scaleY: Float,
         val alpha: Float,
         val curveFit: Int,
-        val transitionEasing: String?,
     ) : KeySpec
 }
 

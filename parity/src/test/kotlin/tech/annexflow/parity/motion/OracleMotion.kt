@@ -22,8 +22,8 @@ internal class OracleMotion : MotionSubject {
         }
 
     private fun sample(scenario: MotionScenario): MotionSample {
-        val start = widget(scenario.start, scenario.startAttributes, easing = null)
-        val end = widget(scenario.end, scenario.endAttributes, easing = scenario.easing)
+        val start = widget(scenario.start, scenario.startAttributes, easing = scenario.easing)
+        val end = widget(scenario.end, scenario.endAttributes, easing = null)
 
         val motion = Motion(start)
         motion.setStart(start)
@@ -101,7 +101,7 @@ internal class OracleMotion : MotionSubject {
                     if (!spec.percentWidth.isNaN()) setValue(TypeIds.POSITION_PERCENT_WIDTH, spec.percentWidth)
                     if (!spec.percentHeight.isNaN()) setValue(TypeIds.POSITION_PERCENT_HEIGHT, spec.percentHeight)
                     setValue(TypeIds.POSITION_CURVE_FIT, spec.curveFit)
-                    setValue(TypeIds.POSITION_PATH_MOTION_ARC, spec.pathMotionArc)
+                    mPathMotionArc = spec.pathMotionArc
                     spec.transitionEasing?.let { setValue(TypeIds.POSITION_TRANSITION_EASING, it) }
                 }
 
@@ -113,7 +113,6 @@ internal class OracleMotion : MotionSubject {
                     if (!spec.scaleY.isNaN()) setValue(TypeIds.ATTR_SCALE_Y, spec.scaleY)
                     if (!spec.alpha.isNaN()) setValue(TypeIds.ATTR_ALPHA, spec.alpha)
                     setValue(TypeIds.ATTR_CURVE_FIT, spec.curveFit)
-                    spec.transitionEasing?.let { setValue(TypeIds.POSITION_TRANSITION_EASING, it) }
                 }
         }
 }

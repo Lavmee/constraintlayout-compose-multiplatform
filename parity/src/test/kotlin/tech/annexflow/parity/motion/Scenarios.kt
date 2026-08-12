@@ -82,7 +82,6 @@ internal object Scenarios {
                     scaleY = maybe(random) { random.nextInt(1, 30) / 10f },
                     alpha = maybe(random) { random.nextInt(0, 10) / 10f },
                     curveFit = random.nextInt(-1, 2),
-                    transitionEasing = EASINGS[random.nextInt(EASINGS.size)],
                 )
             }
         }

@@ -47,7 +47,7 @@ class MotionSubjectTest {
             trivial.copy(
                 keys = listOf(
                     KeySpec.PositionKey(50, 0.5f, 0.5f, Float.NaN, Float.NaN, -1, null, -1),
-                    KeySpec.AttributesKey(75, 45f, 2f, 2f, 0.5f, -1, null),
+                    KeySpec.AttributesKey(75, 45f, 2f, 2f, 0.5f, -1),
                 ),
                 pathMotionArc = 1,
             )

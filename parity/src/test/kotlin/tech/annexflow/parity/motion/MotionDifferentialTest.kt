@@ -19,11 +19,13 @@ class MotionDifferentialTest {
     fun thePortAgreesWithTheOracle() {
         val oracle = OracleMotion()
         val port = PortMotion()
+        var sampled = 0
         val divergences =
             (0L until SEEDS).mapNotNull { seed ->
                 val scenario = Scenarios.generate(seed)
                 val fromOracle = oracle.run(scenario)
                 val fromPort = port.run(scenario)
+                if (fromOracle is MotionOutcome.Sampled && fromPort is MotionOutcome.Sampled) sampled++
                 if (fromOracle == fromPort) null else report(scenario, fromOracle, fromPort)
             }
 
@@ -36,6 +38,13 @@ class MotionDifferentialTest {
                     append("… and ").append(divergences.size - MAX_REPORTED).append(" more.")
                 }
             },
+        )
+
+        // A shared harness-side failure makes both sides Leaked with the same category, which
+        // compares equal above and would read as agreement. Guard against measuring nothing.
+        assertTrue(
+            sampled == SEEDS.toInt(),
+            "only $sampled of $SEEDS scenarios actually sampled on both sides; the rest leaked or crashed",
         )
     }
 
