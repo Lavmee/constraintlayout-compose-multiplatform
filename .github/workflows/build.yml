@@ -35,8 +35,10 @@ jobs:
           :sample:webApp:assemble
       - name: Build shaded flavours
         run: ./gradlew :compose-shaded:assemble :compose-shaded-compose:assemble
+      # Every target, not just the JVM. Five of the six had never been exercised here at all, and
+      # the js target's float-precision exclusions only mean something if something runs them.
       - name: Test
-        run: ./gradlew :compose:jvmTest
+        run: ./gradlew :compose:allTests
       - name: Test shaded flavours
         run: ./gradlew :compose-shaded:jvmTest :compose-shaded-compose:jvmTest
       # Compares the ported parser against a vendored copy of the upstream one. The suite above
