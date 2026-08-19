@@ -7,12 +7,25 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 
 class ConstraintSetOutcomeTest {
+    private fun row(id: String, left: Int, top: Int, width: Int, height: Int) = GeometryRow(
+        id, left, top, width, height,
+        visibility = 0, alpha = Float.NaN,
+        rotationX = Float.NaN, rotationY = Float.NaN, rotationZ = Float.NaN,
+        scaleX = Float.NaN, scaleY = Float.NaN,
+        translationX = Float.NaN, translationY = Float.NaN, translationZ = Float.NaN,
+        pivotX = Float.NaN, pivotY = Float.NaN,
+    )
+
     @Test
     fun geometryRendersOneRowPerWidgetInGivenOrder() {
-        val rendered = renderGeometry(
-            listOf(GeometryRow("b", 10, 20, 30, 40), GeometryRow("a", 0, 0, 5, 5)),
+        val rendered = renderGeometry(listOf(row("b", 10, 20, 30, 40), row("a", 0, 0, 5, 5)))
+        assertEquals(
+            "b l=10 t=20 w=30 h=40 vis=0 alpha=NaN rX=NaN rY=NaN rZ=NaN sX=NaN sY=NaN tX=NaN tY=NaN tZ=NaN " +
+                "pvX=NaN pvY=NaN\n" +
+                "a l=0 t=0 w=5 h=5 vis=0 alpha=NaN rX=NaN rY=NaN rZ=NaN sX=NaN sY=NaN tX=NaN tY=NaN tZ=NaN " +
+                "pvX=NaN pvY=NaN\n",
+            rendered,
         )
-        assertEquals("b l=10 t=20 w=30 h=40\na l=0 t=0 w=5 h=5\n", rendered)
     }
 
     @Test

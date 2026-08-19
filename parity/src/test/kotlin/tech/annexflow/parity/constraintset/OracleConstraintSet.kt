@@ -38,8 +38,15 @@ object OracleConstraintSet : ConstraintSetSubject {
             val custom = mutableListOf<CustomRow>()
             for (child in root.children) {
                 val id = child.stringId ?: "?"
-                geometry += GeometryRow(id, child.left, child.top, child.width, child.height)
                 val frame = child.frame
+                geometry += GeometryRow(
+                    id, child.left, child.top, child.width, child.height,
+                    frame.visibility, frame.alpha,
+                    frame.rotationX, frame.rotationY, frame.rotationZ,
+                    frame.scaleX, frame.scaleY,
+                    frame.translationX, frame.translationY, frame.translationZ,
+                    frame.pivotX, frame.pivotY,
+                )
                 for (attrName in frame.getCustomAttributeNames()) {
                     custom += CustomRow(id, attrName, frame.getCustomAttribute(attrName)?.toString() ?: "null")
                 }

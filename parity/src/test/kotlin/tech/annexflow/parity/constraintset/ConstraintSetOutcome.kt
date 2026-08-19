@@ -3,8 +3,34 @@
 
 package tech.annexflow.parity.constraintset
 
-/** One widget's laid-out box, named without reference to either implementation's classes. */
-data class GeometryRow(val id: String, val left: Int, val top: Int, val width: Int, val height: Int)
+/**
+ * One widget's laid-out box, named without reference to either implementation's classes.
+ *
+ * [visibility], [alpha], the rotations, the scales, the translations and the pivots never affect
+ * `left`/`top`/`width`/`height` — they land on `WidgetFrame`, a sibling of the box computed by the
+ * solver, not an input to it (see `WidgetFrame.kt`). Folded into the same row rather than a new
+ * section: it keeps exactly one line per widget, which is what `ConstraintSetDifferentialTest`'s
+ * `minimumGeometryRows` floor (a count of newlines in `geometry`) assumes stays true across edits.
+ */
+data class GeometryRow(
+    val id: String,
+    val left: Int,
+    val top: Int,
+    val width: Int,
+    val height: Int,
+    val visibility: Int,
+    val alpha: Float,
+    val rotationX: Float,
+    val rotationY: Float,
+    val rotationZ: Float,
+    val scaleX: Float,
+    val scaleY: Float,
+    val translationX: Float,
+    val translationY: Float,
+    val translationZ: Float,
+    val pivotX: Float,
+    val pivotY: Float,
+)
 
 /** One custom attribute, already stringified by whichever subject read it. */
 data class CustomRow(val widgetId: String, val name: String, val value: String)
@@ -13,7 +39,11 @@ data class CustomRow(val widgetId: String, val name: String, val value: String)
 data class ElementRow(val id: String, val type: String, val params: Map<String, String>)
 
 fun renderGeometry(rows: List<GeometryRow>): String =
-    rows.joinToString(separator = "") { "${it.id} l=${it.left} t=${it.top} w=${it.width} h=${it.height}\n" }
+    rows.joinToString(separator = "") { r ->
+        "${r.id} l=${r.left} t=${r.top} w=${r.width} h=${r.height} vis=${r.visibility} alpha=${r.alpha} " +
+            "rX=${r.rotationX} rY=${r.rotationY} rZ=${r.rotationZ} sX=${r.scaleX} sY=${r.scaleY} " +
+            "tX=${r.translationX} tY=${r.translationY} tZ=${r.translationZ} pvX=${r.pivotX} pvY=${r.pivotY}\n"
+    }
 
 // Sorted, unlike geometry: custom attributes come out of a HashMap, and the two implementations
 // have no reason to iterate one in the same order. Geometry keeps the caller's order because the
