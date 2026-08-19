@@ -28,7 +28,7 @@ jobs:
         run: ./gradlew lint --stacktrace
 
       - name: Upload ConstraintLayout Compose Lint Report
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: constraintlayout-lint-report
           path: compose/build/reports
