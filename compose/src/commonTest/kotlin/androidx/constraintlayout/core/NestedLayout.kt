@@ -26,6 +26,14 @@ import kotlin.test.assertEquals
  * Test nested layout
  */
 class NestedLayout {
+    // Disabled upstream too, which comments out the `@Test` rather than annotating it. Neither
+    // upstream nor this port recorded why, so it read like an unexplained port failure.
+    //
+    // It is not one. Nesting a container inside another and wrapping it to its children does
+    // nothing: the container keeps its original width and the children land outside it. The
+    // oracle and the port produce identical numbers, so the expectations below describe a
+    // feature `constraintlayout-core` never implemented, not behaviour this port lost.
+    // `tech.annexflow.parity.solver.NestedContainerTest` runs both sides and holds them equal.
     @Ignore
     @Test
     fun testNestedLayout() {
