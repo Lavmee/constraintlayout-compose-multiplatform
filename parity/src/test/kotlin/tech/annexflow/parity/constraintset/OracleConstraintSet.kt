@@ -38,29 +38,41 @@ object OracleConstraintSet : ConstraintSetSubject {
             root.debugName = "root"
             state.apply(root)
             root.layout()
-            val geometry = mutableListOf<GeometryRow>()
-            val custom = mutableListOf<CustomRow>()
-            for (child in root.children) {
-                val id = child.stringId ?: "?"
-                val frame = child.frame
-                geometry += GeometryRow(
-                    id, child.left, child.top, child.width, child.height,
-                    frame.visibility, frame.alpha,
-                    frame.rotationX, frame.rotationY, frame.rotationZ,
-                    frame.scaleX, frame.scaleY,
-                    frame.translationX, frame.translationY, frame.translationZ,
-                    frame.pivotX, frame.pivotY,
-                )
-                for (attrName in frame.getCustomAttributeNames()) {
-                    custom += CustomRow(id, attrName, frame.getCustomAttribute(attrName)?.toString() ?: "null")
-                }
-            }
-            ConstraintSetOutcome.Populated(renderGeometry(geometry), renderCustom(custom))
+            observe(root)
         } catch (e: CLParsingException) {
             ConstraintSetOutcome.Leaked("CLParsing")
         } catch (e: Throwable) {
             ConstraintSetOutcome.Crashed(ConstraintSetOutcome.categorise(e))
         }
+
+    /**
+     * Walks the laid-out container's children into a [ConstraintSetOutcome.Populated]. Shared by
+     * [parse] and [measure] on purpose, unlike the setup above each of them: the two setups differ
+     * by design (see [measure]'s kdoc), but this walk must read the exact same fields off the exact
+     * same shape for both entry points, or a difference here — not in the parser — could look like a
+     * divergence between the two implementations. `solver.OracleSolver`'s `render` is the same idea
+     * for `layout`/`measure` there.
+     */
+    private fun observe(root: ConstraintWidgetContainer): ConstraintSetOutcome.Populated {
+        val geometry = mutableListOf<GeometryRow>()
+        val custom = mutableListOf<CustomRow>()
+        for (child in root.children) {
+            val id = child.stringId ?: "?"
+            val frame = child.frame
+            geometry += GeometryRow(
+                id, child.left, child.top, child.width, child.height,
+                frame.visibility, frame.alpha,
+                frame.rotationX, frame.rotationY, frame.rotationZ,
+                frame.scaleX, frame.scaleY,
+                frame.translationX, frame.translationY, frame.translationZ,
+                frame.pivotX, frame.pivotY,
+            )
+            for (attrName in frame.getCustomAttributeNames()) {
+                custom += CustomRow(id, attrName, frame.getCustomAttribute(attrName)?.toString() ?: "null")
+            }
+        }
+        return ConstraintSetOutcome.Populated(renderGeometry(geometry), renderCustom(custom))
+    }
 
     /**
      * Every widget here is a synthetic solver primitive with no real content to wrap around, so a
@@ -144,24 +156,7 @@ object OracleConstraintSet : ConstraintSetSubject {
                 0,
                 0,
             )
-            val geometry = mutableListOf<GeometryRow>()
-            val custom = mutableListOf<CustomRow>()
-            for (child in root.children) {
-                val id = child.stringId ?: "?"
-                val frame = child.frame
-                geometry += GeometryRow(
-                    id, child.left, child.top, child.width, child.height,
-                    frame.visibility, frame.alpha,
-                    frame.rotationX, frame.rotationY, frame.rotationZ,
-                    frame.scaleX, frame.scaleY,
-                    frame.translationX, frame.translationY, frame.translationZ,
-                    frame.pivotX, frame.pivotY,
-                )
-                for (attrName in frame.getCustomAttributeNames()) {
-                    custom += CustomRow(id, attrName, frame.getCustomAttribute(attrName)?.toString() ?: "null")
-                }
-            }
-            ConstraintSetOutcome.Populated(renderGeometry(geometry), renderCustom(custom))
+            observe(root)
         } catch (e: CLParsingException) {
             ConstraintSetOutcome.Leaked("CLParsing")
         } catch (e: Throwable) {
@@ -172,7 +167,7 @@ object OracleConstraintSet : ConstraintSetSubject {
         try {
             val list = ArrayList<ConstraintSetParser.DesignElement>()
             ConstraintSetParser.parseDesignElementsJSON(emitDesignElements(spec), list)
-            val rows = list.map { ElementRow(it.getId(), it.getType(), it.getParams()) }
+            val rows = list.map { ElementRow(it.id, it.type, it.params) }
             ConstraintSetOutcome.Elements(renderElements(rows))
         } catch (e: CLParsingException) {
             ConstraintSetOutcome.Leaked("CLParsing")

@@ -13,7 +13,11 @@ class SubjectTest {
     @Test
     fun bothSubjectsLayOutTheSameDocumentIdentically() {
         val outcomes = subjects.map { it.parse(baseSpec()) }
-        assertEquals(outcomes[0], outcomes[1])
+        assertEquals(
+            outcomes[0],
+            outcomes[1],
+            "${subjects[0].name} and ${subjects[1].name} disagree on the same document",
+        )
         assertTrue(outcomes[0] is ConstraintSetOutcome.Populated, "got ${outcomes[0]}")
     }
 

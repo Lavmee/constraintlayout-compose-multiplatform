@@ -29,9 +29,10 @@ interface ConstraintSetSubject {
      * bias/spread split once it applies — see `OracleConstraintSet.measure`'s kdoc for how this was
      * isolated (a raw `ConstraintWidget` reproduction outside `State` entirely).
      *
-     * [parse] is deliberately left untouched by this addition: `ConstraintSetDifferentialTest`'s
-     * corpus and its measured geometry-row floor are built on [parse], and must not shift as a
-     * side effect of adding this second entry point.
+     * [parse] is deliberately left untouched by this addition. `ConstraintSetDifferentialTest`
+     * exercises both entry points now, each against its own corpus-measured floors — see that
+     * class's kdoc — but [parse]'s existing floors, measured before [measure] existed, must not
+     * shift as a side effect of adding this second entry point.
      */
     fun measure(spec: ConstraintSetSpec): ConstraintSetOutcome
 

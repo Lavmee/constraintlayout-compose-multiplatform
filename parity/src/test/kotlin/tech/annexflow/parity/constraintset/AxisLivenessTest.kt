@@ -49,6 +49,7 @@ class AxisLivenessTest {
         val a = outcome(before)
         val b = outcome(after)
         check(a is ConstraintSetOutcome.Populated) { "$name: the baseline document does not lay out: $a" }
+        check(b is ConstraintSetOutcome.Populated) { "$name: the mutated document does not lay out: $b" }
         assertNotEquals(a, b, "$name is generated but changes nothing the harness observes")
     }
 

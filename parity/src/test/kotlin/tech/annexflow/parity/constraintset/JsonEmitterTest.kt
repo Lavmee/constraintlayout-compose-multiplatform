@@ -54,6 +54,27 @@ class JsonEmitterTest {
         }
     }
 
+    // `DimensionSpec.Bounded` isn't one of `emitsEveryDimensionForm`'s forms — it renders as its own
+    // `{value: …, min: …, max: …}` object rather than a bare scalar or quoted string, and it's
+    // roughly a fifth of every generated width/height draw (see `Scenarios.dimension`), so a wrong
+    // key name here would quietly degrade a large slice of the corpus to default dimensions with
+    // both sides agreeing and nothing catching it.
+    @Test
+    fun emitsBoundedDimensionShape() {
+        val json = emit(
+            spec(
+                widget("a").copy(
+                    width = DimensionSpec.Bounded(
+                        value = DimensionMode.SPREAD,
+                        min = Bound.Pixels(10),
+                        max = Bound.Wrap,
+                    ),
+                ),
+            ),
+        )
+        assertTrue(json.contains("width: {value: 'spread', min: 10, max: 'wrap'}"), json)
+    }
+
     @Test
     fun anchorRendersAsAnArrayOfTargetAnchorMargin() {
         val w = widget("a").copy(

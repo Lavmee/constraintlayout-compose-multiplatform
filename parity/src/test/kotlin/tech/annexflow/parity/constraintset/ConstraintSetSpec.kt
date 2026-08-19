@@ -143,7 +143,11 @@ data class ChainSpec(
 )
 
 sealed interface GuidelinePosition {
-    /** `start` for a vertical guideline, `top` for a horizontal one. */
+    /**
+     * Rendered as `start` regardless of orientation — `parseGuidelineParams` only recognises
+     * `left`/`right`/`start`/`end`/`percent`; there is no `top` (or `bottom`) key for a horizontal
+     * guideline, so `start` is the correct key for both orientations, not just the vertical one.
+     */
     data class FromStart(val dp: Int) : GuidelinePosition
 
     data class FromEnd(val dp: Int) : GuidelinePosition

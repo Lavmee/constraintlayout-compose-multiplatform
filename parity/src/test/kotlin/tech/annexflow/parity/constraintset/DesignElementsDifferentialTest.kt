@@ -79,19 +79,25 @@ class DesignElementsDifferentialTest {
      */
     private val minimumLeaked = 80
 
+    private val maxExamplesPerEntry = 5
+
     @Test
     fun thePortAgreesWithTheOracle() {
         val examples = mutableListOf<String>()
         var produced = 0
         var leaked = 0
+        var totalDivergences = 0
         for (seed in seeds) {
             val spec = Scenarios.generateDesignElements(seed)
             val oracle = OracleConstraintSet.designElements(spec)
             val port = PortConstraintSet.designElements(spec)
             if (oracle is ConstraintSetOutcome.Elements && oracle.rendered.isNotEmpty()) produced++
             if (oracle is ConstraintSetOutcome.Leaked) leaked++
-            if (oracle != port && examples.size < 5) {
-                examples += "seed $seed\n${emitDesignElements(spec)}\noracle: $oracle\nport:   $port"
+            if (oracle != port) {
+                totalDivergences++
+                if (examples.size < maxExamplesPerEntry) {
+                    examples += "seed $seed\n${emitDesignElements(spec)}\noracle: $oracle\nport:   $port"
+                }
             }
         }
         if (produced < minimumProduced) fail("only $produced of ${seeds.count()} documents produced elements")
@@ -101,6 +107,11 @@ class DesignElementsDifferentialTest {
                     "stopped exercising parseDesignElementsJSON's CLParsingException path (see class kdoc)",
             )
         }
-        if (examples.isNotEmpty()) fail(examples.joinToString("\n\n"))
+        if (totalDivergences > 0) {
+            fail(
+                "$totalDivergences of ${seeds.count()} diverged (showing up to $maxExamplesPerEntry):\n\n" +
+                    examples.joinToString("\n\n"),
+            )
+        }
     }
 }

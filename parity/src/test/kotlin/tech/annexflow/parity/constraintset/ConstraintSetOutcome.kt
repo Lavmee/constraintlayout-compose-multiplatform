@@ -60,7 +60,10 @@ fun renderElements(rows: List<ElementRow>): String =
 
 /**
  * Everything observable about parsing one document, normalised so the two implementations become
- * comparable despite living in different packages. Deliberately the same shape as `LayoutOutcome`.
+ * comparable despite living in different packages. The failure side is deliberately the same shape
+ * as `LayoutOutcome` ([Leaked], [Crashed]); the success side is not — this type splits into
+ * [Populated] and [Elements] for its two entry points, where `LayoutOutcome` has only one
+ * (`LaidOut`).
  */
 sealed interface ConstraintSetOutcome {
     /** The layout entry point: a document parsed, applied to a container and laid out. */

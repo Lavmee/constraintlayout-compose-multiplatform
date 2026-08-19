@@ -20,6 +20,12 @@ import kotlin.random.Random
  * refuse the combination, but circular positioning and edge-to-edge constraints answer the same
  * question two different ways, and there is nothing this harness wants to learn from watching them
  * fight.
+ *
+ * Because widgets are generated first, [anchorTarget] can only point an anchor at `parent` or a
+ * lower-indexed widget — never at a guideline, a barrier, or a chain. Guidelines and barriers do
+ * appear in the corpus and their own positions are compared, but no generated document ever
+ * anchors a widget TO one, so the interaction that anchoring-to-a-helper exists for is not
+ * exercised by this generator at all; "zero divergences over N documents" says nothing about it.
  */
 object Scenarios {
     private const val MIN_WIDGETS = 2
@@ -238,8 +244,16 @@ object Scenarios {
     /**
      * `from`'s "to" is drawn from the same category as `from` itself: `parseConstraint`'s `when`
      * on the constraint name only recognises the matching anchors as a value (e.g. `"top"` only
-     * branches on `"top"`/`"bottom"`/`"baseline"`) — a cross-category pairing falls through and
-     * applies nothing, which would silently under-constrain the widget.
+     * branches on `"top"`/`"bottom"`/`"baseline"`). A cross-category pairing doesn't fail the same
+     * way on both sides. A vertical constraint name (`top`/`bottom`/`baseline`) paired with a
+     * horizontal anchor falls through the inner `when` and applies nothing, silently
+     * under-constraining the widget. A horizontal constraint name (`start`/`end`/`left`/`right`)
+     * paired with a vertical anchor is worse: `isHorizontalConstraint` is still set, the
+     * "resolve horizontal target anchor" `when` also falls through, and `isHorTargetLeft` is left
+     * at its `true` initialiser (see `ConstraintSetParser.kt`'s `parseConstraint`), so a
+     * `leftToLeft`/`rightToLeft` constraint is applied anyway — a wrongly-resolved constraint, not
+     * a no-op. Restricting every generated anchor to same-category pairs means the corpus
+     * deliberately never exercises that upstream mis-resolution path.
      */
     private fun anchor(random: Random, index: Int, from: Anchor): AnchorSpec {
         val category = if (from in HORIZONTAL_ANCHORS) HORIZONTAL_ANCHORS else VERTICAL_ANCHORS
