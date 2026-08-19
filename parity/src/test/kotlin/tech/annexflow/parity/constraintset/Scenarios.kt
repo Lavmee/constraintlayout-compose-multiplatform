@@ -293,16 +293,27 @@ object Scenarios {
      * A plain top-level `Num` variable is read by `parseVariables`'s `CLNumber` branch, which
      * always calls `element.getInt()` and stores an `Int` — never `getFloat()`. `CLNumber.getInt`
      * falls back to `content().toInt()`, so a fractional value like `85.10631` throws
-     * `NumberFormatException` for every single seed that draws one; that was most of this
-     * generator's crash rate before this was found. A `Generator`'s `from`/`step` don't share the
-     * bug — those are read through `LayoutVariables.get`, which calls `getFloat()` — so only the
-     * plain `Num` case is restricted to whole numbers here.
+     * `NumberFormatException`. A `Generator`'s `from`/`step` don't share the bug — those are read
+     * through `LayoutVariables.get`, which calls `getFloat()` — so only the plain `Num` case is
+     * affected.
+     *
+     * Mostly whole numbers, same treatment as `'#zz'` in [customColor]: a rare fractional draw
+     * (1 in 15) keeps `getInt()`'s `content().toInt()` fallback reachable and its crash observed
+     * on both sides of the harness, rather than generating around it and letting it go untested.
+     * That matters more than it looks — `CLNumber` lives in the live Kotlin `compose/src`, not
+     * the frozen Java oracle, so a future edit that symmetrises `getInt()` with `getFloat()` (or
+     * swaps in `toIntOrNull()`) would silently diverge from the oracle if nothing ever exercised
+     * this branch to catch it. Kept rare, the same way `'#zz'` is kept rare, so the crash stays a
+     * small, deliberate minority of documents rather than eating the corpus.
      */
     private fun variable(random: Random, index: Int): VariableSpec = when (random.nextInt(3)) {
-        0 -> VariableSpec.Num("v$index", random.nextInt(0, 101).toFloat())
+        0 -> VariableSpec.Num("v$index", numValue(random))
         1 -> VariableSpec.Generator("v$index", random.nextFloat() * 10f, 1f + random.nextFloat() * 5f)
         else -> idListVariable(random, "v$index")
     }
+
+    private fun numValue(random: Random): Float =
+        if (random.nextInt(15) == 0) random.nextFloat() * 100f else random.nextInt(0, 101).toFloat()
 
     private fun idListVariable(random: Random, name: String): VariableSpec.IdList =
         VariableSpec.IdList(name, (0 until random.nextInt(1, 4)).map { i -> "gen$i" })
