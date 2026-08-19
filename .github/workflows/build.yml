@@ -31,6 +31,17 @@ jobs:
         run: chmod +x ./gradlew
       # `:sample` is only a container directory since the per-platform split, so it owns no
       # `assemble` task — the sample modules have to be named individually.
+      #
+      # `assemble` also links the *release* Kotlin/Native binaries, and nothing here consumes
+      # them: release.yml never calls assemble, and the Maven publication is klibs and metadata,
+      # so no framework reaches the Portal. They are not cheap either — one release link measured
+      # 133s against 29s for the matching debug link, and together they were 54% of the task time
+      # of the first step and 60% of the second.
+      #
+      # Excluded rather than removed from the build: sample/iosApp is a real Xcode project, and a
+      # Release build of it needs the release framework. Excluding by bare task name covers every
+      # module at once, and Gradle fails the build if a named task does not exist — so a rename
+      # cannot quietly turn these into no-ops.
       - name: Build
         run: >-
           ./gradlew
@@ -38,8 +49,18 @@ jobs:
           :sample:androidApp:assemble
           :sample:desktopApp:assemble
           :sample:webApp:assemble
+          -x linkReleaseFrameworkIosArm64
+          -x linkReleaseFrameworkIosSimulatorArm64
+          -x linkReleaseExecutableMacosArm64
+      # Two exclusions, not three: the library flavours declare frameworks but no macOS
+      # executable, and naming a task that does not exist is an error.
       - name: Build shaded flavours
-        run: ./gradlew :compose-shaded:assemble :compose-shaded-compose:assemble
+        run: >-
+          ./gradlew
+          :compose-shaded:assemble
+          :compose-shaded-compose:assemble
+          -x linkReleaseFrameworkIosArm64
+          -x linkReleaseFrameworkIosSimulatorArm64
       # Every target, not just the JVM. Five of the six had never been exercised here at all, and
       # the js target's float-precision exclusions only mean something if something runs them.
       - name: Test
