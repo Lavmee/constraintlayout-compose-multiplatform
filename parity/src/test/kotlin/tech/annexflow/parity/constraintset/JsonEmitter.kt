@@ -47,13 +47,19 @@ private fun renderAnchorTarget(target: AnchorTarget): String = when (target) {
     is AnchorTarget.Widget -> quote(target.id)
 }
 
-/** `parseConstraint`'s array form: `[target, anchor, margin, goneMargin]`, trailing nulls dropped. */
+/**
+ * `parseConstraint`'s array form: `[target, anchor, margin, goneMargin]`. `AnchorMargin` already
+ * makes "goneMargin without margin" unconstructable (see its kdoc); this just walks the three
+ * remaining shapes positionally — 2, 3, or 4 elements — with no null-checking left to get wrong.
+ */
 private fun renderAnchorSpec(anchor: AnchorSpec): Pair<String, String> {
     val items = mutableListOf(renderAnchorTarget(anchor.target), renderAnchor(anchor.to))
-    if (anchor.margin != null) {
-        items += anchor.margin.toString()
-        if (anchor.goneMargin != null) {
-            items += anchor.goneMargin.toString()
+    when (val margin = anchor.margin) {
+        null -> Unit
+        is AnchorMargin.Margin -> items += margin.dp.toString()
+        is AnchorMargin.MarginAndGone -> {
+            items += margin.dp.toString()
+            items += margin.goneDp.toString()
         }
     }
     return anchorKey(anchor.from) to arr(items)

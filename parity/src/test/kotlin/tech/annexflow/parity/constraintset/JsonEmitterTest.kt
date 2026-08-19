@@ -58,10 +58,30 @@ class JsonEmitterTest {
     fun anchorRendersAsAnArrayOfTargetAnchorMargin() {
         val w = widget("a").copy(
             anchors = listOf(
-                AnchorSpec(Anchor.START, AnchorTarget.Parent, Anchor.START, margin = 16, goneMargin = null),
+                AnchorSpec(Anchor.START, AnchorTarget.Parent, Anchor.START, margin = AnchorMargin.Margin(16)),
             ),
         )
         assertTrue(emit(spec(w)).contains("start: ['parent', 'start', 16]"), emit(spec(w)))
+    }
+
+    @Test
+    fun anchorMarginRendersPositionally() {
+        fun anchorJson(margin: AnchorMargin?): String {
+            val w = widget("a").copy(
+                anchors = listOf(AnchorSpec(Anchor.TOP, AnchorTarget.Widget("b"), Anchor.BOTTOM, margin)),
+            )
+            return emit(spec(w))
+        }
+
+        assertTrue(anchorJson(null).contains("top: ['b', 'bottom']"), anchorJson(null))
+        assertTrue(
+            anchorJson(AnchorMargin.Margin(8)).contains("top: ['b', 'bottom', 8]"),
+            anchorJson(AnchorMargin.Margin(8)),
+        )
+        assertTrue(
+            anchorJson(AnchorMargin.MarginAndGone(8, 4)).contains("top: ['b', 'bottom', 8, 4]"),
+            anchorJson(AnchorMargin.MarginAndGone(8, 4)),
+        )
     }
 
     @Test

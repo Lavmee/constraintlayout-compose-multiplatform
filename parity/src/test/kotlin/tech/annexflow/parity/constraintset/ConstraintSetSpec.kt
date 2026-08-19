@@ -45,13 +45,28 @@ sealed interface AnchorTarget {
     data class Widget(val id: String) : AnchorTarget
 }
 
-/** `from: [target, toAnchor, margin, goneMargin]` — the trailing two are optional in the DSL. */
+/**
+ * `parseConstraint`'s anchor array is positional: margin sits at index 2, goneMargin at index 3,
+ * and the parser only reads index 3 when the array is at least 4 elements long — which means it
+ * only ever reads a goneMargin when a margin is present too. Modelling margin and goneMargin as
+ * two independently-nullable `Int`s would let a caller build `margin = null, goneMargin = 20`, a
+ * state the wire format cannot express; the emitter would then have to choose between silently
+ * dropping it or refusing to render it. Folding them into one nullable holder, with goneMargin only
+ * reachable through the variant that also carries a margin, makes that state unconstructable
+ * instead of merely unrendered.
+ */
+sealed interface AnchorMargin {
+    data class Margin(val dp: Int) : AnchorMargin
+
+    data class MarginAndGone(val dp: Int, val goneDp: Int) : AnchorMargin
+}
+
+/** `from: [target, toAnchor, margin?, goneMargin?]` — a null [margin] renders the two-element form. */
 data class AnchorSpec(
     val from: Anchor,
     val target: AnchorTarget,
     val to: Anchor,
-    val margin: Int?,
-    val goneMargin: Int?,
+    val margin: AnchorMargin?,
 )
 
 data class CircularSpec(val target: String, val angle: Float, val distance: Int)
