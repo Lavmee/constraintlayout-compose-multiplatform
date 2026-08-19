@@ -106,6 +106,18 @@ private fun renderCustomValue(value: CustomValue): String = when (value) {
     is CustomValue.Color -> quote(value.literal)
 }
 
+/**
+ * A literal renders as a bare number, same as every other float attribute here. A [FloatValue.Named]
+ * renders as a quoted string — `layoutVariables[element[attributeName]]` (`LayoutVariables.get`)
+ * only takes the variable-lookup branch for a `CLString`; a bare number is read as itself. See
+ * [FloatValue]'s kdoc for why a `Named` reference is only meaningful when the document declares
+ * that name.
+ */
+private fun renderFloatValue(value: FloatValue): String = when (value) {
+    is FloatValue.Literal -> formatFloat(value.value)
+    is FloatValue.Named -> quote(value.name)
+}
+
 /** Attributes shared by an ordinary widget object and a `Generate` body — same `applyAttribute` loop. */
 private fun renderWidgetAttributes(widget: WidgetSpec): List<Pair<String, String>> {
     val entries = mutableListOf<Pair<String, String>>()
@@ -126,7 +138,7 @@ private fun renderWidgetAttributes(widget: WidgetSpec): List<Pair<String, String
     widget.hWeight?.let { entries += "hWeight" to formatFloat(it) }
     widget.vWeight?.let { entries += "vWeight" to formatFloat(it) }
     widget.visibility?.let { entries += "visibility" to renderVisibility(it) }
-    widget.alpha?.let { entries += "alpha" to formatFloat(it) }
+    widget.alpha?.let { entries += "alpha" to renderFloatValue(it) }
     widget.rotationX?.let { entries += "rotationX" to formatFloat(it) }
     widget.rotationY?.let { entries += "rotationY" to formatFloat(it) }
     widget.rotationZ?.let { entries += "rotationZ" to formatFloat(it) }

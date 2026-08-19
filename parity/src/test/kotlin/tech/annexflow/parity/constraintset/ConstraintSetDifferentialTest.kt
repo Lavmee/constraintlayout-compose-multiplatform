@@ -17,7 +17,11 @@ class ConstraintSetDifferentialTest {
     private val minimumPopulated = 1800
 
     // Measured against the current corpus (2000 seeds, unmutated port): oracle geometry totalled
-    // 10647 rows across 1889 populated documents, averaging ~5.6 widgets per populated document.
+    // 10576 rows across 1876 populated documents, averaging ~5.6 widgets per populated document.
+    // (Re-measured after `Scenarios.generate` moved its `variables` draw ahead of the widgets, so
+    // an `alpha` can reference one by name — see AxisLivenessTest's `variableNum`/
+    // `variableGenerator`. That reshuffles every seed's later draws; the previous measurement here
+    // was 10647 rows across 1889 documents, essentially unchanged — a ~0.7% shift in both counts.)
     // 5000 is under half of that measured total — comfortable headroom for ordinary changes to
     // the generator's widget-count range — while remaining a total no corpus of substance-free
     // documents (each contributing zero rows) could ever reach. See below for the failure mode

@@ -78,6 +78,28 @@ sealed interface CustomValue {
     data class Color(val literal: String) : CustomValue
 }
 
+/**
+ * A float-valued widget attribute: a literal, or the name of a variable the document declares
+ * under [ConstraintSetSpec.variables]. `ConstraintSetParser.applyAttribute` reads every transform
+ * and bias attribute as `value = layoutVariables[element[attributeName]]`
+ * (`ConstraintSetParser.kt`, `applyAttribute`, lines 1536-1627), and `LayoutVariables.get` resolves
+ * a `CLString` by looking up a declared `Num` or `Generator` variable by that exact name — a bare
+ * number goes through the same call unchanged. [Named] is how a generated document exercises that
+ * lookup instead of always supplying a literal.
+ *
+ * [Named] only means something when the document actually declares that name as a `Num` or
+ * `Generator` variable: `LayoutVariables.get` silently resolves an unknown name to `0f` rather than
+ * failing, which would look "live" (a different number reaches the widget) without the variable's
+ * own value ever being read — see `Scenarios.alphaValue`, the only place this harness constructs a
+ * [Named] value, which only ever names a variable it just placed in the same document's
+ * [ConstraintSetSpec.variables].
+ */
+sealed interface FloatValue {
+    data class Literal(val value: Float) : FloatValue
+
+    data class Named(val name: String) : FloatValue
+}
+
 data class WidgetSpec(
     val id: String,
     val width: DimensionSpec,
@@ -93,7 +115,7 @@ data class WidgetSpec(
     val hWeight: Float?,
     val vWeight: Float?,
     val visibility: Visibility?,
-    val alpha: Float?,
+    val alpha: FloatValue?,
     val rotationX: Float?,
     val rotationY: Float?,
     val rotationZ: Float?,

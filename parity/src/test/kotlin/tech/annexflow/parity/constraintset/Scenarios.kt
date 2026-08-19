@@ -35,8 +35,30 @@ object Scenarios {
 
     fun generate(seed: Long): ConstraintSetSpec {
         val random = Random(seed)
+
+        // Drawn before the widgets, not after, so a widget can reference one of these by name (see
+        // `alphaValue`) — the only way `VariableSpec.Num`/`VariableSpec.Generator` ever reach the
+        // parser meaningfully, per `AxisLivenessTest`'s `variableNum`/`variableGenerator`. Moving
+        // this draw earlier in the seed's random sequence reshuffles every widget/guideline/barrier
+        // draw that follows it for every seed — an accepted, one-time shift in exactly which
+        // documents each seed produces, not a change to the generator's overall shape.
+        val variables = if (random.nextInt(3) == 0) {
+            (0 until random.nextInt(1, 4)).map { index -> variable(random, index) }
+        } else {
+            emptyList()
+        }
+        // Only `Num` and `Generator` resolve to a float through `LayoutVariables.get` — an `IdList`
+        // variable would still parse as a reference, but silently resolve to 0f regardless of its
+        // declared ids, which would look live without exercising anything.
+        val referenceableVariables = variables.mapNotNull {
+            when (it) {
+                is VariableSpec.Num, is VariableSpec.Generator -> it.name
+                is VariableSpec.IdList -> null
+            }
+        }
+
         val count = random.nextInt(MIN_WIDGETS, MAX_WIDGETS + 1)
-        val widgets = (0 until count).map { index -> widget(random, index) }
+        val widgets = (0 until count).map { index -> widget(random, index, referenceableVariables) }
 
         val guidelines = (0 until random.nextInt(0, 3)).map { index ->
             GuidelineSpec(
@@ -84,12 +106,6 @@ object Scenarios {
             emptyList()
         }
 
-        val variables = if (random.nextInt(3) == 0) {
-            (0 until random.nextInt(1, 4)).map { index -> variable(random, index) }
-        } else {
-            emptyList()
-        }
-
         // `parseGenerate` takes ids from the named `IdList` variable, not from the body's own `id`
         // — a `Generate` block only does anything when one exists.
         val idLists = variables.filterIsInstance<VariableSpec.IdList>()
@@ -125,7 +141,7 @@ object Scenarios {
         return DesignElementsSpec(seed, elements)
     }
 
-    private fun widget(random: Random, index: Int): WidgetSpec {
+    private fun widget(random: Random, index: Int, referenceableVariables: List<String>): WidgetSpec {
         // Mutually exclusive with ordinary anchors — see the class kdoc.
         val hasCircular = index > 0 && random.nextInt(6) == 0
         val anchors = if (hasCircular) {
@@ -167,7 +183,7 @@ object Scenarios {
             hWeight = if (hasWeight) 0.1f + random.nextFloat() * 3f else null,
             vWeight = if (hasWeight) 0.1f + random.nextFloat() * 3f else null,
             visibility = if (hasVisibility) Visibility.entries[random.nextInt(Visibility.entries.size)] else null,
-            alpha = if (hasAlpha) random.nextFloat() else null,
+            alpha = if (hasAlpha) alphaValue(random, referenceableVariables) else null,
             rotationX = if (hasRotation) random.nextFloat() * 360f else null,
             rotationY = if (hasRotation) random.nextFloat() * 360f else null,
             rotationZ = if (hasRotation) random.nextFloat() * 360f else null,
@@ -246,6 +262,21 @@ object Scenarios {
             AnchorMargin.Margin(dp)
         }
     }
+
+    /**
+     * Almost always a literal. Rarely (1 in 20), and only when the document declared at least one
+     * `Num`/`Generator` variable (see `generate`'s `referenceableVariables`), references one of
+     * those by name instead — the only way either variable kind ever reaches the parser
+     * meaningfully; see [FloatValue]'s kdoc. Kept rare for the same reason `customColor`'s `'#zz'`
+     * and `numValue`'s fractional draw are: so it stays a small, deliberate minority of documents
+     * rather than moving the differential test's aggregate corpus stats.
+     */
+    private fun alphaValue(random: Random, referenceableVariables: List<String>): FloatValue =
+        if (referenceableVariables.isNotEmpty() && random.nextInt(20) == 0) {
+            FloatValue.Named(referenceableVariables[random.nextInt(referenceableVariables.size)])
+        } else {
+            FloatValue.Literal(random.nextFloat())
+        }
 
     private fun dimension(random: Random): DimensionSpec = when (random.nextInt(5)) {
         0 -> DimensionSpec.Fixed(random.nextInt(20, 301))
