@@ -9,3 +9,12 @@ updates:
     directory: "/"
     schedule:
       interval: "daily"
+
+  # Actions were watched by nobody until now, which is how build.yml and static-validations.yml
+  # came to sit on `gradle-build-action@v2.4.2` and `setup-java@v3` long after release.yml had
+  # moved on. Weekly rather than daily: there are six actions in three files, and a daily cadence
+  # would open more pull requests than the churn justifies.
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
