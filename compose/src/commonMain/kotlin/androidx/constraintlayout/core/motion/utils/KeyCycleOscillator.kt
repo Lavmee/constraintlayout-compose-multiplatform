@@ -128,7 +128,7 @@ abstract class KeyCycleOscillator {
     fun setPoint(
         framePosition: Int,
         shape: Int,
-        waveString: String,
+        waveString: String?,
         variesBy: Int,
         period: Float,
         offset: Float,

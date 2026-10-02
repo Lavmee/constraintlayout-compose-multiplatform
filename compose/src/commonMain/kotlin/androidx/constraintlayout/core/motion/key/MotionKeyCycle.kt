@@ -222,7 +222,7 @@ class MotionKeyCycle : MotionKey() {
                 }
                 val osc = oscSet[key] ?: continue
                 osc.setPoint(
-                    mFramePosition, mWaveShape, mCustomWaveShape!!, -1, mWavePeriod,
+                    mFramePosition, mWaveShape, mCustomWaveShape, -1, mWavePeriod,
                     mWaveOffset, mWavePhase / 360, cValue.getValueToInterpolate(), cValue,
                 )
                 continue
