@@ -61,8 +61,8 @@ open class MotionKeyPosition : MotionKey() {
     ) {
         val pathVectorX = endX - startX
         val pathVectorY = endY - startY
-        val perpendicularY = -pathVectorY
-        val perpendicularX = pathVectorX
+        val perpendicularX = -pathVectorY
+        val perpendicularY = pathVectorX
         mCalculatedPositionX = startX + pathVectorX * mPercentX + perpendicularX * mPercentY
         mCalculatedPositionY = startY + pathVectorY * mPercentX + perpendicularY * mPercentY
     }
