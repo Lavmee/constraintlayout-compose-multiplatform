@@ -91,7 +91,7 @@ flavour instead. All three are built from the same sources and released under th
 
 ```kotlin
 /// Everything relocated — the flavour to reach for when you hit a clash
-implementation("tech.annexflow.compose:constraintlayout-compose-multiplatform-shaded:0.8.2")
+implementation("tech.annexflow.compose:constraintlayout-compose-multiplatform-shaded:0.8.3")
 ```
 
 Two caveats:
